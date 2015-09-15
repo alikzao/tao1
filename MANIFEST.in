@@ -1,0 +1,5 @@
+include README.md
+include CHANGES.txt
+include README.md
+graft tao1
+global-exclude *.pyc *.swp *.sublime-project *.sublime-workspace

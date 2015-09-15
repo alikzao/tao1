@@ -1,0 +1,6 @@
+aiohttp
+aiohttp-debugtoolbar
+aiohttp-jinja2
+Jinja2
+Pillow
+pymongo
