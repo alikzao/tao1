@@ -28,7 +28,6 @@ def manage_console():
 root = '%s'
 
 database={"login":"admin", "pass":"test_passwd", "host":["127.0.0.1:27017"], 'name':'test'}
-
         """ % path_root
         with open(os.path.join( str(args.project) , 'settings.py'), 'w') as f: f.write(set_file)
 
