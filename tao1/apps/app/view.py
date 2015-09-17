@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # from app.user_site import *
 # from app.perm.perm import *
 # from app.tree.tree import *

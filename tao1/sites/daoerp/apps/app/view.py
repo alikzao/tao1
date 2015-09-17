@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 import sys, os, time, asyncio, jinja2, aiohttp_jinja2
 from aiohttp import web
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
