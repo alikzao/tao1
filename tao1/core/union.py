@@ -128,9 +128,6 @@ def union_routes(dir):
 	routes = []
 	name_app = dir.split(os.path.sep)
 	name_app = name_app[len(name_app) - 1]
-	# if  builtins.__import__('routes', globals=globals()):
-		# module = get_full_path('routes')
-		# routes.append ( module )
 	for name in os.listdir(dir):
 		path = os.path.join(dir, name)
 		if os.path.isdir ( path ) and os.path.isfile ( os.path.join( path, 'routes.py' )):
