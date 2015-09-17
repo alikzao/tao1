@@ -4,8 +4,6 @@ from pymongo import *
 
 import settings
 
-
-
 def die(mess):
 	raise Exception(str(mess))
 
@@ -17,7 +15,6 @@ def die(mess):
 # 		if 'rs' in db: kw['replicaSet'] = db['rs']
 # 		db_conn['conn'] = MongoClient(db['host'], **kw)
 # 	return db_conn['conn']
-
 # @asyncio.coroutine
 # def connect():
 #     db = get_settings('database', {} )
