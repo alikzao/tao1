@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 debug = True
-# debug = False
 
 root = '/home/user/dev/tao1'
 
