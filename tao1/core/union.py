@@ -93,7 +93,6 @@ def union_stat(request, *args):
 	# search in core components
 	else:
 		path = os.path.join( settings.root, 'apps', component, 'static') 
-
 	content, headers = get_static_file(fname, path)
 	return web.Response(body=content, headers=MultiDict( headers ) )
 
