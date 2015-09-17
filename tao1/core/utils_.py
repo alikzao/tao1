@@ -24,7 +24,6 @@ def manage_console():
         shutil.copytree(  os.path.join( path_root , 'sites', 'daoerp'), os.path.join( str(args.project) ) )
         set_file = """
 #!/usr/bin/env python
-# coding: utf-8
 
 root = '%s'
 
