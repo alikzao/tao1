@@ -17,7 +17,7 @@ def die(mess):
 # @asyncio.coroutine
 # def connect():
 #     db = get_settings('database', {} )
-#     mongo = MongoClient(db['host'], 27017)
+#     mongo = MongoClient(db['host'], db['port'])
 #     print( mongo)
 #     db = mongo['tok']
 #     db.authenticate('admin', settings.database['pass'] )
