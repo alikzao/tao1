@@ -1,4 +1,3 @@
-#from apps.app.view import  page
 # from sites.daoerp.apps.app.view import  *
 #from core.union import route
 
