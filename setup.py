@@ -10,9 +10,6 @@ setup(name='tao1',
 #      lond_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
 
       scripts=['tao1/core/utils.py'],
-      # entry_points={'console_scripts': [
-        # 'django-admin = django.core.management:execute_from_command_line',
-      # ]},
       classifiers=[
           'Intended Audience :: Developers',
           'Programming Language :: Python',
