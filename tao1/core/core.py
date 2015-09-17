@@ -12,7 +12,6 @@ def die(mess):
 # 	if not db_conn['conn']:
 # 		db = get_settings('database', {} )
 # 		kw = {}
-# 		if 'rs' in db: kw['replicaSet'] = db['rs']
 # 		db_conn['conn'] = MongoClient(db['host'], **kw)
 # 	return db_conn['conn']
 # @asyncio.coroutine
