@@ -23,7 +23,6 @@ def die(mess):
 #     db.authenticate('admin', settings.database['pass'] )
 #     return db
 
-
 @asyncio.coroutine
 def get_settings(name, def_val=None):
 	if name in settings.__dict__: return settings.__dict__[name]
