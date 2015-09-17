@@ -3,9 +3,8 @@ from aiohttp import web
 import aiohttp
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
 
-# from core.utils import connect
 from pymongo import *
-from gridfs import GridFS
+# from gridfs import GridFS
 from aiohttp_session import get_session
 
 
