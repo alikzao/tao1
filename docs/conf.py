@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'My Project'
-copyright = u'2010, Alfredo Deza'
+copyright = u'2015, Alexandre Z'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -179,7 +179,7 @@ htmlhelp_basename = 'testdoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'test.tex', u'My Project Documentation',
-   u'Alfredo Deza', 'manual'),
+   u'Alexandre Z', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -212,5 +212,5 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'test', u'My Project Documentation',
-     [u'alexandre Z'], 1)
+     [u'Alexandre Z'], 1)
 ]
