@@ -26,4 +26,4 @@ command: ``sudo`` gives you super user powers!
 
 This is an example on how to link images:
 
-.. image:: _static/system_activity.jpg
+.. image:: _static/in.jpg
