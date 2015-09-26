@@ -1,7 +1,3 @@
-This is a Title
-===============
-That has a paragraph about a main subject and is set when the '='
-is at least the same length of the title itself.
 
 Introduction
 ============
@@ -9,18 +5,12 @@ This asynchronous framework with a modular structure like Django. But with mongo
 
 Framework Installation and deployment
 =====================================
-"""
-pip install tao1
-"""
+```pip install tao1```
 
 create project
-"""
-utils.py -p name
-"""
+```utils.py -p name```
 create app
-"""
-utils.py -a name
-"""
+```utils.py -a name```
 
 Subtitles are set with '-' and are required to have the same length 
 of the subttitle itself, just like titles.
