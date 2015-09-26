@@ -9,14 +9,18 @@ This asynchronous framework with a modular structure like Django. But with mongo
 
 Framework Installation and deployment
 =====================================
+"""
 pip install tao1
+"""
 
 create project
+"""
 utils.py -p name
-
+"""
 create app
+"""
 utils.py -a name
-
+"""
 
 Subtitles are set with '-' and are required to have the same length 
 of the subttitle itself, just like titles.
