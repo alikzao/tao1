@@ -5,9 +5,7 @@ This asynchronous framework with a modular structure like Django. But with mongo
 
 Framework Installation and deployment
 =====================================
-```
-pip install tao1
-```
+``pip install tao1``
 
 create project
 ```utils.py -p name```
