@@ -6,6 +6,14 @@
 Welcome to My Framework documentation!
 ================================
 
+
+Framework Installation and deployment
+-------------------------------------
+
+::
+
+ $ pip install tao1
+
 Contents:
 
 .. toctree::
