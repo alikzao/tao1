@@ -8,6 +8,7 @@ import aiohttp_jinja2
 from aiohttp import web
 from aiohttp.multidict import MultiDict
 
+import aiomcache
 import aiohttp_debugtoolbar
 from aiohttp_debugtoolbar import toolbar_middleware_factory
 from aiohttp_session import session_middleware
@@ -34,7 +35,7 @@ routes = []
 @asyncio.coroutine
 def init(loop):
 	app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), 
-		session_middleware(EncryptedCookieStorage(b'Sixteen byte key')) ])
+		session_middleware( EncryptedCookieStorage( settings.session_key )) ])
 	# app = web.Application(loop=loop, middlewares=[ db_handler() ])
 	# app['sockets'] = []
 	aiohttp_debugtoolbar.setup(app)
@@ -42,8 +43,8 @@ def init(loop):
 	# mod = builtins.__import__('apps.app.routes', globals=globals())
 	aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-	mod  = union_routes(os.path.join ( settings.root, 'apps') )
-	mod1 = union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
+	union_routes(os.path.join ( settings.root, 'apps') )
+	union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
 
 	for res in routes:
 		print(res)
@@ -220,4 +221,5 @@ def redirect(request, url='/', code=None):
 
     url = request.app.router['test'].url()
     return web.HTTPFound( url )
+
 
