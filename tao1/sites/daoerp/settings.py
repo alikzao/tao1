@@ -1,8 +1,11 @@
+import os
 
 session_key = b'Sixteen byte key'
 
 debug = True
 
-root = '/home/user/dev/tao1'
+root_path = os.path.dirname(__file__)
+tao_path  = '/home/user/dev/tao1'
+
 
 database={"login":"test", "pass":"passwd", "host":["127.0.0.1:27017"], 'name':'test'}

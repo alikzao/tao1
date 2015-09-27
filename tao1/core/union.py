@@ -32,8 +32,8 @@ def init(loop):
     # mod = builtins.__import__('apps.app.routes', globals=globals())
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-    union_routes(os.path.join ( settings.root, 'apps') )
-    union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
+    union_routes(os.path.join ( settings.tao_path, 'apps' ) )
+    union_routes(os.path.join ( settings.root_path, 'apps') )
 
     for res in routes:
         # print(res)
@@ -52,8 +52,8 @@ def init_gunicorn():
 
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-    union_routes(os.path.join ( settings.root, 'apps') )
-    union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
+    union_routes(os.path.join ( settings.tao_path, 'apps' ) )
+    union_routes(os.path.join ( settings.root_path, 'apps') )
 
     for res in routes:
         print(res)
@@ -72,17 +72,18 @@ def init_gunicorn():
 def union_stat(request, *args):
     component = request.match_info.get('component', "Anonymous")
     fname = request.match_info.get('fname', "Anonymous")
-    path = os.path.join( settings.root, 'apps', component, 'static', fname ) 
-    # print()
+    path = os.path.join( settings.tao_path, 'apps', component, 'static', fname )
+    # print(os.path.join(  settings.root_path, 'static'))
     # search in project directory 
     if component == 'static':
-        path = os.path.join( os.getcwd(), 'static')
+        print('www')
+        path = os.path.join(  settings.root_path, 'static')
     # search in project components
     elif not os.path.exists( path ):
-        path = os.path.join( os.getcwd(), 'apps', component, 'static' )
+        path = os.path.join(  settings.root_path, 'apps', component, 'static' )
     # search in core components
     else:
-        path = os.path.join( settings.root, 'apps', component, 'static') 
+        path = os.path.join( settings.tao_path, 'apps', component, 'static')
     content, headers = get_static_file(fname, path)
     return web.Response(body=content, headers=MultiDict( headers ) )
 
@@ -148,7 +149,7 @@ def get_templ_path(path):
         module_name, file_name = path.split(":", 1) # app.table main
         module_path = os.path.join( get_path( module_name), "templ")
     else:
-        module_path = os.path.join( os.getcwd(), 'templ', name_templ)
+        module_path = os.path.join(  settings.root_path, 'templ', name_templ)
     return module_name, module_path, file_name+'.tpl'
 
 

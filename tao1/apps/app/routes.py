@@ -1,8 +1,8 @@
-# from sites.daoerp.apps.app.view import  *
-#from core.union import route
 
+from apps.app.view import  *
+from core.union import route
 
-#route( '/',       page,		'GET' )
+route( '/lib_mod',       test_lib_mod,		'GET' )
 
 
 

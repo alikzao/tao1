@@ -2,18 +2,21 @@
 
 
 import sys, os
-assert sys.version >= '3.4', 'Please use Python 3.4 or higher.'
+assert sys.version_info >= (3, 4)
 import asyncio
 
 
-import settings
-sys.path.append( settings.root )
-sys.path.append( os.path.dirname( __file__ ) )
+# Basic path for all stuff. There must be placed file settings.py
+sys.path.append(os.path.dirname(__file__))
 
-try:
-    from tao1.core.union import init
-except:
-    from core.union import init
+import settings
+
+# Tao1 also need to be added into path
+sys.path.append(settings.tao_path)
+
+# Tao1 also need to be added into path
+from core.union import init
+
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete( init( loop ) )
