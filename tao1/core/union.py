@@ -19,7 +19,7 @@ from apps.app.view import *
 import settings
 # from core.utils import db_handler
 
-	
+
 routes = []
 @asyncio.coroutine
 def init(loop):
@@ -70,106 +70,106 @@ def init_gunicorn():
 
 @asyncio.coroutine
 def union_stat(request, *args):
-	component = request.match_info.get('component', "Anonymous")
-	fname = request.match_info.get('fname', "Anonymous")
-	path = os.path.join( settings.root, 'apps', component, 'static', fname ) 
-	# print()
-	# search in project directory 
-	if component == 'static':
-		path = os.path.join( os.getcwd(), 'static') 
-	# search in project components
-	elif not os.path.exists( path ):
-		path = os.path.join( os.getcwd(), 'apps', component, 'static' )
-	# search in core components
-	else:
-		path = os.path.join( settings.root, 'apps', component, 'static') 
-	content, headers = get_static_file(fname, path)
-	return web.Response(body=content, headers=MultiDict( headers ) )
+    component = request.match_info.get('component', "Anonymous")
+    fname = request.match_info.get('fname', "Anonymous")
+    path = os.path.join( settings.root, 'apps', component, 'static', fname ) 
+    # print()
+    # search in project directory 
+    if component == 'static':
+        path = os.path.join( os.getcwd(), 'static') 
+    # search in project components
+    elif not os.path.exists( path ):
+        path = os.path.join( os.getcwd(), 'apps', component, 'static' )
+    # search in core components
+    else:
+        path = os.path.join( settings.root, 'apps', component, 'static') 
+    content, headers = get_static_file(fname, path)
+    return web.Response(body=content, headers=MultiDict( headers ) )
 
 
 def get_static_file( filename, root ):
-	import mimetypes, time
+    import mimetypes, time
 
-	root = os.path.abspath(root) + os.sep
-	filename = os.path.abspath(os.path.join(root, filename.strip('/\\')))
-	headers = {}
+    root = os.path.abspath(root) + os.sep
+    filename = os.path.abspath(os.path.join(root, filename.strip('/\\')))
+    headers = {}
 
-	mimetype, encoding = mimetypes.guess_type(filename)
-	if mimetype: headers['Content-Type'] = mimetype
-	if encoding: headers['Content-Encoding'] = encoding
+    mimetype, encoding = mimetypes.guess_type(filename)
+    if mimetype: headers['Content-Type'] = mimetype
+    if encoding: headers['Content-Encoding'] = encoding
 
-	stats = os.stat(filename)
-	headers['Content-Length'] = stats.st_size
-	from tao1.core.core import locale_date
-	lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(stats.st_mtime), 'en_US.UTF-8')
-	headers['Last-Modified'] = str(lm)
-	headers['Cache-Control'] = 'max-age=604800'
-	with open(filename, 'rb') as f:
-		content = f.read()
-		f.close()
-	return content, headers
+    stats = os.stat(filename)
+    headers['Content-Length'] = stats.st_size
+    from tao1.core.core import locale_date
+    lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(stats.st_mtime), 'en_US.UTF-8')
+    headers['Last-Modified'] = str(lm)
+    headers['Cache-Control'] = 'max-age=604800'
+    with open(filename, 'rb') as f:
+        content = f.read()
+        f.close()
+    return content, headers
 
 
 def route(t, r, func, name='name'):
-	routes.append((t, r, func, name))
+    routes.append((t, r, func, name))
 
 
 def union_routes(dir):
-	routes = []
-	name_app = dir.split(os.path.sep)
-	name_app = name_app[len(name_app) - 1]
-	for name in os.listdir(dir):
-		path = os.path.join(dir, name)
-		if os.path.isdir ( path ) and os.path.isfile ( os.path.join( path, 'routes.py' )):
-			name = name_app+'.'+path[len(dir)+1:]+'.routes'
-			builtins.__import__(name, globals=globals())
-			# module = get_full_path(name)
+    routes = []
+    name_app = dir.split(os.path.sep)
+    name_app = name_app[len(name_app) - 1]
+    for name in os.listdir(dir):
+        path = os.path.join(dir, name)
+        if os.path.isdir ( path ) and os.path.isfile ( os.path.join( path, 'routes.py' )):
+            name = name_app+'.'+path[len(dir)+1:]+'.routes'
+            builtins.__import__(name, globals=globals())
+            # module = get_full_path(name)
 			# routes.append ( module )
 	# return routes
 
 
 def get_full_path(app):
-	if type(app) == str:
-		__import__(app) 
-		app = sys.modules[app] 
-	return app.__file__
+    if type(app) == str:
+        __import__(app) 
+        app = sys.modules[app] 
+    return app.__file__
 
 
 def get_path(app):
-	if type(app) == str:
-		__import__(app) # - импортирует модуль по имени. Например имя будет "news".
-		app = sys.modules[app] # - по имени "news" мы получам сам модуль news и присваиваем его переменной app
-	return os.path.dirname(os.path.abspath(app.__file__))
+    if type(app) == str:
+        __import__(app) # - импортирует модуль по имени. Например имя будет "news".
+        app = sys.modules[app] # - по имени "news" мы получам сам модуль news и присваиваем его переменной app
+    return os.path.dirname(os.path.abspath(app.__file__))
 
 
 def get_templ_path(path):
-	module_name = ''; module_path = ''; file_name = ''; name_templ = 'default'; 
-	if ':' in path:
-		module_name, file_name = path.split(":", 1) # app.table main
-		module_path = os.path.join( get_path( module_name), "templ")
-	else:
-		module_path = os.path.join( os.getcwd(), 'templ', name_templ)
-	return module_name, module_path, file_name+'.tpl'
+    module_name = ''; module_path = ''; file_name = ''; name_templ = 'default'; 
+    if ':' in path:
+        module_name, file_name = path.split(":", 1) # app.table main
+        module_path = os.path.join( get_path( module_name), "templ")
+    else:
+        module_path = os.path.join( os.getcwd(), 'templ', name_templ)
+    return module_name, module_path, file_name+'.tpl'
 
 
 def render_templ(t, request, p):
-	# если хотим написать параметры через = то p = dict(**p)
-	return aiohttp_jinja2.render_template( t, request, p )
+    # если хотим написать параметры через = то p = dict(**p)
+    return aiohttp_jinja2.render_template( t, request, p )
 
 
 def load_templ(t, **p):
-	(module_name, module_path, file_name) = get_templ_path(t)
-	def load_template (module_path, file_name):
-		path = os.path.join(module_path, file_name)
-		template = ''
-		filename = path if os.path.exists ( path ) else False
-		if filename:
-			with open(filename, "rb") as f:
-				template = f.read()
-		return template
-	template = load_template( module_path, file_name)
-	if not template: return 'Template not found {}' .format(t)
-	return template.decode('UTF-8')
+    (module_name, module_path, file_name) = get_templ_path(t)
+    def load_template (module_path, file_name):
+        path = os.path.join(module_path, file_name)
+        template = ''
+        filename = path if os.path.exists ( path ) else False
+        if filename:
+            with open(filename, "rb") as f:
+                template = f.read()
+        return template
+    template = load_template( module_path, file_name)
+    if not template: return 'Template not found {}' .format(t)
+    return template.decode('UTF-8')
 	
 builtins.templ = render_templ
 
