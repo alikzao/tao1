@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 session_key = b'Sixteen byte key'
 
