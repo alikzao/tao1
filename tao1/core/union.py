@@ -192,7 +192,7 @@ def db_handler():
             from pymongo import MongoClient
             mongo = MongoClient( db_inf['host'], 27017)
             db = mongo[ db_inf['name'] ]
-            db.authenticate('admin', settings.database['pass'] )
+            db.authenticate(settings.database['login'], settings.database['pass'] )
             request.db = db
             # процессинг запроса (дальше по цепочки мидлверов и до приложения)
             response = yield from handler(request)
