@@ -19,59 +19,48 @@ from apps.app.view import *
 import settings
 # from core.utils import db_handler
 
-
-
-# @aiohttp_jinja2.template('index.tpl')
-# @aiohttp_jinja2.template('tmpl.jinja2')
-# @asyncio.coroutine
-# def page(request):
-# 	return aiohttp_jinja2.render_template('index.tpl', request, {'key':'val'})
-	# aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(['/path/to/templates', '/other/path']))
-	# aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
-	# app.router.add_route('GET', '/', page)
-
 	
 routes = []
 @asyncio.coroutine
 def init(loop):
-	app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), 
-		session_middleware( EncryptedCookieStorage( settings.session_key )) ])
-	# app = web.Application(loop=loop, middlewares=[ db_handler() ])
-	# app['sockets'] = []
-	aiohttp_debugtoolbar.setup(app)
+    app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), 
+        session_middleware( EncryptedCookieStorage( settings.session_key )) ])
+    # app = web.Application(loop=loop, middlewares=[ db_handler() ])
+    # app['sockets'] = []
+    aiohttp_debugtoolbar.setup(app)
 
-	# mod = builtins.__import__('apps.app.routes', globals=globals())
-	aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
+    # mod = builtins.__import__('apps.app.routes', globals=globals())
+    aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-	union_routes(os.path.join ( settings.root, 'apps') )
-	union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
+    union_routes(os.path.join ( settings.root, 'apps') )
+    union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
 
-	for res in routes:
-		print(res)
-		app.router.add_route( res[2], res[0], res[1], name=res[3])
-	app.router.add_route('GET', '/static/{component:[^/]+}/{fname:.+}', union_stat)	
+    for res in routes:
+        # print(res)
+        app.router.add_route( res[2], res[0], res[1], name=res[3])
+    app.router.add_route('GET', '/static/{component:[^/]+}/{fname:.+}', union_stat)	
 
-	srv = yield from loop.create_server(app.make_handler(), '127.0.0.1', 6677)
-	print("Server started at http://127.0.0.1:6677")
-	return srv
+    srv = yield from loop.create_server(app.make_handler(), '127.0.0.1', 6677)
+    print("Server started at http://127.0.0.1:6677")
+    return srv
 
 
 def init_gunicorn():
-	app = web.Application( middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), 
-		session_middleware(EncryptedCookieStorage(b'Sixteen byte key')) ])
-	aiohttp_debugtoolbar.setup(app)
+    app = web.Application( middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), 
+        session_middleware(EncryptedCookieStorage(b'Sixteen byte key')) ])
+    aiohttp_debugtoolbar.setup(app)
 
-	aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
+    aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-	union_routes(os.path.join ( settings.root, 'apps') )
-	union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
+    union_routes(os.path.join ( settings.root, 'apps') )
+    union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
 
-	for res in routes:
-		print(res)
-		app.router.add_route( res[2], res[0], res[1], name=res[3])
-	app.router.add_route('GET', '/static/{component:[^/]+}/{fname:.+}', union_stat)	
+    for res in routes:
+        print(res)
+        app.router.add_route( res[2], res[0], res[1], name=res[3])
+    app.router.add_route('GET', '/static/{component:[^/]+}/{fname:.+}', union_stat)	
 
-	return app
+    return app
 
 # @route('/static/<component>/<fname:re:.*>', domain='*')
 # def union_stat(component, fname):
