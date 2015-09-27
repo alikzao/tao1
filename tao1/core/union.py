@@ -33,7 +33,7 @@ def init(loop):
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
     union_routes(os.path.join ( settings.root, 'apps') )
-    union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
+    union_routes(os.path.join ( os.path.dirname( __file__ ), 'apps'  ) )
 
     for res in routes:
         # print(res)
