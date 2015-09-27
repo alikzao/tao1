@@ -23,8 +23,7 @@ import settings
 routes = []
 @asyncio.coroutine
 def init(loop):
-    app = web.Application(loop=loop, middlewares=[ db_handler(), session_middleware( EncryptedCookieStorage( settings.session_key )),
-                                                   aiohttp_debugtoolbar.middleware])
+    app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), session_middleware( EncryptedCookieStorage( settings.session_key ))])
     # app = web.Application(loop=loop, middlewares=[ db_handler() ])
     # app['sockets'] = []
     aiohttp_debugtoolbar.setup(app)
