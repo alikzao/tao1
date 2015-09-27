@@ -33,7 +33,7 @@ def init(loop):
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
     union_routes(os.path.join ( settings.root, 'apps') )
-    union_routes(os.path.join ( os.path.dirname( __file__ ), 'apps'  ) )
+    union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
 
     for res in routes:
         # print(res)
@@ -53,7 +53,7 @@ def init_gunicorn():
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
     union_routes(os.path.join ( settings.root, 'apps') )
-    union_routes(os.path.join ( os.path.dirname( __file__ ), 'apps'  ) )
+    union_routes(os.path.join ( os.getcwd(), 'apps'  ) )
 
     for res in routes:
         print(res)
@@ -76,7 +76,7 @@ def union_stat(request, *args):
     # print()
     # search in project directory 
     if component == 'static':
-        path = os.path.join( os.getcwd(), 'static') 
+        path = os.path.join( os.getcwd(), 'static')
     # search in project components
     elif not os.path.exists( path ):
         path = os.path.join( os.getcwd(), 'apps', component, 'static' )
