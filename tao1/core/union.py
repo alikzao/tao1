@@ -15,7 +15,7 @@ from aiohttp_session import session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 
-from apps.app.view import *
+# from libs.app.view import *
 import settings
 # from core.utils import db_handler
 
@@ -32,7 +32,7 @@ def init(loop):
     # mod = builtins.__import__('apps.app.routes', globals=globals())
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-    union_routes(os.path.join ( settings.tao_path, 'apps' ) )
+    union_routes(os.path.join ( settings.tao_path, 'libs' ) )
     union_routes(os.path.join ( settings.root_path, 'apps') )
 
     for res in routes:
@@ -52,7 +52,7 @@ def init_gunicorn():
 
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-    union_routes(os.path.join ( settings.tao_path, 'apps' ) )
+    union_routes(os.path.join ( settings.tao_path, 'libs' ) )
     union_routes(os.path.join ( settings.root_path, 'apps') )
 
     for res in routes:
@@ -72,7 +72,7 @@ def init_gunicorn():
 def union_stat(request, *args):
     component = request.match_info.get('component', "Anonymous")
     fname = request.match_info.get('fname', "Anonymous")
-    path = os.path.join( settings.tao_path, 'apps', component, 'static', fname )
+    path = os.path.join( settings.tao_path, 'libs', component, 'static', fname )
     # print(os.path.join(  settings.root_path, 'static'))
     # search in project directory 
     if component == 'static':
@@ -83,7 +83,7 @@ def union_stat(request, *args):
         path = os.path.join(  settings.root_path, 'apps', component, 'static' )
     # search in core components
     else:
-        path = os.path.join( settings.tao_path, 'apps', component, 'static')
+        path = os.path.join( settings.tao_path, 'libs', component, 'static')
     content, headers = get_static_file(fname, path)
     return web.Response(body=content, headers=MultiDict( headers ) )
 
