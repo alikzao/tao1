@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-session_key = b'Sixteen byte key Sixteen byte key'
+session_key = b'Sixteen byte key'
 
 debug = True
 
