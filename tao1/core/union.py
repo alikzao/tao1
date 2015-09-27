@@ -101,7 +101,7 @@ def get_static_file( filename, root ):
 
     stats = os.stat(filename)
     headers['Content-Length'] = stats.st_size
-    from tao1.core.core import locale_date
+    from core.core import locale_date
     lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(stats.st_mtime), 'en_US.UTF-8')
     headers['Last-Modified'] = str(lm)
     headers['Cache-Control'] = 'max-age=604800'
