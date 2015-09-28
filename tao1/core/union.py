@@ -32,6 +32,10 @@ def init(loop):
     # mod = builtins.__import__('apps.app.routes', globals=globals())
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
+    mc = aiomcache.Client("127.0.0.1", 11211, loop=loop)
+    app.mc = mc
+
+
     union_routes(os.path.join ( settings.tao_path, 'libs' ) )
     union_routes(os.path.join ( settings.root_path, 'apps') )
 
@@ -213,27 +217,23 @@ def redirect(request, url='/', code=None):
     return web.HTTPFound( url )
 
 
-def cache(name, expare=0):
+def cache(name, expire=0):
     # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
+        import types
+        print('===', type(func).__name__, '===', isinstance(func, (types.FunctionType, types.MethodType)) )
         @asyncio.coroutine
         def wrapper(request, *args, **kwargs):
-            import types
-            print('===', type(func).__name__, '===', isinstance(func, (types.FunctionType, types.MethodType)) )
             # Эта функция будет вызываться при каждом вызове декорируемой функции.
-            mc = aiomcache.Client("127.0.0.1", 11211, loop=request.loop)
+            # mc = aiomcache.Client("127.0.0.1", 11211, loop=request.loop)
+            mc = request.app.mc
             yield from mc.set(b"some_key", b"Some value")
             value = yield from mc.get(b"some_key")
             print(value)
             values = yield from mc.multi_get(b"some_key", b"other_key")
             print(values)
             yield from mc.delete(b"another_key")
-            return u"%s: %s" % (expare, func(*args, **kwargs))
+            return values
         return wrapper
     return decorator
 
-@cache("main_page", expare=5)
-def test(a, b):
-    return a + b
-
-print( test(13, 17) )
