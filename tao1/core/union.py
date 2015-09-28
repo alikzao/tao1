@@ -213,11 +213,13 @@ def redirect(request, url='/', code=None):
     return web.HTTPFound( url )
 
 
-@asyncio.coroutine
-def cache(request, name, expare=0):
+def cache(name, expare=0):
     # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
-        def wrapper(*args, **kwargs):
+        @asyncio.coroutine
+        def wrapper(request, *args, **kwargs):
+            import types
+            print('===', type(func).__name__, '===', isinstance(func, (types.FunctionType, types.MethodType)) )
             # Эта функция будет вызываться при каждом вызове декорируемой функции.
             mc = aiomcache.Client("127.0.0.1", 11211, loop=request.loop)
             yield from mc.set(b"some_key", b"Some value")
