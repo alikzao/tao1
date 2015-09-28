@@ -232,3 +232,20 @@ man_pages = [
     ('index', 'test', u'My Project Documentation',
      [u'Alexandre Z'], 1)
 ]
+
+
+html_theme_options = {
+    'logo': 'in.jpg',
+    'description': 'Framework for aiohttp',
+    'github_user': 'alikzao',
+    'github_repo': 'tao1',
+    'github_button': True,
+    'github_banner': True,
+    'travis_button': True,
+    'pre_bg': '#FFF6E5',
+    'note_bg': '#E5ECD1',
+    'note_border': '#BFCF8C',
+    'body_text': '#482C0A',
+    'sidebar_text': '#49443E',
+    'sidebar_header': '#4B4032',
+}

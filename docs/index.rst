@@ -3,17 +3,28 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to My Framework documentation!
-================================
+Introduction
+============
+This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websockets, and more than a simple barrier to entry.
 
-
-Framework Installation and deployment
--------------------------------------
+Framework Installation
+----------------------
 
 ::
 
- $ pip install tao1
+   $ pip install tao1
 
+
+Getting Started
+---------------
+
+Create project::
+
+   $ utils.py -p name
+
+Create apps::
+
+   $ utils.py -a name
 Contents:
 
 .. toctree::

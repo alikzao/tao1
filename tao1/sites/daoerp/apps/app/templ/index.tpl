@@ -35,13 +35,7 @@
 </html>
 
 
- <source src="/static/static/clip/123/full.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
 
-<video controls="" preload="none" width="600" height="380" poster="/static/static/clip/123/full.png">   
- <source src="/static/static/clip/123/full.webm" type='video/webm; codecs="vp8, vorbis"'>
-</video>
-
-FkPcgP7jQMXej3
 
 
 <!-- <p>I want to use gridFS with `asyncio`. But the official driver <a href="https://jira.mongodb.org/browse/MOTOR-40">has no support</a> for asynchronous programming. The experimental driver <a href="https://bitbucket.org/mrdon/asyncio-mongo/">asyncio-mongo</a>, is missing support for gridFS.</p> -->

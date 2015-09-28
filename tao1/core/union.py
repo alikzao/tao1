@@ -23,7 +23,8 @@ import settings
 routes = []
 @asyncio.coroutine
 def init(loop):
-    app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), session_middleware( EncryptedCookieStorage( settings.session_key ))])
+    app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(),
+                                                   session_middleware( EncryptedCookieStorage( settings.session_key ))])
     # app = web.Application(loop=loop, middlewares=[ db_handler() ])
     # app['sockets'] = []
     aiohttp_debugtoolbar.setup(app)
@@ -204,11 +205,35 @@ def db_handler():
 
 @asyncio.coroutine
 def redirect(request, url='/', code=None):
-    data = yield from request.post() 
+    data = yield from request.post()
     if code is None:
-        return web.HTTPSeeOther(url)
+         return web.HTTPSeeOther(url)
 
     url = request.app.router['test'].url()
     return web.HTTPFound( url )
 
 
+def cache(name, expare=0):
+    # Префикс, указанный здесь, будет доступен всем вложенным функциям.
+    def decorator(func):
+        @asyncio.coroutine
+        def wrapper(request, *args, **kwargs):
+            import types
+            print('===', type(func).__name__, '===', isinstance(func, (types.FunctionType, types.MethodType)) )
+            # Эта функция будет вызываться при каждом вызове декорируемой функции.
+            mc = aiomcache.Client("127.0.0.1", 11211, loop=request.loop)
+            yield from mc.set(b"some_key", b"Some value")
+            value = yield from mc.get(b"some_key")
+            print(value)
+            values = yield from mc.multi_get(b"some_key", b"other_key")
+            print(values)
+            yield from mc.delete(b"another_key")
+            return u"%s: %s" % (expare, func(*args, **kwargs))
+        return wrapper
+    return decorator
+
+@cache("main_page", expare=5)
+def test(a, b):
+    return a + b
+
+print( test(13, 17) )
