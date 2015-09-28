@@ -40,8 +40,10 @@ def init(loop):
     union_routes(os.path.join ( settings.root_path, 'apps') )
 
     for res in routes:
-        # print(res)
-        app.router.add_route( res[2], res[0], res[1], name=res[3])
+        name = res[3]
+        if name is None: name = '{}:{}'.format(res[0], res[2])
+        # print(name)
+        app.router.add_route( res[2], res[0], res[1], name=name)
     app.router.add_route('GET', '/static/{component:[^/]+}/{fname:.+}', union_stat)	
 
     srv = yield from loop.create_server(app.make_handler(), '127.0.0.1', 6677)
@@ -115,7 +117,7 @@ def get_static_file( filename, root ):
     return content, headers
 
 
-def route(t, r, func, name='name'):
+def route(t, r, func, name=None):
     routes.append((t, r, func, name))
 
 
