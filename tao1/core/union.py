@@ -170,7 +170,7 @@ def load_templ(t, **p):
     template = load_template( module_path, file_name)
     if not template: return 'Template not found {}' .format(t)
     return template.decode('UTF-8')
-	
+
 builtins.templ = render_templ
 
 
@@ -188,14 +188,14 @@ def db_handler():
             kw = {}
             if 'rs' in db_inf: kw['replicaSet'] = db_inf['rs']
 
-            from pymongo import MongoClient
-            mongo = MongoClient( db_inf['host'], 27017)
-            db = mongo[ db_inf['name'] ]
-            db.authenticate(settings.database['login'], settings.database['pass'] )
-            request.db = db
+            # from pymongo import MongoClient
+            # mongo = MongoClient( db_inf['host'], 27017)
+            # db = mongo[ db_inf['name'] ]
+            # db.authenticate(settings.database['login'], settings.database['pass'] )
+            # request.db = db
             # процессинг запроса (дальше по цепочки мидлверов и до приложения)
             response = yield from handler(request)
-            mongo.close() # yield from db.close() 
+            # mongo.close() # yield from db.close()
             # экземеляр рабочего объекта по цепочке вверх до библиотеки
             return response
         return middleware
