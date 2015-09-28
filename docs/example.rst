@@ -1,29 +1,5 @@
 
-Introduction
-============
-This asynchronous framework with a modular structure like Django. But with mongodb, websockets, and more than a simple barrier to entry.
 
-Framework Installation and deployment
-=====================================
-``pip install tao1``
-
-create project
-```utils.py -p name```
-create app
-```utils.py -a name```
-
-Subtitles are set with '-' and are required to have the same length 
-of the subttitle itself, just like titles.
-
-Lists can be unnumbered like:
-
- * Item Foo
- * Item Bar
-
-Or automatically numbered:
-
- #. Item 1
- #. Item 2
 Structure
 =========
  * Item Foo
@@ -41,6 +17,11 @@ Routes
 
 Templates
 =========
+ * Item Foo
+ * Item Bar
+
+Websockets
+==========
  * Item Foo
  * Item Bar
 
