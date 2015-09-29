@@ -7,6 +7,7 @@ assert sys.version >= '3.4', 'Please use Python 3.4 or higher.'
 
 import asyncio
 import builtins
+import hashlib
 import jinja2
 import aiohttp_jinja2
 from aiohttp import web
