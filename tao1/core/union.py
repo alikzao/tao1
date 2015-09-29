@@ -293,7 +293,7 @@ def response_string(request, text: str, encoding='utf-8'):
 
 def response_json(request, struct: str, encoding='utf-8'):
     response = web.Response()
-    response.content_type = 'text/html'
+    response.content_type = 'application/json'
     response.charset = encoding
     response.text = json.dumps(struct)
     return response
