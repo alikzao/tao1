@@ -1,4 +1,8 @@
 import sys, os
+
+import json
+import pickle
+
 assert sys.version >= '3.4', 'Please use Python 3.4 or higher.'
 
 import asyncio
@@ -219,23 +223,77 @@ def redirect(request, url='/', code=None):
     return web.HTTPFound( url )
 
 
-def cache(name, expire=0):
+def cache_key(name, kwargs):
+    key = b'\xff'.join(bytes(k, 'utf-8') + b'\xff' + pickle.dumps(v) for k, v in kwargs.items())
+    key = bytes(hashlib.sha1(key).hexdigest(), 'ascii')
+    return key
+
+
+def cache(request, name, expire=0):
     # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
-        import types
-        print('===', type(func).__name__, '===', isinstance(func, (types.FunctionType, types.MethodType)) )
-        @asyncio.coroutine
-        def wrapper(request, *args, **kwargs):
+        # @asyncio.coroutine
+        def wrapper(**kwargs):
             # Эта функция будет вызываться при каждом вызове декорируемой функции.
-            # mc = aiomcache.Client("127.0.0.1", 11211, loop=request.loop)
             mc = request.app.mc
-            yield from mc.set(b"some_key", b"Some value")
-            value = yield from mc.get(b"some_key")
+            assert isinstance(mc, aiomcache.Client)
+            key = cache_key(name, kwargs)
+            value = yield from mc.get(key)
+            # value = None
+            if value is None:
+                print('Key not found, calling function and storing value...')
+                value = func(**kwargs)
+                # value = yield from func(request, **kwargs)
+                yield from mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
+            else:
+                print('Key found, restoring value...')
+                value = pickle.loads(value)
             print(value)
-            values = yield from mc.multi_get(b"some_key", b"other_key")
-            print(values)
-            yield from mc.delete(b"another_key")
-            return values
+            return value
+
         return wrapper
+
     return decorator
 
+
+def async_cache(request, name, expire=0):
+    # Префикс, указанный здесь, будет доступен всем вложенным функциям.
+    def decorator(func):
+        @asyncio.coroutine
+        def wrapper(**kwargs):
+            # Эта функция будет вызываться при каждом вызове декорируемой функции.
+            mc = request.app.mc
+            assert isinstance(mc, aiomcache.Client)
+            key = cache_key(name, kwargs)
+            value = yield from mc.get(key)
+            # value = None
+            if value is None:
+                print('Key not found, calling function and storing value...')
+                # value = func(**kwargs)
+                value = yield from func(**kwargs)
+                yield from mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
+            else:
+                print('Key found, restoring value...')
+                value = pickle.loads(value)
+            print(value)
+            return value
+
+        return wrapper
+
+    return decorator
+
+
+def response_string(request, text: str, encoding='utf-8'):
+    response = web.Response()
+    response.content_type = 'text/html'
+    response.charset = encoding
+    response.text = text
+    return response
+
+
+def response_json(request, struct: str, encoding='utf-8'):
+    response = web.Response()
+    response.content_type = 'text/html'
+    response.charset = encoding
+    response.text = json.dumps(struct)
+    return response
