@@ -249,3 +249,5 @@ html_theme_options = {
     'sidebar_text': '#49443E',
     'sidebar_header': '#4B4032',
 }
+
+html_favicon = 'tao-icon.ico'
