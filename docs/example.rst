@@ -82,7 +82,7 @@ The second is the functions themselves::
 
    @asyncio.coroutine
    def ws(request):
-       return templ('apps.app:chat', request, {} )
+       return templ('apps.app:chat', request, {'key':'val'} )
 
 
    @asyncio.coroutine
