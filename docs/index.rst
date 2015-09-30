@@ -42,7 +42,7 @@ or have some suggestion in order to improve the library.
 https://github.com/KeepSafe/aiohttp
 Dependencies
 ------------
-- Python 3.4+ `aiohttp <https://github.com/KeepSafe/aiohttp> `_ and :term:`asyncio`
+Python 3.4+ `aiohttp <https://github.com/KeepSafe/aiohttp>`_ and :term:`asyncio`
 
 Contents:
 
