@@ -50,12 +50,12 @@ Module structure::
 
 Routes
 ======
-Example route in file routes::
+Example route in file ``routes.py``::
 
    route( '/ws',    ws,	 'GET',  'ws' )
 Templates
 =========
-In framework integration jinja2.
+In framework integration ``jinja2``.
 Websockets
 ==========
  * Item Foo
