@@ -56,6 +56,7 @@ Example route in file ``routes.py``::
 Templates
 =========
 In framework integration ``jinja2``.
+
 Websockets
 ==========
  * Item Foo
