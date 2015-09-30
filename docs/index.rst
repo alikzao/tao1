@@ -6,7 +6,7 @@
 Introduction
 ============
 This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websockets, and more than a simple barrier to entry.
-
+https://github.com/KeepSafe/aiohttp
 Framework Installation
 ----------------------
 
@@ -28,6 +28,22 @@ Create an application in the folder of the project apps::
 Run server::
 
    $ python3 index.py
+
+
+Source code
+-----------
+
+The project is hosted on GitHub_
+
+Please feel free to file an issue on the `bug tracker
+<https://github.com/alikzao/tao1/issues>`_ if you have found a bug
+or have some suggestion in order to improve the library.
+
+
+Dependencies
+------------
+- Python 3.4+ aiohttp and :term:`asyncio`
+
 Contents:
 
 .. toctree::

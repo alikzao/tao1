@@ -1,4 +1,7 @@
 
+
+
+
 Deploy
 ======
 When you develop enough to run the file ``python3 index.py``.
@@ -78,7 +81,7 @@ The first is the need to call route with the template to draw the route and chat
 
 These routes work you can see an example.
 
-The second is the functions themselves::
+The second is the functions themselves .. code-block:: python::
 
    @asyncio.coroutine
    def ws(request):
