@@ -33,16 +33,16 @@ Run server::
 Source code
 -----------
 
-The project is hosted on GitHub_
+The project is hosted on `GitHub <https://github.com/alikzao/tao1>`_
 
 Please feel free to file an issue on the `bug tracker
 <https://github.com/alikzao/tao1/issues>`_ if you have found a bug
 or have some suggestion in order to improve the library.
 
-
+https://github.com/KeepSafe/aiohttp
 Dependencies
 ------------
-- Python 3.4+ aiohttp and :term:`asyncio`
+- Python 3.4+ `aiohttp <https://github.com/KeepSafe/aiohttp> `_ and :term:`asyncio`
 
 Contents:
 
