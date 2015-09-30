@@ -56,9 +56,13 @@ Example route in file ``routes.py``::
 Templates
 =========
 In framework integrated ``jinja2``. Templates are always in the ``templ`` folder.
+
 To call the template function ``templ`` and pass it the template name. If the template is in some sort of module,
-the call looks like this ``apps.modul_name.templ_name``. If the template is in the root of the project in the templ folder,
-then simply write his name. Example::
+the call looks like this ``apps.modul_name.templ_name``.
+
+If the template is in the root of the project in the templ folder, then simply write his name.
+
+Example::
 
    def page(request):
        return templ('index', request, {'key':'val'} )
@@ -66,6 +70,7 @@ then simply write his name. Example::
 Websockets
 ==========
 The websocket to create games and chat very easy to use.
+
 The first is the need to call route with the template to draw the route and chat with the handler for chat::
 
    route( '/ws',   ws,          GET', 'ws' )
@@ -98,7 +103,9 @@ The second is the functions themselves::
 Static files
 ============
  Static files it is better to entrust ``nginx`` but ``tao1`` able return files.
+
  All files must be located in the folder static.
+
  If they are the root of the project then the path will be like this ``/static/static/file_name.pg``.
  If the files are in a certain module, then the path like this ``/static/module_name/file_name.jpg``.
 
