@@ -92,12 +92,12 @@ The second is the functions themselves::
        while True:
            msg = yield from ws.receive()
            if msg.tp == MsgType.text:
-              if msg.data == 'close':
-                  yield from ws.close()
-              else:
-                  ws.send_str(msg.data + '/answer')
+               if msg.data == 'close':
+                   yield from ws.close()
+               else:
+                   ws.send_str(msg.data + '/answer')
            elif msg.tp == aiohttp.MsgType.close:
-              print('websocket connection closed')
+               print('websocket connection closed')
        return ws
 
 
