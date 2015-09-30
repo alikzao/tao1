@@ -86,9 +86,9 @@ Function for render chat page .. code-block::
 
    @asyncio.coroutine
    def ws(request):
-       return templ('apps.app:chat', request, {'key':'val'} )
+       return templ('apps.app:chat', request, {} )
 
-Function handler chat::
+Function handler chat .. code-block::
 
    @asyncio.coroutine
    def ws_handler(request):
