@@ -25,6 +25,15 @@ Websockets
  * Item Foo
  * Item Bar
 
+Caching
+=======
+Create cache for function 5 second, the first parameter - name::
+
+   @cache("main_page", expire=5)
+   @asyncio.coroutine
+   def page(request):
+       return templ('index', request, {'key':'val'} )
+
 
 Inline Markup
 =============
