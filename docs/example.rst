@@ -74,7 +74,9 @@ Websockets
 ==========
 The websocket to create games and chat very easy to use.
 
-The first is the need to call route with the template to draw the route and chat with the handler for chat::
+The first is the need to call route with the template to draw the route and chat with the handler for chat:
+
+.. code-block:: python
 
    route( '/ws',   ws,          GET', 'ws' )
    route( '/wsh',  ws_handler,  GET', 'ws_handler' )
