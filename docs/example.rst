@@ -1,9 +1,25 @@
 
 Deploy
 ======
- * Item Foo
- * Item Bar
+When you develop enough to run the file ``python3 index.py``.
+For production to run ``index.py``, is better to use the ``supervisor`` and ``nginx``.
+Settings supervisor in ``/etc``::
 
+   [program:name]
+   command=python3 index.py
+   directory=/path/to/your/project
+   user=nobody
+   autorestart=true
+   redirect_stderr=true
+
+Settings nginx in ``/etc``::
+
+    server {
+        server_name    name.dev;
+        location / {
+             proxy_pass http://127.0.0.1:6677;
+        }
+    }
 Structure
 =========
 Project structure::
@@ -34,14 +50,12 @@ Module structure::
 
 Routes
 ======
- * Item Foo
- * Item Bar
+Example route in file routes::
 
+   route( '/ws',    ws,	 'GET',  'ws' )
 Templates
 =========
- * Item Foo
- * Item Bar
-
+In framework integration jinja2.
 Websockets
 ==========
  * Item Foo
@@ -60,13 +74,10 @@ Create cache for function 5 second, the first parameter - name::
    @asyncio.coroutine
    def page(request):
        return templ('index', request, {'key':'val'} )
-
-
 Inline Markup
 =============
 Words can have *emphasis in italics* or be **bold** and you can
-define code samples with back quotes, like when you talk about a 
-command: ``sudo`` gives you super user powers! 
+define code samples with back quotes.
 
 This is an example on how to link images:
 
