@@ -81,12 +81,14 @@ The first is the need to call route with the template to draw the route and chat
 
 These routes work you can see an example.
 
-The second is the functions themselves .. code-block::
+The second is the functions themselves.
+Function for render chat page .. code-block::
 
    @asyncio.coroutine
    def ws(request):
        return templ('apps.app:chat', request, {'key':'val'} )
 
+Function handler chat::
 
    @asyncio.coroutine
    def ws_handler(request):
