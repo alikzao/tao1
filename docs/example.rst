@@ -84,6 +84,7 @@ The second is the functions themselves::
    def ws(request):
        return templ('apps.app:chat', request, {} )
 
+
    @asyncio.coroutine
    def ws_handler(request):
        ws = web.WebSocketResponse()
