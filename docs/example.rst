@@ -81,7 +81,7 @@ The first is the need to call route with the template to draw the route and chat
 
 These routes work you can see an example.
 
-The second is the functions themselves .. code-block:: python::
+The second is the functions themselves .. code-block::
 
    @asyncio.coroutine
    def ws(request):
@@ -121,10 +121,6 @@ Create cache for function 5 second, the first parameter - name::
    @asyncio.coroutine
    def page(request):
        return templ('index', request, {'key':'val'} )
-Inline Markup
-=============
-Words can have *emphasis in italics* or be **bold** and you can
-define code samples with back quotes.
 
 This is an example on how to link images:
 
