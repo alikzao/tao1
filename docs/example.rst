@@ -90,8 +90,8 @@ The second is the functions themselves::
                   yield from ws.close()
               else:
                   ws.send_str(msg.data + '/answer')
-           elif msg.tp == aiohttp.MsgType.close: print('websocket connection closed')
-           elif msg.tp == aiohttp.MsgType.error: print('ws connection closed with exception %s', ws.exception())
+           elif msg.tp == aiohttp.MsgType.close:
+              print('websocket connection closed')
        return ws
 
 
