@@ -1,14 +1,36 @@
 
+Deploy
+======
+ * Item Foo
+ * Item Bar
 
 Structure
 =========
- * Item Foo
- * Item Bar
+Project structure::
 
-Static files
-============
- * Item Foo
- * Item Bar
+   project_name_
+                |
+                 apps_
+                      |
+                      app1 ...
+                      app1 ...
+                 static ...
+                 templ ...
+                 __init__.py
+                 index.py
+                 settings.py
+                 routes.py
+                 view.py
+
+Module structure::
+
+   module_name_
+               |
+               static ...
+               templ ...
+               __init__.py
+               routes.py
+               view.py
 
 Routes
 ======
@@ -22,6 +44,11 @@ Templates
 
 Websockets
 ==========
+ * Item Foo
+ * Item Bar
+
+Static files
+============
  * Item Foo
  * Item Bar
 
