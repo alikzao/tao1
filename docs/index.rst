@@ -18,13 +18,16 @@ Framework Installation
 Getting Started
 ---------------
 
-Create project::
+Create a project anywhere::
 
    $ utils.py -p name
 
-Create apps::
+Create an application in the folder of the project apps::
 
    $ utils.py -a name
+Run server::
+
+   $ python3 index.py
 Contents:
 
 .. toctree::

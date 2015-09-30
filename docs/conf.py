@@ -241,7 +241,7 @@ html_theme_options = {
     'github_repo': 'tao1',
     'github_button': True,
     'github_banner': True,
-    'travis_button': True,
+    # 'travis_button': True,
     'pre_bg': '#FFF6E5',
     'note_bg': '#E5ECD1',
     'note_border': '#BFCF8C',
