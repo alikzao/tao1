@@ -44,6 +44,15 @@ Dependencies
 ------------
 Python 3.4+ and `aiohttp <https://github.com/KeepSafe/aiohttp>`_
 
+Authors and License
+-------------------
+
+It's *MIT* licensed and freely available.
+
+Feel free to improve this package and send a pull request to `GitHub <https://github.com/alikzao/tao1>`_.
+
+
+
 Contents:
 
 .. toctree::
