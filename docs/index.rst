@@ -39,13 +39,12 @@ Please feel free to file an issue on the `bug tracker
 <https://github.com/alikzao/tao1/issues>`_ if you have found a bug
 or have some suggestion in order to improve the library.
 
-
 Dependencies
 ------------
 Python 3.4+ and `aiohttp <https://github.com/KeepSafe/aiohttp>`_
 
-Authors and License
--------------------
+License
+-------
 
 It's *MIT* licensed and freely available.
 
