@@ -3,9 +3,17 @@ from aiohttp import web
 import aiohttp
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
 
+from core.union import cache
+
 from pymongo import *
 # from gridfs import GridFS
 from aiohttp_session import get_session
+
+
+@cache("main_page", expire=5)
+@asyncio.coroutine
+def page(request):
+    return templ('apps.app:index', request, {'key':'val'} )
 
 
 @asyncio.coroutine
@@ -16,10 +24,6 @@ def test_db(request):
     val = request.db.doc.find_one({"_id":"test"})
     return templ('apps.app:db_test', request, {'key':val})
 
-
-@asyncio.coroutine
-def page(request):
-    return templ('apps.app:index', request, {'key':'val'} )
 
 @asyncio.coroutine
 def ws(request):

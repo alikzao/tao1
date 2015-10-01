@@ -230,7 +230,7 @@ def cache_key(name, kwargs):
     return key
 
 
-def cache(request, name, expire=0):
+def cache_(request, name, expire=0):
     # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
         # @asyncio.coroutine
@@ -257,7 +257,7 @@ def cache(request, name, expire=0):
     return decorator
 
 
-def async_cache(request, name, expire=0):
+def cache(request, name, expire=0):
     # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
         @asyncio.coroutine
