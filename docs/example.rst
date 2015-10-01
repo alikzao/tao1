@@ -70,9 +70,18 @@ Project structure:
 
 .. image:: _static/docs2.jpg
 
+In the locale folder there are the translation files.
+In the static folder are static files, scripts .js, styles .css, images, etc.
+
+
 Module structure:
 
 .. image:: _static/docs1.jpg
+
+In the locale folder there are the translation files.
+In the static folder are static files, scripts .js, styles .css, images, etc.
+
+
 
 Routes
 ======
