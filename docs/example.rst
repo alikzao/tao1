@@ -67,6 +67,7 @@ Settings nginx in ``/etc``::
 Structure
 =========
 Project structure:
+
 .. image:: _static/docs2.jpg
 
 Module structure:
