@@ -71,7 +71,7 @@ Project structure:
 
 Module structure:
 
-.. image:: _static/docs2.jpg
+.. image:: _static/docs1.jpg
 
 Routes
 ======
