@@ -155,6 +155,7 @@ Database
 ========
 To write the database query you need to ``request.db``
 and then as usual.
+
 .. code-block:: python
 
     # save doc
