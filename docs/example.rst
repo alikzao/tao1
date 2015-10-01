@@ -159,7 +159,7 @@ and then as usual.
 .. code-block:: python
 
     # save doc
-    request.db.doc.save({"_id":"test", "val":"test_db", "status":"success"})
+    request.db.doc.save({"_id":"test", "status":"success"})
     # find doc
     val = request.db.doc.find_one({"_id":"test"})
 
