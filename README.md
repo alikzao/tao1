@@ -1,17 +1,56 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# Example of a simple module.
-You can create a module in the library and in the project.
-The modules can be placed in two locations in folders "apps".
-Example of the structure of the module. 
 
-* apps 
-    * module 
-      * locale
-      * stat
-      * templ
-      * routes.py
-      * view.py
+# Introduction.
+This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websocket out of the box, 
+and more than a simple barrier to entry.
+
+#Framework Installation
+```python
+$ pip install tao1
+```
+#Getting Started
+
+Create a project anywhere:
+```python
+   $ utils.py -p name
+```
+Create an application in the folder of the project apps:
+```python
+   $ utils.py -a name
+```   
+Run server:
+```python
+   $ python3 index.py
+```   
+#License
+
+It's *MIT* licensed and freely available.
+
+#Deploy
+When you develop enough to run the file `python3 index.py`.
+For production to run `index.py`, is better to use the `supervisor` and `nginx`.
+Settings supervisor in `/etc`:
+```python
+   [program:name]
+   command=python3 index.py
+   directory=/path/to/your/project
+   user=nobody
+   autorestart=true
+   redirect_stderr=true
+```
+Settings nginx in `/etc`::
+```python
+    server {
+        server_name    name.dev;
+        location / {
+             proxy_pass http://127.0.0.1:6677;
+        }
+    }
+```
+
+
+
+
+
 
 Example `routes.py`:
 ```python
@@ -21,6 +60,7 @@ from core.union import route
 route( '/',       page,		'GET' )
 route( '/login',  login,	'GET' )
 ```
+
 Example `view.py`:
 ```python
 #!/usr/bin/env python
@@ -31,9 +71,4 @@ def page(request):
 	return templ('apps.app:index', request, {'key':'val'})
 ```
 
-=======
-# tao
->>>>>>> bdde3467fde44ee7fb4804658844ff166ef97f55
-=======
-# tao1
->>>>>>> 1bd543bc26b5a6e6238cd4b6bf18ad41f9bdcc07
+
