@@ -2,7 +2,7 @@
 
 Introduction
 ============
-This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websockets, and more than a simple barrier to entry.
+This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websocket out of the box, and more than a simple barrier to entry.
 
 Framework Installation
 ----------------------
