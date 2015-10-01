@@ -151,6 +151,18 @@ Function handler chat:
        return ws
 
 
+Database
+========
+To write the database query you need to ``request.db``
+and then as usual.
+.. code-block:: python
+
+    # save doc
+    request.db.doc.save({"_id":"test", "val":"test_db", "status":"success"})
+    # find doc
+    val = request.db.doc.find_one({"_id":"test"})
+
+
 Static files
 ============
  Static files it is better to entrust ``nginx`` but ``tao1`` able return files.
@@ -168,6 +180,13 @@ Create cache for function 5 second, the first parameter - name::
    @asyncio.coroutine
    def page(request):
        return templ('index', request, {'key':'val'} )
+
+Game
+====
+123
+Low-level
+=========
+123
 
 This is an example on how to link images:
 
