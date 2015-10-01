@@ -66,31 +66,12 @@ Settings nginx in ``/etc``::
     }
 Structure
 =========
-Project structure::
+Project structure:
+.. image:: _static/docs2.jpg
 
-   project_name_
-                |
-                 apps_
-                      |
-                      app1 ...
-                      app1 ...
-                 static ...
-                 templ ...
-                 __init__.py
-                 index.py
-                 settings.py
-                 routes.py
-                 view.py
+Module structure:
 
-Module structure::
-
-   module_name_
-               |
-               static ...
-               templ ...
-               __init__.py
-               routes.py
-               view.py
+.. image:: _static/docs2.jpg
 
 Routes
 ======
@@ -189,6 +170,6 @@ Low-level
 =========
 123
 
-This is an example on how to link images:
 
-.. image:: _static/in.jpg
+
+
