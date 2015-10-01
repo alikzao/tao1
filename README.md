@@ -47,28 +47,92 @@ Settings nginx in `/etc`::
     }
 ```
 
+#Routes
 
-
-
-
-
-Example `routes.py`:
+Example route in file `routes.py`::
 ```python
-from apps.app.view import  page
-from core.union import route
+   route( '/ws',    ws,	 'GET',  'ws' )
+```   
+#Templates
 
-route( '/',       page,		'GET' )
-route( '/login',  login,	'GET' )
+In framework integrated `jinja2`. Templates are always in the `templ` folder.
+
+To call the template function `templ` and pass it the template name. If the template is in some sort of module,
+the call looks like this `apps.modul_name.templ_name`.
+
+If the template is in the root of the project in the templ folder, then simply write his name.
+
+Example:
+```python
+   def page(request):
+       return templ('index', request, {'key':'val'} )
 ```
 
-Example `view.py`:
-```python
-#!/usr/bin/env python
-# coding: utf-8
+#Websockets
 
-@asyncio.coroutine
-def page(request):
-	return templ('apps.app:index', request, {'key':'val'})
+The websocket to create games and chat very easy to use.
+
+The first is the need to call route with the template to draw the route and chat with the handler for chat:
+
+```python
+   route( '/ws',   ws,          GET', 'ws' )
+   route( '/wsh',  ws_handler,  GET', 'ws_handler' )
+```
+These routes work you can see an example.
+
+The second is the functions themselves.
+Function for render chat page:
+```python
+   @asyncio.coroutine
+   def ws(request):
+       return templ('apps.app:chat', request, {} )
+```
+Function handler chat:
+
+```python
+   @asyncio.coroutine
+   def ws_handler(request):
+       ws = web.WebSocketResponse()
+       ws.start(request)
+       while True:
+           msg = yield from ws.receive()
+           if msg.tp == MsgType.text:
+               if msg.data == 'close':
+                   yield from ws.close()
+               else:
+                   ws.send_str(msg.data + '/answer')
+           elif msg.tp == aiohttp.MsgType.close:
+               print('websocket connection closed')
+       return ws
 ```
 
+#Database
 
+To write the database query you need to `request.db`
+and then as usual.
+
+```python
+    # save doc
+    request.db.doc.save({"_id":"test", "status":"success"})
+    # find doc
+    val = request.db.doc.find_one({"_id":"test"})
+```
+
+#Static files
+
+ Static files it is better to entrust `nginx` but `tao1` able return files.
+
+ All files must be located in the folder static.
+
+ If they are the root of the project then the path will be like this `/static/static/file_name.pg`.
+ If the files are in a certain module, then the path like this `/static/module_name/file_name.jpg`.
+
+#Caching
+
+Create cache for function 5 second, the first parameter - name::
+```python
+   @cache("main_page", expire=5)
+   @asyncio.coroutine
+   def page(request):
+       return templ('index', request, {'key':'val'} )
+```
