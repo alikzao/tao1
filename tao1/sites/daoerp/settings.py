@@ -9,3 +9,7 @@ tao_path  = '/home/user/dev/tao1'
 
 
 database={"login":"admin", "pass":"passwd", "host":["127.0.0.1:27017"], 'name':'test'}
+
+
+
+
