@@ -3,7 +3,7 @@ import sys, os
 import json
 import pickle
 
-import aiohttp
+import aiohttp.web_reqrep
 import hashlib
 
 assert sys.version >= '3.4', 'Please use Python 3.4 or higher.'
@@ -265,8 +265,8 @@ def cache(name, expire=0):
         @asyncio.coroutine
         def wrapper(request=None, **kwargs):
             # REM request: aiohttp.Request is exception for positional arguments
-            assert isinstance(request, (aiohttp.Request, type(None)))
-            args = [r for r in [request] if isinstance(r, aiohttp.Request)]
+            assert isinstance(request, (aiohttp.web_reqrep.Request, type(None))), type(request)
+            args = [r for r in [request] if isinstance(r, aiohttp.web_reqrep.Request)]
             # Эта функция будет вызываться при каждом вызове декорируемой функции.
             assert isinstance(mc, aiomcache.Client)
             key = cache_key(name, kwargs)
