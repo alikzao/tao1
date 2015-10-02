@@ -3,6 +3,9 @@ import sys, os
 import json
 import pickle
 
+import aiohttp
+import hashlib
+
 assert sys.version >= '3.4', 'Please use Python 3.4 or higher.'
 
 import asyncio
@@ -256,13 +259,15 @@ def cache_(request, name, expire=0):
     return decorator
 
 
-def cache(request, name, expire=0):
+def cache(name, expire=0):
     # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
         @asyncio.coroutine
-        def wrapper(**kwargs):
+        def wrapper(request=None, **kwargs):
+            # REM request: aiohttp.Request is exception for positional arguments
+            assert isinstance(request, (aiohttp.Request, type(None)))
+            args = [r for r in [request] if isinstance(r, aiohttp.Request)]
             # Эта функция будет вызываться при каждом вызове декорируемой функции.
-            mc = request.app.mc
             assert isinstance(mc, aiomcache.Client)
             key = cache_key(name, kwargs)
             value = yield from mc.get(key)
@@ -270,7 +275,7 @@ def cache(request, name, expire=0):
             if value is None:
                 print('Key not found, calling function and storing value...')
                 # value = func(**kwargs)
-                value = yield from func(**kwargs)
+                value = yield from func(*args, **kwargs)
                 yield from mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
             else:
                 print('Key found, restoring value...')
