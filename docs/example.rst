@@ -67,19 +67,22 @@ Settings nginx in ``/etc``::
 Structure
 =========
 Project structure:
+In the ``locale`` folder there are the translation files.
+In the ``static`` folder are static files, scripts .js, styles .css, images, etc.
+In the ``templ`` folder there are the templates.
 
 .. image:: _static/docs2.jpg
 
-In the locale folder there are the translation files.
-In the static folder are static files, scripts .js, styles .css, images, etc.
+In folder ``apps`` contains ``app``.
+``index.py`` this is run servers files.
+``settings.py`` this is settings files.
+``gunicorn.conf.py`` this is configuration files for gunicorn. Not mandatory.
+``app.py`` like ``index.py`` but for gunicorn. Not mandatory.
 
 
 Module structure:
 
 .. image:: _static/docs1.jpg
-
-In the locale folder there are the translation files.
-In the static folder are static files, scripts .js, styles .css, images, etc.
 
 
 
