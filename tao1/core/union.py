@@ -26,8 +26,10 @@ import settings
 
 
 routes = []
+mc = None
 @asyncio.coroutine
 def init(loop):
+    global mc
     app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(),
                                                    session_middleware( EncryptedCookieStorage( settings.session_key ))])
     # app = web.Application(loop=loop, middlewares=[ db_handler() ])
@@ -231,16 +233,13 @@ def cache_key(name, kwargs):
 
 
 def cache_(request, name, expire=0):
-    # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
         # @asyncio.coroutine
         def wrapper(**kwargs):
-            # Эта функция будет вызываться при каждом вызове декорируемой функции.
             mc = request.app.mc
             assert isinstance(mc, aiomcache.Client)
             key = cache_key(name, kwargs)
             value = yield from mc.get(key)
-            # value = None
             if value is None:
                 print('Key not found, calling function and storing value...')
                 value = func(**kwargs)
