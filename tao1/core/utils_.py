@@ -23,11 +23,16 @@ def manage_console():
     if args.project is not None:
         shutil.copytree(  os.path.join( path_root , 'sites', 'daoerp'), os.path.join( str(args.project) ) )
         set_file = """
-#!/usr/bin/env python
+import os
 
-root = '%s'
+session_key = b'Sixteen byte key'
 
-database={"login":"admin", "pass":"test_passwd", "host":["127.0.0.1:27017"], 'name':'test'}
+debug = True
+
+root_path = os.path.dirname(__file__)
+tao_path  = '%s'
+
+database={"login":"admin", "pass":"passwd", "host":["127.0.0.1:27017"], 'name':'test'}
         """ % path_root
         with open(os.path.join( str(args.project) , 'settings.py'), 'w') as f: f.write(set_file)
 
