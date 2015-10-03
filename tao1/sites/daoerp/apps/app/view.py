@@ -9,10 +9,12 @@ from pymongo import *
 # from gridfs import GridFS
 from aiohttp_session import get_session
 
-
-@cache("main_page", expire=5)
+# @cache("main_page", expire=25)
 @asyncio.coroutine
 def page(request):
+    # for a in dir(response):
+    #     attr = getattr(response, a))
+    #     print('  == {}: {} :: {}'.format(a, type(attr).__name__, repr(attr))
     return templ('apps.app:index', request, {'key':'val'} )
 
 

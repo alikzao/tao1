@@ -229,11 +229,6 @@ def redirect(request, url='/', code=None):
     return web.HTTPFound( url )
 
 
-def cache_key(name, kwargs):
-    key = b'\xff'.join(bytes(k, 'utf-8') + b'\xff' + pickle.dumps(v) for k, v in kwargs.items())
-    key = bytes(hashlib.sha1(key).hexdigest(), 'ascii')
-    return key
-
 
 def cache_(request, name, expire=0):
     def decorator(func):
@@ -256,18 +251,22 @@ def cache_(request, name, expire=0):
 
         return wrapper
 
+
     return decorator
+
+def cache_key(name, kwargs):
+    key = b'\xff'.join(bytes(k, 'utf-8') + b'\xff' + pickle.dumps(v) for k, v in kwargs.items())
+    key = bytes(hashlib.sha1(key).hexdigest(), 'ascii')
+    return key
 
 
 def cache(name, expire=0):
-    # Префикс, указанный здесь, будет доступен всем вложенным функциям.
     def decorator(func):
         @asyncio.coroutine
         def wrapper(request=None, **kwargs):
             # REM request: aiohttp.Request is exception for positional arguments
             assert isinstance(request, (aiohttp.web_reqrep.Request, type(None))), type(request)
             args = [r for r in [request] if isinstance(r, aiohttp.web_reqrep.Request)]
-            # Эта функция будет вызываться при каждом вызове декорируемой функции.
             assert isinstance(mc, aiomcache.Client)
             key = cache_key(name, kwargs)
             value = yield from mc.get(key)
