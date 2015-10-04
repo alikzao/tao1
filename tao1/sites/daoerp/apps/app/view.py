@@ -2,6 +2,8 @@ import sys, os, time, asyncio, jinja2, aiohttp_jinja2
 from aiohttp import web
 import aiohttp
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
+from aiohttp import  MultiDict, CIMultiDict
+import pickle
 
 from core.union import cache
 
@@ -9,13 +11,12 @@ from pymongo import *
 # from gridfs import GridFS
 from aiohttp_session import get_session
 
-# @cache("main_page", expire=25)
+@cache("main_page", expire=7)
 @asyncio.coroutine
 def page(request):
-    # for a in dir(response):
-    #     attr = getattr(response, a))
-    #     print('  == {}: {} :: {}'.format(a, type(attr).__name__, repr(attr))
+    # response = web.Response(body=b"Hello, world")
     return templ('apps.app:index', request, {'key':'val'} )
+
 
 
 @asyncio.coroutine

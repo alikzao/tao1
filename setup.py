@@ -5,7 +5,7 @@ import os, re
 # version = __import__(tao1).__version__
 
 setup(name='tao1',
-      version="0.1.7.7",
+      version="0.1.7.8",
       description=("framework, CMS and CRM for aiohttp"),
 #      lond_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
 

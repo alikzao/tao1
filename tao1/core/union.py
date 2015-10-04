@@ -13,8 +13,10 @@ import builtins
 import hashlib
 import jinja2
 import aiohttp_jinja2
-from aiohttp import web
+from aiohttp import web, HttpMessage
 from aiohttp.multidict import MultiDict
+from aiohttp import  MultiDict, CIMultiDict
+
 
 import aiomcache
 import aiohttp_debugtoolbar
@@ -260,7 +262,7 @@ def cache_key(name, kwargs):
     return key
 
 
-def cache(name, expire=0):
+def cache1(name, expire=0):
     def decorator(func):
         @asyncio.coroutine
         def wrapper(request=None, **kwargs):
@@ -269,11 +271,23 @@ def cache(name, expire=0):
             args = [r for r in [request] if isinstance(r, aiohttp.web_reqrep.Request)]
             assert isinstance(mc, aiomcache.Client)
             key = cache_key(name, kwargs)
+
+
+
+            # d = MultiDict()
+
+            prepared = [(k, v) for k, v in MultiDict.items()]
+            saved = pickle.dumps(prepared)
+            restored = pickle.loads(saved)
+            refined = MultiDict( restored )
+
+
             value = yield from mc.get(key)
             # value = None
             if value is None:
                 print('Key not found, calling function and storing value...')
                 # value = func(**kwargs)
+
                 value = yield from func(*args, **kwargs)
                 yield from mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
             else:
@@ -285,6 +299,34 @@ def cache(name, expire=0):
         return wrapper
 
     return decorator
+
+def cache(name, expire=0):
+    def decorator(func):
+        @asyncio.coroutine
+        def wrapper(request=None, **kwargs):
+            args = [r for r in [request] if isinstance(r, aiohttp.web_reqrep.Request)]
+            key = cache_key(name, kwargs)
+
+            value = yield from mc.get(key)
+            if value is None:
+                value = yield from func(*args, **kwargs)
+                v_h = {}
+                if isinstance(value, web.Response):
+                    v_h = value._headers
+                    value._headers = [(k, v) for k, v in value._headers.items()]
+                yield from mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
+                if isinstance(value, web.Response):
+                    value._headers = v_h
+            else:
+                value = pickle.loads(value)
+                if isinstance(value, web.Response):
+                    value._headers = CIMultiDict(value._headers)
+            return value
+
+        return wrapper
+
+    return decorator
+
 
 
 def response_string(request, text: str, encoding='utf-8'):
