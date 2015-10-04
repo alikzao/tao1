@@ -262,44 +262,6 @@ def cache_key(name, kwargs):
     return key
 
 
-def cache1(name, expire=0):
-    def decorator(func):
-        @asyncio.coroutine
-        def wrapper(request=None, **kwargs):
-            # REM request: aiohttp.Request is exception for positional arguments
-            assert isinstance(request, (aiohttp.web_reqrep.Request, type(None))), type(request)
-            args = [r for r in [request] if isinstance(r, aiohttp.web_reqrep.Request)]
-            assert isinstance(mc, aiomcache.Client)
-            key = cache_key(name, kwargs)
-
-
-
-            # d = MultiDict()
-
-            prepared = [(k, v) for k, v in MultiDict.items()]
-            saved = pickle.dumps(prepared)
-            restored = pickle.loads(saved)
-            refined = MultiDict( restored )
-
-
-            value = yield from mc.get(key)
-            # value = None
-            if value is None:
-                print('Key not found, calling function and storing value...')
-                # value = func(**kwargs)
-
-                value = yield from func(*args, **kwargs)
-                yield from mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
-            else:
-                print('Key found, restoring value...')
-                value = pickle.loads(value)
-            print(value)
-            return value
-
-        return wrapper
-
-    return decorator
-
 def cache(name, expire=0):
     def decorator(func):
         @asyncio.coroutine
