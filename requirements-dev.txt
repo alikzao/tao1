@@ -1,6 +1,7 @@
 aiohttp
 aiohttp-debugtoolbar
 aiohttp-jinja2
+aiomcache
 Jinja2
 Pillow
 pymongo
