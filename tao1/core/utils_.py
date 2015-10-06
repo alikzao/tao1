@@ -11,17 +11,17 @@ def manage_console():
 
     print( 'args.project', args.project)
 
-    path_root = os.path.dirname(__file__)
+    p_root = os.path.dirname(__file__)
 
-    if '/core' in path_root:
-        path_root = path_root[:-5]
+    if '/core' in p_root:
+        p_root = p_root[:-5]
     else:
         __import__('tao1')
         module = sys.modules['tao1']
-        path_root = os.path.dirname( os.path.abspath(module.__file__) )
+        p_root = os.path.dirname( os.path.abspath(module.__file__) )
 
     if args.project is not None:
-        shutil.copytree(  os.path.join( path_root , 'sites', 'daoerp'), os.path.join( str(args.project) ) )
+        shutil.copytree(  os.path.join( p_root , 'sites', 'daoerp'), os.path.join( str(args.project) ) )
         set_file = """
 import os
 
@@ -33,11 +33,12 @@ root_path = os.path.dirname(__file__)
 tao_path  = '%s'
 
 database={"login":"admin", "pass":"passwd", "host":["127.0.0.1:27017"], 'name':'test'}
-        """ % path_root
+        """ % p_root
         with open(os.path.join( str(args.project) , 'settings.py'), 'w') as f: f.write(set_file)
 
-    elif args.app != None:
-        shutil.copytree( os.path.join( path_root, 'apps', 'app'), os.path.join( str(args.app) ) )
+    elif args.app is not None:
+
+        shutil.copytree( os.path.join( p_root, 'sites', 'daperp', 'apps', 'app'), os.path.join( str(args.app) ) )
 
     print( args )
 
