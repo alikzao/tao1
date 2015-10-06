@@ -289,7 +289,8 @@ def cache(name, expire=0):
 
     return decorator
 
-
+def clean_cache(name, expire=0):
+    pass
 
 def response_string(request, text: str, encoding='utf-8'):
     response = web.Response()
