@@ -128,7 +128,6 @@ def h_shoot(me, e):
 
 def h_chat(me, e):
     assert hasattr(me, 'player'), id(me)
-    me.player.set_rot(e['a'], e['b'])
 
     mess = {'e': "chat", 'id': me.player.id, 'mes': e['mes']}
     send_all(mess, except_=(me,))
