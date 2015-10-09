@@ -217,11 +217,14 @@ def game_handler(request):
     return ws
 
 
-# def playerById(id):
-# #    console.log('players', players);
-#     for i in range(0, players):
-#         if players[i].id == id: return players[i];
-#     return False
+def playerById(id):
+    # for i in range(0, players):
+    #     if players[i].id == id: return players[i];
+    # return False
+    for player in players:
+        if player.id == id:
+            return player
+    return None
 
 
 
