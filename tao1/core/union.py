@@ -256,6 +256,7 @@ def cache_(request, name, expire=0):
 
     return decorator
 
+
 def cache_key(name, kwargs):
     key = b'\xff'.join(bytes(k, 'utf-8') + b'\xff' + pickle.dumps(v) for k, v in kwargs.items())
     key = bytes(hashlib.sha1(key).hexdigest(), 'ascii')
@@ -289,8 +290,17 @@ def cache(name, expire=0):
 
     return decorator
 
-def clean_cache(name, expire=0):
-    pass
+
+def clean_cache(key):
+    # yield from mc.delete(b"another_key")
+    yield from mc.delete( key )
+
+
+# example   `invalidate_cache('silngle_page', id=123123)`.
+def invalidate_cache(name, **kwargs):
+    key = cache_key(name, kwargs)
+    yield from mc.delete(key)
+
 
 def response_string(request, text: str, encoding='utf-8'):
     response = web.Response()
