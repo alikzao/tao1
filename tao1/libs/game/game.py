@@ -199,11 +199,9 @@ def game_handler(request):
             elif msg.tp == aiohttp.MsgType.close:
                 print('websocket connection closed')
                 clean(ws)
-                # break
             elif msg.tp == aiohttp.MsgType.error:
                 print('ws connection closed with exception ', ws.exception())
                 clean(ws)
-                # break
             else:
                 print('unknow websocket message type:', msg.tp, id(ws))
 
