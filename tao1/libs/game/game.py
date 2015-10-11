@@ -119,10 +119,7 @@ def h_rotate(me, e):
 
 def h_shoot(me, e):
     assert hasattr(me, 'player'), id(me)
-    me.player.set_rot(e['a'], e['b'])
-
-    mess = {'e': "shoot", 'id': me.player.id, 'pos': e['pos'], 'dir': e['dir'], 'd2': e['d2'],
-            'msg': '#{} says: pif-paf'.format(me.player.id)}
+    mess = {'e': "shoot", 'id': me.player.id, 'pos': e['pos'], 'dir': e['dir'], 'd2': e['d2'], 'msg': '#{} says: pif-paf'.format(me.player.id)}
     send_all(mess, except_=(me,))
 
 
@@ -204,7 +201,7 @@ def game_handler(request):
                 clean(ws)
                 # break
             elif msg.tp == aiohttp.MsgType.error:
-                print('ws connection closed with exception %s', ws.exception())
+                print('ws connection closed with exception ', ws.exception())
                 clean(ws)
                 # break
             else:
