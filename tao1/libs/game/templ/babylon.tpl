@@ -55,6 +55,7 @@
     <script src="/static/game/game.js"></script>
     <script src="/static/game/hand.js"></script>
     <script src="/static/game/Oimo.js"></script>
+
 </body>
 </html>
 
