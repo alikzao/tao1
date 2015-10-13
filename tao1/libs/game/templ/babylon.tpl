@@ -27,7 +27,7 @@
 
 <body>
 
-    <img id="viseur" src="/static/game/babylon/viseur.png" />
+    <img id="viseur" src="/static/game/viseur.png" />
     <div id="stats" class="" style="position:absolute; left:8px; top:8px;"></div>
 
     <div id="chat" style="position:absolute; left:8px; bottom:80px;">
@@ -49,7 +49,8 @@
 
     <canvas id="renderCanvas"></canvas>
 
-    <script src="/static/game/babylon1-debug.js"></script>
+    <!--<script src="/static/game/babylon1-debug.js"></script>-->
+    <script src="/static/game/babylon.2.2.js"></script>
     <script src="/static/game/waterMaterial.js"></script>
     <script src="/static/game/game.js"></script>
     <script src="/static/game/hand.js"></script>
