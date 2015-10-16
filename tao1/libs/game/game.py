@@ -1,22 +1,62 @@
 import sys, os, time, asyncio, jinja2, aiohttp_jinja2, json, traceback
+from uuid import uuid4
 from aiohttp import web
 import aiohttp
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
 
 from settings import *
 
+
 @asyncio.coroutine
-def babylon(request):
+def game(request):
+    # room = request.match_info.get('room', "1")
+    # with open('db.txt', 'r') as f:
+    #     room = f.read()
+    #     print ("file not empty: "+room, )
+
     return templ('libs.game:babylon', request, {})
 
 
+@asyncio.coroutine
+def test_mesh(request):
+    return templ('libs.game:test_mesh', request, {})
+
+
+@asyncio.coroutine
+def check_room(request):
+    room=1
+    with open('db.txt', 'r') as f:
+        rooms = json.dumps( f.read() )
+        for k, v in rooms.items():
+            if len(v) < 5:
+                room = k
+        # print(room, file=f)
+        f.close()
+    if room==1:
+        room = uuid4().hex[:4]
+
+    return {"result":"ok", "room":room}
+
+@asyncio.coroutine
 def pregame(request):
-    return templ('libs.game:pregame')
+    room = {"1":[]}
+
+    if os.stat("db.txt").st_size == 0:
+        with open('db.txt', 'w', encoding='utf-8') as f:
+            print ("file is empty", room)
+            print(room, file=f)
+            f.close()
+    else:
+        with open('db.txt', 'r') as f:
+            room = f.read()
+            print ("file not empty: "+room, )
+    free_room = ''
+    return templ('libs.game:pregame', request, {"room":room})
 
 
-def game(request):
+def babylon(request):
     """just draw a page of beginning of the game"""
-    return templ('libs.game:game')
+    return templ('libs.game:game', request, {})
 
 
 class Player():
@@ -89,9 +129,10 @@ def h_new(me, e):
     me.player = Player(e['x'], e['y'])
     me.player.client = me
     me.player.id = last_id
+    me.player.room = e['room']
     last_id += 1
 
-    mess = {'e': "new", 'id': me.player.id, 'x': me.player.x, 'y': me.player.y, 'z': me.player.z, 'msg': 'newPlayer'}
+    mess = {'e': "new", 'id': me.player.id, 'x': me.player.x, 'y': me.player.y, 'z': me.player.z, 'msg': 'newPlayer', 'room':room}
     send_all(mess, except_=(me,))
 
     for player in players:  # // Send existing players to the new player
@@ -193,6 +234,7 @@ def game_handler(request):
             if msg.tp == MsgType.text:
                 if msg.data == 'close':
                     print('client requests close')
+                    #TODO удалить из комнаты игрока если он закрыл сессию.
                     close(ws)
                 else:
                     handle_game(ws, msg.data)
@@ -223,35 +265,33 @@ def playerById(id):
 
 
 
-
-
 # def cannot():
-#     return templ('app.game:cannot')
+#     return templ('libs.game:cannot')
 #
 # def explosion():
-#     return templ('app.game:explosion')
+#     return templ('libs.game:explosion')
 #
 # def oimo():
-#     return templ('app.game:oimo')
+#     return templ('libs.game:oimo')
 #
 # def node():
-#     return templ('app.game:node')
+#     return templ('libs.game:node')
 #
 # def node1():
-#     return templ('app.game:node1')
+#     return templ('libs.game:node1')
 #
 # def game1():
-#     return templ('app.game:game1')
+#     return templ('libs.game:game1')
 #
 #
 # def edit3d():
-#     return templ('app.game:edit3d')
+#     return templ('libs.game:edit3d')
 #
 # def edit3dt():
-#     return templ('app.game:edit3dt')
+#     return templ('libs.game:edit3dt')
 #
 # def text():
-#     return templ('app.game:text')
+#     return templ('libs.game:text')
 
 
 

@@ -162,7 +162,7 @@ def get_path(app):
 
 
 def get_templ_path(path):
-    module_name = ''; module_path = ''; file_name = ''; name_templ = 'default'; 
+    module_name = ''; module_path = ''; file_name = ''; name_templ = 'default';
     if ':' in path:
         module_name, file_name = path.split(":", 1) # app.table main
         module_path = os.path.join( get_path( module_name), "templ")

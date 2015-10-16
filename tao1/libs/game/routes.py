@@ -3,12 +3,15 @@ from libs.game.game import  *
 from core.union import route
 
 
-route( 	'/game',		    game,		    'GET',  'game'       )
+route( 	'/game/{room}',		game,		    'GET',  'game'       )
 route( 	'/pregame',	        pregame,	    'GET',  'pregame'    )
+route( 	'//check_room',	    check_room,	    'POST',  'pregame'    )
 
 
 route( 	'/babylon',	        babylon,	    'GET',  'babylon'    )
 route( 	'/game_handler',	game_handler,	'GET',  'g_h'        )
+
+route( 	'/test/mesh',	    test_mesh,	    'GET',  'test_mesh'  )
 
 # route( 	'/oimo',		    oimo,		    'GET',  'oimo'       )
 # route( 	'/cannot',		    cannot,		    'GET',  'cannot'     )

@@ -87,6 +87,7 @@ function Player(scene, camera, startX, startY, is_local ) {
 //            tasklmesh = loader.addMeshTask('name', "", "static/game/", "q.babylon");
 
             tasklmesh = loader.addMeshTask(name, "", "static/game/", "int.babylon");
+            //tasklmesh = loader.addMeshTask(name, "", "static/game/m/", "untitled.babylon");
             tasklmesh.onSuccess = function (task) {
                 task.loadedMeshes[0].position = new BABYLON.Vector3(3, -3, 9);
                 task.loadedMeshes[0].parent = camera;
@@ -269,8 +270,9 @@ function handlers(scene, camera){
 //        return false;
 //    };
     ws.onopen = function() {
-       	console.log("Connected to socket server", localPlayer.getX(), localPlayer.getY() );
-    	ws.send( JSON.stringify({'e':"new", 'x':localPlayer.getX(), 'y':localPlayer.getY()}) );
+        var room = window.location.hash;
+       	console.log("Connected to socket server", localPlayer.getX(), localPlayer.getY(), 'hash===>', room );
+    	ws.send( JSON.stringify({'e':"new", 'x':localPlayer.getX(), 'y':localPlayer.getY(), 'room':room}) );
     };
     ws.onmessage = function(event){
         var msg = JSON.parse(event.data);
@@ -278,34 +280,43 @@ function handlers(scene, camera){
             console.log("New remote player connected (msg.id): "+msg.id+' msg.msg '+msg.msg );
             var newPlayer = new Player(scene, camera, msg.x, msg.y);
             newPlayer.id = msg.id;
+            newPlayer.room = msg.room;
             newPlayer.init(msg.id);
             remotePlayers.push(newPlayer);    // Add new player to the remote players array
         }else if(msg.e == 'move' ){
            	var movePlayer = playerById(msg.id);
             if (!movePlayer) logg(msg);
-            movePlayer.setX(msg.x);
-            movePlayer.setY(msg.y);
-            movePlayer.setZ(msg.z);
+            if( movePlayer.room == msg.room){
+                movePlayer.setX(msg.x);
+                movePlayer.setY(msg.y);
+                movePlayer.setZ(msg.z);
+            }
         }else if(msg.e == 'rotate' ){
-           	var movePlayer = playerById(msg.id);
-            if (!movePlayer) logg(msg);
-            movePlayer.setA(msg.a);
-            movePlayer.setB(msg.b);
+           	var rotPlayer = playerById(msg.id);
+            if (!rotPlayer) logg(msg);
+            if( rotPlayer.room == msg.room) {
+                rotPlayer.setA(msg.a);
+                rotPlayer.setB(msg.b);
+            }
         } else if(msg.e == 'remove'){
             var removePlayer = playerById(msg.id);
             if (!removePlayer) logg(msg);
-            remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
-            var mes = scene.getMeshByID(msg.id);
-            mes.dispose();
+            if( removePlayer.room == msg.room) {
+                remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
+                var mes = scene.getMeshByID(msg.id);
+                mes.dispose();
+            }
         } else if (msg.e == 'shoot'){
             console.log()
             var player = playerById(msg.id);
             if (!player) logg(msg);
-            var meshh = scene.getMeshByID(msg.id);
-            var poss = meshh.position;
-            var bullet = new Bullet();
-//            bullet.remoteBullet(msg.id, msg.pos, msg.dir);
-            bullet.remoteBullet(msg.id, poss, msg.dir, msg.d2);
+            if( player.room == msg.room) {
+                var meshh = scene.getMeshByID(msg.id);
+                var poss = meshh.position;
+                var bullet = new Bullet();
+                //            bullet.remoteBullet(msg.id, msg.pos, msg.dir);
+                bullet.remoteBullet(msg.id, poss, msg.dir, msg.d2);
+            }
         } else if (msg.e == 'chat'){
             console.log();
             var player = playerById(msg.id);
