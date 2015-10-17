@@ -271,6 +271,7 @@ function handlers(scene, camera){
 //    };
     ws.onopen = function() {
         var room = window.location.hash;
+        localPlayer.room = room;
        	console.log("Connected to socket server", localPlayer.getX(), localPlayer.getY(), 'hash===>', room );
     	ws.send( JSON.stringify({'e':"new", 'x':localPlayer.getX(), 'y':localPlayer.getY(), 'room':room}) );
     };
@@ -307,7 +308,6 @@ function handlers(scene, camera){
                 mes.dispose();
             }
         } else if (msg.e == 'shoot'){
-            console.log()
             var player = playerById(msg.id);
             if (!player) logg(msg);
             if( player.room == msg.room) {
@@ -319,8 +319,8 @@ function handlers(scene, camera){
             }
         } else if (msg.e == 'chat'){
             console.log();
-            var player = playerById(msg.id);
-            var player = localPlayer.getLObject();
+            //var player = playerById(msg.id);
+            player = localPlayer.getLObject();
 //            if (!player) logg(msg);
             console.log('msg.id == localPlayer', msg.id, localPlayer.id, msg.id == localPlayer.id);
             showMessage(msg, true);
