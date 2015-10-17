@@ -267,7 +267,6 @@ var createScene = function () {
 function handlers(scene, camera){
 //    document.forms.publish.onsubmit = function() {
 //        ws.send( this.message.value );
-//        return false;
 //    };
     ws.onopen = function() {
         var room = window.location.hash;
