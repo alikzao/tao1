@@ -286,7 +286,7 @@ function handlers(scene, camera){
         }else if(msg.e == 'move' ){
            	var movePlayer = playerById(msg.id);
             if (!movePlayer) logg(msg);
-            if( movePlayer.room == msg.room){
+            if( localPlayer.room == msg.room){
                 movePlayer.setX(msg.x);
                 movePlayer.setY(msg.y);
                 movePlayer.setZ(msg.z);
@@ -294,14 +294,14 @@ function handlers(scene, camera){
         }else if(msg.e == 'rotate' ){
            	var rotPlayer = playerById(msg.id);
             if (!rotPlayer) logg(msg);
-            if( rotPlayer.room == msg.room) {
+            if( localPlayer.room == msg.room) {
                 rotPlayer.setA(msg.a);
                 rotPlayer.setB(msg.b);
             }
         } else if(msg.e == 'remove'){
             var removePlayer = playerById(msg.id);
             if (!removePlayer) logg(msg);
-            if( removePlayer.room == msg.room) {
+            if( localPlayer.room == msg.room) {
                 remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
                 var mes = scene.getMeshByID(msg.id);
                 mes.dispose();
@@ -309,7 +309,7 @@ function handlers(scene, camera){
         } else if (msg.e == 'shoot'){
             var player = playerById(msg.id);
             if (!player) logg(msg);
-            if( player.room == msg.room) {
+            if( localPlayer.room == msg.room) {
                 var meshh = scene.getMeshByID(msg.id);
                 var poss = meshh.position;
                 var bullet = new Bullet();
