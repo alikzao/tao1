@@ -30,7 +30,6 @@ def check_room(request):
         for k, v in rooms.items():
             if len(v) < 5:
                 room = k
-        # print(room, file=f)
         f.close()
     if room==1:
         room = uuid4().hex[:4]
