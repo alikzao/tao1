@@ -3,28 +3,16 @@ from libs.game.game import  *
 from core.union import route
 
 
-route( 	'/game/{room}',		game,		    'GET',  'game'       )
-route( 	'/pregame',	        pregame,	    'GET',  'pregame'    )
-route( 	'//check_room',	    check_room,	    'POST',  'pregame'    )
+route( 	'/pregame',	        pregame,	    'GET',  'pregame'     )
+route( 	'/game/{room}',		game,		    'GET',  'game'        )
+route( 	'/check_room',	    check_room,	    'POST',  'check_room' )
 
 
-route( 	'/babylon',	        babylon,	    'GET',  'babylon'    )
-route( 	'/game_handler',	game_handler,	'GET',  'g_h'        )
+route( 	'/babylon',	        babylon,	    'GET',  'babylon'     )
+route( 	'/game_handler',	game_handler,	'GET',  'g_h'         )
 
-route( 	'/test/mesh',	    test_mesh,	    'GET',  'test_mesh'  )
-
-# route( 	'/oimo',		    oimo,		    'GET',  'oimo'       )
-# route( 	'/cannot',		    cannot,		    'GET',  'cannot'     )
-# route( 	'/explosion',	    explosion,	    'GET',  'explosion'  )
-# route( 	'/node',		    node,		    'GET',  'node'       )
-# route( 	'/node1',		    node1,		    'GET',  'node1'      )
-# route( 	'/game1',		    game1,		    'GET',  'game1'      )
-# route( 	'/edit3d',	        edit3d,		    'GET',  'edit3d'     )
-# route( 	'/edit3dt',	        edit3dt,	    'GET',  'edit3dt'    )
-# route( 	'/text',	        text,		    'GET',  'text'       )
+route( 	'/test/mesh',	    test_mesh,	    'GET',  'test_mesh'   )
 
 
 
-#эрих хонекер - гдр (через год вернули в фрг)
-#маркус вольф - разыскали и слили (начальник штази)
-#оджалан - курдской рабочей  партии в турции (выслали зи москвы в кению и там турки орестовали)
+

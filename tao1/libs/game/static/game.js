@@ -527,7 +527,8 @@ loader.onFinish = function (tasks) {
     engine.runRenderLoop(function () {
         scene.render();
         stats.innerHTML = "<div class='stat'>Total vertices: " +    scene.getTotalVertices() + "<br>"
-                        + "Active particles: " +                    scene.getActiveParticles() + "<br><br>"
+                        + "Active particles: " +                    scene.getActiveParticles() + "<br>"
+                        + "Room number: <b style='color:red;'>" +   localPlayer.room + "</b><br><br>"
                         + "FPS: <b>" +                              engine.getFps().toFixed() + "</b><BR>"
                         //+ "Frame duration: " +                      scene.getLastFrameDuration() + " ms<br><br>"
                         //+ "<i>Evaluate Active Meshes duration:</i> " + scene.getEvaluateActiveMeshesDuration() + " ms<br>"

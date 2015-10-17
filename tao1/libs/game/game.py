@@ -41,16 +41,19 @@ def check_room(request):
 def pregame(request):
     room = {"1":[]}
 
+    if not os.path.exists("db.txt"):
+        with open('db.txt', 'w', encoding='utf-8') as f:
+            print(room, file=f)
+            f.close()
     if os.stat("db.txt").st_size == 0:
         with open('db.txt', 'w', encoding='utf-8') as f:
-            print ("file is empty", room)
             print(room, file=f)
             f.close()
     else:
         with open('db.txt', 'r') as f:
             room = f.read()
-            print ("file not empty: "+room, )
-    free_room = ''
+            print ("file not empty: "+room )
+            f.close()
     return templ('libs.game:pregame', request, {"room":room})
 
 
@@ -263,50 +266,3 @@ def playerById(id):
             return player
     return None
 
-
-
-# def cannot():
-#     return templ('libs.game:cannot')
-#
-# def explosion():
-#     return templ('libs.game:explosion')
-#
-# def oimo():
-#     return templ('libs.game:oimo')
-#
-# def node():
-#     return templ('libs.game:node')
-#
-# def node1():
-#     return templ('libs.game:node1')
-#
-# def game1():
-#     return templ('libs.game:game1')
-#
-#
-# def edit3d():
-#     return templ('libs.game:edit3d')
-#
-# def edit3dt():
-#     return templ('libs.game:edit3dt')
-#
-# def text():
-#     return templ('libs.game:text')
-
-
-
-
-
-
-
-   #  def __init__(self, startX, startY):
-   #      self._x = startX
-   #
-   #  # Getters and setters
-   # @property
-   # def x(self):
-   #      return self._x
-   #
-   # @x.setter
-   # def x(self, newX):
-   #      self._x = newX
