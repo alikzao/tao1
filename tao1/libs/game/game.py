@@ -132,7 +132,7 @@ class Player():
 
 
 socket = None
-players = set()
+# players = set()
 clients = set()
 last_id = 0
 
@@ -208,7 +208,7 @@ def close(me):
 
 def clean(me):
     if hasattr(me, 'player'):
-        players.remove(me.player.room)
+        me.player.room.remove(me.player)
         # players.remove(me.player)
     else:
         print("onClientDisconnect   no player found", str(me.id))
