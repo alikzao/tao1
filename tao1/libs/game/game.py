@@ -215,7 +215,7 @@ def clean(me):
 
     clients.remove(me)
 
-    print('close rooms => ', rooms )
+    print('close rooms => ',   rooms   )
     print('close clients => ', clients )
 
     mess = {'e': "remove", id: me.player.id, 'msg': 'remove'}
