@@ -224,8 +224,8 @@ var createScene = function () {
 //        var u = localPlayer;
         var r = localPlayer.rot();
         if(ws.readyState == ws.OPEN) {
-           ws.send( JSON.stringify( { 'e':'move',  'x': camera.position.x, 'y': camera.position.y, 'z': camera.position.z, 'room':localPlayer.room } ) );
-           if (r) ws.send( JSON.stringify( { 'e':'rotate', 'id':localPlayer.id,    'a': localPlayer.getA(), 'b': localPlayer.getB(), camera:camera.position, 'room':localPlayer.room } ) );
+           ws.send( JSON.stringify( { 'e':'move',  'x': camera.position.x, 'y': camera.position.y, 'z': camera.position.z } ) );
+           if (r) ws.send( JSON.stringify( { 'e':'rotate', 'id':localPlayer.id,    'a': localPlayer.getA(), 'b': localPlayer.getB(), camera:camera.position } ) );
         }
         for (var i = 0; i < remotePlayers.length; i++) {
             remotePlayers[i].draw();

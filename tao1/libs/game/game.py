@@ -173,7 +173,7 @@ def h_move(me, e):
     assert hasattr(me, 'player'), id(me)
     me.player.set_pos(e['x'], e['y'], e['z'])
     # print( 'e :', e )
-    mess = {'e': "move", 'id': me.player.id, 'x': me.player.x, 'y': me.player.y, 'z': me.player.z, 'msg':'move', 'room':e['room']}
+    mess = {'e': "move", 'id': me.player.id, 'x': me.player.x, 'y': me.player.y, 'z': me.player.z, 'msg':'move'}
     send_all(mess, except_=(me,))
 
 
@@ -181,13 +181,13 @@ def h_rotate(me, e):
     assert hasattr(me, 'player'), id(me)
     me.player.set_rot(e['a'], e['b'])
 
-    mess = {'e': "rotate", 'id': me.player.id, 'a': me.player.a, 'b': me.player.b, 'msg':'rotate', 'room':e['room']}
+    mess = {'e': "rotate", 'id': me.player.id, 'a': me.player.a, 'b': me.player.b, 'msg':'rotate'}
     send_all(mess, except_=(me,))
 
 
 def h_shoot(me, e):
     assert hasattr(me, 'player'), id(me)
-    mess = {'e':"shoot", 'id':me.player.id, 'pos':e['pos'], 'dir':e['dir'], 'd2':e['d2'], 'msg':'#{} says: pif-paf'.format(me.player.id), 'room':e['room']}
+    mess = {'e':"shoot", 'id':me.player.id, 'pos':e['pos'], 'dir':e['dir'], 'd2':e['d2'], 'msg':'#{} says: pif-paf'.format(me.player.id) }
     send_all(mess, except_=(me,))
 
 
