@@ -208,13 +208,14 @@ def close(me):
 
 def clean(me):
     if hasattr(me, 'player'):
-        players.remove(me.player)
+        players.remove(me.player.room)
+        # players.remove(me.player)
     else:
         print("onClientDisconnect   no player found", str(me.id))
 
     clients.remove(me)
 
-    print('close players => ', players)
+    print('close players => ', rooms)
     print('close clients => ', clients)
 
     mess = {'e': "remove", id: me.player.id, 'msg': 'remove'}
