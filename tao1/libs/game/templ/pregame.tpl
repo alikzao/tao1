@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Предисловие игры</title>
+		<title>Start game page</title>
 
 
         <!--<script src="/static/game/detector.js"></script>-->
@@ -47,13 +47,13 @@
             {{ room }}
 
             <div class="reg_game">
-                <a href="" target="_blank" style="width:200px; margin-top:20px;" class="btn btn-success  btn-block"> Start game</a>
+                <div style="width:200px; margin-top:20px;" class="btn btn-success  btn-block"> Start game</div>
     	    </div>
 
 		</div>
         <script type="text/javascript">
         $(function(){
-           $('.reg_game').on('click', 'a', function(){
+           $('.reg_game').on('click', 'div', function(){
                $.ajax({
                    type: "POST", dataType: "json", url: '/check_room',
                    data: {},

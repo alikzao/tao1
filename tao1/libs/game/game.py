@@ -3,8 +3,17 @@ from uuid import uuid4
 from aiohttp import web
 import aiohttp
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
-
+from core.union import response_json
 from settings import *
+from collections import defaultdict
+
+
+# rooms = defaultdict(list)
+# players = rooms[msg.room]
+
+rooms = defaultdict(set)
+
+
 
 
 @asyncio.coroutine
@@ -24,21 +33,33 @@ def test_mesh(request):
 
 @asyncio.coroutine
 def check_room(request):
-    room=1
+    room=0.1
     with open('db.txt', 'r') as f:
-        rooms = json.dumps( f.read() )
-        for k, v in rooms.items():
-            if len(v) < 5:
-                room = k
-        f.close()
-    if room==1:
-        room = uuid4().hex[:4]
+        ff = f.read()
+        print('22222', ff, type(ff), '=========')
+        rooms = json.loads( ff )
+        print('22222', ff, type(rooms))
+        # rooms = json.loads( ff )
+        # print('check', rooms)
 
-    return {"result":"ok", "room":room}
+        for k, v in rooms.items():
+            print('www k', k, ' v ', v, ' len ', len(v), len(v) < 5)
+            if len(v) < 3:
+                room = k
+                print( room )
+        f.close()
+    if room==0.1:
+        room = uuid4().hex[:3]
+
+    print('rroomm', room)
+
+    return response_json(request, {"result":"ok", "room":room} )
+    # return json.dumps( {"result":"ok", "room":room} )
+
 
 @asyncio.coroutine
 def pregame(request):
-    room = {"1":[]}
+    room = json.dumps({ uuid4().hex[:3] :[]})
 
     if not os.path.exists("db.txt"):
         with open('db.txt', 'w', encoding='utf-8') as f:
@@ -51,7 +72,7 @@ def pregame(request):
     else:
         with open('db.txt', 'r') as f:
             room = f.read()
-            print ("file not empty: "+room )
+            # print ("file not empty: "+room )
             f.close()
     return templ('libs.game:pregame', request, {"room":room})
 
@@ -131,23 +152,27 @@ def h_new(me, e):
     me.player = Player(e['x'], e['y'])
     me.player.client = me
     me.player.id = last_id
-    me.player.room = e['room']
+    # me.player.room = e['room']
+    me.player.room = rooms[e['room']]
+
     last_id += 1
 
     mess = {'e': "new", 'id': me.player.id, 'x': me.player.x, 'y': me.player.y, 'z': me.player.z, 'msg':'newPlayer', 'room':e['room'] }
     send_all(mess, except_=(me,))
 
-    for player in players:  # // Send existing players to the new player
+    # for player in players.room:  # // Send existing players to the new player
+    for player in me.player.room:  # // Send existing players to the new player
         mess = {'e': "new", 'id': player.id, 'x': player.x, 'y': player.y, 'z': player.z, 'msg': 'existingPlayer'}
         me.send_str(json.dumps(mess))
 
-    players.add(me.player)
+    # players.add(me.player)
+    me.player.room.add(me.player)
 
 
 def h_move(me, e):
     assert hasattr(me, 'player'), id(me)
     me.player.set_pos(e['x'], e['y'], e['z'])
-
+    # print( 'e :', e )
     mess = {'e': "move", 'id': me.player.id, 'x': me.player.x, 'y': me.player.y, 'z': me.player.z, 'msg':'move', 'room':e['room']}
     send_all(mess, except_=(me,))
 
@@ -248,20 +273,15 @@ def game_handler(request):
                 clean(ws)
             else:
                 print('unknow websocket message type:', msg.tp, id(ws))
-
         except Exception as e:
             print('Dark forces tried to break down our infinite loop', e)
             traceback.print_tb(e.__traceback__)
-
     return ws
 
 
-def playerById(id):
-    # for i in range(0, players):
-    #     if players[i].id == id: return players[i];
-    # return False
-    for player in players:
-        if player.id == id:
-            return player
-    return None
+# def playerById(id):
+#     for player in players:
+#         if player.id == id:
+#             return player
+#     return None
 

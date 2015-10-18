@@ -224,8 +224,8 @@ var createScene = function () {
 //        var u = localPlayer;
         var r = localPlayer.rot();
         if(ws.readyState == ws.OPEN) {
-           ws.send( JSON.stringify( { 'e':'move',  'x': camera.position.x, 'y': camera.position.y, 'z': camera.position.z } ) );
-           if (r) ws.send( JSON.stringify( { 'e':'rotate', 'id':localPlayer.id,    'a': localPlayer.getA(), 'b': localPlayer.getB(), camera:camera.position } ) );
+           ws.send( JSON.stringify( { 'e':'move',  'x': camera.position.x, 'y': camera.position.y, 'z': camera.position.z, 'room':localPlayer.room } ) );
+           if (r) ws.send( JSON.stringify( { 'e':'rotate', 'id':localPlayer.id,    'a': localPlayer.getA(), 'b': localPlayer.getB(), camera:camera.position, 'room':localPlayer.room } ) );
         }
         for (var i = 0; i < remotePlayers.length; i++) {
             remotePlayers[i].draw();
@@ -242,7 +242,7 @@ var createScene = function () {
             var pickInfo = scene.pick(width_p/2, height_p/2, null, false, camera);
 //            console.log('mesh', player, 'mesh.name', player.name);//, 'mesh.position', player.position);#}
 //            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':camera.position, 'dir':camera.cameraDirection, 'pickinfo':pickInfo.pickedPoint} ) );           //ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'dir':camera.cameraDirection, 'pos':camera.position, 'trueDir':trueDirection } ) );#}
-            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':player.position, 'dir':pickInfo.pickedPoint, 'd2':trueDirection} ) );           //ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'dir':camera.cameraDirection, 'pos':camera.position, 'trueDir':trueDirection } ) );
+            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':player.position, 'dir':pickInfo.pickedPoint, 'd2':trueDirection, 'room':localPlayer.room } ) );           //ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'dir':camera.cameraDirection, 'pos':camera.position, 'trueDir':trueDirection } ) );
 
 //            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':camera.position, 'dir':camera.cameraDirection } ) );           //ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'dir':camera.cameraDirection, 'pos':camera.position, 'trueDir':trueDirection } ) );
         }
@@ -270,6 +270,7 @@ function handlers(scene, camera){
 //    };
     ws.onopen = function() {
         var room = window.location.hash;
+        room = room.substr(-3);
         localPlayer.room = room;
        	console.log("Connected to socket server", localPlayer.getX(), localPlayer.getY(), 'hash===>', room );
     	ws.send( JSON.stringify({'e':"new", 'x':localPlayer.getX(), 'y':localPlayer.getY(), 'room':room}) );
@@ -286,36 +287,36 @@ function handlers(scene, camera){
         }else if(msg.e == 'move' ){
            	var movePlayer = playerById(msg.id);
             if (!movePlayer) logg(msg);
-            if( localPlayer.room == msg.room){
+            //if( localPlayer.room == msg.room){
                 movePlayer.setX(msg.x);
                 movePlayer.setY(msg.y);
                 movePlayer.setZ(msg.z);
-            }
+            //}
         }else if(msg.e == 'rotate' ){
            	var rotPlayer = playerById(msg.id);
             if (!rotPlayer) logg(msg);
-            if( localPlayer.room == msg.room) {
+            //if( localPlayer.room == msg.room) {
                 rotPlayer.setA(msg.a);
                 rotPlayer.setB(msg.b);
-            }
+            //}
         } else if(msg.e == 'remove'){
             var removePlayer = playerById(msg.id);
             if (!removePlayer) logg(msg);
-            if( localPlayer.room == msg.room) {
+            //if( localPlayer.room == msg.room) {
                 remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
                 var mes = scene.getMeshByID(msg.id);
                 mes.dispose();
-            }
+            //}
         } else if (msg.e == 'shoot'){
             var player = playerById(msg.id);
             if (!player) logg(msg);
-            if( localPlayer.room == msg.room) {
+            //if( localPlayer.room == msg.room) {
                 var meshh = scene.getMeshByID(msg.id);
                 var poss = meshh.position;
                 var bullet = new Bullet();
                 //            bullet.remoteBullet(msg.id, msg.pos, msg.dir);
                 bullet.remoteBullet(msg.id, poss, msg.dir, msg.d2);
-            }
+            //}
         } else if (msg.e == 'chat'){
             console.log();
             //var player = playerById(msg.id);
@@ -527,7 +528,7 @@ loader.onFinish = function (tasks) {
     engine.runRenderLoop(function () {
         scene.render();
         stats.innerHTML = "<div class='stat'>Total vertices: " +    scene.getTotalVertices() + "<br>"
-                        + "Active particles: " +                    scene.getActiveParticles() + "<br>"
+                        //+ "Active particles: " +                    scene.getActiveParticles() + "<br>"
                         + "Room number: <b style='color:red;'>" +   localPlayer.room + "</b><br><br>"
                         + "FPS: <b>" +                              engine.getFps().toFixed() + "</b><BR>"
                         //+ "Frame duration: " +                      scene.getLastFrameDuration() + " ms<br><br>"
