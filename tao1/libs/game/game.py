@@ -190,26 +190,13 @@ class Rooms(defaultdict):
     def __init__(self, db_path):
         defaultdict.__init__(self, Room)
         self.db_path = db_path
-        if settings.sharded and not os.path.exists(db_path):
-            raise Exception("Db path does not exist: '{}' ({})".format(db_path, os.getcwd()))
 
-    if settings.sharded:
-        def list(self):
-            # список комнат
-            for room_id in os.listdir(self.db_path):
-                yield room_id, os.path.join(self.db_path, room_id)
+    def list(self):
+        for k in self.keys():
+            yield k, ''
 
-        def clean(self):
-            # после рестарта сервера у нас куча бессмысленного мусора на диске
-            for room_id, path in self.list():
-                os.unlink(path)
-    else:
-        def list(self):
-            for k in self.keys():
-                yield k, ''
-
-        def clean(self):
-            pass
+    def clean(self):
+        pass
 
 
 # =====================================================================================================================
@@ -239,117 +226,31 @@ def test_mesh(request):
 
 @asyncio.coroutine
 def pregame(request):
-    room = json.dumps({ uuid4().hex[:3] :[]})
+    return templ('libs.game:pregame', request, {})
 
-    if not os.path.exists("db.txt"):    # if os.stat("db.txt").st_size == 0:
-        with open('db.txt', 'wb') as f:
-            pickle.dump({ uuid4().hex[:3] :[]}, f)
+
+
+
+@asyncio.coroutine
+def check_room(request):
+    # Если мы не шардим и у нас всё в один процесс - нам файлы даром не упали, у нас все комнаты уже в памяти
+    found = 0
+    for _id, room in rooms.items():
+        found = max(_id, found)
+        if len(room.players) < 3:
+            print('players in room < 3:', _id)
+            found = _id
+            break
     else:
-        with open('db.txt', 'rb') as f:
-            room = pickle.load( f )
+        found += 1
 
-    return templ('libs.game:pregame', request, {"room":room})
-
-
-if not settings.sharded:
-
-    @asyncio.coroutine
-    def check_room(request):
-        # Если мы не шардим и у нас всё в один процесс - нам файлы даром не упали, у нас все комнаты уже в памяти
-        found = 0
-        for _id, room in rooms.items():
-            found = max(_id, found)
-            if len(room.players) < 3:
-                print('players in room < 3:', _id)
-                found = _id
-                break
-        else:
-            found += 1
-
-        print('rroomm', found)
-        return response_json(request, {"result": "ok", "room": found})
-
-else:
-
-    @asyncio.coroutine
-    def check_room(request):
-        # А вот если несколько процессов - нам файлы нунжы,
-        # но тогда и веб-сокеты нужно согласовывать, какой процесс какую комнату обслуживает
-        found = 0
-        for _id, path in rooms.list():
-            found = max(_id, found)
-            with open(path, 'rb') as f:
-                room = pickle.load(f)
-                if len(room.players) < 3:
-                    print('players in room < 3:', _id)
-                    found = _id
-                    break
-        else:
-            found += 1
-
-        print('rroomm', found)
-        return response_json(request, {"result": "ok", "room": found})
+    print('rroomm', found)
+    return response_json(request, {"result": "ok", "room": found})
 
 
-# @asyncio.coroutine
-# def check_room(request):
-#     room=0.1
-#     with open('db.txt', 'rb') as f:
-#         rooms = pickle.load( f )
-#         for k, v in rooms.items():
-#             if len(v) < 3:
-#                 print ( 'if len(v) < 1:' )
-#                 room = k
-#                 # f.write( room )
-#         f.close()
-#     if room==0.1:
-#         r = None
-#         with open('db.txt', 'rb') as f:
-#             r = pickle.load( f )
-#         with open('db.txt', 'wb') as f:
-#             room = uuid4().hex[:3]
-#             r.update({ room :[]})
-#             pickle.dump(r, f)
-#
-#     print('rroomm', room)
-#     return response_json(request, {"result":"ok", "room":room} )
-#
-#
 def babylon(request):
     """just draw a page of beginning of the game"""
     return templ('libs.game:game', request, {})
-
-
-# def send_all(mess, except_=tuple()):
-#     mess = json.dumps(mess)
-#     # print('mess', mess)
-#     for client in clients:
-#         if client not in except_:
-#             client.send_str(mess)
-
-
-# def dell_user_in_db(room, user):
-#     ff = ""
-#     with open('db.txt', 'rb') as f:
-#         ff = pickle.load( f )
-#         room = ff.get(room)
-#         room.remove(user)
-#     with open('db.txt', 'wb') as f:
-#         pickle.dump(ff, f)
-
-# def add_user_in_db(room, user):
-#     print('>>>>>>>>>>>>>>>>>>>>>',room, user)
-#     ff = ""
-#     with open('db.txt', 'rb') as f:
-#         ff = pickle.load( f )
-#         room = ff.get(room)
-#         room.append(user)
-#     with open('db.txt', 'wb') as f:
-#         pickle.dump(ff, f)
-
-def show_db():
-    with open('db.txt', 'rb') as f:
-        print( pickle.load( f ) )
 
 
 def h_new(me, e):
