@@ -392,13 +392,13 @@ def close(me):
 
 def clean(me):
 
-    print("clean>>>>>>>>>>>>>>",
-              ' me:', str(me),
-              # ' me.id:', str(me.id),
-              ' me.player:', me.player,
-              ' me.player.room:', me.player.room,
-              ' me.player.id:', me.player.id
-          )
+    # print("clean>>>>>>>>>>>>>>",
+    #           ' me:', str(me),
+    #           # ' me.id:', str(me.id),
+    #           ' me.player:', me.player,
+    #           ' me.player.room:', me.player.room,
+    #           ' me.player.id:', me.player.id
+    #       )
 
 
     if hasattr(me, 'player'):
