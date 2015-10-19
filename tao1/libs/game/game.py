@@ -177,7 +177,7 @@ class Rooms(defaultdict):
     def __init__(self, db_path):
         defaultdict.__init__(self, Room)
         self.db_path = db_path
-        if not os.path.exists(db_path):
+        if settings.sharded and not os.path.exists(db_path):
             raise Exception("Db path does not exist: '{}' ({})".format(db_path, os.getcwd()))
 
     if settings.sharded:

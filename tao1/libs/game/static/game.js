@@ -256,7 +256,8 @@ var createScene = function () {
         }
     }, false);
 
-    var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host+':6677/game_handler';
+    //var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host+':6677/game_handler';
+    var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host+'/game_handler';
     ws = new WebSocket(wsUri);
    	remotePlayers = [];
     handlers(scene, camera);
