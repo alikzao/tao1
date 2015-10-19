@@ -4,6 +4,7 @@ from aiohttp import web
 import aiohttp
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
 from core.union import response_json
+import settings
 from settings import *
 from collections import defaultdict
 
@@ -178,17 +179,25 @@ class Rooms(defaultdict):
         defaultdict.__init__(self, Room)
         self.db_path = db_path
         if not os.path.exists(db_path):
-            raise Exception("Db path does not exist: '{}'".format(db_path))
+            raise Exception("Db path does not exist: '{}' ({})".format(db_path, os.getcwd()))
 
-    def list(self):
-        # список комнат
-        for room_id in os.listdir(self.db_path):
-            yield room_id, os.path.join(self.db_path, room_id)
+    if settings.sharded:
+        def list(self):
+            # список комнат
+            for room_id in os.listdir(self.db_path):
+                yield room_id, os.path.join(self.db_path, room_id)
 
-    def clean(self):
-        # после рестарта сервера у нас куча бессмысленного мусора на диске
-        for room_id, path in self.list():
-            os.unlink(path)
+        def clean(self):
+            # после рестарта сервера у нас куча бессмысленного мусора на диске
+            for room_id, path in self.list():
+                os.unlink(path)
+    else:
+        def list(self):
+            for k in self.keys():
+                yield k, ''
+
+        def clean(self):
+            pass
 
 
 # =====================================================================================================================
