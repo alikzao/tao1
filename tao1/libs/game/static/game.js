@@ -527,19 +527,15 @@ var scene = createScene();
 loader.onFinish = function (tasks) {
     engine.runRenderLoop(function () {
         scene.render();
-        stats.innerHTML = "<div class='stat'>Total vertices: " +    scene.getTotalVertices() + "<br>"
-                        //+ "Active particles: " +                    scene.getActiveParticles() + "<br>"
+        stats.innerHTML = "<div class='stat'>"
+                        + "FPS: <b>" +                              engine.getFps().toFixed() + "</b><br>"
                         + "Room number: <b style='color:red;'>" +   localPlayer.room + "</b><br><br>"
-                        + "FPS: <b>" +                              engine.getFps().toFixed() + "</b><BR>"
-                        //+ "Frame duration: " +                      scene.getLastFrameDuration() + " ms<br><br>"
-                        //+ "<i>Evaluate Active Meshes duration:</i> " + scene.getEvaluateActiveMeshesDuration() + " ms<br>"
-                        //+ "<i>Render Targets duration:</i> " +      scene.getRenderTargetsDuration() + " ms<br>"
-                        //+ "<i>Particles duration:</i> " +           scene.getParticlesDuration() + " ms<br>"
-                        //+ "<i>Sprites duration:</i> " +             scene.getSpritesDuration() + " ms<br>"
-                        + "<i>Render duration:</i> " +              scene.getRenderDuration() + " ms"
-                        + "<BR><BR>"
-                        + "Camera Position: (" + camera.position.x.toFixed(4) + ", " + camera.position.y.toFixed(4) + ", " + camera.position.z.toFixed(4) + ")<BR>"
-                        + "View Range: "+ camera.maxZ +"</div>";
+
+                        + "Total vertices: " +    scene.getTotalVertices() + "<br>"
+                        + "View Range: "+ camera.maxZ +"<br>"
+                        + "<i>Render duration:</i> " +scene.getRenderDuration() + " ms <br>"
+                        + "Camera Position: (" + camera.position.x.toFixed(4) + ", " + camera.position.y.toFixed(4) + ", " + camera.position.z.toFixed(4) + ")" +
+            "</div>";
     });
 };
 window.addEventListener("resize", function () { engine.resize(); });
@@ -552,6 +548,12 @@ window.addEventListener("resize", function () { engine.resize(); });
 
 
 
+                        //+ "Active particles: " +                    scene.getActiveParticles() + "<br>"
+                        //+ "Frame duration: " +                      scene.getLastFrameDuration() + " ms<br><br>"
+                        //+ "<i>Evaluate Active Meshes duration:</i> " + scene.getEvaluateActiveMeshesDuration() + " ms<br>"
+                        //+ "<i>Render Targets duration:</i> " +      scene.getRenderTargetsDuration() + " ms<br>"
+                        //+ "<i>Particles duration:</i> " +           scene.getParticlesDuration() + " ms<br>"
+                        //+ "<i>Sprites duration:</i> " +             scene.getSpritesDuration() + " ms<br>"
 
 
 

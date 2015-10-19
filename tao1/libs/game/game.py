@@ -1,4 +1,4 @@
-import sys, os, time, asyncio, jinja2, aiohttp_jinja2, json, traceback
+import sys, os, time, asyncio, jinja2, aiohttp_jinja2, json, traceback, pickle
 from uuid import uuid4
 from aiohttp import web
 import aiohttp
@@ -13,16 +13,12 @@ from collections import defaultdict
 
 rooms = defaultdict(set)
 
-
-
-
 @asyncio.coroutine
 def game(request):
     # room = request.match_info.get('room', "1")
     # with open('db.txt', 'r') as f:
     #     room = f.read()
     #     print ("file not empty: "+room, )
-
     return templ('libs.game:babylon', request, {})
 
 
@@ -32,49 +28,41 @@ def test_mesh(request):
 
 
 @asyncio.coroutine
-def check_room(request):
-    room=0.1
-    with open('db.txt', 'r') as f:
-        ff = f.read()
-        print('22222', ff, type(ff), '=========')
-        rooms = json.loads( ff )
-        print('22222', ff, type(rooms))
-        # rooms = json.loads( ff )
-        # print('check', rooms)
-
-        for k, v in rooms.items():
-            print('www k', k, ' v ', v, ' len ', len(v), len(v) < 5)
-            if len(v) < 3:
-                room = k
-                print( room )
-        f.close()
-    if room==0.1:
-        room = uuid4().hex[:3]
-
-    print('rroomm', room)
-
-    return response_json(request, {"result":"ok", "room":room} )
-    # return json.dumps( {"result":"ok", "room":room} )
-
-
-@asyncio.coroutine
 def pregame(request):
     room = json.dumps({ uuid4().hex[:3] :[]})
 
-    if not os.path.exists("db.txt"):
-        with open('db.txt', 'w', encoding='utf-8') as f:
-            print(room, file=f)
-            f.close()
-    if os.stat("db.txt").st_size == 0:
-        with open('db.txt', 'w', encoding='utf-8') as f:
-            print(room, file=f)
+    if not os.path.exists("db.txt"):    # if os.stat("db.txt").st_size == 0:
+        with open('db.txt', 'wb') as f:
+            pickle.dump({ uuid4().hex[:3] :[]}, f)
             f.close()
     else:
-        with open('db.txt', 'r') as f:
-            room = f.read()
-            # print ("file not empty: "+room )
+        with open('db.txt', 'rb') as f:
+            room = pickle.load( f )
             f.close()
+
     return templ('libs.game:pregame', request, {"room":room})
+
+
+@asyncio.coroutine
+def check_room(request):
+    room=0.1
+    with open('db.txt', 'rb') as f:
+        rooms = pickle.load( f )
+        for k, v in rooms.items():
+            if len(v) < 3:
+                print ( 'if len(v) < 1:' )
+                room = k
+                # f.write( room )
+        f.close()
+    if room==0.1:
+        print( 'if room==0.1:' )
+        with open('db.txt', 'ab') as f:
+            room = uuid4().hex[:3]
+            pickle.dump({ room :[]}, f)
+            f.close()
+
+    print('rroomm', room)
+    return response_json(request, {"result":"ok", "room":room} )
 
 
 def babylon(request):
@@ -145,6 +133,34 @@ def send_all(mess, except_=tuple()):
             client.send_str(mess)
 
 
+def dell_user_in_db(room, user):
+    ff = ""
+    with open('db.txt', 'rb') as f:
+        ff = pickle.load( f )
+        room = ff.get(room)
+        room.remove(user)
+        f.close()
+    with open('db.txt', 'wb') as f:
+        pickle.dump(ff, f)
+        f.close()
+
+def add_user_in_db(room, user):
+    print('>>>>>>>>>>>>>>>>>>>>>',room, user)
+    ff = ""
+    with open('db.txt', 'rb') as f:
+        ff = pickle.load( f )
+        room = ff.get(room)
+        room.append(user)
+        f.close()
+    with open('db.txt', 'wb') as f:
+        pickle.dump(ff, f)
+        f.close()
+
+def show_db():
+    with open('db.txt', 'rb') as f:
+        print( pickle.load( f ) )
+
+
 def h_new(me, e):
     global last_id
     assert not hasattr(me, 'player'), id(me)
@@ -154,6 +170,9 @@ def h_new(me, e):
     me.player.id = last_id
     # me.player.room = e['room']
     me.player.room = rooms[e['room']]
+
+    add_user_in_db( e['room'], last_id )
+    show_db()
 
     last_id += 1
 
@@ -209,6 +228,7 @@ def close(me):
 def clean(me):
     if hasattr(me, 'player'):
         me.player.room.remove(me.player)
+        dell_user_in_db(me.player.room, me.player)
         # players.remove(me.player)
     else:
         print("onClientDisconnect   no player found", str(me.id))
@@ -286,3 +306,17 @@ def game_handler(request):
 #             return player
 #     return None
 
+
+
+    # if not os.path.exists("db.txt"):
+    #     with open('db.txt', 'w', encoding='utf-8') as f:
+    #         print(room, file=f)
+    #         f.close()
+    # if os.stat("db.txt").st_size == 0:
+    #     with open('db.txt', 'w', encoding='utf-8') as f:
+    #         print(room, file=f)
+    #         f.close()
+    # else:
+    #     with open('db.txt', 'r') as f:
+    #         room = f.read()
+    #         f.close()
