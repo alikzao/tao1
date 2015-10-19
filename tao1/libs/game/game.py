@@ -142,7 +142,6 @@ class Room(object):
 
     def send_all(self, mess, except_=tuple()):
         mess = json.dumps(mess)
-        # print('mess', mess)
         for player in self._players:
             if player not in except_:
                 player.client.send_str(mess)
@@ -161,25 +160,9 @@ class Room(object):
         self._players.remove(player)
         self.updated()
 
-    if not settings.sharded:
-        def updated(self):
-            # обновляем состояние (пока нечего обновлять)
-            pass
-    else:
-        def updated(self):
-            # обновляем состояние (сохраняем комнату на диск)
-            self.save()
-
-        def save(self):
-            path = Room.path(self.id)
-            if len(self.players):
-                # Если есть игроки - сохраняем
-                with open(path, 'wb') as f:
-                    pickle.dump(self, f)
-            else:
-                # Если нет - удаляем
-                if os.path.exists(path):
-                    os.unlink(path)
+    def updated(self):
+        # обновляем состояние (пока нечего обновлять)
+        pass
 
     @staticmethod
     def path(_id):
