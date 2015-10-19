@@ -74,6 +74,13 @@ def babylon(request):
     return templ('libs.game:game', request, {})
 
 
+class Bot():
+    def __init__(self, startX, startY):
+        self.id = None
+        self._x = startX; self._y = startY; self._z = 0
+        self._a = 0; self._b = 0
+
+
 class Player():
     def __init__(self, startX, startY):
         self.id = None
@@ -231,9 +238,19 @@ def close(me):
 
 
 def clean(me):
+
+    print("clean>>>>>>>>>>>>>>",
+              ' me:', str(me),
+              # ' me.id:', str(me.id),
+              ' me.player:', me.player,
+              ' me.player.room:', me.player.room,
+              ' me.player.id:', me.player.id
+          )
+
+
     if hasattr(me, 'player'):
         me.player.room.remove(me.player)
-        dell_user_in_db(me.player.room, me.player)
+        dell_user_in_db(me.player.room, me.player.id)
         # players.remove(me.player)
     else:
         print("onClientDisconnect   no player found", str(me.id))
