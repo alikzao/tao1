@@ -24,7 +24,7 @@ from aiohttp_debugtoolbar import toolbar_middleware_factory
 from aiohttp_session import session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
-
+import pymongo
 # from libs.app.view import *
 import settings
 # from core.utils import db_handler
@@ -35,8 +35,13 @@ mc = None
 @asyncio.coroutine
 def init(loop):
     global mc
-    app = web.Application(loop=loop, middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(),
-                                                   session_middleware( EncryptedCookieStorage( settings.session_key ))])
+
+    middlewares = []
+    middlewares.append(aiohttp_debugtoolbar.middleware)
+    middlewares.append(db_handler())
+    middlewares.append(session_middleware(EncryptedCookieStorage(settings.session_key)))
+
+    app = web.Application(loop=loop, middlewares=middlewares)
     # app = web.Application(loop=loop, middlewares=[ db_handler() ])
     # app['sockets'] = []
     aiohttp_debugtoolbar.setup(app)
@@ -44,9 +49,19 @@ def init(loop):
     # mod = builtins.__import__('apps.app.routes', globals=globals())
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
-    mc = aiomcache.Client("127.0.0.1", 11211, loop=loop)
-    app.mc = mc
+    # Memcache init
+    app.mc = aiomcache.Client("127.0.0.1", 11211, loop=loop)
 
+    # Mongo init
+    if settings.database is not None:
+        db_inf, kw = settings.database, dict()
+        if 'rs' in db_inf: kw['replicaSet'] = db_inf['rs']
+        mongo = pymongo.MongoClient(db_inf['host'], 27017)
+        app.db = mongo[db_inf['name']]
+        if 'login' in settings.database:
+            app.db.authenticate(settings.database['login'], settings.database['pass'])
+    else:
+        app.db = None
 
     union_routes(os.path.join ( settings.tao_path, 'libs' ) )
     union_routes(os.path.join ( settings.root_path, 'apps') )
@@ -202,19 +217,19 @@ def db_handler():
             if request.path.startswith('/static/') or request.path.startswith('/_debugtoolbar'):
                 response = yield from handler(request)
                 return response
-            # init
-            db_inf = settings.database
-            kw = {}
-            if 'rs' in db_inf: kw['replicaSet'] = db_inf['rs']
+            # # init
+            # db_inf = settings.database
+            # kw = {}
+            # if 'rs' in db_inf: kw['replicaSet'] = db_inf['rs']
 
-            from pymongo import MongoClient
-            mongo = MongoClient( db_inf['host'], 27017)
-            db = mongo[ db_inf['name'] ]
-            db.authenticate(settings.database['login'], settings.database['pass'] )
-            request.db = db
+            # from pymongo import MongoClient
+            # mongo = MongoClient( db_inf['host'], 27017)
+            # db = mongo[ db_inf['name'] ]
+            # db.authenticate(settings.database['login'], settings.database['pass'] )
+            request.db = app.db
             # процессинг запроса (дальше по цепочки мидлверов и до приложения)
             response = yield from handler(request)
-            mongo.close() # yield from db.close()
+            # mongo.close() # yield from db.close()
             # экземеляр рабочего объекта по цепочке вверх до библиотеки
             return response
         return middleware
