@@ -163,7 +163,6 @@ class Room(object):
                 # Если есть игроки - сохраняем
                 with open(path, 'wb') as f:
                     pickle.dump(self, f)
-                    f.close()
             else:
                 # Если нет - удаляем
                 if os.path.exists(path):
@@ -232,11 +231,9 @@ def pregame(request):
     if not os.path.exists("db.txt"):    # if os.stat("db.txt").st_size == 0:
         with open('db.txt', 'wb') as f:
             pickle.dump({ uuid4().hex[:3] :[]}, f)
-            f.close()
     else:
         with open('db.txt', 'rb') as f:
             room = pickle.load( f )
-            f.close()
 
     return templ('libs.game:pregame', request, {"room":room})
 
@@ -296,12 +293,10 @@ else:
 #         r = None
 #         with open('db.txt', 'rb') as f:
 #             r = pickle.load( f )
-#             f.close()
 #         with open('db.txt', 'wb') as f:
 #             room = uuid4().hex[:3]
 #             r.update({ room :[]})
 #             pickle.dump(r, f)
-#             f.close()
 #
 #     print('rroomm', room)
 #     return response_json(request, {"result":"ok", "room":room} )
@@ -326,10 +321,8 @@ def babylon(request):
 #         ff = pickle.load( f )
 #         room = ff.get(room)
 #         room.remove(user)
-#         f.close()
 #     with open('db.txt', 'wb') as f:
 #         pickle.dump(ff, f)
-#         f.close()
 
 # def add_user_in_db(room, user):
 #     print('>>>>>>>>>>>>>>>>>>>>>',room, user)
@@ -338,10 +331,8 @@ def babylon(request):
 #         ff = pickle.load( f )
 #         room = ff.get(room)
 #         room.append(user)
-#         f.close()
 #     with open('db.txt', 'wb') as f:
 #         pickle.dump(ff, f)
-#         f.close()
 
 def show_db():
     with open('db.txt', 'rb') as f:
@@ -493,12 +484,9 @@ def game_handler(request):
     # if not os.path.exists("db.txt"):
     #     with open('db.txt', 'w', encoding='utf-8') as f:
     #         print(room, file=f)
-    #         f.close()
     # if os.stat("db.txt").st_size == 0:
     #     with open('db.txt', 'w', encoding='utf-8') as f:
     #         print(room, file=f)
-    #         f.close()
     # else:
     #     with open('db.txt', 'r') as f:
     #         room = f.read()
-    #         f.close()
