@@ -53,15 +53,7 @@ def init(loop):
     app.mc = aiomcache.Client("127.0.0.1", 11211, loop=loop)
 
     # Mongo init
-    if settings.database is not None:
-        db_inf, kw = settings.database, dict()
-        if 'rs' in db_inf: kw['replicaSet'] = db_inf['rs']
-        mongo = pymongo.MongoClient(db_inf['host'], 27017)
-        app.db = mongo[db_inf['name']]
-        if 'login' in settings.database:
-            app.db.authenticate(settings.database['login'], settings.database['pass'])
-    else:
-        app.db = None
+    db_connect(app)
 
     union_routes(os.path.join ( settings.tao_path, 'libs' ) )
     union_routes(os.path.join ( settings.root_path, 'apps') )
@@ -76,6 +68,17 @@ def init(loop):
     srv = yield from loop.create_server(app.make_handler(), '127.0.0.1', 6677)
     print("Server started at http://127.0.0.1:6677")
     return srv
+
+def db_connect(app):
+    if settings.database is not None:
+        db_inf, kw = settings.database, dict()
+        if 'rs' in db_inf: kw['replicaSet'] = db_inf['rs']
+        mongo = pymongo.MongoClient(db_inf['host'], 27017)
+        app.db = mongo[db_inf['name']]
+        if 'login' in settings.database:
+            app.db.authenticate(settings.database['login'], settings.database['pass'])
+    else:
+        app.db = None
 
 
 def init_gunicorn():
