@@ -310,7 +310,7 @@ def response_string(request, text: str, encoding='utf-8'):
     return response
 
 
-def response_json(request, struct: str, encoding='utf-8'):
+def response_json(request, struct, encoding='utf-8'):
     response = web.Response()
     response.content_type = 'application/json'
     response.charset = encoding
