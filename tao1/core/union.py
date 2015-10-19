@@ -6,7 +6,7 @@ import pickle
 import aiohttp.web_reqrep
 import hashlib
 
-assert sys.version >= '3.4', 'Please use Python 3.4 or higher.'
+assert sys.version_info >= (3, 4), 'Please use Python 3.4 or higher.'
 
 import asyncio
 import builtins
@@ -310,7 +310,7 @@ def response_string(request, text: str, encoding='utf-8'):
     return response
 
 
-def response_json(request, struct: str, encoding='utf-8'):
+def response_json(request, struct, encoding='utf-8'):
     response = web.Response()
     response.content_type = 'application/json'
     response.charset = encoding
