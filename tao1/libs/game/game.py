@@ -55,14 +55,10 @@ def check_room(request):
                 # f.write( room )
         f.close()
     if room==0.1:
-        r = None
-        with open('db.txt', 'rb') as f:
-            r = pickle.load( f )
-            f.close()
-        with open('db.txt', 'wb') as f:
+        print( 'if room==0.1:' )
+        with open('db.txt', 'ab') as f:
             room = uuid4().hex[:3]
-            r.update({ room :[]})
-            pickle.dump(r, f)
+            pickle.dump({ room :[]}, f)
             f.close()
 
     print('rroomm', room)
@@ -175,7 +171,6 @@ def h_new(me, e):
     # me.player.room = e['room']
     me.player.room = rooms[e['room']]
 
-    show_db()
     add_user_in_db( e['room'], last_id )
     show_db()
 
