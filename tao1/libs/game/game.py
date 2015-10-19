@@ -55,14 +55,10 @@ def check_room(request):
                 # f.write( room )
         f.close()
     if room==0.1:
-        r = None
-        with open('db.txt', 'rb') as f:
-            r = pickle.load( f )
-            f.close()
-        with open('db.txt', 'wb') as f:
+        print( 'if room==0.1:' )
+        with open('db.txt', 'ab') as f:
             room = uuid4().hex[:3]
-            r.update({ room :[]})
-            pickle.dump(r, f)
+            pickle.dump({ room :[]}, f)
             f.close()
 
     print('rroomm', room)
@@ -72,13 +68,6 @@ def check_room(request):
 def babylon(request):
     """just draw a page of beginning of the game"""
     return templ('libs.game:game', request, {})
-
-
-class Bot():
-    def __init__(self, startX, startY):
-        self.id = None
-        self._x = startX; self._y = startY; self._z = 0
-        self._a = 0; self._b = 0
 
 
 class Player():
@@ -182,7 +171,6 @@ def h_new(me, e):
     # me.player.room = e['room']
     me.player.room = rooms[e['room']]
 
-    show_db()
     add_user_in_db( e['room'], last_id )
     show_db()
 
@@ -238,19 +226,9 @@ def close(me):
 
 
 def clean(me):
-
-    print("clean>>>>>>>>>>>>>>",
-              ' me:', str(me),
-              # ' me.id:', str(me.id),
-              ' me.player:', me.player,
-              ' me.player.room:', me.player.room,
-              ' me.player.id:', me.player.id
-          )
-
-
     if hasattr(me, 'player'):
         me.player.room.remove(me.player)
-        dell_user_in_db(me.player.room, me.player.id)
+        dell_user_in_db(me.player.room, me.player)
         # players.remove(me.player)
     else:
         print("onClientDisconnect   no player found", str(me.id))
