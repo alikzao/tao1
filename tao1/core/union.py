@@ -6,7 +6,7 @@ import pickle
 import aiohttp.web_reqrep
 import hashlib
 
-assert sys.version >= '3.4', 'Please use Python 3.4 or higher.'
+assert sys.version_info >= (3, 4), 'Please use Python 3.4 or higher.'
 
 import asyncio
 import builtins
