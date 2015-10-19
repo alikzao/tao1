@@ -34,6 +34,12 @@ class Player(list):
     def id(self):
         return self._id
 
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        return other is self
+
     @property
     def room(self):
         """:rtype: Room """
@@ -123,6 +129,13 @@ class Player(list):
 
 
 class Room(object):
+
+    @staticmethod
+    def get(_id):
+        if not _id in rooms:
+            rooms[_id] = Room(_id)
+        return rooms[_id]
+
     def __init__(self, _id):
         self.id = _id
         self._players = set()
@@ -340,9 +353,9 @@ def show_db():
 
 
 def h_new(me, e):
-    assert not hasattr(me, 'player'), id(me)
+    assert not hasattr(me, 'player'), [id(me), e]
 
-    me.player = Player(me, rooms[e['room']], e['x'], e['y'])
+    me.player = Player(me, Room.get(e['room']), e['x'], e['y'])
 
     mess = dict(e="new", room=e['room'], id=me.player.id, msg='newPlayer', **me.player.as_dict)
     me.player.room.send_all(mess, except_=(me.player,))
@@ -354,7 +367,7 @@ def h_new(me, e):
 
 
 def h_move(me, e):
-    assert hasattr(me, 'player'), id(me)
+    assert hasattr(me, 'player'), [id(me), e]
     me.player.set_pos(e['x'], e['y'], e['z'])
     # print( 'e :', e )
     mess = dict(e="move", id=me.player.id, msg='move', **me.player.pos_as_dict)
@@ -362,7 +375,7 @@ def h_move(me, e):
 
 
 def h_rotate(me, e):
-    assert hasattr(me, 'player'), id(me)
+    assert hasattr(me, 'player'), [id(me), e]
     me.player.set_rot(e['a'], e['b'])
 
     mess = dict(e="rotate", id=me.player.id, msg='rotate', **me.player.rot_as_dict)
@@ -370,13 +383,13 @@ def h_rotate(me, e):
 
 
 def h_shoot(me, e):
-    assert hasattr(me, 'player'), id(me)
+    assert hasattr(me, 'player'), [id(me), e]
     mess = {'e':"shoot", 'id':me.player.id, 'pos':e['pos'], 'dir':e['dir'], 'd2':e['d2'], 'msg':'#{} says: pif-paf'.format(me.player.id) }
     me.player.room.send_all(mess, except_=(me.player,))
 
 
 def h_chat(me, e):
-    assert hasattr(me, 'player'), id(me)
+    assert hasattr(me, 'player'), [id(me), e]
 
     mess = {'e': "chat", 'id': me.player.id, 'mes': e['mes']}
     me.player.room.send_all(mess, except_=(me.player,))
