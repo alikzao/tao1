@@ -256,8 +256,8 @@ var createScene = function () {
         }
     }, false);
 
-    //var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host+':6677/game_handler';
-    var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host+'/game_handler';
+    var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.hostname+':6677/game_handler';
+    //console.log(window.location.hostname+':'+window.location.port);
     ws = new WebSocket(wsUri);
    	remotePlayers = [];
     handlers(scene, camera);
@@ -271,7 +271,9 @@ function handlers(scene, camera){
 //    };
     ws.onopen = function() {
         var room = window.location.hash;
-        room = room.substr(-3);
+
+        room = room.replace("#","");
+        //room = room.substr(-3);
         localPlayer.room = room;
        	console.log("Connected to socket server", localPlayer.getX(), localPlayer.getY(), 'hash===>', room );
     	ws.send( JSON.stringify({'e':"new", 'x':localPlayer.getX(), 'y':localPlayer.getY(), 'room':room}) );

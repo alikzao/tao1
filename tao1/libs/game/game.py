@@ -164,31 +164,11 @@ class Room(object):
         # обновляем состояние (пока нечего обновлять)
         pass
 
-    @staticmethod
-    def path(_id):
-        return os.path.join(rooms.db_path, str(_id))
-
-
-class Rooms(defaultdict):
-    def __init__(self, db_path):
-        defaultdict.__init__(self, Room)
-        self.db_path = db_path
-
-    def list(self):
-        for k in self.keys():
-            yield k, ''
-
-    def clean(self):
-        pass
-
-
 # =====================================================================================================================
-
 
 socket = None
 clients = set()
-rooms = Rooms(db_path='db')
-
+rooms = dict()
 
 # =====================================================================================================================
 
@@ -212,21 +192,18 @@ def pregame(request):
     return templ('libs.game:pregame', request, {})
 
 
-
-
 @asyncio.coroutine
 def check_room(request):
-    # Если мы не шардим и у нас всё в один процесс - нам файлы даром не упали, у нас все комнаты уже в памяти
-    found = 0
+    found = None
     for _id, room in rooms.items():
-        found = max(_id, found)
         if len(room.players) < 3:
             print('players in room < 3:', _id)
             found = _id
             break
     else:
-        found += 1
-
+        while not found:
+            _id = uuid4().hex[:3]
+            if _id not in rooms: found = _id
     print('rroomm', found)
     return response_json(request, {"result": "ok", "room": found})
 
