@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
-import os, re
+import sys, os, re
 
 
 # version = __import__(tao1).__version__
+
+if sys.version_info < (3, 4, 1):
+    raise RuntimeError("tao1 requires Python 3.4.1+")
 
 setup(name='tao1',
       version="0.1.8.2",
