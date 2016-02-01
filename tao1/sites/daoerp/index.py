@@ -19,9 +19,22 @@ from core.union import init
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete( init( loop ) )
-try: loop.run_forever()
-except KeyboardInterrupt:  pass 
+srv, handler, app= loop.run_until_complete( init( loop ) )
+try:
+	loop.run_forever()
+except KeyboardInterrupt:
+	pass
+finally:
+	srv.close()
+	loop.run_until_complete(srv.wait_closed())
+	loop.run_until_complete(handler.finish_connections(1.0))
+	loop.run_until_complete(app.finish())
+loop.close()
+
+	# if not loop.is_closed():
+	# 	loop.call_soon(loop.stop)
+	# 	loop.run_forever()
+	# 	loop.stop()
 
 
 

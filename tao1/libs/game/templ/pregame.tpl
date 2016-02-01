@@ -8,12 +8,18 @@
 
         <!--<script src="/static/game/detector.js"></script>-->
 
-		<script type="text/javascript" src="/static/app/jquery1.11.min.js"></script>
-		<script type="text/javascript"          src="/static/app/bootstrap/js/bootstrap.min.js" ></script>
-        <link rel="stylesheet" type="text/css" href="/static/app/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="/static/app/bootstrap/css/bootstrap-theme.min.css" />
+		<!--<script type="text/javascript" src="/static/sites/jquery1.11.min.js"></script>-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-        <link rel="stylesheet" href="/static/app/fa/css/font-awesome.min.css">
+		<!--<script type="text/javascript"          src="/static/sites/bootstrap/js/bootstrap.min.js" ></script>-->
+		<script type="text/javascript"   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+        <!--<link rel="stylesheet" type="text/css" href="/static/sites/bootstrap/css/bootstrap.min.css" />-->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" >
+
+        <!--<link rel="stylesheet" type="text/css" href="/static/sites/bootstrap/css/bootstrap-theme.min.css" />-->
+
+        <!--<link rel="stylesheet" href="/static/sites/fa/css/font-awesome.min.css">-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
         <style type="text/css">
             .ctrl1 {
@@ -33,15 +39,15 @@
     <div class="row" style="margin: 5px;">
 		<div class="check_webgl col-xs-7" >
 			<div class="">
-				<h3>Проверка наличия WebGL в браузере.</h3>
+				<h3>Check for WebGL in your browser.</h3>
                 <p>К сожалению старые версии браузеров эту технологию не поддерживают, а internet explorer только начиная с 11 версии поддерживает WebGl. </p>
                 <p>Как правило могут быть несколько случаев отсутствия поддержки это либо старая графическая карточка, либо устаревший браузер. </p>
 			</div>
             <div class="webgl"></div>
             <div class="">
-                <a href="https://support.google.com/chrome/answer/1220892?hl=ru">О подержке WebGl google-chrome</a><br/>
-                <a href="http://askubuntu.com/questions/299345/how-to-enable-webgl-in-chrome-on-ubuntu">Как включить WebGl в google-chrome</a>
-                <a href="http://superuser.com/questions/836832/how-can-i-enable-webgl-in-my-browser"> Как включить WebGl в google-chrome</a>
+                <a href="https://support.google.com/chrome/answer/1220892?hl=ru">Support for WebGl google-chrome</a><br/>
+                <a href="http://askubuntu.com/questions/299345/how-to-enable-webgl-in-chrome-on-ubuntu">How to turn WebGl in google-chrome</a>
+                <a href="http://superuser.com/questions/836832/how-can-i-enable-webgl-in-my-browser"> How to turn WebGl in google-chrome</a>
             </div>
 
             {{ room }}
@@ -58,9 +64,8 @@
                    type: "POST", dataType: "json", url: '/check_room',
                    data: {},
                    success: function (data) {
-                       if (data.result == 'ok') {
+                       if (data.result == 'ok')
                            window.location = '/game#'+data.room;
-                       }
                    }
                });
            });
@@ -118,5 +123,3 @@
 	</body>
 </html>
 
-
-{#   1) setup ->    #}
