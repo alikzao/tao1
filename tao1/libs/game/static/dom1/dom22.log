@@ -1,0 +1,25 @@
+	Exporter version: 3.0.6, Blender version: 2.76 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Python World class constructor completed
+	processing begun of camera (FreeCamera):  Camera
+	processing begun of mesh:  Cube.001
+		processing begun of Standard material:  Material
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UVTex"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/dom2/Water_Towel_Dif copie.jpg' and '/home/user/dev/tao1/libs/game/static/dom2/Water_Towel_Dif copie.jpg' are the same file
+		Bump texture found
+			Image texture found, type:  bumpTexture, mapped using: "UVTex"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/dom2/Water_Towel_Nor copie.jpg' and '/home/user/dev/tao1/libs/game/static/dom2/Water_Towel_Nor copie.jpg' are the same file
+		Emissive texture found
+			Image texture found, type:  emissiveTexture, mapped using: "UVTex"
+	Error encountered processing image file:  , Error:  [Errno 2] No such file or directory: 'A:/4.Photos + logos + stickers/8.Textures/HDRI/SkyDome-Cloud-Few-MidMorning.png'
+		num positions      :  679
+		num normals        :  679
+		num uvs            :  1358
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1632
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 0.0313 secs
