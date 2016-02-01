@@ -8,7 +8,7 @@ if sys.version_info < (3, 4, 1):
     raise RuntimeError("tao1 requires Python 3.4.1+")
 
 setup(name='tao1',
-      version="0.1.8.2",
+      version="0.1.8.3",
       description=("framework, CMS and CRM for aiohttp"),
 #      lond_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
 
