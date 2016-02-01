@@ -1,0 +1,17 @@
+{"autoClear":true,"clearColor":[0.0509,0.0509,0.0509],"ambientColor":[0,0,0],"gravity":[0,-9.81,0],
+"materials":[{"name":"untitled.ac3dmat1","id":"untitled.ac3dmat1","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0.1,0.1,0.1],"emissive":[0,0,0],"specularPower":50,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":true, 
+"diffuseTexture":{"name":"grass02.png","level":1,"hasAlpha":1,"coordinatesMode":0,"uOffset":0,"vOffset":0,"uScale":1,"vScale":1,"uAng":0,"vAng":0,"wAng":0,"wrapU":0,"wrapV":0,"coordinatesIndex":0}}],
+"multiMaterials":[],
+"skeletons":[],
+"meshes":[{"name":"grass02","id":"grass02","materialId":"untitled.ac3dmat1","billboardMode":0,"position":[0,0,0],"rotation":[0,0,0],"scaling":[1,1,1],"isVisible":true,"freezeWorldMatrix":false,"isEnabled":true,"useFlatShading":false,"checkCollisions":false,"receiveShadows":false
+,"positions":[1,2,0,-1,0,0,-1,2,0,1,0,0,0,2,1,0,0,-1,0,0,1,0,2,-1]
+,"normals":[0,0,1,0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0,1,0,0]
+,"uvs":[0,1,1,0,1,1,0,0,1,1,0,0,1,0,0,1]
+,"indices":[0,1,2,1,0,3,4,5,6,5,4,7]
+,"subMeshes":[{"materialIndex":0,"verticesStart":0,"verticesCount":8,"indexStart":0,"indexCount":12}]
+,"instances":[]}
+],
+"cameras":[{"name":"Camera","id":"Camera","position":[7.4811,5.3437,-6.5076],"rotation":[0.4615,-0.8149,0.0108],"fov":0.8576,"minZ":0.1,"maxZ":100,"speed":1,"inertia":0.9,"checkCollisions":false,"applyGravity":false,"ellipsoid":[0.2,0.9,0.2],"cameraRigMode":0,"interaxial_distance":0.0637,"type":"FreeCamera"}],"activeCamera":"Camera",
+"lights":[{"name":"Lamp","id":"Lamp","type":0,"position":[4.0762,5.9039,1.0055],"intensity":1,"diffuse":[1,1,1],"specular":[1,1,1]}],
+"shadowGenerators":[]
+}
