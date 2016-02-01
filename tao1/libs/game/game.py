@@ -129,7 +129,7 @@ class Bot(Player):
                     # print(vx, vz)
                     self.x += .9 * vx * delta
                     self.z += .9 * vz * delta
-                    self.y = -3
+                    self.y = -2
                     # print('self.x', self.x)
                     # print('new pos:', self.pos, 'delta', delta)
                     mess = dict(e="move", bot=1, id=self.id, **self.pos_as_dict)
