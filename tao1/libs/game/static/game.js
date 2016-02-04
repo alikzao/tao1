@@ -7,7 +7,7 @@ var lock = true;
 var canvas = document.getElementById("renderCanvas");
 var stats =  document.getElementById('stats');
 var engine = new BABYLON.Engine(canvas, true);
-var camera, scene, meshList = [], localPlayer, trueDirection, mesh, lmesh, loader, enemy, llmesh;
+var camera, camera2,  scene, meshList = [], localPlayer, trueDirection, mesh, lmesh, loader, enemy, llmesh;
 
 function iniPointerLock(scene, camera) {
     var _this = this;
@@ -69,48 +69,49 @@ function Player(scene, camera, startX, startY, is_local ) {
 	};
     this.getState =  function(){ return { x:mesh.position.x, y:mesh.position.y, z:mesh.position.z, a:mesh.rotation.y, b:mesh.rotation.x}; };
     this.draw = function() {
-//        loader.onFinish = function (tasks) {
-            if (!is_local) {
-                mesh.position = new BABYLON.Vector3(x, y, z);
-                mesh.rotation.x = a;
-                mesh.rotation.y = b;
-            }
-//        };
+        if (!is_local) {
+            mesh.position = new BABYLON.Vector3(x, y, z);
+            //console.warn( 'mesh.position->', mesh.position  );
+
+            mesh.rotation.x = a;
+            mesh.rotation.y = b;
+        }
     };
 
-    this.init = function(name) {
+    this.init = function(name, bot) {
         console.log('is_local->', is_local);
         if (is_local) {
           	lmesh = new BABYLON.Mesh.CreateBox(name, 1.0, scene);
             lmesh.parent = camera;
             //lmesh.isVisible = false;
-//a1 a3 t2 t3-t
             llmesh.onSuccess = function (task) {
                 task.loadedMeshes[0].position = new BABYLON.Vector3(28, -2, 41);
                 mm = task.loadedMeshes[0].clone('new_local');
                 mm.position = new BABYLON.Vector3(4, -4, 11);
-                //console.log('%c success clone FPS @@@ 222! ', 'background: #222; color: red');
+                //console.log('%c success clone FPS @@@ 222! ', 'background: green; color: blue;');
                 //mm.loadedMeshes[0].position = new BABYLON.Vector3(2, -3, 9);
                 //mm.parent = camera;
                 mm.parent = lmesh;
             };
 
         }else {
+            var alpha = 0.0;
+            if(bot==true) alpha = 0.3;
+
             mesh = BABYLON.Mesh.CreateSphere(name, 16, 8, scene);  // 4a4c31
             mesh.material =  new BABYLON.StandardMaterial('texture1', scene);
             mesh.material.diffuseColor = new BABYLON.Color3(0.5, 0.7, 0.4);
-            mesh.material.alpha = 0.0;
+            mesh.material.alpha = alpha;
             //mesh.rotation.x = Math.PI / 6;
             //mesh.rotation.y = Math.PI / 3;
-
             meshList.push( mesh );
-
+            name = ''+get_random();
             mesh.position = new BABYLON.Vector3( 50, -3, -10);
+            //console.log('%c load clone FPS @@@ 222! ', 'background: green; color: blue;', 'bot->',bot, 'name->', name);
             enemy.onSuccess = function (task) {
                 var old_en = task.loadedMeshes[0];
                 nm = task.loadedMeshes[0].clone(name);
                 nm.parent = mesh;
-                //old_en.position = new BABYLON.Vector3(25, 1, 20);
             };
         }
     };
@@ -144,20 +145,29 @@ var createScene = function () {
     camera.angularInertia = 0;
     camera.angularSensibility = 1000;
     camera.layerMask = 2;
-    camera.noRotationConstraint = true;
+    //camera.noRotationConstraint = true;
+
+
+    camera2 = new BABYLON.FreeCamera("minimap", new BABYLON.Vector3(0,170,0), scene);
+    camera2.setTarget(new BABYLON.Vector3(0.0,0.7,0.6));
+    var xstart = 0.7, ystart = 0.75;
+    var width = 0.99-xstart, height = ystart;
+    //camera2.viewport = new BABYLON.Viewport(xstart, ystart, width, height);
+    //camera2.viewport = new BABYLON.Viewport(0.59, 0.58, 0.4, 0.4);
+    camera2.viewport = new BABYLON.Viewport(.39, .39, .6, .6);
+
+    //scene.activeCamera = camera;
+	scene.activeCameras.push(camera);
+    scene.activeCameras.push(camera2);
+
+
+
 
 	var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
     light.diffuse = new BABYLON.Color3(1, 1, 1);
     light.specular = new BABYLON.Color3(1, 1, 1);
     light.groundColor = new BABYLON.Color3(0, 0, 0);
 	//light.intensity = .5;
-
-    //var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene);
-    //spot.diffuse = new BABYLON.Color3(1, 1, 1);
-    //spot.specular = new BABYLON.Color3(0, 0, 0);
-    //spot.intensity = 0.3;
-
-
 	var box1 = BABYLON.Mesh.CreateBox("box1", 2.0, scene);
     box1.position = new BABYLON.Vector3(-73, 0, 6);
     box1.material =  new BABYLON.StandardMaterial('texture1', scene);
@@ -175,7 +185,7 @@ var createScene = function () {
     box3.material =  new BABYLON.StandardMaterial('texture1', scene);
     box3.material.diffuseColor = new BABYLON.Color3(0, 0, 1);
 
-    console.log('%c test log ', 'background: #222; color: #bada55');
+    //console.log('%c test log ', 'background: #222; color: #bada55');
     //enemy = loader.addMeshTask('enemy1', "", "/static/game/t3/", "untitled.babylon");
 
     enemy = loader.addMeshTask('enemy1', "", "/static/game/t3/", "t.babylon");
@@ -341,7 +351,7 @@ var createScene = function () {
         //if(ws.readyState == ws.OPEN ) {
 
             //console.log( { 'e':'move', 'id':localPlayer.id, 'x': camera.position.x, 'y': camera.position.y, 'z': camera.position.z } );
-            ws.send( JSON.stringify( { 'e':'move', 'id':localPlayer.id, 'x': camera.position.x, 'y': camera.position.y,
+            ws.send( JSON.stringify( { 'e':'move', 'id':localPlayer.id, 'x': camera.position.x, 'y': -2, /*camera.position.y,*/
                 'z': camera.position.z } ) );
 
             if (r) ws.send( JSON.stringify( { 'e':'rotate', 'id':localPlayer.id,    'a': localPlayer.getA(),
@@ -423,6 +433,9 @@ var createScene = function () {
 	return scene;
 };
 
+function get_random(){
+    return parseInt( Math.random() * (999 - 100) + 100);
+}
 pre_players = [];
 function handlers(scene, camera){
 //    document.forms.publish.onsubmit = function() {
@@ -443,45 +456,47 @@ function handlers(scene, camera){
     };
     ws.onmessage = function(event){
         var msg = JSON.parse(event.data);
-        //console.log('msg', msg);
+        console.warn('msg', msg);
         if(msg.e == 'new'){
-            console.log("New remote player connected (msg.id): "+msg.id+' msg.msg '+msg.msg );
+            //console.log("New remote player connected (msg.id): "+msg.id+' msg.msg '+msg.msg );
             var newPlayer = new Player(scene, camera, msg.x, msg.y);
             newPlayer.id = msg.id;
-            newPlayer.init(msg.id);
+            newPlayer.init(msg.id, msg.bot);
             remotePlayers.push(newPlayer);    // Add new player to the remote players array
         }else if(msg.e == 'move' ){
            	var movePlayer = playerById(msg.id);
-            if (!movePlayer) logg( msg);
+            if (!movePlayer){ logg( msg); return;}
+            //if(msg.bot == 1)
+                //console.log('%c bot move @@@ ', 'background: yellow; color: blue;');
+            //else lo( 'player move' );
             movePlayer.setX(msg.x);
             movePlayer.setY(msg.y);
             movePlayer.setZ(msg.z);
         }else if(msg.e == 'rotate' ){
            	var rotPlayer = playerById(msg.id);
-            if (!rotPlayer) logg(msg);
+            if (!rotPlayer) { logg( msg); return;}
             rotPlayer.setA(msg.a);
             rotPlayer.setB(msg.b);
         } else if(msg.e == 'remove'){
             var removePlayer = playerById(msg.id);
-            if (!removePlayer) logg(msg);
+            if (!removePlayer) { logg( msg); return;}
             remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
             var mes = scene.getMeshByID(msg.id);
             mes.dispose();
         } else if (msg.e == 'shoot'){
-            console.log('%c success FPS @@@ 222! ', 'background: #222; color: red', msg.d2);
             var player = playerById(msg.id);
-            if (!player) logg(msg);
+            if (!player) { logg( msg); return;}
             var meshh = scene.getMeshByID(msg.id);
             var poss = meshh.position;
             var bullet = new Bullet();
                 //            bullet.remoteBullet(msg.id, msg.pos, msg.dir);
-            bullet.remoteBullet(msg.id, poss, msg.dir, msg.d2, msg.bot);
+            bullet.remoteBullet( poss, msg.d2, msg.bot);
         } else if (msg.e == 'chat'){
-            console.log();
+            //console.log();
             //var player = playerById(msg.id);
             player = localPlayer.getLObject();
 //            if (!player) logg(msg);
-            console.log('msg.id == localPlayer', msg.id, localPlayer.id, msg.id == localPlayer.id);
+//            console.log('msg.id == localPlayer', msg.id, localPlayer.id, msg.id == localPlayer.id);
             showMessage(msg, true);
         }
     };
@@ -498,8 +513,13 @@ function handlers(scene, camera){
 }
 
 function logg(msg){
-    console.log("Player not found: "+msg.id+' msg.msg '+msg.msg ); return;
+    console.log("Player not found: "+msg.id+' msg.msg '+msg.msg );
 }
+
+function lo(msg){
+    console.log('%c success FPS @@@ 222! ', 'background: #222; color: red', msg); return;
+}
+
 function playerById(id) {
 	for (var i = 0; i < remotePlayers.length; i++) {
 		if (remotePlayers[i].id == id)  return remotePlayers[i];
@@ -536,18 +556,21 @@ function Bullet(){
             }
         });
     };
-    this.remoteBullet = function(player, pos, dir, d2, bot){
-        console.log('%c remoteBullet player FPS @@@ 222! ', 'background: #222; color: red', player, 'direction->', d2, 'bot->', bot );
+    this.remoteBullet = function( pos, d2, bot){
+
         //console.log('remoteBullet player->', player, 'direction->', d2, 'bot->', bot );
-        //console.log('!!!pos->', pos);
         bullet.position = new BABYLON.Vector3(pos.x, pos.y, pos.z);
+        //console.log('%c shot bot @@@ ', 'background: yellow; color: blue;', pos, d2, bullet.position );
+
         scene.registerBeforeRender(function () {
             bullet.position.addInPlace(d2);
+            //console.log('%c shot bot @@@ ', 'background: yellow; color: blue;', bullet.position );
         });
     };
 
 }
-
+ //success FPS @@@ 222!  -2
+//game.js:554  shot bot @@@  t {x: -20.085987795058823, y: -2, z: 43.26081580966798} Object {x: 10.632587473518198, y: -3, z: -5.397519603121225} t {x: -20.085987795058823, y: -2, z: 43.26081580966798}
 
 function jump(){
     console.log('jump=>');
@@ -604,8 +627,6 @@ function newMessage(e) {
     }, 200);
 }
 function showMessage(msg, isFromRemote) {
-    console.warn('__showMessage__  isFromRemote=> ', isFromRemote);
-    console.warn('__showMessage__  msg=> ', msg);
     var node_class = isFromRemote ? 'remote': 'local';
     var mess =       isFromRemote ? msg.mes : msg;
     var elem = document.createElement('p');
@@ -701,180 +722,34 @@ window.addEventListener("resize", function () { engine.resize(); });
 
 
 
+    //camera2 = new BABYLON.FreeCamera("minimap", new BABYLON.Vector3(0,250,0), scene);
+    //camera2.setTarget(new BABYLON.Vector3(0.0,0.7,0.6));
+    //camera2.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+    //camera2.orthoLeft = -100/2;
+    //camera2.orthoRight = 100/2;
+    //camera2.orthoTop =  100/2;
+    //camera2.orthoBottom = -100/2;
+    //camera2.rotation.x = Math.PI/2;
+    //var xstart = 0.7, ystart = 0.75;
+    //var width = 0.99-xstart, height = ystart;
+    //camera2.viewport = new BABYLON.Viewport(xstart, ystart, width, height);
+    //camera2.viewport = new BABYLON.Viewport(0.59, 0.58, 0.4, 0.4);
+    //camera2.viewport = new BABYLON.Viewport(.6, .6, .3, .3);
 
+    //scene.activeCamera = camera;
+    //scene.activeCameras.push(camera);
+    //scene.activeCameras.push(camera2);
 
-
-
-                        //+ "Active particles: " +                    scene.getActiveParticles() + "<br>"
-                        //+ "Frame duration: " +                      scene.getLastFrameDuration() + " ms<br><br>"
-                        //+ "<i>Evaluate Active Meshes duration:</i> " + scene.getEvaluateActiveMeshesDuration() + " ms<br>"
-                        //+ "<i>Render Targets duration:</i> " +      scene.getRenderTargetsDuration() + " ms<br>"
-                        //+ "<i>Particles duration:</i> " +           scene.getParticlesDuration() + " ms<br>"
-                        //+ "<i>Sprites duration:</i> " +             scene.getSpritesDuration() + " ms<br>"
-
-
-
-
-
-
-
-
-
-
-
-//function Player(scene, camera, startX, startY, is_local ) {
-//    var x = startX, y = startY, a=0, b= 0, la=0, lb= 0, z=0; //mesh
-//    var moveAmount = 0.00001;
-//
-//   	this.getX = function()     { return x; };
-//	this.getY = function()     { return y; };
-//	this.getZ = function()     { return z; };
-//	this.getA = function()     { return a; };
-//	this.getB = function()     { return b; };
-//	this.setX = function(newX) { x = newX; };
-//	this.setY = function(newY) { y = newY; };
-//	this.setZ = function(newZ) { z = newZ; };
-//	this.setA = function(newA) { a = newA; };
-//	this.setB = function(newB) { b = newB; };
-//	this.update = function(keys) {
-//		var prevX = x, prevZ = z, prevY = y;
-//		if      (keys.up)    z -= moveAmount;
-//		else if (keys.down)  z += moveAmount;
-//		if      (keys.left)  x -= moveAmount;
-//		else if (keys.right) x += moveAmount;
-//		return prevX != x || prevZ != z;
-//	};
-//    this.rot = function() {
-//        var rot = la != a || lb != b || 0;
-//        la = a; lb = b;
-//	 	return rot;
-//	};
-//    this.getState =  function(){ return { x:mesh.position.x, y:mesh.position.y, z:mesh.position.z, a:mesh.rotation.y, b:mesh.rotation.x}; };
-//    this.draw = function() {
-//        if (!is_local) {
-//            mesh.position = new BABYLON.Vector3(x, y, z);
-//            mesh.rotation.x = a;
-//            mesh.rotation.y = b;
-//        }
-//    };
-//
-//    this.ini = function(name) {
-//        if (is_local) {
-//          	lmesh = new BABYLON.Mesh.CreateBox(name, 1.0, scene);
-//            lmesh.parent = camera;
-//            tasklmesh = loader.addMeshTask(name, "", "/static/game/a3/", "untitled1.babylon");
-//            tasklmesh.onSuccess = function (task) {
-//                task.loadedMeshes[0].position = new BABYLON.Vector3(3, -3, 9);
-//                task.loadedMeshes[0].parent = camera;
-//            };
-//
-//        }else {
-//            mesh = BABYLON.Mesh.CreateSphere(name, 16, 0, scene);
-//            mesh.position = new BABYLON.Vector3( 50, 0, -10);
-//            mesh.checkCollisions = true;
-//            mesh.scaling.x = -3;
-//            mesh.scaling.z = -3;
-//            mesh.material = new BABYLON.StandardMaterial("texture1", scene);
-//            mesh.material.diffuseTexture = new BABYLON.Texture("/static/game/ufo_t.png", scene);
-//        }
-//    };
-//    this.getObject = function(){ return mesh };
-//    this.getLObject = function(){ return lmesh };
-//    iniPointerLock(scene, camera);
-//}
-
-
-
-    //this.ini = function(name) {
-    //    if (is_local) {
-    //        lmesh = new BABYLON.Mesh.CreateBox(name, 1.0, scene);
-    //        lmesh.parent = camera;
-    //        tasklmesh = loader.addMeshTask(name, "", "/static/game/a3/", "untitled1.babylon");
-    //        tasklmesh.onSuccess = function (task) {
-    //            //task.loadedMeshes[0].position = new BABYLON.Vector3(3, -3, 9);
-    //            task.loadedMeshes[0].position = new BABYLON.Vector3(2, -3, 9);
-    //            task.loadedMeshes[0].parent = camera;
-    //        };
-    //
-    //    } else {
-    //        mesh = BABYLON.Mesh.CreateSphere('wwwname', 36, 0, scene);
-    //        mesh.position = new BABYLON.Vector3(50, 0, -10);
-    //        var enemy = loader.addMeshTask(name, "", "/static/game/t3/", "untitled.babylon");
-    //        enemy.onSuccess = function (task) {
-    //            task.loadedMeshes[0].position = new BABYLON.Vector3(25, 2, 20);
-    //            //task.loadedMeshes[0].parent = mesh;
-    //            console.error("enemy okkkk ============================================================>>> " + task.name);
-    //        };
-    //        loader.onTaskError = function (task) {
-    //            console.error("error while loading ==========================================================================>>>>>>>>>" + task.name);
-    //        };
-    //    }
-    //}
-
-
-
-
-
-    //var gasS = new BABYLON.Sound("gunshot", "static/game/gas.wav", scene, null, { loop: false, autoplay: false });
-    //var volume_m = 0.05;
-    //var mS = new BABYLON.Sound("ms", "static/game/007.mp3", scene, null, {volume: volume_m, loop:true, autoplay: false });
-    //var mS = new BABYLON.Sound("ms", "static/game/dr.wav", scene, null, { loop: true, autoplay: false });
-    //var gasS = new BABYLON.Sound("Violons", "static/game/gas.wav", scene, null, { loop: true, autoplay: true });
-    //if(!lock){
-        //mS.attachToMesh(lmesh);
-        //var music = new BABYLON.Sound("Violons", "http://www.babylonjs-playground.com/sounds/violons11.wav", scene, function () {
-        //var ms = new BABYLON.Sound("biolons", "static/game/007.mp3", scene, null, {/*volume:0.05,*/ loop: true, autoplay: true });
-        //ms.attachToMesh(llmesh);
-        //ms.attachToMesh(camera);
-    //}
-	//document.addEventListener("keydown",   function(e){
-	//document.addEventListener("keypress",   function(e){
-     //   if (!lock) {
-            //switch (e.keyCode) {
-                // wwcase 37: case 65: moveS.play(); break;
-                //case 37: case 38: case 39: case 40: case 65: case 68: case 83: case 87: mS.play(); break;
-
-            //}
-        //}
+    //camera2.layerMask = 1;
+    //camera.layerMask = 2;
+    //var s = BABYLON.Mesh.CreateSphere("player2", 16, 4, scene);
+    //s.position.y = 10;
+    //s.registerBeforeRender(function() {
+    //    s.position.x = camera.position.x;
+    //    s.position.z = camera.position.z;
     //});
-	//document.addEventListener("keyup",   function(e){
-        //if (!lock) {
-        //    switch (e.keyCode) {
-                // wwcase 37: case 65: moveS.play(); break;
-                //case 37: case 38: case 39: case 40: case 65: case 68: case 83: case 87: mS.stop(); break;
-
-                //case 37: case 38: case 39: case 40: case 65: case 68: case 83: case 87:
-                //mS.stop();
-                //break;
-            //}
-        //}
-    //});
-
-
-//    var music = new BABYLON.Sound("Violons", "sounds/violons11.wav", scene, null, { loop: true, autoplay: true });
-//    window.addEventListener("keydown", function (evt) {
-//        if (evt.keyCode === 32) { gunshot.play(); }
-//    });
-//window.setTimeout(function () { music.stop(); }, 10000);
-
-
-    //document.addEventListener("keydown",  function(e){
-    //document.addEventListener("keypress", function(e){
-    //        switch (e.keyCode) {
-    //            case 37: case 38: case 39: case 40: case 65: case 68: case 83: case 87:
-    //               mS.play(); break;
-    //        }
-    //});
-    //document.addEventListener("keyup",   function(e){
-    //     switch (e.keyCode) {
-    //         case 37: case 38: case 39: case 40: case 65: case 68: case 83: case 87:
-    //                 mS.stop(); break;
-    //        }
-    //});
-
-//db.doc.save({"_id": 1, "created_at" : "2016/01/01 12:10:10" })
-//db.doc.save({"_id": 2, "created_at" : "2016/01/04 12:10:10" })
-//db.test.find({ "created_at" : {"$gt": new Date("2016/01/01")} })
-//db.doc.aggregate([{ "$match": { "created_at": { "$gt": Date } }} ])
-
-
+    //var red = new BABYLON.StandardMaterial("red", scene);
+    //red.diffuseColor = BABYLON.Color3.Red();
+    //red.specularColor = BABYLON.Color3.Black();
+    //s.material = red;
+    //s.layerMask = 1;

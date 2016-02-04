@@ -121,9 +121,7 @@ class Bot(Player):
                 delta = (now - last).total_seconds()
                 last = now
                 for player in self.room.players:
-                    if player is self:
-                        # print( 'continue')
-                        continue
+                    if player is self:  continue
                     # sgn = self.x > player.x and 1 or -1
                     vx, vz = self.move_vec
                     # print(vx, vz)
@@ -198,6 +196,25 @@ class Bot(Player):
         return rx, ry
 
 
+def h_new(me, e):
+    assert not hasattr(me, 'player'), [id(me), e]
+
+    coor = random.sample([ 2, 3, 4, 5, 6, 7, 8, 9],  2) # get random coordinates 2 to 10
+    me.player = Player(me, Room.get(e['room']), coor[0], coor[1])
+
+    mess = dict(e="new", id=me.player.id, msg='newPlayer', **me.player.as_dict)
+    me.player.room.send_all(mess, except_=(me.player,))
+    # print ( 'me.', me.__dict__ , 'me.player.room', me.player.room.__dict__ , 'me.player.', me.player.__dict__ )
+    # {'id': '044', 'bot': Bot(id=1,pos=6,4,0,0,0), '_players': {Bot(id=1,pos=6,4,0,0,0), Player(id=2,pos=5,8,0,0,0)}}
+
+    for player in me.player.room.players:  # // Send existing players to the new player
+        if player is me.player: continue
+        is_bot = isinstance(player, Bot)
+        print('is_bot', is_bot)
+        mess = dict(e="new", id=player.id, bot=is_bot, msg='existingPlayer', **player.as_dict)
+        me.send_str(json.dumps(mess))
+
+
 def h_move(me, e):
     assert hasattr(me, 'player'), [id(me), e]
     me.player.set_pos(e['x'], e['y'], e['z'])
@@ -237,6 +254,7 @@ class Room(object):
         return rooms[_id]
 
     def __init__(self, _id):
+        self._send_ctr = 0
         self.id = _id
         self._players = set()
         coor = random.sample([ 2, 3, 4, 5, 6, 7, 8, 9],  2)
@@ -244,9 +262,14 @@ class Room(object):
         # self.bot.id = get_hash(3)
 
     def send_all(self, mess, except_=tuple()):
+
+        self._send_ctr += 1
+        mess['_ctr'] = self._send_ctr
+
         mess = json.dumps(mess)
         for player in self._players:
             if player not in except_:
+                print('send_all', 'player->', player, 'mess', mess)
                 player.client.send_str(mess)
 
     @property
@@ -343,21 +366,7 @@ def clean(me):
 # me.player.room {'id': '46c', '_players': {[4, 5, 0, 0, 0]}}
 # me.player      {'_id': 1, 'last_id': 1, '_room': <libs.game.game.Room object at 0x7fae8e8324e0>, '_client': <WebSocketResp Switching Protocols GET /game_handler >, }
 
-def h_new(me, e):
-    assert not hasattr(me, 'player'), [id(me), e]
 
-    coor = random.sample([ 2, 3, 4, 5, 6, 7, 8, 9],  2) # get random coordinates 2 to 10
-    me.player = Player(me, Room.get(e['room']), coor[0], coor[1])
-
-    mess = dict(e="new", id=me.player.id, msg='newPlayer', **me.player.as_dict)
-    me.player.room.send_all(mess, except_=(me.player,))
-
-    # print ( 'me.', me.__dict__ , 'me.player.room', me.player.room.__dict__ , 'me.player.', me.player.__dict__ )
-
-    for player in me.player.room.players:  # // Send existing players to the new player
-        if player is me.player: continue
-        mess = dict(e="new", id=player.id, msg='existingPlayer', **player.as_dict)
-        me.send_str(json.dumps(mess))
 
 
 handlers = {
@@ -416,79 +425,3 @@ def game_handler(request):
     return ws
 
 
-
-# async def ws(request):
-#     ws = web.WebSocketResponse()
-#     await ws.prepare(request)
-#     async for msg in ws:
-#         if msg.tp == aiohttp.MsgType.text:
-#             e = msg.data
-#             if e['e'] == 'new':
-#                 player = Player(e['x'], e['y'], e['z'])
-#                 send_all({e:"new", id:Player.id })
-#  . . .
-#
-# @asyncio.coroutine
-# def ws(request):
-#     ws = web.WebSocketResponse()
-#     clients.add(ws)
-#     while True:
-#         msg = yield from ws.receive()
-#         try:
-#             if msg.tp == MsgType.text:
-#                 e = msg.data
-#                 if e['e'] == 'new':
-#                     player = Player(e['x'], e['y'], e['z'])
-#                     send_all({e:"new", id:Player.id })
-#
-#
-#             elif msg.tp == aiohttp.MsgType.close:
-#                 print('websocket connection closed')
-#                 clean(ws)
-#             elif msg.tp == aiohttp.MsgType.error:
-#                 print('ws connection closed with exception ', ws.exception())
-#                 clean(ws)
-#             else:
-#                 print('unknow websocket message type:', msg.tp, id(ws))
-#         except Exception as e:
-#             print('Dark forces tried to break down our infinite loop', e)
-#             traceback.print_tb(e.__traceback__)
-#     return ws
-
-
-  # else:
-       # handle_game(ws, msg.data)
-
-# def handle_game(me, e):
-#     e = json.loads(e)
-#     action = e['e']
-#
-#     print( e )
-#     if action in debug_handlers:
-#         print('Requested action:', action)
-#     if action == 'new':
-#         h_new(me, e)
-#     elif action in handlers:
-#         handler = handlers[action]
-#         # handler(me, e)
-#         player = e['id']
-#         handler(player, e)
-#     else:
-#         print('Unknown action:', e['e'], '===>>>', e)
-#         # send_all(e)
-
-
-
-
-    # lenght = self.x - player.x
-    # if lenght < 10:
-    #     self.x -= .9 * sgn
-    #
-    # # self.x += .9 * sgn
-    # # print('self.x', self.x)
-    # if self.x == 8:
-    #     self.x -= .9 * sgn
-    # elif self.x == -8:
-    #     self.x += .9 * sgn
-    # else:
-    #     self.x += .9 * sgn
