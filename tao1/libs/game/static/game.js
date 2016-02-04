@@ -7,7 +7,7 @@ var lock = true;
 var canvas = document.getElementById("renderCanvas");
 var stats =  document.getElementById('stats');
 var engine = new BABYLON.Engine(canvas, true);
-var camera, camera2,  scene, meshList = [], localPlayer, trueDirection, mesh, lmesh, loader, enemy, llmesh;
+var camera, camera2,  scene, meshList = [], localPlayer, trueDirection, lmesh, loader, enemy, llmesh; //mesh
 
 function iniPointerLock(scene, camera) {
     var _this = this;
@@ -39,7 +39,7 @@ function iniPointerLock(scene, camera) {
 
 
 function Player(scene, camera, startX, startY, is_local ) {
-    var x = startX, y = startY, a=0, b= 0, la=0, lb= 0, z=0; //mesh
+    var x = startX, y = startY, a=0, b= 0, la=0, lb= 0, z=0, mesh;
 //    var moveAmount = 0.6;
     var moveAmount = 0.00001;
 
@@ -71,7 +71,7 @@ function Player(scene, camera, startX, startY, is_local ) {
     this.draw = function() {
         if (!is_local) {
             mesh.position = new BABYLON.Vector3(x, y, z);
-            //console.warn( 'mesh.position->', mesh.position  );
+            console.warn( 'mesh.position->', mesh.position  );
 
             mesh.rotation.x = a;
             mesh.rotation.y = b;
@@ -95,12 +95,21 @@ function Player(scene, camera, startX, startY, is_local ) {
             };
 
         }else {
-            var alpha = 0.0;
-            if(bot==true) alpha = 0.3;
+            var alpha, color;
+            if(bot==true) {
+                alpha = 0.5;
+                color = new BABYLON.Color3(0.5, 0.7, 0.4);
+            } else {
+                alpha = 0.5;
+                color = new BABYLON.Color3(0.7, 0.4, 0.5);
+            }
+
+            //var alpha = 0.0;
+            //if(bot==true) alpha = 0.3;
 
             mesh = BABYLON.Mesh.CreateSphere(name, 16, 8, scene);  // 4a4c31
             mesh.material =  new BABYLON.StandardMaterial('texture1', scene);
-            mesh.material.diffuseColor = new BABYLON.Color3(0.5, 0.7, 0.4);
+            mesh.material.diffuseColor = color;
             mesh.material.alpha = alpha;
             //mesh.rotation.x = Math.PI / 6;
             //mesh.rotation.y = Math.PI / 3;
@@ -456,7 +465,7 @@ function handlers(scene, camera){
     };
     ws.onmessage = function(event){
         var msg = JSON.parse(event.data);
-        console.warn('msg', msg);
+//        console.warn('msg', msg);
         if(msg.e == 'new'){
             //console.log("New remote player connected (msg.id): "+msg.id+' msg.msg '+msg.msg );
             var newPlayer = new Player(scene, camera, msg.x, msg.y);
