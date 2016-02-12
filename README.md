@@ -1,9 +1,6 @@
 
 
-[![PyPI](https://img.shields.io/pypi/0.2.0/nine.svg?style=plastic)](https://pypi.python.org/pypi/tao1/0.1.8.9)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg?style=plastic)](http://opensource.org/licenses/MIT)
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=plastic)](http://opensource.org/licenses/MIT)
-
 
 # Introduction.
 This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websocket out of the box, 
