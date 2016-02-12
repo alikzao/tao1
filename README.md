@@ -1,4 +1,10 @@
 
+
+[![PyPI](https://img.shields.io/pypi/v/nine.svg?style=plastic)](https://pypi.python.org/pypi/tao1/0.1.8.9)
+[![License](https://img.shields.io/badge/license-MIT-orange.svg?style=plastic)](http://opensource.org/licenses/MIT)
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=plastic)](http://opensource.org/licenses/MIT)
+
+
 # Introduction.
 This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websocket out of the box, 
 and more than a simple barrier to entry. 
@@ -53,14 +59,14 @@ Settings nginx in `/etc`::
 
 Example route in file `routes.py`::
 ```python
-   route( '/ws',    ws,	 'GET',  'ws' )
+   route('GET', '/ws',  ws,	'ws' )
 ```   
 #Templates
 
 In framework integrated `jinja2`. Templates are always in the `templ` folder.
 
 To call the template function `templ` and pass it the template name. If the template is in some sort of module,
-the call looks like this `apps.modul_name.templ_name`.
+the call looks like this `libs.modul_name.templ_name`.
 
 If the template is in the root of the project in the templ folder, then simply write his name.
 
@@ -77,8 +83,8 @@ The websocket to create games and chat very easy to use.
 The first is the need to call route with the template to draw the route and chat with the handler for chat:
 
 ```python
-   route( '/ws',   ws,          GET', 'ws' )
-   route( '/wsh',  ws_handler,  GET', 'ws_handler' )
+   route('GET', '/ws',   ws,    'ws' )
+   route('GET', '/wsh',  ws_handler, 'ws_handler' )
 ```
 These routes work you can see an example.
 
@@ -87,7 +93,7 @@ Function for render chat page:
 ```python
    @asyncio.coroutine
    def ws(request):
-       return templ('apps.app:chat', request, {} )
+       return templ('libs.app:chat', request, {} )
 ```
 Function handler chat:
 
@@ -126,7 +132,7 @@ and then as usual.
 
  All files must be located in the folder static.
 
- If they are the root of the project then the path will be like this `/static/static/file_name.pg`.
+ If they are the root of the project then the path will be like this `/static/file_name.pg`.
  If the files are in a certain module, then the path like this `/static/module_name/file_name.jpg`.
 
 #Caching
