@@ -44,20 +44,29 @@ Settings supervisor in `/etc`:
    autorestart=true
    redirect_stderr=true
 ```
-Settings nginx in `/etc`::
+Settings nginx in `/etc` together with proxy websocket::
 ```nginx
-    server {
-        server_name    name.dev;
-        location / {
-             proxy_pass http://127.0.0.1:6677;
-        }
-    }
+server {
+        server_name        aio.dev;
+         location / {
+                 proxy_pass http://127.0.0.1:8080;
+         }
+        location /ws {
+              proxy_pass http://127.0.0.1:8080;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "upgrade";
+       }
+}
 ```
 
 #Routes
 
 Example route in file `routes.py`::
 ```python
+   from libs.game.game import  *
+   from core.union import route
+   
    route('GET', '/ws',  ws,	'ws' )
 ```   
 #Templates
@@ -137,9 +146,14 @@ and then as usual.
 #Caching
 
 Create cache for function 5 second, the first parameter - name::
+
 ```python
    @cache("main_page", expire=5)
    @asyncio.coroutine
    def page(request):
        return templ('index', request, {'key':'val'} )
 ```
+
+#More detailed documentation 
+
+<http://tao1.readthedocs.org/en/latest/>
