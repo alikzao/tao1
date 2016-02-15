@@ -45,7 +45,7 @@ Settings supervisor in `/etc`:
    redirect_stderr=true
 ```
 Settings nginx in `/etc`::
-```python
+```nginx
     server {
         server_name    name.dev;
         location / {
