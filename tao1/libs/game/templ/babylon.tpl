@@ -44,13 +44,14 @@
 {#            (W, A, S, D = Move &nbsp; &nbsp; SPACE = Jump  &nbsp;&nbsp;MOUSE = Look around )#}
             <span class="chat"> <input name="msg" id="msg" autocomplete="off"/> <input type="submit" value="Ok"/> </span>
         </div>
+{#        <div id="miniMap" style="position:absolute; right:8px; top:8px; background-color:#6ba5ff; opacity:0.5; border-radius:10px; padding:3px;"></div>#}
 
     </div>
 
     <canvas id="renderCanvas"></canvas>
 
     <!--<script src="/static/game/babylon1-debug.js"></script>-->
-    <script src="/static/game/babylon.2.2.js"></script>
+    <script src="/static/game/babylon.2.3.js"></script>
     <script src="/static/game/waterMaterial.js"></script>
     <script src="/static/game/game.js"></script>
     <script src="/static/game/hand.js"></script>

@@ -71,8 +71,6 @@ function Player(scene, camera, startX, startY, is_local ) {
     this.draw = function() {
         if (!is_local) {
             mesh.position = new BABYLON.Vector3(x, y, z);
-            console.warn( 'mesh.position->', mesh.position  );
-
             mesh.rotation.x = a;
             mesh.rotation.y = b;
         }
@@ -88,7 +86,6 @@ function Player(scene, camera, startX, startY, is_local ) {
                 task.loadedMeshes[0].position = new BABYLON.Vector3(28, -2, 41);
                 mm = task.loadedMeshes[0].clone('new_local');
                 mm.position = new BABYLON.Vector3(4, -4, 11);
-                //console.log('%c success clone FPS @@@ 222! ', 'background: green; color: blue;');
                 //mm.loadedMeshes[0].position = new BABYLON.Vector3(2, -3, 9);
                 //mm.parent = camera;
                 mm.parent = lmesh;
@@ -103,25 +100,13 @@ function Player(scene, camera, startX, startY, is_local ) {
                 alpha = 0.5;
                 color = new BABYLON.Color3(0.7, 0.4, 0.5);
             }
-
-            //var alpha = 0.0;
-            //if(bot==true) alpha = 0.3;
-
-            mesh = BABYLON.Mesh.CreateSphere(name, 16, 8, scene);  // 4a4c31
+            mesh = BABYLON.Mesh.CreateSphere(name, 16, 8, scene);
             mesh.material =  new BABYLON.StandardMaterial('texture1', scene);
             mesh.material.diffuseColor = color;
             mesh.material.alpha = alpha;
-            //mesh.rotation.x = Math.PI / 6;
-            //mesh.rotation.y = Math.PI / 3;
             meshList.push( mesh );
-            name = ''+get_random();
             mesh.position = new BABYLON.Vector3( 50, -3, -10);
-            //console.log('%c load clone FPS @@@ 222! ', 'background: green; color: blue;', 'bot->',bot, 'name->', name);
-            enemy.onSuccess = function (task) {
-                var old_en = task.loadedMeshes[0];
-                nm = task.loadedMeshes[0].clone(name);
-                nm.parent = mesh;
-            };
+            return mesh;
         }
     };
     this.getObject = function(){ return mesh };
@@ -163,7 +148,7 @@ var createScene = function () {
     var width = 0.99-xstart, height = ystart;
     //camera2.viewport = new BABYLON.Viewport(xstart, ystart, width, height);
     //camera2.viewport = new BABYLON.Viewport(0.59, 0.58, 0.4, 0.4);
-    camera2.viewport = new BABYLON.Viewport(.39, .39, .6, .6);
+    camera2.viewport = new BABYLON.Viewport(.646, .42, .35, .56);
 
     //scene.activeCamera = camera;
 	scene.activeCameras.push(camera);
@@ -231,13 +216,14 @@ var createScene = function () {
     };
 
 
-    var dom2mesh = loader.addMeshTask('dom1', "", "/static/game/dom1/", "dom2.babylon");
-    dom2mesh.onSuccess = function (task) {
+    //var dom2mesh = loader.addMeshTask('dom1', "", "/static/game/dom1/", "dom2.babylon");
+    dom1mesh = loader.addMeshTask('dom1', "", "/static/game/dom1/", "dom2.babylon");
+    dom1mesh.onSuccess = function (task) {
         task.loadedMeshes[0].position = new BABYLON.Vector3(45, 1, 20);
     };
 
-    var dom3mesh = loader.addMeshTask('dom2', "", "/static/game/dom2/", "dom3.babylon");
-    dom3mesh.onSuccess = function (task) {
+    var dom2mesh = loader.addMeshTask('dom2', "", "/static/game/dom2/", "dom3.babylon");
+    dom2mesh.onSuccess = function (task) {
         task.loadedMeshes[0].position = new BABYLON.Vector3(70, -2, 30);
     };
     var box4 = BABYLON.Mesh.CreateBox("box4", 22.0, scene);
@@ -323,36 +309,16 @@ var createScene = function () {
     extraGround.material = extraGroundMaterial;
     extraGround.checkCollisions = true;
 
-    // Water
-    //BABYLON.Engine.ShadersRepository = "";
-    //var water = BABYLON.Mesh.CreateGround("water", 400, 400, 1, scene, false);
-    //var waterMaterial = new WaterMaterial("water", scene, spot);
-    //waterMaterial.refractionTexture.renderList.push(extraGround);
-    //waterMaterial.reflectionTexture.renderList.push(skybox);
-    //water.material = waterMaterial;
-
-    //var sun = BABYLON.Mesh.CreateSphere("sun", 10, 4, scene);
-    //sun.material = new BABYLON.StandardMaterial("sun", scene);
-    //sun.material.emissiveColor = new BABYLON.Color3(1, 1, 0);
-
     var keys = new Keys();
 	localPlayer = new Player(scene, camera, 6, 6, true);
     localPlayer.init();
     scene.registerBeforeRender(function () {
-        //move sun
-//        localPlayer.draw(ctx);
-//        sun.position = spot.position;
-//        spot.position.x -= 0.5;
-//        if (spot.position.x < -90) spot.position.x = 100;
 //==============================================================================
-//        console.log('lmesh->', lmesh.position.x);
         var dirx = camera.rotation.x;
         if(dirx > 0.1)
             camera.rotation.x = 0.1;
         if(dirx < -0.15)
             camera.rotation.x = -0.15;
-
-
 //==============================================================================
         if(localPlayer) var u = localPlayer.update(keys);
         var r = localPlayer.rot();
@@ -393,8 +359,6 @@ var createScene = function () {
         }
     });
 
-
-
     camera.keysUp =    [38, 87];
     camera.keysDown =  [40, 83];
     camera.keysLeft =  [37, 65];
@@ -404,22 +368,11 @@ var createScene = function () {
             var localBullet = new Bullet();
             localBullet.selfBullet();
             var player = localPlayer.getLObject();
-
-            var width_p  = scene.getEngine().getRenderWidth();
-            var height_p = scene.getEngine().getRenderHeight();
-            var pickInfo = scene.pick(width_p/2, height_p/2, null, false, camera);
-//            console.log('mesh', player, 'mesh.name', player.name);//, 'mesh.position', player.position);#}
-            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':player.position, 'dir':pickInfo.pickedPoint,
-                'd2':trueDirection, 'room':localPlayer.room } ) );
-
+            console.log('%c play shoot @@@ ', 'background: green; color: blue;', 'pos->', camera.position, 'dir->', trueDirection);
+            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':player.position, 'dir': trueDirection} ) );
 //            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':camera.position, 'dir':camera.cameraDirection } ) );           //ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'dir':camera.cameraDirection, 'pos':camera.position, 'trueDir':trueDirection } ) );
         }
     });
-
-
-    //window.addEventListener("keydown", function (e) {
-    //    if (!lock && e.button === 0) gasS.play();
-    //});
 
 
 	document.addEventListener("keydown",   function(e){
@@ -433,101 +386,92 @@ var createScene = function () {
         }
     }, false);
 
-    var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.hostname+':80/game_handler';
-    //console.log(window.location.hostname+':'+window.location.port);  ws = new WebSocket('ws://127.0.0.1:80/ws_handler');
-    ws = new WebSocket(wsUri);
    	remotePlayers = [];
-    handlers(scene, camera);
+    enemy.onSuccess = function (task) {
+        var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.hostname+':80/game_handler';
+        ws = new WebSocket(wsUri);
+        ws.onopen = function () {
+            var room = window.location.hash;
+            room = room.replace("#", "");
+            localPlayer.room = room;
+            //console.log("Connected to socket server", 'localPlayer.id:', localPlayer.id, 'X:', localPlayer.getX(), 'Y:', localPlayer.getY(), 'room:', localPlayer.room  );
+            ws.send(JSON.stringify({'e': "new", 'x': localPlayer.getX(), 'y': localPlayer.getY(), 'room': room}));
+            //ws.send( JSON.stringify({ 'e':"new", "pre_id":pre_id, 'room':room }) );
+        };
+        ws.onmessage = function (event) {
+            var msg = JSON.parse(event.data);
+    //        console.warn('msg', msg);
+            if (msg.e == 'new') {
+                //console.log("New remote player connected (msg.id): "+msg.id+' msg.msg '+msg.msg );
+                var newPlayer = new Player(scene, camera, msg.x, msg.y);
+                newPlayer.id = msg.id;
+
+                var mesh = newPlayer.init(msg.id, msg.bot);
+                var name = ''+get_random();
+                mesh.position = new BABYLON.Vector3( 50, -3, -10);
+                var nm = task.loadedMeshes[0].clone(name);
+                nm.parent = mesh;
+
+                remotePlayers.push(newPlayer);    // Add new player to the remote players array
+            } else if (msg.e == 'move') {
+                var movePlayer = playerById(msg.id);
+                if (!movePlayer) {
+                    logg(msg);
+                    return;
+                }
+                movePlayer.setX(msg.x);
+                movePlayer.setY(msg.y);
+                movePlayer.setZ(msg.z);
+            } else if (msg.e == 'rotate') {
+                var rotPlayer = playerById(msg.id);
+                if (!rotPlayer) {
+                    logg(msg);
+                    return;
+                }
+                rotPlayer.setA(msg.a);
+                rotPlayer.setB(msg.b);
+            } else if (msg.e == 'remove') {
+                var removePlayer = playerById(msg.id);
+                if (!removePlayer) {
+                    logg(msg);
+                    return;
+                }
+                remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
+                var mes = scene.getMeshByID(msg.id);
+                mes.dispose();
+            } else if (msg.e == 'shoot') {
+                var player = playerById(msg.id);
+                if (!player) {
+                    logg(msg);
+                    return;
+                }
+                var meshh = scene.getMeshByID(msg.id);
+                var poss = meshh.position;
+                var bullet = new Bullet();
+                bullet.remoteBullet(msg.pos, msg.dir);
+                //bullet.remoteBullet(poss, msg.dir, msg.bot);
+            } else if (msg.e == 'chat') {
+                //var player = playerById(msg.id);
+                player = localPlayer.getLObject();
+    //            console.log('msg.id == localPlayer', msg.id, localPlayer.id, msg.id == localPlayer.id);
+                showMessage(msg, true);
+            }
+        };
+        ws.onclose = function (e) {
+            console.log('close: ', e);
+            if (e.wasClean) console.log('Соединение закрыто чисто');
+            else console.log('Обрыв соединения');
+            console.log('Код: ' + e.code + ' причина: ' + e.reason);
+        };
+        ws.onerror = function (error) {
+            console.log("Error: error " + error);
+            console.log("Error: error.message:  " + error.message);
+        };
+    };
     loader.load();
 	return scene;
 };
 
-function get_random(){
-    return parseInt( Math.random() * (999 - 100) + 100);
-}
-pre_players = [];
-function handlers(scene, camera){
-//    document.forms.publish.onsubmit = function() {
-//        ws.send( this.message.value );
-//    };
-    ws.onopen = function() {
-        var room = window.location.hash;
-        room = room.replace("#","");
-
-        //var pre_id = parseInt( Math.random() * (999 - 100) + 100);
-        //var newPlayer = new Player(scene, camera);
-        //pre_players[pre_id] = newPlayer;
-
-        localPlayer.room = room;
-        //console.log("Connected to socket server", 'localPlayer.id:', localPlayer.id, 'X:', localPlayer.getX(), 'Y:', localPlayer.getY(), 'room:', localPlayer.room  );
-        ws.send( JSON.stringify({'e':"new", 'x':localPlayer.getX(), 'y':localPlayer.getY(), 'room':room}) );
-        //ws.send( JSON.stringify({ 'e':"new", "pre_id":pre_id, 'room':room }) );
-    };
-    ws.onmessage = function(event){
-        var msg = JSON.parse(event.data);
-//        console.warn('msg', msg);
-        if(msg.e == 'new'){
-            //console.log("New remote player connected (msg.id): "+msg.id+' msg.msg '+msg.msg );
-            var newPlayer = new Player(scene, camera, msg.x, msg.y);
-            newPlayer.id = msg.id;
-            newPlayer.init(msg.id, msg.bot);
-            remotePlayers.push(newPlayer);    // Add new player to the remote players array
-        }else if(msg.e == 'move' ){
-           	var movePlayer = playerById(msg.id);
-            if (!movePlayer){ logg( msg); return;}
-            //if(msg.bot == 1)
-                //console.log('%c bot move @@@ ', 'background: yellow; color: blue;');
-            //else lo( 'player move' );
-            movePlayer.setX(msg.x);
-            movePlayer.setY(msg.y);
-            movePlayer.setZ(msg.z);
-        }else if(msg.e == 'rotate' ){
-           	var rotPlayer = playerById(msg.id);
-            if (!rotPlayer) { logg( msg); return;}
-            rotPlayer.setA(msg.a);
-            rotPlayer.setB(msg.b);
-        } else if(msg.e == 'remove'){
-            var removePlayer = playerById(msg.id);
-            if (!removePlayer) { logg( msg); return;}
-            remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
-            var mes = scene.getMeshByID(msg.id);
-            mes.dispose();
-        } else if (msg.e == 'shoot'){
-            var player = playerById(msg.id);
-            if (!player) { logg( msg); return;}
-            var meshh = scene.getMeshByID(msg.id);
-            var poss = meshh.position;
-            var bullet = new Bullet();
-                //            bullet.remoteBullet(msg.id, msg.pos, msg.dir);
-            bullet.remoteBullet( poss, msg.d2, msg.bot);
-        } else if (msg.e == 'chat'){
-            //console.log();
-            //var player = playerById(msg.id);
-            player = localPlayer.getLObject();
-//            if (!player) logg(msg);
-//            console.log('msg.id == localPlayer', msg.id, localPlayer.id, msg.id == localPlayer.id);
-            showMessage(msg, true);
-        }
-    };
-    ws.onclose = function(e)  {
-        console.log('close: ', e);
-        if (e.wasClean) console.log('Соединение закрыто чисто');
-        else console.log('Обрыв соединения');
-        console.log('Код: ' + e.code + ' причина: ' + e.reason);
-    };
-    ws.onerror = function(error)  {
-        console.log("Error: error "      + error);
-        console.log("Error: error.message:  " + error.message);
-    };
-}
-
-function logg(msg){
-    console.log("Player not found: "+msg.id+' msg.msg '+msg.msg );
-}
-
-function lo(msg){
-    console.log('%c success FPS @@@ 222! ', 'background: #222; color: red', msg); return;
-}
 
 function playerById(id) {
 	for (var i = 0; i < remotePlayers.length; i++) {
@@ -539,7 +483,8 @@ function playerById(id) {
 
 function Bullet(){
     var speed = 100;
-    var bullet = new BABYLON.Mesh.CreateSphere('bullet', 3, 0.3, scene);
+    //var bullet = new BABYLON.Mesh.CreateSphere('bullet', 3, 0.3, scene);
+    var bullet = new BABYLON.Mesh.CreateSphere('bullet', 3, 0.7, scene);
     bullet.material =  new BABYLON.StandardMaterial('texture1', scene);
     bullet.material.diffuseColor = new BABYLON.Color3(3, 2, 0);
     this.selfBullet = function(){
@@ -565,19 +510,30 @@ function Bullet(){
             }
         });
     };
-    this.remoteBullet = function( pos, d2, bot){
-
-        //console.log('remoteBullet player->', player, 'direction->', d2, 'bot->', bot );
+    this.remoteBullet = function( pos, dir ){
+        //console.warn('rB', 'pos->', pos, 'dir->', dir );
         bullet.position = new BABYLON.Vector3(pos.x, pos.y, pos.z);
-        //console.log('%c shot bot @@@ ', 'background: yellow; color: blue;', pos, d2, bullet.position );
-
+        //console.log('%c shot bot @@@ ', 'background: yellow; color: blue;', pos, dir, bullet.position );
         scene.registerBeforeRender(function () {
-            bullet.position.addInPlace(d2);
+            bullet.position.addInPlace(dir);
             //console.log('%c shot bot @@@ ', 'background: yellow; color: blue;', bullet.position );
         });
     };
 
 }
+
+function get_random(){
+    return parseInt( Math.random() * (999 - 100) + 100);
+}
+
+function logg(msg){
+    console.log("Player not found: "+msg.id+' msg.msg '+msg.msg );
+}
+
+function lo(msg){
+    console.log('%c success FPS @@@ 222! ', 'background: #222; color: red', msg);
+}
+
  //success FPS @@@ 222!  -2
 //game.js:554  shot bot @@@  t {x: -20.085987795058823, y: -2, z: 43.26081580966798} Object {x: 10.632587473518198, y: -3, z: -5.397519603121225} t {x: -20.085987795058823, y: -2, z: 43.26081580966798}
 
@@ -762,3 +718,41 @@ window.addEventListener("resize", function () { engine.resize(); });
     //red.specularColor = BABYLON.Color3.Black();
     //s.material = red;
     //s.layerMask = 1;
+
+
+
+
+//scene = new BABYLON.Scene(engine);
+//loader =  new BABYLON.AssetsManager(scene);
+//var createScene = function () {
+//    .  .  .
+//    enemy = loader.addMeshTask('enemy1', "", "/static/game/", "name.babylon");
+//    .  .  .
+//    ws = new WebSocket(wsUri);
+//    ws.onmessage = function(event){
+//        var msg = JSON.parse(event.data);
+//        if(msg.e == 'new'){
+//            var newPlayer = new Player( msg.x, msg.y );
+//            newPlayer.init(msg.id);
+//        }else if(msg.e == 'move' ){
+//    .  .  .
+//    loader.load();
+//    return scene;
+//}
+//
+//function Player( startX, startY, is_local ) {
+//.  .  .
+//    this.init = function (name, bot) {
+//        mesh = BABYLON.Mesh.CreateSphere(name, 16, 8, scene);
+//        mesh.material = new BABYLON.StandardMaterial('texture1', scene);
+//        mesh.material.diffuseColor = new BABYLON.Color3(0.7, 0.4, 0.5);
+//        mesh.material.alpha = 0.5;
+//        mesh.position = new BABYLON.Vector3(50, -3, -10);
+//        dom1mesh.onSuccess = function (task) {
+//            var nm = task.loadedMeshes[0].clone(name);
+//            nm.parent = mesh;
+//        };
+//
+//    };
+//    .  .  .
+//}

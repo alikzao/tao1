@@ -1,4 +1,8 @@
-import sys, os, time, asyncio, jinja2, aiohttp_jinja2, json, traceback, pickle, random
+import sys, os, time
+import asyncio
+import json
+import traceback
+import random
 import math
 from uuid import uuid4
 from aiohttp import web
@@ -159,18 +163,17 @@ class Bot(Player):
                 mess = dict(e="rotate", bot=1, id=self.id, **self.rot_as_dict)
                 self.room.send_all(mess, except_=(self,))
 
-                d2 =  {'z': dz, 'y': -3, 'x': dx}
-                pos = {"x":player.x, "y":player.y, "z":player.x}
-
-                mess = {'e':"shoot", 'id':self.id,      'pos':pos,      'dir':{},       'd2':d2,      'msg':'', 'bot':1 }
-                # mess = {'e':"shoot", 'id':me.player.id, 'pos':e['pos'], 'dir':e['dir'], 'd2':e['d2'], 'msg':'#{} says: pif-paf'.format(me.player.id) }
+                dir =  {'z': dz, 'y': -2, 'x': dx}
+                pos = {"x":self.x, "y":self.y, "z":self.x}
+                mess = {'e':"shoot", 'id':self.id,    'pos':pos,   'dir':dir,  'msg':'', 'bot':1 }
+                # mess = {'e':"shoot", 'id':self.id,  'pos':dir, 'dir':pos,  'msg':'', 'bot':1 }
 
                 self.room.send_all(mess, except_=(self,))
 
             except Exception as e:
                 traceback.print_exc()
                 print('Bot error: {}'.format( e ))
-            yield from asyncio.sleep(4)
+            yield from asyncio.sleep(2)
 
 
     @asyncio.coroutine
@@ -233,8 +236,8 @@ def h_rotate(me, e):
 
 def h_shoot(me, e):
     assert hasattr(me, 'player'), [id(me), e]
-    print( 'dir :', e['dir'], 'd2 :',e['d2'] )
-    mess = {'e':"shoot", 'id':me.player.id, 'pos':e['pos'], 'dir':e['dir'], 'd2':e['d2'], 'msg':'#{} says: pif-paf'.format(me.player.id) }
+    print( 'dir :', e['dir'], 'pos :',e['pos'] )
+    mess = {'e':"shoot", 'id':me.player.id, 'pos':e['pos'], 'dir':e['dir'], 'msg':'#{} shot'.format(me.player.id) }
     me.player.room.send_all(mess, except_=(me.player,))
 
 
@@ -269,7 +272,7 @@ class Room(object):
         mess = json.dumps(mess)
         for player in self._players:
             if player not in except_:
-                print('send_all', 'player->', player, 'mess', mess)
+                # print('send_all', 'player->', player, 'mess', mess)
                 player.client.send_str(mess)
 
     @property

@@ -60,15 +60,11 @@ def init(loop):
         middlewares.append( session_middleware(EncryptedCookieStorage(settings.session_key)) )
 
     app = web.Application(loop=loop, middlewares=middlewares)
-    # app = web.Application(loop=loop, middlewares=[ db_handler() ])
 
     # aiohttp_debugtoolbar.setup(app)
     # debugtoolbar.intercept_redirects = False
     # aiohttp_debugtoolbar.intercept_redirects = False
 
-
-
-    # mod = builtins.__import__('apps.app.routes', globals=globals())
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
 
     # Memcache init
@@ -80,20 +76,12 @@ def init(loop):
     union_routes(os.path.join ( settings.tao_path, 'libs' ) )
     union_routes(os.path.join ( settings.root_path, 'apps') )
 
-    # union_tpl_global(os.path.join ( settings.tao_path, 'libs' ) )
-    # union_tpl_global(os.path.join ( settings.root_path, 'apps') )
-
     for res in routes:
         name = res[3]
         if name is None: name = '{}:{}'.format(res[0], res[2])
-        # print(name, res)
         app.router.add_route( res[0], res[1], res[2], name=name)
 
-    # app.router.add_route('GET', '/static/{component:[^/]+}/{fname:.+}', union_stat)
-    # app.router.add_static('/static/static/img/taiji.jpg', '/home/user/dev/tao1/sites/daoerp/static/img/', name='static')
-    # app.router.add_static('/static/', '/home/user/dev/tao1/sites/daoerp/static/', name='static')
     path = os.path.join(settings.root_path, 'static')
-    print('path', path)
     app.router.add_static('/static/', path, name='static')
 
     handler = app.make_handler()
@@ -118,20 +106,35 @@ def db_connect(app):
 
 
 def init_gunicorn():
-    app = web.Application( middlewares=[ aiohttp_debugtoolbar.middleware, db_handler(), 
-        session_middleware(EncryptedCookieStorage(b'Sixteen byte key')) ])
-    aiohttp_debugtoolbar.setup(app)
+    global mc
+
+    middlewares = []
+
+    middlewares.append(db_handler())
+    if settings.debug:
+        middlewares.append( session_middleware(SimpleCookieStorage()) )
+    else:
+        middlewares.append( session_middleware(EncryptedCookieStorage(settings.session_key)) )
+    app = web.Application( middlewares=middlewares )
 
     aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
+
+    # Memcache init
+    app.mc = aiomcache.Client( settings.memcache['addr'], settings.memcache['port'])
+
+    # Mongo init
+    db_connect(app)
 
     union_routes(os.path.join ( settings.tao_path, 'libs' ) )
     union_routes(os.path.join ( settings.root_path, 'apps') )
 
     for res in routes:
-        # print(res)
-        app.router.add_route( res[0], res[1], res[2], name=res[3])
-    app.router.add_route('GET', '/static/{component:[^/]+}/{fname:.+}', union_stat)
-    # app.router.add_static('/static/static/img/taiji.jpg', '/home/user/dev/tao1/sites/daoerp/static/img/taiji.jpg', name='static')
+        name = res[3]
+        if name is None: name = '{}:{}'.format(res[0], res[2])
+        app.router.add_route( res[0], res[1], res[2], name=name)
+
+    path = os.path.join(settings.root_path, 'static')
+    app.router.add_static('/static/', path, name='static')
 
     return app
 
