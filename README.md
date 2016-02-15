@@ -11,22 +11,22 @@ and more than a simple barrier to entry.
 Built on the basis of asyncio and aiohttp.
 
 #Framework Installation
-```python
+```bash
 $ pip install tao1
 ```
 #Getting Started
 
 Create a project anywhere:
-```python
-   $ utils.py -p name
+```bash
+   utils.py -p name
 ```
 Create an application in the folder of the project apps:
-```python
-   $ utils.py -a name
+```bash
+   utils.py -a name
 ```   
 Run server:
-```python
-   $ python3 index.py
+```bash
+   python3 index.py
 ```   
 #License
 
