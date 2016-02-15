@@ -2,6 +2,6 @@ include README.md
 include CHANGES.txt
 include README.md
 graft tao1
-global-exclude *.pyc *.swp *.sublime-project *.sublime-workspace
+global-exclude *.pyc *.swp *.sublime-project *.sublime-workspace *.blend *.3ds *.obj *.mtl *.3DS *.log *.max *.dae *.c4d *.pz3
 
 
