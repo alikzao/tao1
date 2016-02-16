@@ -1,157 +1,78 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Игра</title>
-		<link rel="stylesheet" href="/static/game/game.css" />
-{#        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>#}
-            <script type="text/javascript" src="/static/core/jquery/jquery1.js"></script>
-        <style>
-            body { font-family: "Courier New", courier, monospace; font-size: 18px; }
-            #status { color: gray; border: 1px solid gray; text-align: center; width: 300px; margin-left: 14px; margin-bottom: 24px; background-color: #eee; }
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Babylon</title>
+    <style>
+        html, body    { overflow: hidden; width: 100%; height: 100%; margin: 0; padding: 0; }
+        #renderCanvas { width: 100%; height: 100%; touch-action: none; }
+        #viseur       { position:absolute; top:50%; left:50%; margin-top:-37px; margin-left:-37px; }
+        .stat, #chat, .chat  { background-color:#6ba5ff; opacity:0.5; border-radius:10px; padding:3px;}
+        #blocker      { position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        #instructions { width:100%; height:100%; display:-webkit-box; display:-moz-box; display:box; -webkit-box-orient:horizontal;
+            -moz-box-orient:horizontal; box-orient:horizontal; -webkit-box-pack:center; -moz-box-pack:center; box-pack:center; -webkit-box-align:center;
+            -moz-box-align:center; box-align:center; color:#ffffff; text-align:center; cursor:pointer; }
 
-            #input-holder { padding-left: 10px; }
-            #msg { width: 300px; }
-            #body { width: 350px; }
-            #inbox {
-                margin-right: 10px;
-                opacity: 0.7;
-                background-color: #f2f2f2;
-                max-height: 200px;
-            }
-            .msg, input { margin: 10px; }
-            .local { text-align: left; font-weight: bold; }
-            .remote { text-align: right; }
-        </style>
-	</head>
-	<body>
+        #status       { color: gray; border: 1px solid gray; text-align: center; width: 300px; margin-left: 14px; margin-bottom: 24px; }
+        #msg          { width: 220px; }
+        .msg, input   { margin: 3px; }
+        .local        { text-align: left; font-weight: bold; }
+        .remote       { text-align: right; }
+        .chat         { position:absolute; left:8px;bottom:8px;  width:300px; }
+        #chat         { height:200px; }
+    </style>
 
 
+</head>
 
-		<div id="start">
-			<div id="instructions" class="center">
-				Нажмите чтоб начать игру
-			</div>
-		</div>
-		<div id="hud" class="hidden">
+<body>
 
-            <div id="body">
-                <div id="status"></div>
-                <div id="inbox"></div>
-                <div id="input">
-                    <form action="#" method="post" id="messageform"> <table>
-                        <tr> <td><input name="msg" id="msg" autocomplete="off"/></td> <td id="input-holder"><input type="submit" value="Отправить"/> </td> </tr>
-                    </table> </form>
-                </div>
-            </div>
+    <img id="viseur" src="/static/game/viseur.png" />
+    <div id="stats" class="" style="position:absolute; left:8px; top:8px;"></div>
 
-{#            <input id="vvv" type="checkbox" />#}
+    <div id="chat" style="position:absolute; left:8px; bottom:80px;">
+        <div id="status"></div>
+        <div id="inbox"></div>
+    </div>
 
-			<div id="crosshairs"></div>
-			<div id="upper-right">
-				Здоровье: <span id="health">100</span>
-			</div>
-			<div id="respawn" class="center hidden">
-				В вас попали! перезайдете через <span class="countdown">3</span>&hellip;
-			</div>
-			<div id="hurt" class="hidden"></div>
-		</div>
+    <div id="blocker">
+        <div id="instructions">
+            <span id="click_here" style="font-size:40px">Нажмите для начала Игры</span>
+{#            <span id="click_here" style="font-size:40px">Click to play </span> <br/>#}
+            {#            (W, A, S, D =  Движение, &nbsp; &nbsp; SPACE =  Прыжок, &nbsp;&nbsp;MOUSE = Look around || Движение вокруг)#}
+                        (W, A, S, D =  Движение, &nbsp; &nbsp; MOUSE = Движение вокруг)
+{#            (W, A, S, D = Move &nbsp; &nbsp; SPACE = Jump  &nbsp;&nbsp;MOUSE = Look around )#}
+            <span class="chat"> <input name="msg" id="msg" autocomplete="off"/> <input type="submit" value="Ok"/> </span>
+        </div>
+{#        <div id="miniMap" style="position:absolute; right:8px; top:8px; background-color:#6ba5ff; opacity:0.5; border-radius:10px; padding:3px;"></div>#}
 
-        <script src="/static/game/detector.js"></script>            <!-- проверка подержки вебгл виеокарточкой-->
-		<script src="/static/game/bigscreen.min.js"></script>       <!-- раскрытие на весь экран и сворачивание-->
-		<script src="/static/game/pointerlock.js"></script>         <!-- тоже чтото техническое-->
-		<script src="/static/game/three.min.js"></script>           <!-- сама библиотека для отрисовки вебгл-->
-{#                <script type="text/javascript" src="/static/static/three/build/three.js"></script>#}
-<!-- =================================  Рабочие файлы  ======================================================= -->
-		<script src="/static/game/player.js"></script>              <!-- поведение игрока небольшой файлик-->
-		<script src="/static/game/bullet.js"></script>              <!-- поведение пли тоже небольшой-->
-		<script src="/static/game/game.js"></script>                <!-- сама логика игрушки-->
-	</body>
+    </div>
 
+    <canvas id="renderCanvas"></canvas>
 
-<script type="text/javascript">
+    <!--<script src="/static/game/babylon1-debug.js"></script>-->
+    <script src="/static/game/babylon.2.3.js"></script>
+    <script src="/static/game/waterMaterial.js"></script>
+    <script src="/static/game/game.js"></script>
+    <script src="/static/game/hand.js"></script>
+    <script src="/static/game/Oimo.js"></script>
 
-$(function() {
-    var wwww;
-    var url = 'ws://localhost:8765/';
-{#    var url = 'ws://78.47.225.242:8765/';#}
-
-    $(document).on('click', '#hud', function(e) { $('#vvv').focus() });
-    $('#messageform').on('keypress', function(e) {
-        if (e.keyCode == 13) {
-            newMessage($(this));
-            $('#msg').blur();
-            return false;
-        }
-    });
-    $(document).on('keyup', function(e) {
-        if (e.keyCode == 16) {
-            console.log('sssssssssssssssssssssssssshift');
-            $('#msg').focus();
-        }
-    });
-    $('#messageform').on('submit', function() {
-        newMessage($(this));
-        $('#msg').focus();
-        return false;
-    });
-
-    $('#msg').on('keyup', function(e) { e.stopPropagation(); });
-    $('#msg').on('keydown', function(e) { e.stopPropagation(); });
-    $('#msg').on('keypress', function(e) {
-        if (e.keyCode == 13) {
-            newMessage($(this));
-            $('#msg').blur();
-            return false;
-        }
-        e.stopPropagation();
-    });
-    $('#msg').select();
-
-    var ws = new WebSocket(url);
-    ws.onmessage = function(event) {
-{#        if (isFromRemote && msg!=undefined && !msg['msg']) return false;#}
-{#        var msg = JSON.parse(event.data).msg;#}
-        var msg = JSON.parse(event.data);
-        if (msg['t'] != 'chat') {return false};
-        showMessage(msg.m, true);
-        setTimeout( function(){console.warn(JSON.parse(event.data))}, 1000);
-    };
-    ws.onopen = ws.onclose = ws.onerror = function() {
-        var code = ws.readyState;
-        var codes = { 0: "opening", 1: "open", 2: "closing", 3: "closed"};
-        $('#status').html(codes[code]);
-    };
-
-    function newMessage(form) {
-        var msg = $('#msg').val();
-        showMessage(msg, false);
-        $('#msg').val('').select();
-        // Delay the response, for effect.
-        setTimeout(function() {
-            ws.send(JSON.stringify({'t':'chat', m: msg}));
-        }, 200);
-    }
-
-    function showMessage(msg, isFromRemote) {
-{#        console.error(msg);#}
-        var node = $('<p>' + msg + '&nbsp;</p>');
-        node.addClass('msg');
-        node.addClass(isFromRemote ? 'remote': 'local');
-        node.hide();
-        $('#inbox').append(node);
-        node.fadeIn();
-    }
-});
-
-
-</script>
-
-
-
-
+</body>
 </html>
 
 
-{#   1) setup ->    #}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

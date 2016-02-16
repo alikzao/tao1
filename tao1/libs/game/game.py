@@ -311,7 +311,7 @@ number_bots = 1
 
 @asyncio.coroutine
 def game(request):
-    return templ('libs.game:babylon', request, {})
+    return templ('libs.game:game', request, {})
 
 
 @asyncio.coroutine
