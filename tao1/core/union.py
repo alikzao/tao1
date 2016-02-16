@@ -141,18 +141,12 @@ def init_gunicorn():
 
     return app
 
-# @route('/static/<component>/<fname:re:.*>', domain='*')
-# def union_stat(component, fname):
-# def  union_stat(**kwargs):
-
-
 
 @asyncio.coroutine
 def union_stat(request, *args):
     component = request.match_info.get('component', "Anonymous")
     fname = request.match_info.get('fname', "Anonymous")
     path = os.path.join( settings.tao_path, 'libs', component, 'static', fname )
-    # print(os.path.join(  settings.root_path, 'static'))
     # search in project directory
     if component == 'static':
         path = os.path.join(  settings.root_path, 'static')
@@ -234,7 +228,6 @@ def get_templ_path(path):
     module_name = ''; module_path = ''; file_name = ''; name_templ = 'default'
     if ':' in path:
         module_name, file_name = path.split(":", 1) # app.table main
-        # print( path )
         module_path = os.path.join( get_path( module_name, path), "templ")
     else:
         module_path = os.path.join(  settings.root_path, 'templ', name_templ)
@@ -243,21 +236,13 @@ def get_templ_path(path):
     return module_name, module_path, file_name
 
 
-
-
-# def render_templ(t, request, p):
-# def render_templ(template_name, request, context):
-#     ps = tpl_globals.copy()
-#     ps.update(context)
-#     lang = cur_lang(request)
-#     return aiohttp_jinja2.render_template( template_name, request, ps )
-
 def render_templ(template_name, request, context):
     ps = dict()
     for k, v in tpl_globals.items():
         ps[k] = partial(v, request) if callable( v ) and hasattr(v, 'need_request') else v
     ps.update(context)
     return aiohttp_jinja2.render_template( template_name, request, ps )
+
 
 def render_templ_str(template_name, request, context):
     ps = dict()
