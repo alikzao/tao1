@@ -7,41 +7,38 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" href="/rss" type="application/rss+xml" title="RSS">
-	<link rel="shortcut icon" href="/static/static/img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
 
-	<title> тест aiohttp </title>
+	<title> Test page TAO1 </title>
 	<meta content="IE=Edge" http-equiv="X-UA-Compatible">
 </head>
 
 <body>
 
-	<div>
+	<div style="margin: 20px;">
 
-		<h2><a href="/">Главная страница!!!!!</a></h2>
-		123123123
-		<h2><a href="#">{{key}}</a></h2>
+		<b><a href="/">Main page </a></b><br><br>
 
-		<h1>Картинка для проекта</h1>
-		<img src="/static/static/img/taiji.jpg" style="width:100px;">
-		<h1>Картинка для компонента общего</h1>
-		<img src="/static/app/in_.jpg" style="width:100px;">
-		<h1>Картинка для компонента из проекта</h1>
-		<img src="/static/app/in.jpg" style="width:100px;">
+		<b><a href="#">{{key}}</a></b><br><br>
+
+		<b>Test image </b> <span>/static</span>  <br>
+		<img src="/static/img/taiji.jpg"><br>
+		<b>Test image </b> <span>/apps/app/static</span> <br>
+		<img src="/static/app/in.jpg"><br>
 
 	</div>
 
-
+    <style type="text/css">
+        body {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
+        b, span {font-size: 26px;}
+        b {margin: 15px 0; padding: 15px;}
+        span {color:grey;}
+        img { width:200px; margin: 15px 0; }
+        a { text-decoration: none; }
+        a:hover { text-decoration: underline; color: red; }
+    </style>
 </body>
 </html>
-
-
-
-
-
-<!-- <p>I want to use gridFS with `asyncio`. But the official driver <a href="https://jira.mongodb.org/browse/MOTOR-40">has no support</a> for asynchronous programming. The experimental driver <a href="https://bitbucket.org/mrdon/asyncio-mongo/">asyncio-mongo</a>, is missing support for gridFS.</p> -->
-
-<!-- <p>Are there any examples of using gridFS with python asyncio?</p> -->
-<!-- put on hold as off-topic by dano, Roland Smith, hopper, NinjaCat, AstroCB 11 hours ago -->
 
 
 
