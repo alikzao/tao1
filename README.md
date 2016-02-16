@@ -128,10 +128,13 @@ To write the database query you need to `request.db`
 and then as usual.
 
 ```python
-    # save doc
-    request.db.doc.save({"_id":"test", "status":"success"})
-    # find doc
-    val = request.db.doc.find_one({"_id":"test"})
+    @asyncio.coroutine
+    def test_db(request):
+	    # save doc
+	    request.db.doc.save({"_id":"test", "status":"success"})
+	    # find doc
+	    val = request.db.doc.find_one({"_id":"test"})
+	    return templ('apps.app:db_test', request, {'key':val})
 ```
 
 #Static files
