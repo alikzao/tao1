@@ -2,8 +2,6 @@ import sys, os, time, asyncio, jinja2, aiohttp_jinja2
 from aiohttp import web
 import aiohttp
 from aiohttp.web import Application, Response, MsgType, WebSocketResponse
-from aiohttp import  MultiDict, CIMultiDict
-import pickle
 
 from core.union import cache
 
@@ -14,7 +12,6 @@ from aiohttp_session import get_session
 @cache("main_page", expire=7)
 @asyncio.coroutine
 def page(request):
-    # response = web.Response(body=b"Hello, world")
     return templ('apps.app:index', request, {'key':'val'} )
 
 
