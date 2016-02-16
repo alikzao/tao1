@@ -15,6 +15,7 @@ setup(name='tao1',
       scripts=['tao1/core/utils.py'],
       classifiers=[
           'Intended Audience :: Developers',
+          'Development Status :: alfa',
           'Programming Language :: Python',
           'Programming Language :: Python :: 3.4',
           'Topic :: Internet :: WWW/HTTP'],
@@ -23,9 +24,7 @@ setup(name='tao1',
       url='https://github.com/alikzao/tao',
       license='MIT',
       packages=find_packages(),
-      install_requires=['aiohttp', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache'],
-#      tests_require=tests_require,
-#      test_suite='nose.collector',
+      install_requires=['aiohttp==0.20.0', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache'],
       include_package_data=True
     )
       
