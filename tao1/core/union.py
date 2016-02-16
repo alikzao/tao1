@@ -82,7 +82,10 @@ def init(loop):
         app.router.add_route( res[0], res[1], res[2], name=name)
 
     path = os.path.join(settings.root_path, 'static')
-    app.router.add_static('/static/', path, name='static')
+    print( 'path->', path )
+    # path = "/home/user/dev/tao1/sites/daoerp/static/app"
+    app.router.add_static('/static/', path)
+    # app.router.add_static('/static/', path, name='static')
 
     handler = app.make_handler()
     srv = yield from loop.create_server(handler, settings.addr[0], settings.addr[1])
@@ -140,7 +143,7 @@ def init_gunicorn():
 
 # @route('/static/<component>/<fname:re:.*>', domain='*')
 # def union_stat(component, fname):
-# def  union_stat(**kwargs): http://hl.mailru.su/gcached?q=cache:http://pauluskp.com/news/463c6e7d3
+# def  union_stat(**kwargs):
 
 
 
@@ -221,9 +224,9 @@ def get_full_path(app):
 def get_path(app, pp=""):
     if type(app) == str:
         try:
-            __import__(app) # - импортирует модуль по имени. Например имя будет "news".
+            __import__(app) # - import module name. For example the name will "news".
         except: print(pp, app)
-        app = sys.modules[app] # - по имени "news" мы получам сам модуль news и присваиваем его переменной app
+        app = sys.modules[app] # - named "news" we receive the news itself module and assign it to the variable app
     return os.path.dirname(os.path.abspath(app.__file__))
 
 
@@ -429,7 +432,7 @@ def trans(module, s):
     if lng:
         for i in reversed(lng):
             translated = i.gettext(s)
-            # если удалось перевести то транслейтед отличается от оригинала и дальше не надо искать.
+            # если перевелось то транслейтед отличается от оригинала и дальше не надо искать.
             if s != translated: break
     return translated
 
