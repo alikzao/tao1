@@ -60,7 +60,6 @@ function Player(scene, camera, startX, startY, is_local ) {
 		if      (keys.left)  x -= moveAmount;
 		else if (keys.right) x += moveAmount;
 		return prevX != x || prevZ != z;
-//		return true;
 	};
     this.rot = function() {
         var rot = la != a || lb != b || 0;
@@ -111,7 +110,6 @@ function Player(scene, camera, startX, startY, is_local ) {
     };
     this.getObject = function(){ return mesh };
     this.getLObject = function(){ return lmesh };
-//	this.setState =  function(newX, newY, newZ, newA, newB) { wp.x = newX; wp.y = newY; wp.z = newZ; wp.rotation.y = newA; wp.rotation.x = newB; };
     iniPointerLock(scene, camera);
 }
 
@@ -122,7 +120,6 @@ var createScene = function () {
 	scene.clearColor = new BABYLON.Color3(0.8, 0.8, 0.8);
     scene.gravity = new BABYLON.Vector3(0, -0.9, 0);
     scene.collisionsEnabled = true;
-	//camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(80, 5, -10), scene);
 	camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(-30, 2, 50), scene);  // place where emergence tank
 	//camera.setTarget(BABYLON.Vector3(0, 0, 10));
 	camera.setTarget(BABYLON.Vector3.Zero());
@@ -139,7 +136,6 @@ var createScene = function () {
     camera.angularInertia = 0;
     camera.angularSensibility = 1000;
     camera.layerMask = 2;
-    //camera.noRotationConstraint = true;
 
 
     camera2 = new BABYLON.FreeCamera("minimap", new BABYLON.Vector3(0,170,0), scene);
@@ -147,14 +143,11 @@ var createScene = function () {
     var xstart = 0.7, ystart = 0.75;
     var width = 0.99-xstart, height = ystart;
     //camera2.viewport = new BABYLON.Viewport(xstart, ystart, width, height);
-    //camera2.viewport = new BABYLON.Viewport(0.59, 0.58, 0.4, 0.4);
     camera2.viewport = new BABYLON.Viewport(.646, .42, .35, .56);
 
     //scene.activeCamera = camera;
 	scene.activeCameras.push(camera);
     scene.activeCameras.push(camera2);
-
-
 
 
 	var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
@@ -179,15 +172,8 @@ var createScene = function () {
     box3.material =  new BABYLON.StandardMaterial('texture1', scene);
     box3.material.diffuseColor = new BABYLON.Color3(0, 0, 1);
 
-    //console.log('%c test log ', 'background: #222; color: #bada55');
-    //enemy = loader.addMeshTask('enemy1', "", "/static/game/t3/", "untitled.babylon");
-
     enemy = loader.addMeshTask('enemy1', "", "/static/game/t3/", "t.babylon");
     llmesh = loader.addMeshTask('a3', "", "/static/game/a3/", "untitled1.babylon");
-
-
-//avconv -i in.wav -ss 00:00:22 -t 00:00:30 -vol 512 -threads 8 -y out.wav
-
 
     var palm = loader.addMeshTask('g2', "", "/static/game/g2/", "untitled.babylon");
     palm.onSuccess = function (task) {
@@ -196,8 +182,6 @@ var createScene = function () {
         var p1 = task.loadedMeshes[0].clone('p1');
         p1.position = new BABYLON.Vector3(11, -2, 32);
     };
-
-
 
     var grass = loader.addMeshTask('g1', "", "/static/game/g1/", "untitled.babylon");
     grass.onSuccess = function (task) {
@@ -216,7 +200,6 @@ var createScene = function () {
     };
 
 
-    //var dom2mesh = loader.addMeshTask('dom1', "", "/static/game/dom1/", "dom2.babylon");
     dom1mesh = loader.addMeshTask('dom1', "", "/static/game/dom1/", "dom2.babylon");
     dom1mesh.onSuccess = function (task) {
         task.loadedMeshes[0].position = new BABYLON.Vector3(45, 1, 20);
@@ -236,8 +219,6 @@ var createScene = function () {
 
     var plan1 = BABYLON.Mesh.CreatePlane("plane1", 220.0, scene);
     plan1.material  = new BABYLON.StandardMaterial("texture1", scene);
-    //materialSphere1.wireframe = true;
-    //materialSphere1.diffuseColor = new BABYLON.Color3(0, 0, 0);
     plan1.material.alpha = 0;
     //plan1.wireframe = true;
     plan1.position = new BABYLON.Vector3(0, 0, 100);
@@ -245,7 +226,6 @@ var createScene = function () {
 
     var plan2 = BABYLON.Mesh.CreatePlane("plane2", 220.0, scene);
     plan2.material =  new BABYLON.StandardMaterial('texture1', scene);
-    //plan2.material.diffuseColor = new BABYLON.Color3(0, 0, 0); //синий 0.0.1
     plan2.material.alpha = 0;
     plan2.position = new BABYLON.Vector3(0, 0, -100);
     plan2.rotation.x = -179.03; // вперед-назад
@@ -285,8 +265,6 @@ var createScene = function () {
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
     skybox.material = skyboxMaterial;
-    //skybox.collisionsEnabled = true;
-    //skybox.checkCollisions = true;
 
     // Ground
     var ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "/static/game/water/Assets/heightMap.png", 200, 200, 70, 0, 10, scene, false);
@@ -323,9 +301,7 @@ var createScene = function () {
         if(localPlayer) var u = localPlayer.update(keys);
         var r = localPlayer.rot();
         if(ws.readyState == ws.OPEN && !lock) {
-        //if(ws.readyState == ws.OPEN ) {
 
-            //console.log( { 'e':'move', 'id':localPlayer.id, 'x': camera.position.x, 'y': camera.position.y, 'z': camera.position.z } );
             ws.send( JSON.stringify( { 'e':'move', 'id':localPlayer.id, 'x': camera.position.x, 'y': -2, /*camera.position.y,*/
                 'z': camera.position.z } ) );
 
@@ -370,7 +346,6 @@ var createScene = function () {
             var player = localPlayer.getLObject();
             console.log('%c play shoot @@@ ', 'background: green; color: blue;', 'pos->', camera.position, 'dir->', trueDirection);
             ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':player.position, 'dir': trueDirection} ) );
-//            ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'pos':camera.position, 'dir':camera.cameraDirection } ) );           //ws.send( JSON.stringify( { 'e':'shoot', 'id':player.id, 'dir':camera.cameraDirection, 'pos':camera.position, 'trueDir':trueDirection } ) );
         }
     });
 
@@ -396,7 +371,6 @@ var createScene = function () {
             localPlayer.room = room;
             //console.log("Connected to socket server", 'localPlayer.id:', localPlayer.id, 'X:', localPlayer.getX(), 'Y:', localPlayer.getY(), 'room:', localPlayer.room  );
             ws.send(JSON.stringify({'e': "new", 'x': localPlayer.getX(), 'y': localPlayer.getY(), 'room': room}));
-            //ws.send( JSON.stringify({ 'e':"new", "pre_id":pre_id, 'room':room }) );
         };
         ws.onmessage = function (event) {
             var msg = JSON.parse(event.data);
@@ -451,9 +425,7 @@ var createScene = function () {
                 bullet.remoteBullet(msg.pos, msg.dir);
                 //bullet.remoteBullet(poss, msg.dir, msg.bot);
             } else if (msg.e == 'chat') {
-                //var player = playerById(msg.id);
                 player = localPlayer.getLObject();
-    //            console.log('msg.id == localPlayer', msg.id, localPlayer.id, msg.id == localPlayer.id);
                 showMessage(msg, true);
             }
         };
@@ -483,7 +455,6 @@ function playerById(id) {
 
 function Bullet(){
     var speed = 100;
-    //var bullet = new BABYLON.Mesh.CreateSphere('bullet', 3, 0.3, scene);
     var bullet = new BABYLON.Mesh.CreateSphere('bullet', 3, 0.7, scene);
     bullet.material =  new BABYLON.StandardMaterial('texture1', scene);
     bullet.material.diffuseColor = new BABYLON.Color3(3, 2, 0);
@@ -511,12 +482,10 @@ function Bullet(){
         });
     };
     this.remoteBullet = function( pos, dir ){
-        //console.warn('rB', 'pos->', pos, 'dir->', dir );
         bullet.position = new BABYLON.Vector3(pos.x, pos.y, pos.z);
         //console.log('%c shot bot @@@ ', 'background: yellow; color: blue;', pos, dir, bullet.position );
         scene.registerBeforeRender(function () {
             bullet.position.addInPlace(dir);
-            //console.log('%c shot bot @@@ ', 'background: yellow; color: blue;', bullet.position );
         });
     };
 
@@ -534,8 +503,6 @@ function lo(msg){
     console.log('%c success FPS @@@ 222! ', 'background: #222; color: red', msg);
 }
 
- //success FPS @@@ 222!  -2
-//game.js:554  shot bot @@@  t {x: -20.085987795058823, y: -2, z: 43.26081580966798} Object {x: 10.632587473518198, y: -3, z: -5.397519603121225} t {x: -20.085987795058823, y: -2, z: 43.26081580966798}
 
 function jump(){
     console.log('jump=>');
@@ -591,17 +558,17 @@ function newMessage(e) {
         ws.send( JSON.stringify( { 'e':'chat', 'id':localPlayer.id, 'mes':mess} ) );
     }, 200);
 }
+
 function showMessage(msg, isFromRemote) {
     var node_class = isFromRemote ? 'remote': 'local';
     var mess =       isFromRemote ? msg.mes : msg;
     var elem = document.createElement('p');
     elem.innerHTML = '<div class="msg '+node_class+'">' + mess + '&nbsp;</div>';
     var parent = document.getElementById('inbox');
-//    document.getElementById('inbox').appendChild(elem);
     insertAfter(elem, parent);
-//    document.getElementById('inbox').insertBefore(parent, messEl);  1-й что вставить, 2-й во что вставлять
     document.getElementById('inbox').style.display = "block";
 }
+
 function insertAfter(elem, refElem) {
     var parent = refElem.parentNode;
     var next = refElem.nextSibling;
@@ -617,11 +584,10 @@ function audio(){
     source.src = ss;
     audio.appendChild( source );
     audio.play();
-//    audio.volume = 0;
 }
+
 function explosion(obj){
     var particleSystem = new BABYLON.ParticleSystem("particles", 1000, scene);
-//    var particleSystem = new BABYLON.ParticleSystem("particles", 1000, scene);
     particleSystem.particleTexture = new BABYLON.Texture("/static/game/img/flare.png", scene);
     particleSystem.emitter = obj; // the starting object, the emitter
     // Where the particles come from
@@ -687,72 +653,4 @@ window.addEventListener("resize", function () { engine.resize(); });
 
 
 
-    //camera2 = new BABYLON.FreeCamera("minimap", new BABYLON.Vector3(0,250,0), scene);
-    //camera2.setTarget(new BABYLON.Vector3(0.0,0.7,0.6));
-    //camera2.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
-    //camera2.orthoLeft = -100/2;
-    //camera2.orthoRight = 100/2;
-    //camera2.orthoTop =  100/2;
-    //camera2.orthoBottom = -100/2;
-    //camera2.rotation.x = Math.PI/2;
-    //var xstart = 0.7, ystart = 0.75;
-    //var width = 0.99-xstart, height = ystart;
-    //camera2.viewport = new BABYLON.Viewport(xstart, ystart, width, height);
-    //camera2.viewport = new BABYLON.Viewport(0.59, 0.58, 0.4, 0.4);
-    //camera2.viewport = new BABYLON.Viewport(.6, .6, .3, .3);
 
-    //scene.activeCamera = camera;
-    //scene.activeCameras.push(camera);
-    //scene.activeCameras.push(camera2);
-
-    //camera2.layerMask = 1;
-    //camera.layerMask = 2;
-    //var s = BABYLON.Mesh.CreateSphere("player2", 16, 4, scene);
-    //s.position.y = 10;
-    //s.registerBeforeRender(function() {
-    //    s.position.x = camera.position.x;
-    //    s.position.z = camera.position.z;
-    //});
-    //var red = new BABYLON.StandardMaterial("red", scene);
-    //red.diffuseColor = BABYLON.Color3.Red();
-    //red.specularColor = BABYLON.Color3.Black();
-    //s.material = red;
-    //s.layerMask = 1;
-
-
-
-
-//scene = new BABYLON.Scene(engine);
-//loader =  new BABYLON.AssetsManager(scene);
-//var createScene = function () {
-//    .  .  .
-//    enemy = loader.addMeshTask('enemy1', "", "/static/game/", "name.babylon");
-//    .  .  .
-//    ws = new WebSocket(wsUri);
-//    ws.onmessage = function(event){
-//        var msg = JSON.parse(event.data);
-//        if(msg.e == 'new'){
-//            var newPlayer = new Player( msg.x, msg.y );
-//            newPlayer.init(msg.id);
-//        }else if(msg.e == 'move' ){
-//    .  .  .
-//    loader.load();
-//    return scene;
-//}
-//
-//function Player( startX, startY, is_local ) {
-//.  .  .
-//    this.init = function (name, bot) {
-//        mesh = BABYLON.Mesh.CreateSphere(name, 16, 8, scene);
-//        mesh.material = new BABYLON.StandardMaterial('texture1', scene);
-//        mesh.material.diffuseColor = new BABYLON.Color3(0.7, 0.4, 0.5);
-//        mesh.material.alpha = 0.5;
-//        mesh.position = new BABYLON.Vector3(50, -3, -10);
-//        dom1mesh.onSuccess = function (task) {
-//            var nm = task.loadedMeshes[0].clone(name);
-//            nm.parent = mesh;
-//        };
-//
-//    };
-//    .  .  .
-//}
