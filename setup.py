@@ -23,7 +23,7 @@ setup(name='tao1',
       url='https://github.com/alikzao/tao',
       license='MIT',
       packages=find_packages(),
-      install_requires=['aiohttp==0.20.0', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache'],
+      install_requires=['aiohttp==0.20.0', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache', 'aiohttp_session'],
       include_package_data=True
     )
       
