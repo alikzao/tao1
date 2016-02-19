@@ -399,6 +399,8 @@ async def game_handler(request):
         except Exception as e:
             print('Dark forces tried to break down our infinite loop', e)
             traceback.print_tb(e.__traceback__)
+    print('websocket connection closed')
+    clean(ws)
     return ws
 
 
