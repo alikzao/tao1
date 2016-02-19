@@ -110,14 +110,13 @@ class Bot(Player):
         super().__init__(*args, **kwargs)
         self.move_vec = ( 0, 0 )
         # self.run_task = asyncio.async(self.update)
-        self.run_task = asyncio.async(self.update())
-        self.run_task = asyncio.async(self.update_bot_vec())
-        self.run_task = asyncio.async(self.shoot())
+        self.run_task = asyncio.ensure_future(self.update())
+        self.run_task = asyncio.ensure_future(self.update_bot_vec())
+        self.run_task = asyncio.ensure_future(self.shoot())
 
     def __repr__(self): return 'Bot(id={},pos={})'.format (self.id, ','.join(str(x) for x in self))
 
-    @asyncio.coroutine
-    def update(self):
+    async def update(self):
         last = datetime.now()
         while True:
             try:
@@ -137,19 +136,14 @@ class Bot(Player):
                     mess = dict(e="move", bot=1, id=self.id, **self.pos_as_dict)
                     self.room.send_all(mess, except_=(self,))
 
-                    # dx = player.x - self.x
-                    # dz = player.z - self.z
-                    # self.b = math.atan2(dx, dz)
-                    # mess = dict(e="rotate", bot=1, id=self.id, **self.rot_as_dict)
-                    # self.room.send_all(mess, except_=(self,))
                     break
             except Exception as e:
-                traceback.print_exc()
-                print('Bot error: {}'.format( e ))
-            yield from asyncio.sleep(0.1)
+                pass
+                # traceback.print_exc()
+                # print('Bot error: {}'.format( e ))
+            await asyncio.sleep(0.1)
 
-    @asyncio.coroutine
-    def shoot (self):
+    async def shoot (self):
         # pass
         while True:
             try:
@@ -171,13 +165,13 @@ class Bot(Player):
                 self.room.send_all(mess, except_=(self,))
 
             except Exception as e:
-                traceback.print_exc()
-                print('Bot error: {}'.format( e ))
-            yield from asyncio.sleep(2)
+                pass
+                # traceback.print_exc()
+                # print('Bot error: {}'.format( e ))
+            await asyncio.sleep(2)
 
 
-    @asyncio.coroutine
-    def update_bot_vec (self):
+    async def update_bot_vec (self):
         while True:
             try:
                 players =list(sorted(self.room.players - {self}, key=lambda x: x.id))
@@ -189,9 +183,10 @@ class Bot(Player):
 
                     # break
             except Exception as e:
-                traceback.print_exc()
-                print('Bot error: {}'.format( e ))
-            yield from asyncio.sleep(0.5)
+                pass
+                # traceback.print_exc()
+                # print('Bot error: {}'.format( e ))
+            await asyncio.sleep(0.5)
 
     def rotate (self, vx, vy, a):
         rx = vx * math.cos( a ) - vy * math.sin( a )
@@ -309,23 +304,19 @@ number_bots = 1
 
 # =====================================================================================================================
 
-@asyncio.coroutine
-def game(request):
+async def game(request):
     return templ('libs.game:game', request, {})
 
 
-@asyncio.coroutine
-def test_mesh(request):
+async def test_mesh(request):
     return templ('libs.game:test_mesh', request, {})
 
 
-@asyncio.coroutine
-def pregame(request):
+async def pregame(request):
     return templ('libs.game:pregame', request, {})
 
 
-@asyncio.coroutine
-def check_room(request):
+async def check_room(request):
     print ( 'rooms  => ', rooms )
     found = None
     for _id, room in rooms.items():
@@ -345,17 +336,8 @@ def babylon(request):
     return templ('libs.game:game', request, {})
 
 
-
-
-
-def close(me):
-    assert hasattr(me, 'player'), id(me)
-    print('serv onclose; id', str(me.id))
-    yield from me.close()
-    clean(me)
-
-
 def clean(me):
+    print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
     if hasattr(me, 'player'):
         me.player.room.remove_player(me.player)
         mess = {'e': "remove", id: me.player.id, 'msg': 'remove'}
@@ -365,12 +347,8 @@ def clean(me):
     clients.remove(me)
 
 
-
 # me.player.room {'id': '46c', '_players': {[4, 5, 0, 0, 0]}}
 # me.player      {'_id': 1, 'last_id': 1, '_room': <libs.game.game.Room object at 0x7fae8e8324e0>, '_client': <WebSocketResp Switching Protocols GET /game_handler >, }
-
-
-
 
 handlers = {
     'new': h_new,
@@ -384,22 +362,21 @@ handlers = {
 debug_handlers = set(handlers.keys()) - {'move'}
 
 
-@asyncio.coroutine
-def game_handler(request):
-    # init connection
+async def game_handler(request):
     ws = web.WebSocketResponse()
-    ws.start(request)
+    # ws.start(request)
+    await ws.prepare(request)
     clients.add(ws)
-
-    # infinite message loop
-    while True:
-        msg = yield from ws.receive()
+    async for msg in ws:
+    # while True:
+    #     msg = yield from ws.receive()
         try:
             if msg.tp == MsgType.text:
                 if msg.data == 'close':
                     print('client requests close')
-                    #TODO удалить из комнаты игрока если он закрыл сессию.
-                    close(ws)
+                    #TODO remove from room the player if he closed session
+                    await ws.close()
+                    clean(ws)
                 else:
                     e = json.loads( msg.data )
                     action = e['e']
@@ -412,7 +389,7 @@ def game_handler(request):
                         # handler(player, e)
                         handler(ws, e)
                     else:
-                        print('Unknown action:', e['e'], '===>>>', e)
+                        print('Unknown action:', e['e'], '->', e)
                         # send_all(e)
             elif msg.tp == aiohttp.MsgType.close:
                 print('websocket connection closed')
