@@ -138,9 +138,8 @@ class Bot(Player):
 
                     break
             except Exception as e:
-                pass
-                # traceback.print_exc()
-                # print('Bot error: {}'.format( e ))
+                traceback.print_exc()
+                print('Bot error: {}'.format( e ))
             await asyncio.sleep(0.1)
 
     async def shoot (self):
@@ -165,9 +164,8 @@ class Bot(Player):
                 self.room.send_all(mess, except_=(self,))
 
             except Exception as e:
-                pass
-                # traceback.print_exc()
-                # print('Bot error: {}'.format( e ))
+                traceback.print_exc()
+                print('Bot error: {}'.format( e ))
             await asyncio.sleep(2)
 
 
@@ -183,9 +181,8 @@ class Bot(Player):
 
                     # break
             except Exception as e:
-                pass
-                # traceback.print_exc()
-                # print('Bot error: {}'.format( e ))
+                traceback.print_exc()
+                print('Bot error: {}'.format( e ))
             await asyncio.sleep(0.5)
 
     def rotate (self, vx, vy, a):
@@ -337,10 +334,9 @@ def babylon(request):
 
 
 def clean(me):
-    print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
     if hasattr(me, 'player'):
         me.player.room.remove_player(me.player)
-        mess = {'e': "remove", id: me.player.id, 'msg': 'remove'}
+        mess = {'e': "remove", 'id': me.player.id, 'msg': 'remove'}
         me.player.room.send_all(mess)
     else:
         print("onClientDisconnect   no player found", str(me.id))
@@ -388,9 +384,6 @@ async def game_handler(request):
                     else:
                         print('Unknown action:', e['e'], '->', e)
                         # send_all(e)
-            elif msg.tp == aiohttp.MsgType.close:
-                print('websocket connection closed')
-                clean(ws)
             elif msg.tp == aiohttp.MsgType.error:
                 print('ws connection closed with exception ', ws.exception())
                 clean(ws)
