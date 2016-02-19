@@ -364,12 +364,9 @@ debug_handlers = set(handlers.keys()) - {'move'}
 
 async def game_handler(request):
     ws = web.WebSocketResponse()
-    # ws.start(request)
     await ws.prepare(request)
     clients.add(ws)
     async for msg in ws:
-    # while True:
-    #     msg = yield from ws.receive()
         try:
             if msg.tp == MsgType.text:
                 if msg.data == 'close':
