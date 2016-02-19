@@ -106,14 +106,14 @@ function Player(scene, camera, startX, startY, is_local ) {
             meshList.push( mesh );
             mesh.position = new BABYLON.Vector3( 50, -3, -10);
             return mesh;
-            //enemy.onSuccess = (function(player) {
+            //enemy.onSuccess = (function(mesh) {
             //    return function callback (task) {
             //         var name = ''+get_random();
             //         mesh.position = new BABYLON.Vector3( 50, -3, -10);
             //         var nm = task.loadedMeshes[0].clone(name);
             //         nm.parent = mesh;
                 //}
-            //})(player);
+            //})(mesh);
         }
     };
     this.getObject = function(){ return mesh };
