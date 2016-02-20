@@ -102,7 +102,9 @@ Module structure:
 
 Routes
 ======
-Example route in file ``routes.py``::
+Example route in file ``routes.py``:
+
+.. code-block:: python
 
    route( 'GET', '/ws',  ws,  'ws' )
 Templates
@@ -114,7 +116,9 @@ the call looks like this ``apps.modul_name.templ_name``.
 
 If the template is in the root of the project in the templ folder, then simply write his name.
 
-Example::
+Example:
+
+.. code-block:: python
 
    def page(request):
        return templ('index', request, {'key':'val'} )
@@ -167,11 +171,11 @@ and then as usual.
 .. code-block:: python
 
     async def test_db(request):
-	    # save doc
-	    request.db.doc.save({"_id":"test", "status":"success"})
-	    # find doc
-	    val = request.db.doc.find_one({"_id":"test"})
-	    return templ('apps.app:db_test', request, {'key':val})
+	   # save doc
+	   request.db.doc.save({"_id":"test", "status":"success"})
+	   # find doc
+	   val = request.db.doc.find_one({"_id":"test"})
+	   return templ('apps.app:db_test', request, {'key':val})
 
 
 Static files
@@ -185,7 +189,9 @@ Static files
 
 Caching
 =======
-Create cache for function 5 second, the first parameter - name::
+Create cache for function 5 second, the first parameter - name
+
+.. code-block:: python
 
    @cache("main_page", expire=5)
    async def page(request):
