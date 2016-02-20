@@ -39,7 +39,14 @@ or have some suggestion in order to improve the library.
 
 Dependencies
 ------------
-Python 3.4+ and `aiohttp <https://github.com/KeepSafe/aiohttp>`_
+Python 3.5+ and `aiohttp <https://github.com/KeepSafe/aiohttp>`_
+
+Installation Python 3.5 for ubuntu::
+
+   sudo add-apt-repository ppa:fkrull/deadsnakes
+   sudo apt-get update
+   sudo apt-get install python3.5 python3.5-dev
+
 
 
 
@@ -58,12 +65,18 @@ Settings supervisor in ``/etc``::
 
 Settings nginx in ``/etc``::
 
-    server {
-        server_name    name.dev;
-        location / {
-             proxy_pass http://127.0.0.1:6677;
-        }
-    }
+   server {
+        server_name        aio.dev;
+         location / {
+                 proxy_pass http://127.0.0.1:8080;
+         }
+        location /ws {
+              proxy_pass http://127.0.0.1:8080;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "upgrade";
+       }
+   }
 Structure
 =========
 Project structure:
@@ -91,7 +104,7 @@ Routes
 ======
 Example route in file ``routes.py``::
 
-   route( '/ws',    ws,	 'GET',  'ws' )
+   route( 'GET', '/ws',  ws,  'ws' )
 Templates
 =========
 In framework integrated ``jinja2``. Templates are always in the ``templ`` folder.
@@ -114,36 +127,36 @@ The first is the need to call route with the template to draw the route and chat
 
 .. code-block:: python
 
-   route( '/ws',   ws,          GET', 'ws' )
-   route( '/wsh',  ws_handler,  GET', 'ws_handler' )
+   route( 'GET', '/ws',   ws,          'ws' )
+   route( 'GET', '/wsh',  ws_handler,  'ws_handler' )
 
 These routes work you can see an example.
 
 The second is the functions themselves.
-Function for render chat page::
+Function for render chat page
 
-   @asyncio.coroutine
-   def ws(request):
+.. code-block:: python
+
+   async def ws(request):
        return templ('apps.app:chat', request, {} )
 
 Function handler chat:
 
 .. code-block:: python
 
-   @asyncio.coroutine
-   def ws_handler(request):
-       ws = web.WebSocketResponse()
-       ws.start(request)
-       while True:
-           msg = yield from ws.receive()
-           if msg.tp == MsgType.text:
-               if msg.data == 'close':
-                   yield from ws.close()
-               else:
-                   ws.send_str(msg.data + '/answer')
-           elif msg.tp == aiohttp.MsgType.close:
-               print('websocket connection closed')
-       return ws
+   async def ws_handler(request):
+      ws = web.WebSocketResponse()
+      await ws.prepare(request)
+      async for msg in ws:
+          if msg.tp == aiohttp.MsgType.text:
+              if msg.data == 'close':
+                  await ws.close()
+              else:
+                  ws.send_str(msg.data + '/answer')
+          elif msg.tp == aiohttp.MsgType.error:
+              print('ws connection closed with exception %s' % ws.exception())
+      print('websocket connection closed')
+      return ws
 
 
 Database
@@ -153,10 +166,12 @@ and then as usual.
 
 .. code-block:: python
 
-    # save doc
-    request.db.doc.save({"_id":"test", "status":"success"})
-    # find doc
-    val = request.db.doc.find_one({"_id":"test"})
+    async def test_db(request):
+	    # save doc
+	    request.db.doc.save({"_id":"test", "status":"success"})
+	    # find doc
+	    val = request.db.doc.find_one({"_id":"test"})
+	    return templ('apps.app:db_test', request, {'key':val})
 
 
 Static files
@@ -173,16 +188,17 @@ Caching
 Create cache for function 5 second, the first parameter - name::
 
    @cache("main_page", expire=5)
-   @asyncio.coroutine
-   def page(request):
+   async def page(request):
        return templ('index', request, {'key':'val'} )
 
 Game
 ====
-123
+Game start is located on the route ``/pregame``.
+The game is a 3D multiplayer shooting.
+
 Low-level
 =========
-123
+pass
 
 
 
