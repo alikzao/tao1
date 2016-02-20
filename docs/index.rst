@@ -44,7 +44,7 @@ or have some suggestion in order to improve the library.
 
 Dependencies
 ------------
-Python 3.4+ and `aiohttp <https://github.com/KeepSafe/aiohttp>`_
+Python 3.5+ and `aiohttp <https://github.com/KeepSafe/aiohttp>`_
 
 License
 -------
