@@ -10,6 +10,18 @@ and more than a simple barrier to entry.
 
 Built on the basis of asyncio and aiohttp.
 
+#Requirements
+
+Python >= 3.5.1
+aiohttp
+
+#Installation Python 3.5 for ubuntu 
+```bash
+sudo add-apt-repository ppa:fkrull/deadsnakes
+sudo apt-get update
+sudo apt-get install python3.5 python3.5-dev 
+```
+
 #Framework Installation
 ```bash
 $ pip install tao1
@@ -99,27 +111,25 @@ These routes work you can see an example.
 The second is the functions themselves.
 Function for render chat page:
 ```python
-   @asyncio.coroutine
-   def ws(request):
+   async def ws(request):
        return templ('libs.app:chat', request, {} )
 ```
 Function handler chat:
 
-```python
-   @asyncio.coroutine
-   def ws_handler(request):
-       ws = web.WebSocketResponse()
-       ws.start(request)
-       while True:
-           msg = yield from ws.receive()
-           if msg.tp == MsgType.text:
-               if msg.data == 'close':
-                   yield from ws.close()
-               else:
-                   ws.send_str(msg.data + '/answer')
-           elif msg.tp == aiohttp.MsgType.close:
-               print('websocket connection closed')
-       return ws
+```python  
+   async def ws_handler(request):
+      ws = web.WebSocketResponse()
+      await ws.prepare(request)
+      async for msg in ws:
+          if msg.tp == aiohttp.MsgType.text:
+              if msg.data == 'close':
+                  await ws.close()
+              else:
+                  ws.send_str(msg.data + '/answer')
+          elif msg.tp == aiohttp.MsgType.error:
+              print('ws connection closed with exception %s' % ws.exception())
+      print('websocket connection closed')
+      return ws
 ```
 
 #Database
@@ -128,8 +138,7 @@ To write the database query you need to `request.db`
 and then as usual.
 
 ```python
-    @asyncio.coroutine
-    def test_db(request):
+    async def test_db(request):
 	    # save doc
 	    request.db.doc.save({"_id":"test", "status":"success"})
 	    # find doc
@@ -152,10 +161,14 @@ Create cache for function 5 second, the first parameter - name::
 
 ```python
    @cache("main_page", expire=5)
-   @asyncio.coroutine
-   def page(request):
+   async def page(request):
        return templ('index', request, {'key':'val'} )
 ```
+
+#Game start
+Game start is located on the route `/pregame`.
+The game is a 3D multiplayer shooting.
+
 
 #More detailed documentation 
 

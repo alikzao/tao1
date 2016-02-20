@@ -46,8 +46,9 @@ tpl_globals = {
     'h':htmlspecialchars,
 }
 mc = None
-@asyncio.coroutine
-def init(loop):
+
+
+async def init(loop):
     global mc
 
     middlewares = []
@@ -88,7 +89,7 @@ def init(loop):
     # app.router.add_static('/static/', path, name='static')
 
     handler = app.make_handler()
-    srv = yield from loop.create_server(handler, settings.addr[0], settings.addr[1])
+    srv = await loop.create_server(handler, settings.addr[0], settings.addr[1])
     print("Server started at http://127.0.0.1:6677")
     return srv, handler, app
 
@@ -142,8 +143,7 @@ def init_gunicorn():
     return app
 
 
-@asyncio.coroutine
-def union_stat(request, *args):
+async def union_stat(request, *args):
     component = request.match_info.get('component', "Anonymous")
     fname = request.match_info.get('fname', "Anonymous")
     path = os.path.join( settings.tao_path, 'libs', component, 'static', fname )
@@ -272,12 +272,10 @@ builtins.templ_str = render_templ_str
 
 # @asyncio.coroutine
 def db_handler():
-    @asyncio.coroutine
-    def factory(app, handler):
-        @asyncio.coroutine
-        def middleware(request):
+    async def factory(app, handler):
+        async def middleware(request):
             if request.path.startswith('/static/') or request.path.startswith('/_debugtoolbar'):
-                response = yield from handler(request)
+                response = await handler(request)
                 return response
             # # init
             # db_inf = settings.database
@@ -290,7 +288,7 @@ def db_handler():
             # db.authenticate(settings.database['login'], settings.database['pass'] )
             request.db = app.db
             # процессинг запроса (дальше по цепочки мидлверов и до приложения)
-            response = yield from handler(request)
+            response = await handler(request)
             # mongo.close() # yield from db.close()
             # экземеляр рабочего объекта по цепочке вверх до библиотеки
             return response
@@ -319,7 +317,6 @@ def cache_(request, name, expire=0):
 
         return wrapper
 
-
     return decorator
 
 
@@ -332,21 +329,20 @@ def cache_key(name, kwargs):
 # if isinstance(func, asyncio.coro)
 def cache(name, expire=0):
     def decorator(func):
-        @asyncio.coroutine
-        def wrapper(request=None, **kwargs):
+        async def wrapper(request=None, **kwargs):
             args = [r for r in [request] if isinstance(r, aiohttp.web_reqrep.Request)]
             key = cache_key(name, kwargs)
 
             # print( request.__dict__ )
             mc = request.app.mc
-            value = yield from mc.get(key)
+            value = await mc.get(key)
             if value is None:
-                value = yield from func(*args, **kwargs)
+                value = await func(*args, **kwargs)
                 v_h = {}
                 if isinstance(value, web.Response):
                     v_h = value._headers
                     value._headers = [(k, v) for k, v in value._headers.items()]
-                yield from mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
+                await mc.set(key, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL), exptime=expire)
                 if isinstance(value, web.Response):
                     value._headers = v_h
             else:

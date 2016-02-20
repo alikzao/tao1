@@ -2,7 +2,7 @@
 
 
 import sys, os
-assert sys.version_info >= (3, 4)
+assert sys.version_info >= (3, 5)
 import asyncio
 
 

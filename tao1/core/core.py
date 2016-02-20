@@ -17,8 +17,7 @@ def get_settings(name, def_val=None):
     else: return def_val
 
 
-@asyncio.coroutine
-def locale_date(format, dt, loc = 'en_US.UTF-8'):
+async def locale_date(format, dt, loc = 'en_US.UTF-8'):
     """ dt - кортеж """
     import locale
     lc = locale.getdefaultlocale()
@@ -168,22 +167,24 @@ def create_date():
 
 def sub(request, user, link, subject): #TODO  сделать чтоб система не ждала отправки всех писем.
     admin = get_admin(True)
-    mail = admin['head_field']['mail'] if 'mail' in admin['head_field'] else ''
+    mail = admin['doc']['mail'] if 'mail' in admin['doc'] else ''
     if not mail:  return {"result":"ok"}
     db = request.db
     from libs.contents.contents import get_doc
     doc = get_doc(user)
-    db.queue.mail.save({"_id": uuid4().hex, "subject":subject, "to":admin['head_field']['mail'], 'body': link})
+    db.queue.mail.save({"_id": uuid4().hex, "subject":subject, "to":admin['doc']['mail'], 'body': link})
     users = doc['friends'] if doc and 'friends' in doc else {}
     for res in users:
         friend = get_doc(res)
-        if friend['head_field']['sub'] == 'true' :
-            db.queue.mail.save({"_id": uuid4().hex, "subject":subject, "to":friend['head_field']['mail'], 'body': link})
+        if friend['doc']['sub'] == 'true' :
+            db.queue.mail.save({"_id": uuid4().hex, "subject":subject, "to":friend['doc']['mail'], 'body': link})
     return {"result":"ok"}
+
 
 def mail(request, email, head, text):
     doc = {"_id": uuid4().hex, "subject":head, "to":email, 'body': text}
     request.db.queue.mail.save(doc)
+
 
 def route_mail(request, to, subject, text): #TODO  сделать чтоб система не ждала отправки всех писем.
     """ save letter
