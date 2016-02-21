@@ -1,14 +1,13 @@
 
 
-Introduction
+Game framework
 ============
-About game
-
 
 Getting Started
 ---------------
 
-Start game ``/pregame``
+Game start is located on the route ``/pregame``.
+The game is a 3D multiplayer shooting.
 
 
 

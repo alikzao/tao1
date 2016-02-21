@@ -197,10 +197,6 @@ Create cache for function 5 second, the first parameter - name
    async def page(request):
        return templ('index', request, {'key':'val'} )
 
-Game
-====
-Game start is located on the route ``/pregame``.
-The game is a 3D multiplayer shooting.
 
 Low-level
 =========
