@@ -61,6 +61,7 @@ Contents:
    :maxdepth: 2
 
    example.rst
+   game.rst
 
 Indices and tables
 ==================

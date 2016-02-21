@@ -26,6 +26,9 @@
 		<b>Test image </b> <span>/apps/app/static</span> <br>
 		<img src="/static/app/in.jpg"><br>
 
+		<a href="/pregame"> Link for testing the game framework</a>
+
+
 	</div>
 
     <style type="text/css">
