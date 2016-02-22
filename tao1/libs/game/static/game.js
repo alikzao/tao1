@@ -11,7 +11,7 @@ var camera, camera2,  scene, meshList = [], localPlayer, trueDirection, lmesh, l
 
 function iniPointerLock(scene, camera) {
     var _this = this;
-    var canvas = scene.getEngine().getRenderingCanvas(); //TODO непонятнная ошибка какаято
+    var canvas = scene.getEngine().getRenderingCanvas();
     click_here.addEventListener("click", function(evt) {
         canvas.requestPointerLock = canvas.requestPointerLock || canvas.msRequestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
         if (canvas.requestPointerLock) canvas.requestPointerLock();
@@ -439,13 +439,12 @@ var createScene = function () {
         };
         ws.onclose = function (e) {
             console.log('close: ', e);
-            if (e.wasClean) console.log('Соединение закрыто чисто');
-            else console.log('Обрыв соединения');
-            console.log('Код: ' + e.code + ' причина: ' + e.reason);
+            if (e.wasClean) console.log('Connection was closed cleanly');
+                else console.log('Disconnect the connection');
+            console.log('Code: ' + e.code + '  reason: ' + e.reason);
         };
         ws.onerror = function (error) {
             console.log("Error: error " + error);
-            console.log("Error: error.message:  " + error.message);
         };
     };
     loader.load();

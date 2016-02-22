@@ -1,4 +1,7 @@
-import os, time, re, datetime, hashlib, asyncio
+import os, time
+import re
+import datetime
+import hashlib
 from uuid import uuid4
 
 from pymongo import *
@@ -75,7 +78,6 @@ def get_from(coro):
         raise
 
 
-# @asyncio.coroutine
 def get_post(request):
     data = get_from( request.post() )
     return data
@@ -88,7 +90,6 @@ def ct(request, sub, lang = None):
 
 
 def translate(lang, subject):
-    # print('ddddd', type(subject))
     if not subject: return ''
     if isinstance(subject, int):
         return subject
@@ -105,22 +106,12 @@ def session(request):
     return get_from(get_session(request))
 
 
-
-
-
-# my_user = None
-# def set_user(_user):
-#     global my_user
-#     my_user = _user
-
-
 def get_current_user(request, full=False):
     # global my_user
     # if my_user: return 'user:'+my_user if full else my_user
     s = session( request )
     if not 'user_id' in s or s['user_id'] == 0:
         s['user_id'] = 'guest'
-        # s.save()
     return 'user:'+s['user_id'] if full else s['user_id']
 
 
@@ -165,7 +156,7 @@ def create_date():
     return time.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def sub(request, user, link, subject): #TODO  сделать чтоб система не ждала отправки всех писем.
+def sub(request, user, link, subject): #TODO  do not expect the system to send all letters.
     admin = get_admin(True)
     mail = admin['doc']['mail'] if 'mail' in admin['doc'] else ''
     if not mail:  return {"result":"ok"}
@@ -186,16 +177,17 @@ def mail(request, email, head, text):
     request.db.queue.mail.save(doc)
 
 
-def route_mail(request, to, subject, text): #TODO  сделать чтоб система не ждала отправки всех писем.
+def route_mail(request, to, subject, text): #TODO  do not expect the system to send all letters.
     """ save letter
 	"""
     request.db.queue.mail.save({"_id": uuid4().hex, "subject":subject, "to":to, 'body': text})
+
 
 def s_mail(to, from_, mess):
     import smtplib
     from email.mime.text import MIMEText
     s = smtplib.SMTP()
-    s.connect('localhost') # соединяемся с SMTP сервером
+    s.connect('localhost') # connect to the SMTP server
     msg = MIMEText('', _charset='utf-8')
     msg['Subject'] = mess
     msg['From'] = from_
@@ -208,7 +200,7 @@ def send_mail(request):
     from email.mime.text import MIMEText
     db = request.db
     s = smtplib.SMTP()
-    s.connect('localhost') # соединяемся с SMTP сервером
+    s.connect('localhost') # connect to the SMTP server
     while True:
         doc = db.queue.mail.find_one({"sending":{"$exists":False}})
         if not doc: break

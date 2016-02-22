@@ -5,10 +5,10 @@ import sys, os, re
 # version = __import__(tao1).__version__
 
 if sys.version_info < (3, 5, 0):
-    raise RuntimeError("tao1 requires Python 3.4.1+")
+    raise RuntimeError("tao1 requires Python 3.5.1+")
 
 setup(name='tao1',
-      version="0.2.3",
+      version="0.2.4",
       description=("framework, CMS and CRM for aiohttp"),
 #      lond_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
 
@@ -16,14 +16,14 @@ setup(name='tao1',
       classifiers=[
           'Intended Audience :: Developers',
           'Programming Language :: Python',
-          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
           'Topic :: Internet :: WWW/HTTP'],
       author="Alexandre Z",
       author_email="alikzao@gmail.com",
       url='https://github.com/alikzao/tao',
       license='MIT',
       packages=find_packages(),
-      install_requires=['aiohttp==0.20.1', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache', 'aiohttp_session'],
+      install_requires=['aiohttp==0.20.2', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache', 'aiohttp_session'],
       include_package_data=True
     )
       

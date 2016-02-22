@@ -287,10 +287,8 @@ def db_handler():
             # db = mongo[ db_inf['name'] ]
             # db.authenticate(settings.database['login'], settings.database['pass'] )
             request.db = app.db
-            # процессинг запроса (дальше по цепочки мидлверов и до приложения)
             response = await handler(request)
             # mongo.close() # yield from db.close()
-            # экземеляр рабочего объекта по цепочке вверх до библиотеки
             return response
         return middleware
     return factory
@@ -298,7 +296,6 @@ def db_handler():
 
 def cache_(request, name, expire=0):
     def decorator(func):
-        # @asyncio.coroutine
         def wrapper(**kwargs):
             mc = request.app.mc
             assert isinstance(mc, aiomcache.Client)
@@ -406,19 +403,19 @@ def get_lng(module):
 
 
 def trans(module, s):
-    """ принимает имя компонента и строчку, которую надо перевести
-    и непосредственно переводит"""
+    """ It takes the component name and the string that needs to be translated and translates"""
     translated = s
     lng = get_lng(module)
     if lng:
         for i in reversed(lng):
             translated = i.gettext(s)
-            # если перевелось то транслейтед отличается от оригинала и дальше не надо искать.
+            # if it transferred to the transleyt different from the original and does not need to look further.
             if s != translated: break
     return translated
 
 
-def get_trans(module): # возвращает функцию которая переводит само слово, саму фразу
+def get_trans(module):
+    """ returns a function that translates the word, phrase, """
     return lambda s: trans(module, s)
 
 

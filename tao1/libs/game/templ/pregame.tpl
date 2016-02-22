@@ -40,8 +40,10 @@
 		<div class="check_webgl col-xs-7" >
 			<div class="">
 				<h3>Check for WebGL in your browser.</h3>
-                <p>К сожалению старые версии браузеров эту технологию не поддерживают, а internet explorer только начиная с 11 версии поддерживает WebGl. </p>
-                <p>Как правило могут быть несколько случаев отсутствия поддержки это либо старая графическая карточка, либо устаревший браузер. </p>
+                <p>Unfortunately, older versions of browsers that do not support technology, and internet explorer
+                only starting with version 11 supports WebGl. </p>
+                <p>Typically, there may be several cases of lack of support is either old graphic card,
+                or an outdated browser. </p>
 			</div>
             <div class="webgl"></div>
             <div class="">
@@ -74,29 +76,29 @@
         </script>
 
 		<div class="regulate col-xs-5">
-			<h3> Горячие клавиши для игры.</h3>
+			<h3> Keyboard shortcuts for the game.</h3>
 
             <div class="row">
-                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; W &nbsp;</div> &nbsp; - Вперед<br/><br/>
+                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; W &nbsp;</div> &nbsp; - Forward<br/><br/>
                 <div class="ctrl1 col-xs-2">&nbsp; A &nbsp;</div>
-                <div class="ctrl1 col-xs-2">&nbsp; D &nbsp;</div>  &nbsp; - Влево вправо<br/> <br/>
-                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; S &nbsp;</div> &nbsp; - Назад
+                <div class="ctrl1 col-xs-2">&nbsp; D &nbsp;</div>  &nbsp; - Left right<br/> <br/>
+                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; S &nbsp;</div> &nbsp; - Back
             </div>
             <hr/>
             <div class="row">
-                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; <i class="fa fa-long-arrow-up"></i> &nbsp;</div> &nbsp; - Вперед<br/><br/>
+                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; <i class="fa fa-long-arrow-up"></i> &nbsp;</div> &nbsp; - Forward<br/><br/>
                 <div class="ctrl1 col-xs-2">&nbsp; <i class="fa fa-long-arrow-left"></i> &nbsp;</div>
-                <div class="ctrl1 col-xs-2">&nbsp; <i class="fa fa-long-arrow-right"></i> &nbsp;</div>  &nbsp; - Влево вправо<br/> <br/>
-                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; <i class="fa fa-long-arrow-down"></i> &nbsp;</div> &nbsp; - Назад
+                <div class="ctrl1 col-xs-2">&nbsp; <i class="fa fa-long-arrow-right"></i> &nbsp;</div>  &nbsp; - Left right<br/> <br/>
+                <div class="col-xs-1"></div><div class="ctrl1 col-xs-2">&nbsp; <i class="fa fa-long-arrow-down"></i> &nbsp;</div> &nbsp; - Back
             </div>
             <hr/>
+{#            <div class="row">#}
+{#                <div class="col-xs-1"></div><div class="ctrl1 col-xs-5">&nbsp; SPACE &nbsp;</div> &nbsp; - Поднятие в верх#}
+{#            </div>#}
+{#            <hr/>#}
             <div class="row">
-                <div class="col-xs-1"></div><div class="ctrl1 col-xs-5">&nbsp; SPACE (Пробел) &nbsp;</div> &nbsp; - Поднятие в верх
-            </div>
-            <hr/>
-            <div class="row">
-                <div class="col-xs-1"></div><div class="ctrl1 col-xs-6">&nbsp; Левая кнопка мышы &nbsp;</div> &nbsp; - Выстрел <br/><br/>
-                <div class="col-xs-1"></div><div class="ctrl1 col-xs-6">&nbsp; Вращение мышы &nbsp;</div> &nbsp; - Вращение
+                <div class="col-xs-1"></div><div class="ctrl1 col-xs-6">&nbsp; Left mouse button &nbsp;</div> &nbsp; - Shot <br/><br/>
+                <div class="col-xs-1"></div><div class="ctrl1 col-xs-6">&nbsp; Rotation mouse &nbsp;</div> &nbsp; - Rotation
             </div>
 		</div>
 
@@ -111,9 +113,9 @@
 
 
 <script type="text/javascript">
-    text = '<div class="jumbotron"> <div class="btn btn-success btn-xs"><i class="fa fa-check"></i></div> &nbsp Поздравляем, ваш браузер поддерживает технологию 3D WebGl.  </div>'
-    text1 = '<div class="jumbotron"> <div class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></div> &nbsp К сожалеию ваш браузер не поддерживает WebGl. ' +
-            '<a href="https://support.google.com/chrome/answer/1220892?hl=ru">О подержке WebGl google-chrome</a><br/>  ' +
+    text = '<div class="jumbotron"> <div class="btn btn-success btn-xs"><i class="fa fa-check"></i></div> &nbsp Congratulations, your browser supports WebGl 3D.  </div>'
+    text1 = '<div class="jumbotron"> <div class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></div> &nbsp Unfortunate enough your browser does not support WebGl. ' +
+            '<a href="https://support.google.com/chrome/answer/1220892?hl=ru">About support for WebGl in google chrome</a><br/>  ' +
             '</div>'
     !!window.WebGLRenderingContext ? $('.webgl').append(text) : $('.webgl').append(text1);
 

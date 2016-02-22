@@ -37,10 +37,10 @@
 
     <div id="blocker">
         <div id="instructions">
-            <span id="click_here" style="font-size:40px">Нажмите для начала Игры</span>
+            <span id="click_here" style="font-size:40px">Click to start the Game</span>
 {#            <span id="click_here" style="font-size:40px">Click to play </span> <br/>#}
             {#            (W, A, S, D =  Движение, &nbsp; &nbsp; SPACE =  Прыжок, &nbsp;&nbsp;MOUSE = Look around || Движение вокруг)#}
-                        (W, A, S, D =  Движение, &nbsp; &nbsp; MOUSE = Движение вокруг)
+                        (W, A, S, D =  Movement, &nbsp; &nbsp; MOUSE = Movement around)
 {#            (W, A, S, D = Move &nbsp; &nbsp; SPACE = Jump  &nbsp;&nbsp;MOUSE = Look around )#}
             <span class="chat"> <input name="msg" id="msg" autocomplete="off"/> <input type="submit" value="Ok"/> </span>
         </div>

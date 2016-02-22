@@ -43,7 +43,6 @@ class Player(list):
 
     def __eq__(self, other): return other is self
 
-    # def __repr__(self): return 'Room(id={},len={},players={},bots=...)'.format (self.id, len(self), ','.join(repr(player) for player in self))
     def __repr__(self): return 'Player(id={},pos={})'.format (self.id, ','.join(str(x) for x in self))
 
     @property
