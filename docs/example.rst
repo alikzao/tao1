@@ -51,7 +51,7 @@ Installation Python 3.5 for ubuntu::
 
 
 Deploy
-======
+------
 When you develop enough to run the file ``python3 index.py``.
 For production to run ``index.py``, is better to use the ``supervisor`` and ``nginx``.
 Settings supervisor in ``/etc``::
@@ -78,7 +78,7 @@ Settings nginx in ``/etc``::
        }
    }
 Structure
-=========
+---------
 Project structure:
 
 - In the ``locale`` folder there are the translation files.
@@ -101,14 +101,14 @@ Module structure:
 
 
 Routes
-======
+------
 Example route in file ``routes.py``:
 
 .. code-block:: python
 
    route( 'GET', '/ws',  ws,  'ws' )
 Templates
-=========
+---------
 In framework integrated ``jinja2``. Templates are always in the ``templ`` folder.
 
 To call the template function ``templ`` and pass it the template name. If the template is in some sort of module,
@@ -124,7 +124,7 @@ Example:
        return templ('index', request, {'key':'val'} )
 
 Websockets
-==========
+----------
 The websocket to create games and chat very easy to use.
 
 The first is the need to call route with the template to draw the route and chat with the handler for chat:
@@ -164,7 +164,7 @@ Function handler chat:
 
 
 Database
-========
+--------
 To write the database query you need to ``request.db``
 and then as usual.
 
