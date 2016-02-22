@@ -206,8 +206,11 @@ Scheme of work bot
 Roadmap game
 ------------
 
-- aaa
-- bbb
-- ccc
+- Movement at different angles
+- Space scene
+- A detailed review of all movements on the server
+- Check vector of shot on the server
+- Artificial intelligence for bots
+- Showcase players
 
 
