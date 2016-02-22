@@ -5,10 +5,10 @@
 
 
 # Introduction.
-This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websocket out of the box, 
-and more than a simple barrier to entry. 
+This asynchronous framework with a modular structure like Django. But with mongodb, jinja2, websocket out of the box,
+and more than a simple barrier to entry.
 
-Built on the basis of asyncio and aiohttp.
+Built on the basis of asyncio and aiohttp. In the framework, have batteries. A prototype of the framework's component like.
 
 #Requirements
 
