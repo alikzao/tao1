@@ -178,8 +178,8 @@ and then as usual.
 	   return templ('apps.app:db_test', request, {'key':val})
 
 
-###Static files
-
+Static files
+------------
  Static files it is better to entrust ``nginx`` but ``tao1`` able return files.
 
  All files must be located in the folder static.
@@ -188,7 +188,7 @@ and then as usual.
  If the files are in a certain module, then the path like this ``/static/module_name/file_name.jpg``.
 
 Caching
-=======
+-------
 Create cache for function 5 second, the first parameter - name
 
 .. code-block:: python
