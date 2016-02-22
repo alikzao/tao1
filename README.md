@@ -13,7 +13,12 @@ Built on the basis of asyncio and aiohttp. In the framework, have batteries. The
 #Requirements
 
 Python >= 3.5.1   
-aiohttp
+aiohttp == 0.20.2
+aiohttp_jinja2    
+aiohttp_session      
+aiohttp_debugtoolbar        
+aiomcache     
+pymongo        
 
 #Installation Python 3.5 for ubuntu 
 ```bash
