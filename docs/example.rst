@@ -178,8 +178,8 @@ and then as usual.
 	   return templ('apps.app:db_test', request, {'key':val})
 
 
-Static files
-============
+###Static files
+
  Static files it is better to entrust ``nginx`` but ``tao1`` able return files.
 
  All files must be located in the folder static.
