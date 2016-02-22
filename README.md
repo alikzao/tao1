@@ -165,10 +165,11 @@ Create cache for function 5 second, the first parameter - name::
        return templ('index', request, {'key':'val'} )
 ```
 
-#Game start
+#Game 
 In this case, the game framework is a battery, the basic framework. The game is a 3D multiplayer shooting.
 Prototype game framework have  multiplayer mode, the mini-map, rooms, bot, several typical models of tanks.
-The client side is written in the framework `WEBGL` babylon.js
+The client side is written in the framework `WEBGL` babylon.js.
+#Game start
 Game start is located on the route `/pregame`.
 ![Image alt](https://habrastorage.org/files/7f7/b31/ed7/7f7b31ed7b3e41099718749ed5b7ccd5.jpg)
 
