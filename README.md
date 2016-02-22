@@ -177,7 +177,7 @@ Game start is located on the route `/pregame`.
 <http://tao1.readthedocs.org/en/latest/game.html>
 
 
-#More detailed documentation 
+#More detailed documentation about base framework 
 
 <http://tao1.readthedocs.org/en/latest/>
 
