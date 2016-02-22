@@ -22,6 +22,7 @@ Low-level game framework
 
 Import models and blender
 -------------------------
+.. image:: https://habrastorage.org/files/f64/0b6/366/f640b63667a146019cd9dc76b21fac64.jpg
 
 Loading models in the game with babylon.js and the models themselves
 --------------------------------------------------------------------
@@ -34,8 +35,8 @@ The websocket and sync game
 ---------------------------
 .. image:: _static/game_en_0.jpg
 
-The backend of
---------------
+Backend
+-------
 
 Balancing players by rooms
 --------------------------
@@ -56,8 +57,6 @@ Roadmap game
 - Is bot
 - Is room
 - Multiplayer shooter
-
-.. image:: _static/docs2.jpg
 
 
 .. code-block:: python
