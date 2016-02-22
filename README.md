@@ -172,6 +172,7 @@ The client side is written in the framework `WEBGL` babylon.js.
 #Game start
 Game start is located on the route `/pregame`.
 ![Image alt](https://habrastorage.org/files/7f7/b31/ed7/7f7b31ed7b3e41099718749ed5b7ccd5.jpg)
+![Image alt](https://github.com/alikzao/tao1/raw/master/docs/_static/game.jpg)
 
 #More detail documentation about game.
 <http://tao1.readthedocs.org/en/latest/game.html>
@@ -180,3 +181,5 @@ Game start is located on the route `/pregame`.
 #More detailed documentation 
 
 <http://tao1.readthedocs.org/en/latest/>
+
+
