@@ -77,7 +77,7 @@ server {
 }
 ```
 
-#Routes
+##Routes
 
 Example route in file `routes.py`::
 ```python
@@ -86,7 +86,7 @@ Example route in file `routes.py`::
    
    route('GET', '/ws',  ws,	'ws' )
 ```   
-#Templates
+##Templates
 
 In framework integrated `jinja2`. Templates are always in the `templ` folder.
 
@@ -101,7 +101,7 @@ Example:
        return templ('index', request, {'key':'val'} )
 ```
 
-#Websockets
+##Websockets
 
 The websocket to create games and chat very easy to use.
 
@@ -137,7 +137,7 @@ Function handler chat:
       return ws
 ```
 
-#Database
+##Database
 
 To write the database query you need to `request.db`
 and then as usual.
@@ -151,7 +151,7 @@ and then as usual.
 	    return templ('apps.app:db_test', request, {'key':val})
 ```
 
-#Static files
+##Static files
 
  Static files it is better to entrust `nginx` but `tao1` able return files.
 
@@ -160,7 +160,7 @@ and then as usual.
  If they are the root of the project then the path will be like this `/static/file_name.pg`.
  If the files are in a certain module, then the path like this `/static/module_name/file_name.jpg`.
 
-#Caching
+##Caching
 
 Create cache for function 5 second, the first parameter - name::
 
@@ -174,7 +174,7 @@ Create cache for function 5 second, the first parameter - name::
 In this case, the game framework is a battery, the basic framework. The game is a 3D multiplayer shooting.
 Prototype game framework have  multiplayer mode, the mini-map, rooms, bot, several typical models of tanks.
 The client side is written in the framework `WEBGL` babylon.js.
-#Game start
+##Game start
 Game start is located on the route `/pregame`.   
    
 ![Image alt](https://github.com/alikzao/tao1/raw/master/docs/_static/game.jpg)
