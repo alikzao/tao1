@@ -170,7 +170,7 @@ In this case, the game framework is a battery, the basic framework. The game is 
 Prototype game framework have  multiplayer mode, the mini-map, rooms, bot, several typical models of tanks.
 The client side is written in the framework `WEBGL` babylon.js.
 #Game start
-Game start is located on the route `/pregame`.  
+Game start is located on the route `/pregame`.   
 ![Image alt](https://github.com/alikzao/tao1/raw/master/docs/_static/game.jpg)
 
 #More detail documentation about game.
