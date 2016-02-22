@@ -10,7 +10,7 @@ and more than a simple barrier to entry.
 
 Built on the basis of asyncio and aiohttp. In the framework, have batteries. The prototype of the game framework as a component.
 
-#Requirements
+###Requirements
 
 Python >= 3.5.1   
 aiohttp == 0.20.2
@@ -20,7 +20,7 @@ aiohttp_debugtoolbar
 aiomcache     
 pymongo        
 
-#Installation Python 3.5 for ubuntu 
+###Installation Python 3.5 for ubuntu 
 ```bash
 sudo add-apt-repository ppa:fkrull/deadsnakes
 sudo apt-get update
