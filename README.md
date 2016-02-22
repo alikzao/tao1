@@ -179,11 +179,11 @@ Game start is located on the route `/pregame`.
    
 ![Image alt](https://github.com/alikzao/tao1/raw/master/docs/_static/game.jpg)
 
-#More detail documentation about game.
+###More detail documentation about game.
 <http://tao1.readthedocs.org/en/latest/game.html>
 
 
-#More detailed documentation about base framework 
+###More detailed documentation about base framework 
 
 <http://tao1.readthedocs.org/en/latest/>
 
