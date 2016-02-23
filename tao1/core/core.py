@@ -21,7 +21,7 @@ def get_settings(name, def_val=None):
 
 
 async def locale_date(format, dt, loc = 'en_US.UTF-8'):
-    """ dt - кортеж """
+    """ dt - set """
     import locale
     lc = locale.getdefaultlocale()
     # lc = locale.getlocale(locale.LC_ALL)
@@ -238,7 +238,7 @@ def calendar(date_range=None):
         w = d.weekday()
         day = d.strftime('%Y-%m-%d')
         row.append((day, d.timetuple()[1] == month))
-        if w == 6: #воскресенье
+        if w == 6: #Sunday
             rows.append(row)
             row = []
     return year, month, month_name, rows

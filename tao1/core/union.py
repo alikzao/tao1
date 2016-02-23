@@ -3,7 +3,7 @@ import sys, os, json, pickle, gettext, hashlib
 
 import aiohttp.web_reqrep
 
-assert sys.version_info >= (3, 4), 'Please use Python 3.4 or higher.'
+assert sys.version_info >= (3, 5), 'Please use Python 3.5 or higher.'
 
 from urllib.parse import quote, urlparse
 import asyncio
@@ -391,7 +391,7 @@ def load_lang(path, module_name, lang):
 
 
 def get_lng(module):
-    """ Возвращает пути с модули с языками """
+    """ Return path with modules (lang) """
     lang = cur_lang()
     if not lang in langs: langs[lang] = {}
     if not module in langs[lang]:
