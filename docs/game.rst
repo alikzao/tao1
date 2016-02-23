@@ -211,6 +211,7 @@ Roadmap game
 - A detailed review of all movements on the server
 - Check vector of shot on the server
 - Artificial intelligence for bots
-- Showcase players
+- Showcase playersрещзрещз
+
 
 
