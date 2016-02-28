@@ -1,4 +1,5 @@
 from libs.table.table import  *
+from libs.contents.contents import table_get_field_post
 from core.union import route
 
 
