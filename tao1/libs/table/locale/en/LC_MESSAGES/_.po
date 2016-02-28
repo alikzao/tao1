@@ -1,0 +1,66 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# user <user@user-local>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-06-30 19:28+0300\n"
+"PO-Revision-Date: 2012-03-03 19:37+0200\n"
+"Last-Translator: user <user@user-local>\n"
+"Language-Team: English\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#~ msgid "members"
+#~ msgstr "members"
+
+#~ msgid "aaa"
+#~ msgstr "aaa"
+
+#~ msgid "ccc"
+#~ msgstr "ccc"
+
+#~ msgid "freands"
+#~ msgstr "freands"
+
+#~ msgid "new_mess"
+#~ msgstr "new_mess"
+
+#~ msgid "admynka"
+#~ msgstr "admynka"
+
+#~ msgid "you_come"
+#~ msgstr "you_come"
+
+#~ msgid "logaut"
+#~ msgstr "logaut"
+
+#~ msgid "name"
+#~ msgstr "name"
+
+#~ msgid "password"
+#~ msgstr "password"
+
+#~ msgid "signup"
+#~ msgstr "signup"
+
+#~ msgid "login"
+#~ msgstr "login"
+
+#~ msgid "langs"
+#~ msgstr "langs"
+
+#~ msgid "lang"
+#~ msgstr "lang"
+
+#~ msgid "ru"
+#~ msgstr "ru"
+
+#~ msgid "en"
+#~ msgstr "en"

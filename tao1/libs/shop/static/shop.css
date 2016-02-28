@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+.basket{
+/*    position:absolute; right:0px; top:0px;*/ 
+    width:100px; height:20px;  
+    margin:10px 10px 10px 10px}
+.count_ware{ display:inline;}
+.basket_title{ display:inline;}

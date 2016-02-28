@@ -1,0 +1,17 @@
+
+/*это к левому меню*/
+.left_menu li {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+.left_menu > li {
+    margin:1px;
+}
+.left_menu {
+    width: 191px;
+}
+.left_menu ul {
+    margin:0 0 0 10px;
+}
+

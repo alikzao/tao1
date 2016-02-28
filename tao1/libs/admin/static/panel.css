@@ -1,0 +1,219 @@
+
+#header {
+	/*position: fixed;*/
+    top: 0px; left: 0px; right: 0px;
+	height: 32px;
+	vertical-align: top;
+	background-color: #333;
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+    text-align: center;
+}
+
+#header>.panel {
+    position: relative;
+    vertical-align: top;
+    width: 1200px;
+    display: inline-block;
+}
+
+
+#header ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+#header li {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#header > .panel > * {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	white-space: nowrap;
+}
+
+#header > .panel >.left {
+	left: 2px;
+}
+
+#header > .panel >.right {
+	right: 2px;
+}
+
+#header > .panel >.left > *, #header > .panel >.right > * {
+	display: inline-block;
+	position: relative;
+	height: 32px;
+	cursor: pointer;
+	margin: 0px -2px;
+}
+
+#header > .panel >.left > * > .title, #header > .panel >.right > * > .title {
+	display: table-cell;
+	height: 32px;
+	padding: 0px 20px;
+	color: #ddd;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+#header > .panel >.left > * {
+	box-shadow: 1px 0px 0px rgba(0,0,0,.7), 2px 0px 0px rgba(255,255,255,.2);
+	margin-right: 0px;
+}
+#header > .panel >.right > * {
+	box-shadow: -2px 0px 0px rgba(0,0,0,.5), -1px 0px 0px rgba(255,255,255,.7);
+	margin-left: 0px;
+}
+
+#header .menu.write > .title{
+    white-space: nowrap;
+}
+#header .menu.write > .title > * {
+	display: table-cell;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#header .profile.menu > .title > * {
+	display: table-cell;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#header .profile.menu > .title > .avatar {
+	width: 24px;
+	height: 24px;
+	border: 1px solid #777;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+#header .profile.card {
+	width: 350px;
+	display: block;
+	color: #ddd;
+	white-space: nowrap;
+}
+#header .profile.card .avatar {
+	display: inline-block; 
+	height: 100px; 
+	width: 100px; 
+	border: 1px solid #777;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+#header .profile.card .name {
+	display: inline-block;
+	white-space: normal;
+}
+
+#header .profile.card .name .cell {
+	display: table-cell;
+	height: 100px;
+	width: 240px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#header .profile.card .name .full {
+	font-size: 18px;
+}
+
+#header .profile.card .name .descr {
+	font-size: 12px;
+}
+
+#header .profile.menu > .title > .welcome {
+	padding: 0 5px;
+}
+
+#header .menu .popup {
+	display: none;
+	position: absolute;
+	top: 32px;
+	background-color: rgba(0,0,0,.8);
+	z-index: 100;
+	padding: 5px;
+	box-shadow: 5px 5px 5px rgba(0,0,0,.6);
+	margin: 0px;
+	cursor: default;
+}
+
+#header .menu > .title {
+	color: #ddd;
+}
+#header .menu > .title >a{
+	color: #ddd;
+    text-decoration: none;
+}
+#header .mess .title span{
+    line-height: 24px;
+    vertical-align: top;
+    padding-right: 3px;
+}
+
+#header .menu:hover > .title {
+	color: #fff;
+	background-color: rgba(255,255,255,.1);
+}
+
+#header .menu:hover .popup {
+	display: block;
+}
+
+#header .left > .menu > .popup {
+	left: 0px;
+}
+
+#header .pull-right > .menu > .popup {
+	right: 0px;
+}
+
+.popup li{
+    cursor: pointer;
+    color: #ddd;
+}
+#header .login.popup li {
+	margin: 1px 0px;
+	b-order-top: 1px solid rgba(255,255,255,.3);
+	color: #ddd;
+}
+
+#header .login.popup li:hover {
+	color: #fff;
+}
+
+#header .popup li > a:link, #header .popup li > a:visited {
+	display: block;
+	color: #ddd;
+	padding: 5px 10px 5px 34px;
+}
+
+#header .popup li > a:hover {
+	display: block;
+	background-color: rgba(255,255,255,.1);
+	color: #fff;
+}
+
+#header .popup li > span {
+	display: block;
+	color: #ddd;
+	padding: 5px 10px 5px 34px;
+}
+
+#header .popup li:hover > span {
+	display: block;
+	background-color: rgba(255,255,255,.1);
+	color: #fff;
+}
+
+#header .popup .addthis_toolbox {
+	min-width: 350px; 
+}

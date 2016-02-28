@@ -65,9 +65,10 @@ def set_const_value(request, const_name, val):
 def cur_lang(request):
     # s = yield from get_session(request)
     s = get_from(get_session(request))
-    if s.get('lang') is None:
-        s['lang'] = get_settings('lang', 'ru')
+    if s.__dict__.get('lang') is None:
+        s['lang'] = get_settings('lang', 'en')
     return s['lang']
+
 
 def get_from(coro):
     try:
@@ -93,11 +94,14 @@ def translate(lang, subject):
     if not subject: return ''
     if isinstance(subject, int):
         return subject
+    if isinstance(subject, float):
+        return subject
     if isinstance(subject, str):
         return subject
     if isinstance(subject, (list, tuple)):
         subject = dict(subject)
         print('subject', subject)
+    # print( "=======", type(subject))
     assert isinstance(subject, dict)
     return subject.get(lang, '-')
 

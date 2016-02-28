@@ -66,7 +66,7 @@ async def init(loop):
     # debugtoolbar.intercept_redirects = False
     # aiohttp_debugtoolbar.intercept_redirects = False
 
-    aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader ( load_templ ) )
+    aiohttp_jinja2.setup(app, loader=jinja2.FunctionLoader(load_templ ), bytecode_cache = None, cache_size=0 )
 
     # Memcache init
     app.mc = aiomcache.Client( settings.memcache['addr'], settings.memcache['port'], loop=loop)
@@ -74,8 +74,10 @@ async def init(loop):
     # Mongo init
     db_connect(app)
 
-    union_routes(os.path.join ( settings.tao_path, 'libs' ) )
-    union_routes(os.path.join ( settings.root_path, 'apps') )
+    union_routes( os.path.join(settings.tao_path, 'libs' ) )
+    union_routes( os.path.join(settings.root_path, 'apps') )
+    union_routes( os.path.join(settings.root_path ), p=True )
+
 
     for res in routes:
         name = res[3]
@@ -83,10 +85,7 @@ async def init(loop):
         app.router.add_route( res[0], res[1], res[2], name=name)
 
     path = os.path.join(settings.root_path, 'static')
-    print( 'path->', path )
-    # path = "/home/user/dev/tao1/sites/daoerp/static/app"
     app.router.add_static('/static/', path)
-    # app.router.add_static('/static/', path, name='static')
 
     handler = app.make_handler()
     srv = await loop.create_server(handler, settings.addr[0], settings.addr[1])
@@ -129,8 +128,9 @@ def init_gunicorn():
     # Mongo init
     db_connect(app)
 
-    union_routes(os.path.join ( settings.tao_path, 'libs' ) )
-    union_routes(os.path.join ( settings.root_path, 'apps') )
+    union_routes( os.path.join(settings.tao_path, 'libs' ) )
+    union_routes( os.path.join(settings.root_path, 'apps') )
+    union_routes( os.path.join(settings.root_path ), p=True )
 
     for res in routes:
         name = res[3]
@@ -143,47 +143,6 @@ def init_gunicorn():
     return app
 
 
-async def union_stat(request, *args):
-    component = request.match_info.get('component', "Anonymous")
-    fname = request.match_info.get('fname', "Anonymous")
-    path = os.path.join( settings.tao_path, 'libs', component, 'static', fname )
-    # search in project directory
-    if component == 'static':
-        path = os.path.join(  settings.root_path, 'static')
-    # search in project components
-    elif not os.path.exists( path ):
-        path = os.path.join(  settings.root_path, 'apps', component, 'static' )
-    # search in core components
-    else:
-        path = os.path.join( settings.tao_path, 'libs', component, 'static')
-    # app.router.add_static()
-    content, headers = get_static_file(fname, path)
-    return web.Response(body=content, headers=MultiDict( headers ) )
-
-
-def get_static_file( filename, root ):
-    import mimetypes, time
-
-    root = os.path.abspath(root) + os.sep
-    filename = os.path.abspath(os.path.join(root, filename.strip('/\\')))
-    headers = {}
-
-    mimetype, encoding = mimetypes.guess_type(filename)
-    if mimetype: headers['Content-Type'] = mimetype
-    if encoding: headers['Content-Encoding'] = encoding
-
-    stats = os.stat(filename)
-    headers['Content-Length'] = stats.st_size
-    from core.core import locale_date
-    lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(stats.st_mtime), 'en_US.UTF-8')
-    headers['Last-Modified'] = str(lm)
-    headers['Cache-Control'] = 'max-age=604800'
-    with open(filename, 'rb') as f:
-        content = f.read()
-        f.close()
-    return content, headers
-
-
 def route(t, r, func, name=None):
     routes.append((t, r, func, name))
 
@@ -194,15 +153,20 @@ def reg_tpl_global(name, item, need_request=False):
 
 reg_tpl_global('ct', ct, need_request=True)
 
-def union_routes(dir):
+
+def union_routes(dir, p=False):
     routes = []
     name_app = dir.split(os.path.sep)
     name_app = name_app[len(name_app) - 1]
-    for name in os.listdir(dir):
-        path = os.path.join(dir, name)
-        if os.path.isdir ( path ) and os.path.isfile ( os.path.join( path, 'routes.py' )):
-            name = name_app+'.'+path[len(dir)+1:]+'.routes'
-            builtins.__import__(name, globals=globals())
+    if p:
+        builtins.__import__('routes', globals=globals())
+    else:
+        for name in os.listdir(dir):
+            path = os.path.join(dir, name)
+            if os.path.isdir ( path ) and os.path.isfile ( os.path.join( path, 'routes.py' )):
+                name = name_app+'.'+path[len(dir)+1:]+'.routes'
+                builtins.__import__(name, globals=globals())
+
             # module = get_full_path(name)
 			# routes.append ( module )
 	# return routes
@@ -418,5 +382,46 @@ def get_trans(module):
     """ returns a function that translates the word, phrase, """
     return lambda s: trans(module, s)
 
+
+
+async def union_stat(request, *args):
+    component = request.match_info.get('component', "Anonymous")
+    fname = request.match_info.get('fname', "Anonymous")
+    path = os.path.join( settings.tao_path, 'libs', component, 'static', fname )
+    # search in project directory
+    if component == 'static':
+        path = os.path.join(  settings.root_path, 'static')
+    # search in project components
+    elif not os.path.exists( path ):
+        path = os.path.join(  settings.root_path, 'apps', component, 'static' )
+    # search in core components
+    else:
+        path = os.path.join( settings.tao_path, 'libs', component, 'static')
+    # app.router.add_static()
+    content, headers = get_static_file(fname, path)
+    return web.Response(body=content, headers=MultiDict( headers ) )
+
+
+def get_static_file( filename, root ):
+    import mimetypes, time
+
+    root = os.path.abspath(root) + os.sep
+    filename = os.path.abspath(os.path.join(root, filename.strip('/\\')))
+    headers = {}
+
+    mimetype, encoding = mimetypes.guess_type(filename)
+    if mimetype: headers['Content-Type'] = mimetype
+    if encoding: headers['Content-Encoding'] = encoding
+
+    stats = os.stat(filename)
+    headers['Content-Length'] = stats.st_size
+    from core.core import locale_date
+    lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(stats.st_mtime), 'en_US.UTF-8')
+    headers['Last-Modified'] = str(lm)
+    headers['Cache-Control'] = 'max-age=604800'
+    with open(filename, 'rb') as f:
+        content = f.read()
+        f.close()
+    return content, headers
 
 # test
