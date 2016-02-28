@@ -5,8 +5,6 @@ from urllib.parse import  *
 from libs.contents.contents import *
 from libs.table.table import *
 
-#from core.dao_core import set_db, connect
-
 import core.union
 # _ = core.union.get_trans('perm')
 
