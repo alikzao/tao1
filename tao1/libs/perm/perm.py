@@ -10,7 +10,6 @@ from libs.table.table import *
 import core.union
 # _ = core.union.get_trans('perm')
 
-#http://admin:Gthcgtrnbdf@178.216.127.205:5984/_utils/
 
 # ACL - access controll list
 def user_has_permission(request, entity, permission, field=None):
