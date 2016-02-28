@@ -13,8 +13,8 @@ from copy import deepcopy
 from uuid import uuid4
 
 from libs.contents.contents import *
-from libs.perm.perm import is_admin
-from libs.perm.perm import *
+from libs.perm.perm import is_admin, user_has_permission
+# from libs.perm.perm import *
 from core.union import response_json, response_string
 import html
 
