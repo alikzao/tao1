@@ -106,7 +106,7 @@ function reset_ang(){
 
 function scroll_top(){
     $('<div id="toTop" style="display:none; position:fixed; right:10px; bottom:10px; padding:10px; background-color:rgba(0,0,0,.5); ' +
-    'border-radius:10px; cursor:pointer;"> <i class=""><i class="icon-arrow-up" style="color:white; font-size:26px;"></i> </div>').appendTo( $('body') );
+    'border-radius:10px; cursor:pointer;"> <i class=""><i class="fa fa-arrow-up" style="color:white; font-size:26px;"></i> </div>').appendTo( $('body') );
     $(window).scroll(function() {
         if($(this).scrollTop() != 0) $('#toTop').fadeIn();
         else $('#toTop').fadeOut();
