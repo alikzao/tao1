@@ -45,7 +45,7 @@ def env_context():
 
 
 def select_templ(template):
-	if get_const_value("select_templ") == 'false': #тоесть присутствует
+	if get_const_value("select_templ") == 'false':
 		return 'domain/'+template
 	else:
 		return get_domain()+'/'+template
@@ -79,7 +79,8 @@ def short_text(text, limit, link=False, clean_newline=False, keep_link = False, 
 	text = re.sub(' +', ' ', text)
 	text = str(text)[:limit]
 	if link:
-		link = u'<div class="readnext"><a style="color:#4F4F4F; padding:3px 4px; margin:4px 0;" class="btn btn-sm btn-default" href="{0}">Читать далее <i class="icon-long-arrow-right"></i> </a></div>'.format(link)
+		link = """<div class="readnext"><a style="color:#4F4F4F; padding:3px 4px; margin:4px 0;"
+		class="btn btn-sm btn-default" href="{0}">Читать далее <i class="icon-long-arrow-right"></i> </a></div>""".format(link)
 		text = text+' '+link
 	elif readnext and len(text) >= limit:
 		text = text+' '+readnext
@@ -125,15 +126,11 @@ def get_full_docs(request, docs, img_ctr=1):
 
 		data = doc['doc']
 
-		# str_map = json.dumps(data, ensure_ascii=False)
-		# json_map = json.loads(str_map)
-
 		tags = doc['tags'][cur_lang( request )] if 'tags' in doc and doc['tags'] is not None and cur_lang( request ) in doc['tags'] and doc['tags'][cur_lang( request )] else ''
 		parent = doc['parent'] if 'parent' in doc and doc['parent'] else ''
 		child =  doc['child']  if 'child'  in doc and doc['child']  else '_'
 
 		poll=[]
-		# full_doc = {"_id":doc['_id'], "id": doc_id, "doc": json_map, "att": attachment, "img":get_curr_img(doc, attachment), 'default_img':d_img,
 		full_doc = {"_id":doc['_id'], "id": doc_id, "doc": data, "att": attachment, "img":get_curr_img(doc, attachment), 'default_img':d_img,
 		            'proc_id':proc_id, 'count_branch':cb, 'last_comm':last_comm, 'vote':get_vote(doc), 'tags':tags, 'poll':poll,
 		            'parent':parent, 'child':child, 'owner':owner}
@@ -173,7 +170,7 @@ def get_full_doc(request, doc_id, avatar=False, img_ctr=1):
 	        "att": attachment, 'default_img':d_img, 'proc_id':proc_id, 'vote':get_vote(doc), 'tags':tags, 'poll':poll}
 
 
-# @cache("get_full_user", expire=get_settings('cache_get_full_user', 7))
+
 def get_full_user(request, doc_id, avatar=False):
 	""" Находим одиночный обьект и если в нем стоит аватар True то показуем только првую маленькую картинку """
 	if not doc_id.startswith('user'): doc_id = 'user:'+doc_id
@@ -187,14 +184,12 @@ def get_full_user(request, doc_id, avatar=False):
 	# attachment = get_nf('des:users',, doc['_id'], 1)
 	img = get_curr_img(doc, attachment, '')
 
-	# str_map = json.dumps(doc, ensure_ascii=False)
-	# json_map = json.loads(str_map)
 	return {"id": doc_id, "doc":doc['doc'], "att": [img] }
 
 
 ac = ["des: ware", "des: vat", "des: report_pe_ticket", "des: report_pe", "des: price_column", "des: price", "des: outcome_cash_order", 
-	"des: jobs_ware_out", "des: jobs_ware_in", "des: jobs", "des: job_order_ware_out", "des: job_order_ware_in", 
-	"des: job_order_jobs", "des: job_order", "des: income_cash_order", "des: enterprise", "des: debit_invoice_ware", 
+	"des: jobs_ware_out", "des: jobs_ware_in", "des: jobs", "des: job_order_ware_out", "des: job_order_ware_in",
+	"des: job_order_jobs", "des: job_order", "des: income_cash_order", "des: enterprise", "des: debit_invoice_ware",
 	"des: debit_invoice", "des: credit_invoice_ware", "des: credit_invoice", "des: counteragent", "des: consist_of" ]
 
 def rss_parse():
@@ -204,10 +199,10 @@ def rss_parse():
 def show_arhiv(request):
 	return templ('arhiv', request, {})
 
+
 def list_mod(request, kind):
-#	rbk.ru newsru.ru forbes.ru rusnovosti.ru bbc.co.uk/russian/  rosbalt.ru kp.ru
 	db = request.db
-	if not is_admin() and not user_has_permission('des:news', 'mod_accept'): return http_err(404, '')
+	if not is_admin(request) and not user_has_permission(request, 'des:news', 'mod_accept'): return http_err(404, '')
 	if kind == 'blog':
 		docs = get_full_docs(request, db.doc.find({'doc_type':'des:obj', 'doc.accept': {'$ne': 'true'}, 'doc.pub': 'true'}).limit(50).sort('doc.date', -1))
 		return templ('list_m_blog', docs=docs)
@@ -223,8 +218,8 @@ def list_mod_post(request):
 	news = get_full_docs(request, db.doc.find({'doc_type':'des:news', 'doc.accept': {'$ne': 'true'}, 'doc.pub': 'true'}).sort('doc.date', 1) )
 	return { "result":"ok", "news":json.dumps(news), "obj":json.dumps(obj) }
 
+
 def show_comm_answ(request, user_id):
-	db = request.db
 	docs = get_doc(user_id)
 	pages, req = get_pagination(request, {'doc_type':'des:comments', 'doc.parent_comm':user_id, 'doc.hidden':{'$ne':'true'}})
 	req.sort('date', -1)
@@ -232,6 +227,7 @@ def show_comm_answ(request, user_id):
 	dv = get_full_docs(req)
 
 	return templ('comm_list', request, dict(docs = dv, proc_id='des:comments', pages = pages))
+
 
 def hide_comm_answ(request):
 	db = request.db
@@ -241,9 +237,11 @@ def hide_comm_answ(request):
 	db.doc.save(doc)
 	return {"result":"ok"}
 
+
 def read_abuse(doc_id):
 	set_val_field(doc_id, field={'read':'true'})
 	return {"result":"ok"}
+
 
 def show_abuse_list(request):
 	if not is_admin(): return page_404('')
@@ -257,8 +255,8 @@ def show_abuse_list(request):
 def search_google(request, filter=''):
 	return templ('list_google', request, {})
 
-def search_yandex(request, filter=''):
 
+def search_yandex(request, filter=''):
 	text = urlparse.parse_qsl(request.url)[1][1]
 	return templ('list_yandex', request, dict(text=text.decode('utf-8')))
 
@@ -286,75 +284,12 @@ async def list_tags(request):
 	return templ('list_tags', request,{"docs":docs, "proc_id":proc_id, "url":simple_url, "pages":pages, "title":tags[0], "seo":seo})
 
 
+def list_arhiv(request, date_range):
+	proc_id = "des:obj"
+	url = urlparse(request.url)
+	simple_url = request.scheme + '://' + request.host
 
-def show_list(request, proc_id=None, action='obj', filter='', u='', branch=None, order='date', date_range=None, templ_m=False, a=False, template=None):
-	db = request.db; url = urlparse(request.scheme); simple_url = url.scheme + '://' + url.hostname
-	mydict=parse_qs(url.query)
-	sort = None
-	branch_id = branch['id'] if branch else None
-	if not proc_id:	proc_id = mydict['proc_id'][0] if 'proc_id' in mydict else ''
-	condition = {'doc_type':proc_id}
-	if proc_id in ['des:obj', 'des:news']:
-		condition['doc.accept']= 'true'
-	if proc_id == 'des:comments' and not is_admin() and not user_has_permission('des:comments', 'edit'):
-		condition['doc.pre']= {'$ne': 'true'}
-
-	user = get_current_user(True)
-
-#	if get_const_value('blog_premod') == 'true' and (not get_current_user() or not is_admin() ):
-
-	if is_admin():
-		pass
-	elif proc_id in ['des:obj', 'des:news', 'des:poll', 'des:radio', 'des:wiki', 'des:banner']:
-		if user_is_logged_in():
-			condition.update({'$or': [{'doc.pub':'true'}, {'doc.user':user}]})
-		else:
-			condition.update({'doc.pub':'true'})
-
-
-	if action == 'visit': sort = ('doc.visit', -1) #req = db.doc.find(condition).sort('doc.visit', -1)
-	elif action == 'rated': sort = ('doc.rate_total', -1) #req = db.doc.find(condition).sort('doc.rate_total', -1)
-	elif action == 'popular': sort = ('doc.rate_votes', -1) #req = db.doc.find(condition).sort('doc.rate_votes', -1)
-	elif action == 'ware':
-		prod = request.POST.getall('producer')
-		if len(prod):
-			condition.update( {"doc.producer":{'$in':prod}} )
-	elif action == 'pm':
-		condition.update({"doc_type":"des:PM", "doc.user":get_current_user(True)})
-		sort = ('doc.date', -1) #req = db.doc.find({"doc_type":"des:PM", "doc.user":get_current_user(True)}).sort('doc.date', -1)
-	elif action == 'users':
-		condition.update({"doc_type":"des:users"})
-#		sort = ('doc.date', -1)
-#		condition = {}
-	elif action == 'friend':
-		req = db.doc.find_one({"_id":get_current_user(True)}, {"friends":1}); friends = []
-		if 'friends' in req: friends = req['friends']
-		condition.update({"_id":{'$in':friends}})
-		sort = ('doc.date', -1) #req = db.doc.find({"_id":{'$in':friends}}).sort('doc.date', -1)
-	elif action == 'user':
-		if not filter.startswith('user:'): filter = 'user:'+filter
-		condition.update({"doc_type":"des:obj", "doc.user":filter})
-		t = {'date': 'doc.date', 'rating': 'vote.score'}
-		if not order in t: order = 'date'
-		sort_order = t[order]
-		sort = (sort_order, -1) #req = db.doc.find({"doc_type":"des:obj", 'doc.published':'true', "doc.user":u}).sort('doc.date', -1)
-	elif action == 'comments':
-		if not filter.startswith('user:'): filter = 'user:'+filter
-		title = filter
-		condition.update({"doc_type":"des:comments", "doc.user":filter})
-		sort = ('doc.date', -1)
-
-	elif branch_id:
-		condition['hierarchy.tree:'+proc_id] = branch_id
-		sort = ('doc.date', -1) #req = db.doc.find(condition).sort('doc.date', -1)
-	elif action == 'search':
-		regex = re.compile( filter.decode('utf-8'), re.I | re.UNICODE)
-		condition['doc.body.'+cur_lang()] = regex
-		title = filter.decode('utf-8')
-		sort = ('doc.date', -1) #req = db.doc.find(condition).sort('doc.date', -1)
-	else:
-		sort = ('doc.date', -1) #req = db.doc.find(condition).sort('doc.date', -1)
-	if not condition['doc_type']: condition['doc_type'] = 'des:obj'
+	start=None; end=None
 	if date_range:
 		if isinstance(date_range, str):
 			if len(date_range) == 10:
@@ -374,7 +309,78 @@ def show_list(request, proc_id=None, action='obj', filter='', u='', branch=None,
 				start = date_range + '-00-00'
 				end= date_range + '-99-99'
 		else: (start, end) = date_range
-		condition['doc.date'] = {'$gte': start, '$lte': end}
+
+	condition = {'doc_type':proc_id, 'doc.date': {'$gte': start, '$lte': end}, 'doc.accept':'true', 'doc.pub':'true'}
+	pages, req = get_pagination(condition)
+	dv = get_full_docs(req.sort('doc.date', -1))
+
+	seo = request.db.doc.find_one({'doc.alias':'publics_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
+	seo = seo if seo and 'doc' in seo else ''
+
+	title=date_range if isinstance(date_range, str) else date_range[0]
+
+	return templ('single_list', docs = dv, proc_id=proc_id, url = simple_url, pages = pages, title=title, seo=seo )
+
+
+def show_list(request, proc_id=None, action='obj', tags = None, filter='', u='', branch=None, order='date', date_range=None, templ_m=False, a=False, template=None):
+	url = urlparse(request.url)
+	simple_url = request.scheme + '://' + request.host
+	mydict=parse_qs(url.query)
+	title = 'LIST'
+	sort = None
+	if not proc_id:	proc_id = mydict['proc_id'][0] if 'proc_id' in mydict else ''
+	condition = {'doc_type':proc_id}
+	if proc_id in ['des:obj', 'des:news']:
+		condition['doc.accept']= 'true'
+	if proc_id == 'des:comments' and not is_admin() and not user_has_permission('des:comments', 'edit'):
+		condition['doc.pre']= {'$ne': 'true'}
+
+	user = get_current_user(True)
+
+	if is_admin():
+		pass
+	elif proc_id in ['des:obj', 'des:news', 'des:poll', 'des:radio', 'des:wiki', 'des:banner']:
+		if user_is_logged_in():
+			condition.update({'$or': [{'doc.pub':'true'}, {'doc.user':user}]})
+		else:
+			condition.update({'doc.pub':'true'})
+
+
+	if action == 'visit': sort = ('doc.visit', -1)
+	elif action == 'rated': sort = ('doc.rate_total', -1)
+	elif action == 'popular': sort = ('doc.rate_votes', -1)
+	elif action == 'ware':
+		prod = request.POST.getall('producer')
+		if len(prod):
+			condition.update( {"doc.producer":{'$in':prod}} )
+	elif action == 'users':
+		condition.update({"doc_type":"des:users"})
+	elif action == 'friend':
+		req = request.db.doc.find_one({"_id":get_current_user(True)}, {"friends":1}); friends = []
+		if 'friends' in req: friends = req['friends']
+		condition.update({"_id":{'$in':friends}})
+		sort = ('doc.date', -1) #req = db.doc.find({"_id":{'$in':friends}}).sort('doc.date', -1)
+	elif action == 'user':
+		if not filter.startswith('user:'): filter = 'user:'+filter
+		condition.update({"doc_type":"des:obj", "doc.user":filter})
+		t = {'date': 'doc.date', 'rating': 'vote.score'}
+		if not order in t: order = 'date'
+		sort_order = t[order]
+		sort = (sort_order, -1) #req = db.doc.find({"doc_type":"des:obj", 'doc.published':'true', "doc.user":u}).sort('doc.date', -1)
+	elif action == 'comments':
+		if not filter.startswith('user:'): filter = 'user:'+filter
+		title = filter
+		condition.update({"doc_type":"des:comments", "doc.user":filter})
+		sort = ('doc.date', -1)
+
+	elif action == 'search':
+		regex = re.compile(u'%s' % filter.decode('utf-8'), re.I | re.UNICODE)
+		condition['doc.body.'+cur_lang()] = regex
+		title = filter.decode('utf-8')
+		sort = ('doc.date', -1)
+	else:
+		sort = ('doc.date', -1)
+	if not condition['doc_type']: condition['doc_type'] = 'des:obj'
 
 
 	pages, req = get_pagination(condition)
@@ -383,45 +389,39 @@ def show_list(request, proc_id=None, action='obj', filter='', u='', branch=None,
 	dv = get_full_docs(req)
 
 	news_map = get_news_map('des:obj')
-	pm_map = get_news_map('des:PM')
 	info_map = get_news_map('des:users')
 	if date_range:
 		date_range=date_range if isinstance(date_range, str) else date_range[0]
 
 
-	seo = db.doc.find_one({'doc.alias':'publics_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
+	seo = request.db.doc.find_one({'doc.alias':'publics_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
 	seo = seo if seo and 'doc' in seo else ''
 
 
 	if proc_id == 'des:comments' or action == 'comments':
-		return templ('comm_list',  request, dict(docs = dv, proc_id=proc_id, url = simple_url, pages = pages, news_map=news_map, date_range=date_range ))
-
-#	if proc_id == 'des:users':
-#		return templ('single_list_users', docs = dv, proc_id=proc_id,
-#			pages = pages,pm_map=pm_map, news_map=news_map, info_map = info_map, date_range=date_range )
+		return templ('comm_list', docs = dv, proc_id=proc_id, url = simple_url, pages = pages, news_map=news_map, date_range=date_range )
 
 	if proc_id == 'des:contact':
-		return templ('single_list_contact',  request, dict(docs = dv, proc_id=proc_id, url = simple_url, date_range=date_range))
+		return templ('single_list_contact', docs = dv, proc_id=proc_id, url = simple_url, date_range=date_range)
 
 	if proc_id == 'des:users':
-		return templ('list_u',  request, dict(docs = dv, proc_id=proc_id, pages = pages,pm_map=pm_map, news_map=news_map, info_map = info_map))
+		return templ('list_u', docs = dv, proc_id=proc_id, pages = pages,pm_map="", news_map=news_map, info_map = info_map)
 
 	if proc_id == 'des:maps':
-		return templ(('libs.maps:maps_list_a' if a else 'libs.maps:list_maps'),  request, dict(docs = dv, proc_id=proc_id, pages = pages,pm_map=pm_map, news_map=news_map, info_map = info_map))
-
-	elif action == 'dir':
-		return templ('forum',  request, dict(docs = dv, proc_id=proc_id, url = simple_url,pages = pages, news_map=news_map, branch=branch, pm_map=pm_map, date_range=date_range))
+		return templ(('app.maps:maps_list_a' if a else 'app.maps:list_maps'), docs = dv, proc_id=proc_id, pages = pages,pm_map="", news_map=news_map, info_map = info_map)
 
 	elif action == 'friend' or action == 'users':
 		user = get_full_doc(get_current_user(True))
-		return templ('list_u',  request, dict(docs = dv, doc=user, proc_id=proc_id, url = simple_url,
-			pages = pages,pm_map=pm_map, news_map=news_map, user_name=get_current_user(), info_map = info_map, date_range=date_range ))
+		return templ('list_u', docs = dv, doc=user, proc_id=proc_id, url = simple_url,
+			pages = pages,pm_map="", news_map=news_map, user_name=get_current_user(), info_map = info_map, date_range=date_range )
 	templl = 'single_list'
 	if templ_m: templl = 'single_list_m'
 	elif template: templl = template
 
-	title = date_range
-	return templ(templl,  request, dict(docs = dv, proc_id=proc_id, url = simple_url, pages = pages, news_map=news_map, date_range=date_range, title=title, seo=seo ))
+	# if tags: title=tags[0].decode('UTF-8')
+	elif date_range: title = date_range
+	return templ(templl, docs = dv, proc_id=proc_id, url = simple_url, pages = pages, news_map=news_map, date_range=date_range, title=title, seo=seo )
+
 
 def google_post(request):
 	return templ('google_post', request, {})
@@ -443,6 +443,7 @@ def get_pagination(request, condition, paginate = True):
 	if end_page > count + 1: end_page = count + 1
 	pages = {'count_page': count, 'cur_page': cur_page, 'start_page': start_page, 'end_page':end_page, 'skip': skip, 'limit': limit}
 	return pages, req
+
 
 def get_pagination_p(request, pipe):
 	db = request.db; count = 0
@@ -531,95 +532,6 @@ def get_news_map(request, proc_id):
 	return rec_data_t(request, meta_table)
 
 
-def get_dir(request, proc_id, id_dir=''):
-	""" Занимается показом веток форума   тоесть коментариев к  блогу """
-	db = request.db; children = []
-	if not id_dir: id_dir='_'
-	branch_id = 'tree.'+id_dir
-	res = db.tree.find_one({'_id':'tree:'+proc_id}, {branch_id:1})
-	branch = res['tree'][id_dir]
-	branch['id'] = id_dir
-	for child_id in branch['children']:
-		branch_id = 'tree.'+child_id
-		res = db.tree.find_one({'_id':'tree:'+proc_id}, {branch_id:1})
-		child = res['tree'][child_id]
-		child['id'] = child_id; ids = []; child['posts'] = 0
-		child['topics'] = db.doc.find({"hierarchy.tree:"+proc_id:child_id}).count()
-		for i in db.doc.find({"hierarchy.tree:"+proc_id:child_id}):
-			for ii in db.tree.find({"owner":i['_id']}):
-				child['posts'] += len (ii['tree'].keys())
-		for res in db.doc.find({"hierarchy.tree:"+proc_id:child_id}, {'_id': 1}):
-			ids.append(res['_id'])
-		res = list(db.tree.find({"owner":{'$in':ids}}, {'last': 1}).sort('last.date', -1).limit(1))
-		res = res[0] if len(res) else {}
-		child['last'] = res['last'] if 'last' in res else {}
-		children.append(child)
-	branch['children'] = children
-	return show_list(proc_id, 'dir', branch=branch)
-
-
-def last_posts(request, proc_id):
-	db = request.db; last_p = [];
-	doc = db.doc.find_one({}, {"_id":1}).sort('doc.date', -1)
-	tree = db.tree.find({"owner":doc['_id']})
-	for res in tree['tree']:
-		pass
-	return last_p
-
-
-def count_topics(request, proc_id):
-	db = request.db; count_t = []; doc = db.tree.find_one({"_id":"tree:des:obj"})
-	for res in doc['tree']: count_t.append(db.doc.find({"hierarchy.tree:"+proc_id:res}).count())
-	return count_t
-
-
-def get_branch(request, branch_id):
-	db = request.db; docs = []
-	for res in db.doc.find({'hierarchy.tree:des:obj':branch_id, 'doc.published':'true', 'doc.home':{'$ne':'true'}}).sort('doc.date', -1):
-		res['proc_id'] = 'des:obj'; comm = get_doc_tree(res['_id'], 'des:obj'); res['count_branch'] = count_branch(comm)
-		docs.append(res)
-	docs = get_full_docs(docs)
-	return docs
-
-
-def get_user_blogs(request):
-	db = request.db; docs = []
-	for res in db.doc.find({'doc.main':{'$ne':'true'}, 'doc.published':'true'}).sort('doc.date', -1):
-		comm = get_doc_tree(res['_id'], 'des:obj'); res['count_branch'] = count_branch(comm)
-		docs.append(res)
-	docs = get_full_docs(docs)
-	return docs
-
-
-def pub_post(request):
-	doc_id = get_post('row_id'); db = request.db; doc = get_doc(doc_id)
-	if get_post('action') == 'pub':	doc['doc']["published"] = "true"
-	else: doc['doc']["published"] = "false"
-	db.doc.save(doc)
-	return {"result":"ok"}
-
-def right_block(request):
-	db = request.db
-	url = urlparse(request.url)
-	simple_url = url.scheme + '://' + url.hostname
-	views_visit = []; views_votes = []
-	condition = {'doc_type':'des:obj',}
-	user = get_current_user(True)
-	if not user or not is_admin():
-		condition.update({'$or': [{'doc.published':'true'}, {'doc.user':user}]})
-	for res in db.doc.find(condition).sort('doc.visit', -1).limit(10):
-		views_visit.append(res)
-	dv_visit = get_full_docs(views_visit)
-	
-	for res in db.doc.find(condition).sort('doc.rate_total', -1).limit(10):
-		views_votes.append(res)
-	dv = get_full_docs(views_votes)
-	news_map = get_news_map('des:obj')
-
-	from libs.shop.shop import get_shop_filter
-	filter = get_shop_filter()
-	return { 'news_map': news_map, 'docs_votes' : dv, 'docs_visit' : dv_visit,
-		'proc_id':'des:obj', 'url' : simple_url, 'filter':filter }
 
 
 def set_prio(request):
@@ -704,7 +616,6 @@ async def show_main_page( request ):
 	params={'var':'321'}
 	trigger_hook('main_page', params)
 	seo = request.db.doc.find_one({'doc.alias':'main_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
-	#, wiki=wiki)#, news_map=news_map)
 
 	return templ("main_page",  request, dict(param=params['var'], docs = docs, clss=clss, docs_news=[], seo=seo ))
 
@@ -722,7 +633,7 @@ def show_obj( request ):
 	if proc_id  == 'des:comments': return web.HTTPNotFound('/redirect')
 	d_com = get_mt(request, proc_id)
 	is_comments = False
-	if d_com['conf']['comments'] == 'on': # db.doc.createIndex( { 'doc_type':1, 'doc.owner':1 } )
+	if d_com['conf']['comments'] == 'on':
 		is_comments = True
 		comm = get_doc_tree(request, doc['_id'], proc_id)
 		comm = comm['_id']
@@ -740,7 +651,8 @@ def show_obj( request ):
 
 	req = request.db.doc.find({'doc_type':proc_id, '_id':{'$ne':doc['_id']}, 'tags.ru':{'$in':tags}, 'doc.date':{'$lt':date_sim } }).sort('doc.date', -1).limit(6)
 	similar = get_full_docs( request, req )
-	seo = request.db.doc.find_one({'doc.alias':'publics_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
+	seo = request.db.doc.find_one({'doc.alias':'publics_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1,
+	                                                            'doc.add_title':1 })
 	seo = seo if seo and 'doc' in seo else ''
 
 	return templ(templl,  request, dict(doc = doc, url = url, doc_id=doc_id, proc_id=proc_id, comm_id = comm, similar = similar, seo=seo,
@@ -796,7 +708,6 @@ def show_object_(request, doc_id, templ_m=False):
 
 	# hash, raw = get_captcha(False)
 	rating, votes = get_rating(proc_id, doc_id)
-	# rating, votes = '0', '0'
 	title = ct(doc['doc']['title']) if 'title' in doc['doc'] else ''
 	templl = 'single_page'
 	if templ_m: templl = 'single_page_m'
@@ -805,8 +716,6 @@ def show_object_(request, doc_id, templ_m=False):
 	from datetime import datetime
 	date_sim = (datetime.today() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')[:19]
 
-	# tags = get_const_value('minus_tags', '')
-	# req = db.doc.find({'$and':[{'doc_type':proc_id}, {'_id':{'$ne':doc['_id']}}, {'tags.ru':{'$in':tags}}, {'doc.date':{'$lt':date_sim}}] }).sort('doc.date', -1).limit(6)
 	req = db.doc.find({'doc_type':proc_id, '_id':{'$ne':doc['_id']}, 'tags.ru':{'$in':tags}, 'doc.date':{'$lt':date_sim } }).sort('doc.date', -1).limit(6)
 	similar = get_full_docs( req )
 	url1=url
@@ -870,7 +779,6 @@ def get_rss(request):
 	dtime = time.strftime("%a, %d %b %Y %H:%M:%S +0200", time.gmtime()).decode('UTF-8')
 	db = request.db; data = []
 	for res in db.doc.find({"doc_type":"des:obj"}, {'doc.body':1, 'doc.title':1, 'doc.date':1, 'doc.rev':1 }).sort('doc.date', -1).limit(21):
-#	for r in db.doc.find({"doc_type":"des:obj", 'doc.published':'true'}, {'doc.body':1, 'doc.title':1, 'doc.date':1 }).sort('doc.date', -1).limit(21):
 		if not 'body' in res['doc']: continue
 		if not 'title' in res['doc']: continue
 		text = ct(res['doc']['body'])
@@ -1076,7 +984,7 @@ def get_slot_list(request, slotname):
 	else: return '[]'
 
 
-#		role = [(lambda x: x.strip())(x) for x in role] # разбиваем ключевые слова по запятым идем по ним фором и каждое слово обрезаем по краям пробела
+#		role = [(lambda x: x.strip())(x) for x in role] #
 #		condition['doc.tags.'+cur_lang()] = regex
 def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
 	if not slot: return '', 0
@@ -1229,8 +1137,8 @@ def vote_topic_post():
 
 
 def get_vote(doc):
-	if not 'vote' in doc or doc['vote'] is None: doc['vote'] = {"score":0,"votes_count":0, "votes_count_plus":0,"votes_count_minus":0, "voted":{}}
-	# if not 'score' in doc['vote']:
+	if not 'vote' in doc or doc['vote'] is None:
+		doc['vote'] = {"score":0,"votes_count":0, "votes_count_plus":0,"votes_count_minus":0, "voted":{}}
 	return doc['vote']
 
 
@@ -1252,15 +1160,16 @@ def add_vote_post(request):
 	user = get_current_user(True)
 
 	if not 'vote' in doc: doc['vote'] = {"score":0,"votes_count":0, "votes_count_plus":0,"votes_count_minus":0, "voted":{}}
-	if not user_has_permission('des:obj', 'vote'): return '{"result":"fail","error":"Не имеете права голоса"}'
-	if not is_admin() and user in doc['vote']['voted']: return '{"result":"fail","error":"Повторное голосование запрещено"}'
-	if not is_admin() and user == doc['doc']['user']: return '{"result":"fail","error":"Голосовать за себя запрещено"}'
+	if not user_has_permission(request, 'des:obj', 'vote'): return '{"result":"fail","error":"Не имеете права голоса"}'
+	if not is_admin(request) and user in doc['vote']['voted']: return '{"result":"fail","error":"Повторное голосование запрещено"}'
+	if not is_admin(request) and user == doc['doc']['user']: return '{"result":"fail","error":"Голосовать за себя запрещено"}'
 
 	dt = datetime.today().strftime('%Y-%m-%d')
-	user_f = get_doc(user)
+	user_f = get_doc(request, user)
 	if not 'vote' in user_f : user_f['vote'] = {}
 	if not dt in user_f['vote'] : user_f['vote'][dt] = {'up': 0, 'down': 0}
-	if not is_admin() and int(user_f['vote'][dt]['up']) + int(user_f['vote'][dt]['down']) >= int(float(user_f['doc']['rate'])+1.25): return '{"result":"fail","error":"Лимит голосов за сегодня исчерпан"}'
+	if not is_admin(request) and int(user_f['vote'][dt]['up']) + int(user_f['vote'][dt]['down']) >= int(float(user_f['doc']['rate'])+1.25):
+		return {"result":"fail","error":"Лимит голосов за сегодня исчерпан"}
 	user_f['vote'][dt][vote] += 1
 	db.doc.save(user_f)
 
@@ -1276,14 +1185,13 @@ def add_vote_post(request):
 
 	# начисление балов пользователю
 	u_id = doc['doc']['user']
-	u = get_doc(u_id);
+	u = get_doc(u_id)
 	if not 'rate' in u['doc']:
 		u['doc']['rate'] = '0'
-		db.doc.save(u)
+		request.db.doc.save(u)
 	rate = float(u['doc']['rate']) + (0.5 if vote == 'up' else -0.5)
 #	rate =+ 1 if vote == 'up' else -1
 	update_cell(str(u_id), 'des:users', 'rate', str(rate) )
-#	db.doc.save(u)
 
 	doc = doc['vote']
 	return {"result":"ok", "score":doc["score"],"votes_count":doc["score"],"charge_string":"","sign":"positive", "vote_type":vote_type,
@@ -1296,9 +1204,8 @@ def vote_comm_post():
 
 
 def chat(request, doc_id):
-	db = request.db
-	ip = db.conf.find_one({'_id':'chat_ban_ip'})
-	links = db.test.find({'doc_type':'link_chat'})
+	ip = request.db.conf.find_one({'_id':'chat_ban_ip'})
+	links = request.db.test.find({'doc_type':'link_chat'})
 	return templ('libs.sites:chat', request, dict(key = doc_id, ip=ip['ip'], links = links))
 
 
@@ -1355,7 +1262,6 @@ def set_main_news(request):
 				res['doc']['primary'] = 'true'
 				db.doc.save(res)
 		except:pass
-	# for res in db.doc.find({'doc_type':'des:news', 'doc.primary':'true', '$or': [ {'doc.date': {'$lt': old}}, {'doc.visit': {'$exists': 0}}, {'doc.visit': {'$lt': 400}} ] }):
 	for res in db.doc.find({ 'doc_type':'des:news', 'doc.primary':'false' }):
 		del res['doc']['primary']
 		db.doc.save(res)
@@ -1458,10 +1364,7 @@ def trigger_hook(name, params, __hooks={}):
 
 def wiki(request, text, user=None, title=None):
 	"""получает смешаное слово"""
-	# code block [ [ ] ]
-	#[ это полноценная ссылка  == лорлр == это заголовок типа якорь
 	if not text: return ''
-	#die(user)
 	params={'text':text, 'user':user}
 	trigger_hook('wrap', params)
 	text = params['text']
@@ -1474,45 +1377,18 @@ def wiki(request, text, user=None, title=None):
 	text = re.compile(r'== (.+?) ==', re.DOTALL).sub(wiki_toc, text)
 	text = re.sub(r'<img([^>]+)height="[^>"]*"([^>]*)/?>', r'<img \1 \2>', text)
 
-	# title = title.decode('UTF-8')
 	title = str(title)
-	# text = text.replace(title, '<strong>{substr}</strong>'.format(substr=title) )
 	text = text.replace(str(title), '<strong>' + str(title) +'</strong>' )
 	text = text.replace(str(title.swapcase()), '<strong>' + str(title.swapcase())+'</strong>' )
 	text = text.replace(str(title.title()), '<strong>' + str(title.title())+'</strong>' )
 
-	# text = re.compile(r'== (.+?) ==', re.DOTALL).sub(wiki_toc, '')
 	t = ''
 	if len(toc):
 		t += '<ul>'
 		for i in toc:
 			t +='<li><a href="#'+i+'">'+i+'</a></li>'
 		t += '</ul>'
-#	doc = lxml.html.document_fromstring(text)
-#	text = etree.tostring(doc)
 	return t+text
-
-# dd if=/dev/zero of=/swapfile bs=1M count=2048; chmod 600 /swapfile; mkswap /swapfile; swapon /swapfile
-
-# def search_lsa(proc_id=None, action='obj', tags = None, filter='', u='', branch=None, order='date', date_range=None, templ_m=False, a=False):
-# 	proc_id = proc_id or 'des:obj'
-# 	from app.parser.lsa import GLSA
-# 	glsa = GLSA()
-# 	glsa.load_matrix()
-# 	sims = glsa.search(filter)
-# 	ids = [sim[1] for sim in sims]
-# 	condition = {'_id':{'$in':ids}}
-# 	pages, req = get_pagination(condition, False)
-# 	page = ids[pages['skip']:pages['skip'] + pages['limit']]
-# 	condition = {'_id':{'$in':page}}
-# 	db = connect()
-# 	req = list(db.doc.find(condition))
-# 	dv = get_full_docs(req)
-#
-# 	dv = dict([(doc['id'], doc) for doc in dv])
-# 	dv = [dv[i] for i in page if i in dv]
-# 	return templ('single_list', docs = dv, proc_id=proc_id, pages = pages, news_map=[], date_range=date_range )
-
 
 
 
