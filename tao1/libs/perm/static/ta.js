@@ -208,11 +208,6 @@ window.dao.add_processor = function(params){
         var c_sel_title = $('<select name="relation_field"/>').appendTo(c_sel_title_label);
         dao.list_field(options.id, c_sel_title);
 
-        //var c_sel_rb_label  = $('<label>'+dao.translate('target_select')+'&nbsp</label><br/>').appendTo(label_type);
-        //var c_rb_sel = $('<select name="relation"/>').appendTo(c_sel_rb_label);
-        //dao.get_list_rb(c_rb_sel, '/menu');
-        //c_sel_rb_label.hide();
-
         c_sel_title_label.hide();
         label_type.find('[value="cascad_select"]').on('change', function(){
             //c_sel_rb_label.show();
