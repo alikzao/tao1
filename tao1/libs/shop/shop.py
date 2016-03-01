@@ -112,7 +112,8 @@ def add_order_web_post():
 		amount = 0
 		for _id in s['basket']:
 			ware = s['basket'][_id]
-			doc_id = create_row('des:web_order_ware', owner, defaults={"title":ware['_id'], "quantity":ware['quantity'], "price":ware['price']})
+			doc_id = create_row('des:web_order_ware', owner, defaults={"title":ware['_id'], "quantity":ware['quantity'],
+			                                                           "price":ware['price']})
 			amount += ware['quantity'] * float(ware['price'])
 			if not doc_id: return '{"result":"fail", "error":"%s"}' %cgi.escape('updated', True)
 		update_row_( 'des:web_order', owner, {'amount':amount}, '_', no_synh=True)
@@ -170,7 +171,7 @@ def basket_check():
 		
 
 # =====================================================================================================================================
-# ====================================== ПРОДВИНУТЫЙ FILTER ===========================================================================
+# ====================================== ADVANCED FILTER ===========================================================================
 # =====================================================================================================================================
 
 def ware_filter(filter):
@@ -345,8 +346,8 @@ def list_class(request, cls):
 	# seo = db.doc.find_one({'doc.alias':'class_seo'}, {'doc.title':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
 	seo = db.doc.find_one({'_id':parent_id['_id']}, {'doc.description':1, 'doc.tags':1, 'doc.footer':1 })
 	# seo = seo if 'doc' in seo else ''
-	return templ('list_class', request, dict(cls_docs = clss, cls=cls, docs = docs, proc_id='des:ware', pages = pages, path=get_navigate(parent_id['_id']),
-	             parent_doc=parent_doc, filter=filter, seo=seo) )
+	return templ('list_class', request, dict(cls_docs = clss, cls=cls, docs = docs, proc_id='des:ware', pages = pages,
+	                                         path=get_navigate(parent_id['_id']), parent_doc=parent_doc, filter=filter, seo=seo) )
 
 
 def set_filters(request, cls, filters):
@@ -411,8 +412,8 @@ def list_filters(request, cls, filters):
 
 	seo = db.doc.find_one({'doc.alias':'class_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
 	seo = seo if 'doc' in seo else ''
-	return templ('list_class', request, dict(result='ok', cls_docs = clss, cls=cls, docs = docs, proc_id='des:ware', pages = pages, path=get_navigate(parent_id['_id']),
-	             parent_doc=get_full_doc(parent_id['_id']), filter=filter, seo=seo) )
+	return templ('list_class', request, {'result':'ok', 'cls_docs':clss, 'cls':cls, 'docs':docs, 'proc_id':'des:ware', 'pages':pages,
+	                            'path':get_navigate(parent_id['_id']), 'parent_doc':get_full_doc(parent_id['_id']), 'filter':filter, 'seo':seo})
 
 def get_list_filter(request, cls):
 	""" формируемая структура [{'id_class':'123', "filter_name":"name", attr:{'id_class':'123', 'title':'title'}]

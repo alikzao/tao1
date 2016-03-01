@@ -24,7 +24,8 @@
             {% if doc1.id == doc.owner%}
                 {% for doc_ware in ware %}
                     {% if doc.doc.title == doc_ware.id %}
-                        <tr><td style="width:350px;"> {{ ct(doc_ware.doc.title) }}</td> <td>{{ doc.doc.quantity }} шт</td><td>{{ doc_ware.doc.price }} Грн.</td></tr>
+                        <tr><td style="width:350px;"> {{ ct(doc_ware.doc.title) }}</td> <td>{{ doc.doc.quantity }} шт</td>
+                            <td>{{ doc_ware.doc.price }} Грн.</td></tr>
                     {% endif %}
                 {%  endfor%}
 
@@ -48,11 +49,6 @@
 
 {% endblock %}
 
-
-{#380969446402@sms.kyivstar.net#}
-{#380969446402@sms.kyivstar.net#}
-{#380969446402@sms.kyivstar.net#}
-{#380988044088@sms.kyivstar.net#}
 
 
 
