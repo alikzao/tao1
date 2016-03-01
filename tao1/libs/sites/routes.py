@@ -12,7 +12,6 @@ if settings.reg_routes['sites']:
 	route( 'GET',   '/',							     show_main_page,	'index'		      )
 
 route( '*',     '/user_status',					     user_status_post,	'soc_u_post'      )
-				# ('*', '/user_status',               user_status_post,	'ANY')
 route( 'GET',   '/posts/{user_id}',                  user_posts, 		'user_post'	      )
 route( 'GET',   '/comments/{user_id}',               user_posts, 	    'user_comments'   )
 route( 'GET',   '/profile/{u}',     		         user_profile,		'user_profile'	  )
@@ -39,9 +38,7 @@ route( 'GET',   '/show/{proc_id}/tags/{tags}',       list_tags, 		'show_list_tag
 route( 'GET',   '/show_list_pm/{proc_id}/{action}',  show_list,			'show_list_pm'	  )
 route( 'GET',   '/show_list_friend/{action}',	     show_list,			'show_list_friend')
 route( 'GET',   '/slot/{slotname}',                  get_slot_list,	    'show_list_slot'  )
-# route( 'GET',   '/show_list/{proc_id}/{action}/{filter}', search,	    'search'          )
 route( 'GET',   '/search/full_text/{filter}',        search_full_text,	'search_full_text')
-route( 'POST',  '/table/pub',					     pub_post,			'table_pub'	      )
 route( 'POST',  '/rating/vote',				         add_rating_post,	'add_rating'	  )
 route( 'POST',  '/vote/add',		                 add_vote_post,     'vote_add_post'   )
 # route( 'GET',   '/reset_cache',                      reset_caches,      'reset_cache'     )

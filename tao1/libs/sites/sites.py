@@ -964,7 +964,7 @@ def get_slot_json(request, slotname):
 	conf = get_templ_conf(request, conf_name)
 	if slotname in conf:
 		slot = conf[slotname]
-		t, pages = get_obj(slot)
+		t, pages = get_obj(request, slot)
 		for res in t:
 			res['vote']['voted'] = None
 		return t
@@ -1247,6 +1247,7 @@ def spam_post():
 	update_row_('des:spam', doc_id, data, '_', noscript=True, no_synh=True, accept_def=False)
 	return {"result":"ok"}
 
+
 def set_main_news(request):
 	""" устанавливает выделеным новости на главной странице
 	"""
@@ -1352,7 +1353,6 @@ def contacts(request):
 	return templ('contacts', request, dict(docs=[]))
 
 def trigger_hook(name, params, __hooks={}):
-	#raise Exception (repr(self.__hooks))
 	if name in __hooks:
 		for hook in __hooks[name]:
 			if get_settings('debug', False):
