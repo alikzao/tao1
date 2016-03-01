@@ -36,17 +36,17 @@ function init_conf_templ(conf, conf_name){
 
         "<div><div rel='popover' data-trigger='hover' title='Название' class='title'>Название: </div><div class='val'><%= slot_name %></div></div>" +
 
-        "<div><div data-content='Справочник из которого будут братся данные' data-placement='right' rel='popover' data-trigger='hover' title='Выбор справочника' class='title'>Справочник: </div><div class='val'><%= kind_title %></div></div>" +
-        "<div><div data-content='Шблн который будет рисовать даные этой ячейки' data-placement='right' rel='popover' data-trigger='hover' title='Выбор шаблона' class='title'>Шаблон: </div><div class='val'><%= templ %></div></div>" +
-        "<div><div data-content='Тэги по которым будут фильтроватся даные в ячейке' data-placement='right' rel='popover' data-trigger='hover' title='Тэги' class='title'>Теги: </div><div class='val'><%= tag %></div></div>" +
+        "<div><div data-content='Справочник из которого будут братся данные'                    data-placement='right' rel='popover' data-trigger='hover' title='Выбор справочника' class='title'>Справочник: </div><div class='val'><%= kind_title %></div></div>" +
+        "<div><div data-content='Шблн который будет рисовать даные этой ячейки'                 data-placement='right' rel='popover' data-trigger='hover' title='Выбор шаблона' class='title'>Шаблон: </div><div class='val'><%= templ %></div></div>" +
+        "<div><div data-content='Тэги по которым будут фильтроватся даные в ячейке'             data-placement='right' rel='popover' data-trigger='hover' title='Тэги' class='title'>Теги: </div><div class='val'><%= tag %></div></div>" +
         "<div><div data-content='Пользователи по которым будет дополнительно фильтроватся даные' data-placement='right' rel='popover' data-trigger='hover' title='По полльзователям' class='title'>Авторы: </div><div class='val'><%= user_title %></div></div>" +
-        "<div><div data-content='Группы по которым будут фильтроватся данные' data-placement='right' rel='popover' data-trigger='hover' title='По группам' class='title'>Группы: </div><div class='val'><%= by_group %></div></div>" +
-        "<div><div data-content='Роли пользователей по которым отфильтруется ячейка' data-placement='right' rel='popover' data-trigger='hover' title='По ролям' class='title'>Роли: </div><div class='val'><%= role %></div></div>" +
-        "<div><div data-content='По чем отсортируются даные в нужном порядке' data-placement='right' rel='popover' data-trigger='hover' title='Сортировка' class='title'>Сортировка: </div><div class='val'><%= sort %></div></div>" +
-        "<div><div data-content='Минимальный рейтинг для показа в данной ячейке' data-placement='right' rel='popover' data-trigger='hover' title='Рейтинг' class='title'>Рейтинг: </div><div class='val'><%= vote %></div></div>" +
-        "<div><div data-content='Кол-во(лимит) звписей в ячейке' data-placement='right' rel='popover' data-trigger='hover' title='Лимит записей' class='title'>Лимит: </div><div class='val'><%= limit %></div></div>" +
+        "<div><div data-content='Группы по которым будут фильтроватся данные'                   data-placement='right' rel='popover' data-trigger='hover' title='По группам' class='title'>Группы: </div><div class='val'><%= by_group %></div></div>" +
+        "<div><div data-content='Роли пользователей по которым отфильтруется ячейка'            data-placement='right' rel='popover' data-trigger='hover' title='По ролям' class='title'>Роли: </div><div class='val'><%= role %></div></div>" +
+        "<div><div data-content='По чем отсортируются даные в нужном порядке'                   data-placement='right' rel='popover' data-trigger='hover' title='Сортировка' class='title'>Сортировка: </div><div class='val'><%= sort %></div></div>" +
+        "<div><div data-content='Минимальный рейтинг для показа в данной ячейке'                data-placement='right' rel='popover' data-trigger='hover' title='Рейтинг' class='title'>Рейтинг: </div><div class='val'><%= vote %></div></div>" +
+        "<div><div data-content='Кол-во(лимит) звписей в ячейке'                                data-placement='right' rel='popover' data-trigger='hover' title='Лимит записей' class='title'>Лимит: </div><div class='val'><%= limit %></div></div>" +
         "<div><div data-content='Показывать только один раз каждого уникального автора или нет' data-placement='right' rel='popover' data-trigger='hover' title='Уник. автор в ячейке' class='title'>Уник. автор: </div><div class='val'><%= last_art %></div></div>" +
-        "<div><div data-content='Срок дней показа' data-placement='right' rel='popover' data-trigger='hover' title='Срок показа' class='title'>Срок показа: </div><div class='val'><%= term %> дней</div></div>" +
+        "<div><div data-content='Срок дней показа'                                              data-placement='right' rel='popover' data-trigger='hover' title='Срок показа' class='title'>Срок показа: </div><div class='val'><%= term %> дней</div></div>" +
         "</div>" +
         "<style>"+
         ".single_slot .title{ display:inline-block; width: 93px; color:#48f; }"+
@@ -259,11 +259,11 @@ function init_conf_templ(conf, conf_name){
                         '<div class="modal-dialog">'+
                             '<div class="modal-content">'+
                                 '<div class="modal-header">'+
-                                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Редактирование шаблона</h3></div>' +
+                                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Edit template</h3></div>' +
                                 '<div class="modal-body" ></div>' +
                                 '<div class="modal-footer"><div class="btn-group">'+
-                            '<span class="btn" data-dismiss="modal">Закрыть</span>'+
-                            '<span class="save btn btn-primary" data-dismiss="modal">Сохранить</span>'+
+                            '<span class="btn" data-dismiss="modal">Close</span>'+
+                            '<span class="save btn btn-primary" data-dismiss="modal">Ok</span>'+
                                 '</div>' +
                                 '</div>' +
                             '</div>' +

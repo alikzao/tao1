@@ -27,8 +27,6 @@
 	<script type="text/javascript" src="/static/admin/json2.js" ></script>
 	<script type="text/javascript" src="/static/admin/underscore.js" ></script>
 	<script type="text/javascript" src="/static/admin/backbone.js" ></script>
-{#	<script type="text/javascript" src="/static/admin/jquery.multifile.js" ></script>#}
-{#	<script type="text/javascript" src="/static/admin/jquery.form.js" ></script>#}
 	<script type="text/javascript" src="/static/admin/jquery.datetimepicker.js" ></script>
 
 
@@ -50,7 +48,7 @@
 
 	<script type="text/javascript" src="/static/admin/sortable/Sortable.js"></script>
 
-	<script type="text/javascript" src="/static/perm/ta.js"></script>   {#  /* add_processor добавляет всякое*/   #}
+	<script type="text/javascript" src="/static/perm/ta.js"></script>   {#  /* add_processor add field*/   #}
 
 
 
@@ -58,7 +56,7 @@
       <script type="text/javascript" src="/static/table/tp_new.js"></script>
       <script type="text/javascript" src="/static/table/tp_site.js"></script>
 
-{#	<script type="text/javascript" src="/static/sandbox/sb.js"></script>    {#  /* функции для песочницы */   #}
+{#	<script type="text/javascript" src="/static/sandbox/sb.js"></script>    {#  /* function for sandbox */   #}
 
 
 	<script type="text/javascript" src="/static/files/tf.js"></script>
@@ -71,15 +69,8 @@
 	<link   rel="stylesheet" type="text/css" href="/static/tree/tt.css" />
 	<link   rel="stylesheet" type="text/css" href="/static/tree/lm.css" />
 
-
-{#	<link   rel="stylesheet" type="text/css" href="/static/admin/admin.css" />#}
-
-
 	<link   rel="stylesheet" type="text/css" href="/static/admin/cupertino/jquery-ui.custom.css" />
 
-
-{#	<link   rel="stylesheet" type="text/css" href="/static/contents/reset.css" />#}
-{#	<link   rel="stylesheet" type="text/css" href="/static/contents/default.css" />#}
 
 	<link   rel="stylesheet" type="text/css" href="/static/table/table.css" />
 	<link   rel="stylesheet" type="text/css" href="/static/contents/content.css" />
@@ -102,7 +93,8 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -159,9 +151,6 @@
     height: 100%;
  }
 
-.tab-content {
-
-}
 .tab-content .inner{
     position: fixed;
 {#    position: absolute;#}
@@ -173,9 +162,6 @@
 }
 .tab-content .grid.center{
     position: relative;
-}
-.grid_main{
-{#    height: 400px;#}
 }
 .statusbar{
 {#    position: fixed;#}
@@ -199,10 +185,6 @@
 {#  float: none;  /* Cancel default li float: left */#}
 {#  width: 139px;#}
 }
-{#.navbar-fixed-left + .container {#}
-{#  padding-left: 160px;#}
-{# }#}
-
 /* On using dropdown menu (To right shift popuped) */
 /*.navbar-fixed-left .navbar-nav > li > .dropdown-menu {
   margin-top: -50px;
@@ -246,30 +228,7 @@
 
 
 
-{#        #tabs {position: absolute; top:0; left:0; right:0; bottom: 0;}#}
-{#        #tabs > div {position: absolute; top:43px; left:0; right:0; bottom: 0; overflow: auto;}#}
-
-
-{#@media (min-width: 768px){#}
-{#  .seven-cols .col-lg-1  {#}
-{#    width: 100%;#}
-{#    *width: 100%;#}
-{#  }#}
-{# }#}
-{##}
-{#@media (min-width: 992px) {#}
-{#  .seven-cols .col-lg-1 {#}
-{#    width: 1%;#}
-{#    *width: 1%;#}
-{#  }#}
-{# }#}
-
-
-    </style>
-
-
-<style type="text/css">
-    /* к конструктору меню*/
+/* designer menu*/
 #conf_menu {
     position: absolute;
     width: 250px;
@@ -279,7 +238,7 @@
     margin: 15px 0px 50px 50px;
 }
 
-/*к конфигурационному меню*/
+/*configuration menu*/
 .work_rb{
     text-align:left;
     cursor: pointer;
