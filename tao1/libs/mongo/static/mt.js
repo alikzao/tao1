@@ -287,10 +287,10 @@ var mongo_tree = function(){
         clean_coll:function(){},
         import_coll:function(){},
         export_db:function(){
-                var path
+                var path;
                 var coll = $('.docs').attr('coll_id');
 //        var db_id = $('.db').attr('db_id');
-                var db_id = 'pauluskp';
+                var db_id = 'db_name';
                 $.ajax({
                     type: "POST", url: '/mongo/export_db', dataType: "json",
                     data: { coll: coll, db_id:db_id, path:path},
@@ -383,13 +383,6 @@ $(document).ready(function () {
     }
 });
 
-//$(document).ready(function () {
-//    if (f) {
-//        var t = f;
-//        f = undefined;
-//        t();
-//    }
-//});
 
 
 

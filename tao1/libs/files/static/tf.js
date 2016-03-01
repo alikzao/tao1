@@ -23,16 +23,6 @@
         	    '</div>'
         ).appendTo('body');
 
-//        var dialog = $('<div class="modal hide fade " style="width:730px; margin-left:-365px;">'+
-//            '<div class="modal-header">'+
-//            '<button class="close" data-dismiss="modal">×</button><h3>Галерея</h3></div>' +
-//            '<div class="modal-body" style="width:700px; height:600px;"></div>' +
-//            '<input class="fi" type="file" min="1" max="20" multiple="true"  style="display:none;"/>' +
-//            '<div class="modal-footer"><div class="btn-group">'+
-//            '<span  class="btn cancel" data-dismiss="modal">Закрыть</span>'+
-//            '</div></div></div>'
-//        ).appendTo('body');
-
         var mainw = dialog.find('.modal-body');
 
         var main_div_img = $('<div class="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 200px;"></div>').appendTo(mainw);
@@ -89,22 +79,7 @@
             }
         });
 
-        //$(document).on( 'click', 'a[data-toggle="tab"]', function (e) {
-        //    console.log('e.target---->', e.target);
-        //});
-        //dialog.on('hidden.bs.modal', function () {
         $(document).on('hidden.bs.modal', function () {
-        //    console.error('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww0->', form);
-		 // $(this).removeData('bs.modal');
-		 //   dialog.remove();
-		 //   dialog.empty();
-          //  dialog.find('.fi').reset();
-          //  dialog.find('.fi').empty();
-          //  dialog.find('.fi').remove();
-          //  delete form;
-            //$('frame').remove();
-            //$('frame').empty();
-            //console.error('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww1->', form);
 
         });
 

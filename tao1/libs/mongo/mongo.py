@@ -50,7 +50,8 @@ def mongodb(db_id):
 		if is_main:
 			s['mongo']['db_name'] = db_id
 			s.save()
-			db, cn = connect(s['mongo']['host'], get_settings('database')['login'], get_settings('database')['login'], get_settings('database')['pass'] )
+			db, cn = connect(s['mongo']['host'], get_settings('database')['login'], get_settings('database')['login'],
+			                 get_settings('database')['pass'] )
 			db_list = cn.database_names()
 		else: db_list = [db_id]
 
@@ -226,7 +227,6 @@ def edit_val_post1():
 			if res in parent: # 'user' in doc
 				parent = parent[res] # doc['user']
 			old_key = res # 'user'
-		# die('old_key', old_key, 'new_val', new_val)
 			old_target[old_key] = new_val
 		# old_target[old_key] = new_val
 		db[coll].save(doc)
@@ -250,7 +250,8 @@ def import_db_post(request):
 		old = os.path.join(path, 'formemob')
 		new = os.path.join(path, 'test_formemob')
 		os.rename(old, new)
-		cmd = 'mongorestore -u admin -p {0} -d {1} --drop {2}'.format(settings.database['pass'], settings.database['named'], os.path.join(path, settings.database['name']) )
+		cmd = 'mongorestore -u admin -p {0} -d {1} --drop {2}'.format(settings.database['pass'], settings.database['named'],
+		                                                              os.path.join(path, settings.database['name']) )
 		os.popen(cmd).read()
 
 

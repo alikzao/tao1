@@ -1,10 +1,8 @@
 ;(function(){
-    // используется для создания удаления и редактирования полей.
 var defaults = {};
 
 window.dao.add_processor = function(params){
 
-    // Правильное создание нового объекта с присвоением ему значений по-умолчанию и частично указанных новых значений
     var options = $.extend({}, defaults, params);
 
     var width_window = document.body.clientWidth;
@@ -113,15 +111,10 @@ window.dao.add_processor = function(params){
 
         // todo тут создание еще одного поля  просто собирает значение последнего  а значение поледнего сео,
         // поэтому нужно просто наверно оставить дополнительный и все и не дублировать
-        var c_sel_title_label  = $('<label>'+dao.translate('Связанное поле')+'&nbsp</label><br/>').appendTo(label_type);
+        var c_sel_title_label  = $('<label>'+dao.ct('Связанное поле')+'&nbsp</label><br/>').appendTo(label_type);
         var c_sel_title = $('<select name="relation_field"/>').appendTo(c_sel_title_label);
         dao.list_field(options.id, c_sel_title);
         c_sel_title_label.hide();
-
-        //var c_sel_rb_label  = $('<label>'+dao.translate('target_select')+'&nbsp</label><br/>').appendTo(label_type);
-        //var c_rb_sel = $('<select name="relation"/>').appendTo(c_sel_rb_label);
-        //dao.get_list_rb(c_rb_sel, '/menu');
-        //c_sel_rb_label.hide();
 
         label_type.find('[value="cascad_select"]').on('change', function(){
             ddd.show();
