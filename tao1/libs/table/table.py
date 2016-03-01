@@ -22,7 +22,7 @@ import html
 def table_data(request):
 	"""
 	при отрисовке вкладки при нажатии кнопки рефреш, в admin.js там в update_tab
-	берем из модели которая в свою очередь берет из закладки  там какойто id номер вкладки
+	берем из модели которая в свою очередь берет из закладки  какойто id номер вкладки
 	и по роуту вызывается эта функция.
 	"""
 	proc_id = request.match_info.get('proc_id')
@@ -212,7 +212,8 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
 				continue
 			regex = re.compile(u'%s' % str(f['val']), re.I | re.UNICODE)
 			suffix = ''
-			if 'is_translate' in _meta_table[field] and (_meta_table[field]['is_translate'] == "true" or _meta_table[field]['is_translate'] == True):
+			if 'is_translate' in _meta_table[field] and (_meta_table[field]['is_translate'] == "true" or
+					                                             _meta_table[field]['is_translate'] == True):
 				suffix = '.' + cur_lang(request)
 			if _meta_table[field]['type'] == 'select':
 				suffix = '.' + cur_lang(request)
@@ -225,7 +226,8 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
 				if 'str_option' in f and f['str_option'] == 'eq':
 					condition['$and'].append({'doc.' + field + suffix: f['val']})
 				else:
-					regex = re.compile('%s%s%s' % ( ('^' if 'str_option' in f and f['str_option'] == 'start' else ''), f['val'], (('$' if 'str_option' in f and  f['str_option'] == 'end'  else ''))), re.I | re.UNICODE)
+					regex = re.compile('%s%s%s' % ( ('^' if 'str_option' in f and f['str_option'] == 'start' else ''), f['val'],
+					                                (('$' if 'str_option' in f and  f['str_option'] == 'end'  else ''))), re.I | re.UNICODE)
 					condition['$and'].append({'doc.' + field + suffix: regex})
 
 	#is_ajax = request.header.get('X-Requested-With') == 'XMLHttpRequest'
@@ -323,7 +325,8 @@ def table_get_row_post(request):
 def table_preedit_row_post(request):
 	data = get_post(request)
 	doc = get_doc(request, data['doc_id'])
-	return response_json(request, {"result":"ok", "doc":{'title': ct(request, doc['doc']['title']), 'body': ct(request, doc['doc']['body']), 'date': doc['doc']['date']}} )
+	return response_json(request, {"result":"ok", "doc":{
+		'title': ct(request, doc['doc']['title']), 'body': ct(request, doc['doc']['body']), 'date': doc['doc']['date']}} )
 
 
 
@@ -366,7 +369,7 @@ def count_tags(request, t, t_old, tag_dict):
 		2) идем по тегам и если есть
 	"""
 	tags = request.db.conf.find_one({"_id":'tags_'+tag_dict[4:]})  # получает документ где хранится облако тегов
-	tags = tags['tags'][cur_lang(request)] if tags and 'tags' in tags and cur_lang(request) in tags['tags'] else []# берет с нужным языком
+	tags = tags['tags'][cur_lang(request)] if tags and 'tags' in tags and cur_lang(request) in tags['tags'] else []
 	tags_d = dict(tags)
 	for res in t:
 		if not res in tags_d: tags_d[res] = 1 #если нету полученого в тегах документа    то прописуем там
@@ -479,27 +482,29 @@ def update_row_(request, proc_id, doc_id, data, parent, noscript=True, no_synh=F
 	doc['doc_type'] = proc_id
 #		if not is_admin:
 
-	# from libs.tree.tree import move_leaf
-	if 'last_art' in doc['doc'] and  doc['doc']['last_art'] == 'true': #сохранение единственого материала для отображения единственого автора в колонке
+
+	#сохранение единственого материала для отображения единственого автора в колонке
+	if 'last_art' in doc['doc'] and  doc['doc']['last_art'] == 'true':
 		for res in request.db.doc.find({'doc_type':proc_id, 'doc.user':doc['doc']['user'], 'doc.last_art':'true'}):
 #			for res in db.doc.find({'doc_type':{'$ne':':'}, 'doc.user':doc['doc']['user'], 'doc.last_art':'true'}):
 			res['doc']['last_art'] = 'false'
 			request.db.doc.save(res)
-	if is_admin(request) or accept_def or proc_id == 'des:obj' and 'accept' in user['doc'] and user['doc']['accept'] == 'true': #сохранение для разрешенного пользователя
+	#сохранение для разрешенного пользователя
+	if is_admin(request) or accept_def or proc_id == 'des:obj' and 'accept' in user['doc'] and user['doc']['accept'] == 'true':
 		doc['doc']['accept'] = 'true'
 	else: doc['doc']['accept'] = 'false'
 
 	save_auto_tags(request, doc,'tags_'+proc_id[4:]) # автоопределение тегов  получаем текст и сравниваем его с с теми тегами которые уже есть и вычленяем их из него
 	save_tags(request, doc, 'tags_'+proc_id[4:])
 
-	if accept_def or proc_id == 'des:obj' and 'primary' in user['doc'] and user['doc']['primary'] == 'true': #сохранение для разрешенного пользователя
+	#сохранение для разрешенного пользователя
+	if accept_def or proc_id == 'des:obj' and 'primary' in user['doc'] and user['doc']['primary'] == 'true':
 		doc['doc']['primary'] = 'true'
 	else: doc['doc']['primary'] = 'false'
 
 	if 'parent_id' in data and data['parent_id']:
 		parent_id = data['parent_id']
 		# Удаляем из старого родителя
-		# db.doc.update({'child':{'$in':['91b1956a784347f28c541c387d63bcc7']}}, {'$pull':{'child':'91b1956a784347f28c541c387d63bcc7'}})
 		request.db.doc.update({'child':{'$in':[doc_id]}}, {'$pull':{'child':doc_id}})
 		# Добавляем в нового родителя
 		# if parent_id !='_': db.doc.update({'_id':parent_id}, {'$push':{'child':doc_id}})
@@ -648,7 +653,7 @@ def update_cell(request, idd, proc_id, field, value):
 
 	meta = find_field(field, meta_table)
 	if meta is None: return {"result":"fail", "error":"there is not such field " + field }
-	#это касаеться переводимых полей
+
 	if 'is_translate' in meta and (meta['is_translate'] == "true" or meta['is_translate'] == True):
 		if not field in doc["doc"] or type(doc["doc"][field]) != dict:
 			doc["doc"][field] = {}
@@ -669,9 +674,6 @@ def update_cell(request, idd, proc_id, field, value):
 	otvet = {"result":"ok", "updated": updated }
 	if 'owner' in doc and doc['owner'] != '_':
 		on_update_subtable(request, doc)
-
-	# from libs.report.report import reset_report_cache, reset_report_doc_cache
-	# reset_report_cache( proc_id )
 	return otvet
 
 
@@ -703,7 +705,7 @@ def updated_edit_cell(request, field, value, proc_id):
 		else:
 			formatted = value
 			v = value
-		t = type(v) #cpa
+		t = type(v)
 		if t == int or t == float or meta['type'] == 'checkbox':
 			updated  = { "formatted":formatted, "value":v, 'field_name':field }
 		else:
@@ -929,7 +931,7 @@ def table_add_field_post(request):
 	return add_field(request, proc_id, data)
 
 
-def add_field(request, proc_id, data, field_id=None): #field_id=None это индекс поля которое нужно поменять при редактировании
+def add_field(request, proc_id, data, field_id=None): #field_id=None индекс поля которое нужно поменять при редактировании
 	if not user_has_permission(request, proc_id, 'create'):
 		return response_json(request, {"result": "fail", "error": "You have no permission."})
 	print('data===================================================================================================')
@@ -1000,7 +1002,7 @@ def get_event_post(request):
 
 def add_func(request):
 	if is_admin(request):
-		return templ('libs.auth:conf_', request, dict(proc_id='add_func'))
+		return templ('libs.auth:conf_', request, {"proc_id":'add_func'})
 
 
 def table_sort_columns_post(request):
@@ -1022,9 +1024,7 @@ def table_sort_columns_post(request):
 def table_copy_doc(request):
 	"""
 	1) Создаем пустой документа
-	2)
 	"""
-	# data = json.loads(get_post('data'))
 	data = get_post(request)
 	old_id = data['doc_id']
 
@@ -1036,9 +1036,9 @@ def table_copy_doc(request):
 	from gridfs import GridFS
 	fs = GridFS(request.db)
 	for fn in request.db.fs.files.find({'doc_id':old_id, 'file_name':re.compile('^orig_', re.I | re.U)}):
-		# TODO реально таки уменьшать картинку при занесении, щас просто название меняется просто
+		# TODO таки уменьшать картинку при занесении, сейчас просто название меняется
 		if not fn: return None, None, None
-		f = fs.get(fn['_id']).read() # метод гридфс
+		f = fs.get(fn['_id']).read()
 		fs.put(f, file_name ='thumb_1'+fn['file_name'], doc_id = new_id_owner, proc_id=fn['proc_id'],  mime = fn['mime'])
 		fs.put(f, file_name ='orig_1'+fn['file_name'],  doc_id = new_id_owner, proc_id=fn['proc_id'],  mime = fn['mime'])
 		# add_file_raw(fn['proc_id'], old_id, f, fn['mime'], '1'+fn['file_name'] )
@@ -1052,13 +1052,12 @@ def table_copy_doc(request):
 
 def simply_copy_doc(request, old_id):
 	new_id = uuid4().hex
-	# new_doc = db.doc.insert({'_id':new_id, 'copy':old_id } )
 	old_doc = request.db.doc.find_one({'_id':old_id})
 	old_doc['_id'] = new_id
 	old_doc['doc']['rev'] = uuid4().hex[-9:]
-	# 'rev':uuid4().hex[-9:]
 	request.db.doc.insert(old_doc)
 	return new_id
+
 
 def table_sort_post(request):
 	"""

@@ -10,7 +10,7 @@ $(function() {
 	var is_admin = '{{ is_admin }}';
 
 	var t = $('[proc_id="{{proc_id}}"]');
-{#    return ;#}
+
 	dao.tableprocessor(t, {
 		url:'{{url}}',
 		id: '{{proc_id}}',

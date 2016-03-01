@@ -1,5 +1,4 @@
-{#{% extends "base.tpl" %}#}
-{#{% block content %}#}
+
 
 <div class="processor_id" proc_id="{{proc_id}}"> </div>
 
@@ -19,7 +18,7 @@
 	
 
 
-{#{% endblock %}#}
+
 
 
 

@@ -38,8 +38,10 @@ def add_comm_post(request):
 	# else: title = get_post('title').decode('utf-8')
 	else: title = get_post('title')
 	# if get_const_value('all_comm') == "false":
-	if not user_has_permission('des:obj', 'add_com') and  not user_has_permission('des:obj', 'add_com_pre'): return {"result":"fail", "error":"no comment"}
-	if not check_user_rate( user ): return {"result":"fail", "error": u"Вы не можете оставлять сообщения слишком часто, из-за отрицательной кармы"}
+	if not user_has_permission(request, 'des:obj', 'add_com') and  not user_has_permission(request, 'des:obj', 'add_com_pre'):
+		return {"result":"fail", "error":"no comment"}
+	if not check_user_rate(request, user):
+		return {"result":"fail", "error": u"Вы не можете оставлять сообщения слишком часто, из-за отрицательной кармы"}
 
 	doc_id = get_post('doc_id')
 	if user_is_logged_in(): title = get_current_user()
@@ -50,7 +52,8 @@ def add_comm_post(request):
 	descr = no_script( descr )
 	descr = descr.replace('\n', '<br/>')
 
-	pre = 'true' if not user_has_permission('des:obj', 'add_com') else 'false'   # ретурн если нет и того и другого    а если нет только одного то как раз проверим
+	# ретурн если нет и того и другого    а если нет только одного то как раз проверим
+	pre = 'true' if not user_has_permission(request, 'des:obj', 'add_com') else 'false'
 	date = str(str_date_j())
 	user_ = get_current_user_name( title ) or title
 	our = "true" if user_is_logged_in() else "false"
@@ -221,7 +224,8 @@ def count_branch(doc):
 def get_doc_tree(request, owner, tree_id):
 	db = request.db
 	def make_doc_tree():
-		doc = {"_id": uuid4().hex, "type": "tree", "tree": { "_": { "children": [ ], "parent": "", "title": { "ru": u"корень", "en": "root" } }}, "seq_id_tree": 1, "owner": owner, "sub_type": tree_id}
+		doc = {"_id": uuid4().hex, "type": "tree", "tree": { "_": { "children": [ ], "parent": "",
+		                    "title": { "ru": u"корень", "en": "root" } }}, "seq_id_tree": 1, "owner": owner, "sub_type": tree_id}
 		db.tree.save(doc)
 		return doc
 	if not owner:
@@ -235,7 +239,8 @@ def get_doc_tree(request, owner, tree_id):
 
 def tree_post(request, proc_id):
 	if proc_id.startswith('tree:'):
-		if not user_has_permission(proc_id[5:], 'view'): return '{"result": "fail", "error": "%s"}' % cgi.escape(ct("You have no permission."))
+		if not user_has_permission(proc_id[5:], 'view'):
+			return {"result": "fail", "error": ct("You have no permission.")}
 		return tree_data(proc_id, False)
 	else:
 		owner = get_post('owner', False)
@@ -263,8 +268,6 @@ def tree_data(request, proc_id, owner):
 	from libs.sites.sites import get_full_docs
 	docs = get_full_docs(docs)
 	value = form_tree_comm( docs )
-	# value = []
-
 	# value = translate_(form_tree(db.tree.find_one({'_id':proc_id})))
 	return json.dumps({"result":"ok", "content":value, "proc_id":proc_id})
 
@@ -276,7 +279,8 @@ def check_ban(ip, user):
 
 
 def accept_comm_post(request):
-	if not is_admin(request) and not user_has_permission(request, 'des:comments', 'edit'): return {"result":"fail", "error":"no has permission"}
+	if not is_admin(request) and not user_has_permission(request, 'des:comments', 'edit'):
+		return {"result":"fail", "error":"no has permission"}
 	data = get_post(request)
 	doc_id = data['doc_id']
 	doc = request.db.doc.find_one({'_id':doc_id})
@@ -339,7 +343,8 @@ def form_tree(request, doc, is_comm=False):
 			'for_owner': tree[parent_id]['for_owner'] if 'for_owner' in tree[parent_id] else None,
 			'children': new_tree,
 			'pre': tree[parent_id]['pre'] if 'pre' in tree[parent_id] else None,
-		    'vote': tree[parent_id]['vote'] if 'vote' in tree[parent_id] else {"score":0,"votes_count":0, "votes_count_plus":0,"votes_count_minus":0, "voted":{}}
+		    'vote': tree[parent_id]['vote'] if 'vote' in tree[parent_id] else {"score":0,"votes_count":0, "votes_count_plus":0,
+		                                                                       "votes_count_minus":0, "voted":{}}
 		}
 		return new_branch
 	return get_children('_')

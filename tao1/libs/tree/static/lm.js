@@ -1,9 +1,4 @@
 ;(function($){
-    // test 123 321
-    var test23 = 4+5+6+8;
-    console.log(test23);
-    console.log('test23'+test23+'e');
-    console.log('test23');
     var defaults = { };
     window.dao.left_menu = left_menu;
     function left_menu(parent, params){
@@ -51,7 +46,9 @@
                 if (is_branch)
                     var a_tree=$('<span class="cm-menu-folder">'+branch.title+'</span>').appendTo(h1_tree);
                 else
-                    var a_tree=$('<a class="cm-menu-item" d_id="'+content[index].link2+'" style="overflow:hidden; display:block;">'+branch.title+'</a>').appendTo(h1_tree);
+                    var a_tree=$(
+                        '<a class="cm-menu-item" d_id="'+content[index].link2+'" style="overflow:hidden; display:block;">'+branch.title+'</a>')
+                        .appendTo(h1_tree);
 
                 $('<div style="display:inline-table;">'+
                     '<div style = "display:inline-cell; margin-left: 5px; margin-right: 5px;" class="div-icon cm-menu-icon">'+

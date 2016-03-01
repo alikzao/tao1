@@ -87,8 +87,6 @@
 
         var toolbar = $('<div id="'+options.id+'_'+options.doc_id+'_toolbar" style="background-color: #ddd;" class="ui-corner-all button_div"></div>').appendTo(parent);
 
-        //var toolbar = $('<div style="position:absolute; top:0px; left: 0px; right:0px; width:auto; height:38px;" id="'+options.id+'_'+options.doc_id+'_toolbar" '+
-
         //рисование тулбара с кнопками
         var act = options.actions;
         var param = [];
@@ -660,8 +658,10 @@
                 try{
                     $('.col_from, .col_to').datetimepicker({
                         showSecond: true, timeFormat: "hh:mm:ss", dateFormat: "yy-mm-dd", stepHour:1, stepMinute: 1, stepSecond: 1, hourMin: 0, hourMax: 23,
-                        closeText:"Готово", currentText: "Сейчас", timeOnlyTitle: "Выберите время", timeText:"Время", hourText: "Часы", minuteText: "Минуты", secondText: "Секунды",
-                        monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"], dayNamesMin:["Пн", "Вт", "Ср", "Чт","Пт","Сб","Вс"],
+                        closeText:"Готово", currentText: "Сейчас", timeOnlyTitle: "Выберите время", timeText:"Время", hourText: "Часы", minuteText: "Минуты",
+                        secondText: "Секунды",
+                        monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+                        dayNamesMin:["Пн", "Вт", "Ср", "Чт","Пт","Сб","Вс"],
                         monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
                         beforeShow: function() { editor.blurable = false; },
                         onClose: function(){ editor.blurable = true; editor.blur(); },

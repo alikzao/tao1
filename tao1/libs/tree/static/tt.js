@@ -1,7 +1,6 @@
 ;(function($) {
-    var defaults = {}
+    var defaults = {};
     window.dao.tree_processor = function(parent, body, params) {
-        // Правильное создание нового объекта с присвоением ему значений по-умолчанию и частично указанных новых значений
         var options = $.extend({}, defaults, params);
         var dialog;
         /** {jQuery} родительский контейнер */
@@ -22,7 +21,8 @@
 //				var defaultCreateParams = {	title: ""  };
 
             // var button_class = options.sub_table_class?'2':'';
-            var tree_toolbar = $('<div class="well btn-group btn-group-sm" style="position:absolute; top:0px; left:0px; right:0px; overflow:hidden; display:block; ' +
+            var tree_toolbar = $(
+                '<div class="well btn-group btn-group-sm" style="position:absolute; top:0px; left:0px; right:0px; overflow:hidden; display:block;'+
                 'padding:2px; text-align:left; height:38px;"></div>').appendTo(parent);
             var tree_body =    $('<div style="position:absolute; top:36px; left:0px; right:0px; overflow:hidden; display:block; bottom:0px; ' +
                 'background-color:white;"></div>').appendTo(parent);
@@ -139,12 +139,9 @@
                     }
                 });
             });
-            // Здесь нет смысла обновлять дерево, оно обновляется при изменении ветки
         }
 
         function updatetree() {
-//					var curent_id = $(this).attr('branch_id');
-//            console.log('options.url', options.url);
             if(options.url == '/tree/data/menu:root:left_menu') url = '/menu/iface'
             else url = options.url
             $.ajax({
@@ -161,10 +158,8 @@
                 success: function(answer){
                     if(answer.proc_id){
                         options.id = answer.proc_id;
-                        //console.log('options.id answer wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', answer.proc_id);
                         options.owner = undefined;
                     }
-                    //console.log('answer.content', answer)
                     _drawtree(answer.content);
                     postupdatetree();
                 }
@@ -185,8 +180,6 @@
                 cursor_id = 0;
             }
             if(old_id != cursor_id) {
-                // Обновляем список, только если текущая ветка изменилась
-                //возможно тут лучше он_ченджь
                 updatelist();
             }
         }
@@ -256,13 +249,12 @@
                 $(this).find('h1:first').css('border-width', '0px 0px 1px 1px')
             });
         }
-//$('.open_branch').find('.cm-menu-icon:first').closest('.tree_item')
+
         function edit_comm(branch_id){
             dialog = $("<div></div>");
             var form = $('<form><fieldset><div></div></fieldset></form>').appendTo(dialog);
             var formbody = $('fieldset', form);
             var nest = $('div', formbody);
-            //console.log('options wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', options)
             dialog.dialog({
                 bgiframe: true, autoOpen: true, height: 400, width: 450, modal: true,
                 buttons: {
@@ -287,7 +279,8 @@
                 close: function() { delete dialog;  }
             });
             $("<label>"+dao.ct('Сообщение')+"</label>").appendTo(nest);
-            var input1 = $('<textarea name="body1" style="width:100%; height:150px;" class="t_rich_edit1"/>').appendTo(nest).val($(".comm_comment[id_comm="+branch_id+"]").html());
+            var input1 = $('<textarea name="body1" style="width:100%; height:150px;" class="t_rich_edit1"/>')
+                .appendTo(nest).val($(".comm_comment[id_comm="+branch_id+"]").html());
         }
 
         function del_comm(branch_id){
@@ -297,7 +290,8 @@
             var nest = $('div', formbody);
 //                  dialog.position({ my: "center", at: "center", of: window });
             dialog.dialog({
-                bgiframe: true, autoOpen: true, height:200, width: 400, modal: true, position: ['center', 'center'], title:'Удалить комментарий',
+                bgiframe: true, autoOpen: true, height:200, width: 400, modal: true, position: ['center', 'center'],
+                title:'Удалить комментарий',
 
                 open: function(){
 //                            dialog.closest('.ui-dialog').css({'border':'5px solid red'}).appendTo(pre_dialog);
@@ -347,7 +341,8 @@
               '<label><input type="radio" name="type" value="doc" >'+dao.ct('single_object')+'</label></br></br>').appendTo(label_type);
             var div_sel = $('<div class="div_sel"></div> ').appendTo(dialog).hide();
             var div_rb = $('<div class="div_rb"></div> ').appendTo(div_sel).hide();
-            var div_branch_doc = $('<div class="div_branch_doc"></div> ').appendTo(div_sel).hide();  //он появляется и заполняется когда мы создаем ветку    до этого просто очищается
+            //он появляется и заполняется когда мы создаем ветку    до этого просто очищается
+            var div_branch_doc = $('<div class="div_branch_doc"></div> ').appendTo(div_sel).hide();
             dialog.find('input[name=type]').change(function(){
                 $('.div_sel, .div_rb, .div_branch_doc').empty().show();
                 if (dialog.find('input[name=type]:checked').val() == 'ref') { // создаем ссылку
@@ -493,13 +488,11 @@
             if(options.is_add_link){
                 select_menu(dialog, linkk, title);
             }
-            //console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', options);
             dialog.dialog({
                 bgiframe: true, autoOpen: true, height: 600, width: 400, modal: true,
                 buttons: {
                     'Ok': function() {
                     var new_body = $('.t_rich_edit1[name="body1"]').val();
-                    //console.log(options);
                     $.ajax({
                         type: "POST", dataType: "json", url:url,
                         data:{

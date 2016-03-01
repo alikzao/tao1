@@ -7,12 +7,14 @@
 				var options = $.extend({}, defaults, params);
 			    $('.site_menu').css({ 'padding': '0px', 'margin': '0px'});
 				
-			    $('#lm').addClass('ui-widget-content ui-corner-all').css({ 'height': '100%', 'width':'100%'}).find('.site_menu').css({ 'margin': '5px', 'font-size': '14px'});
+			    $('#lm').addClass('ui-widget-content ui-corner-all').css({ 'height': '100%', 'width':'100%'}).find('.site_menu')
+					.css({ 'margin': '5px', 'font-size': '14px'});
 
 				$('#tm').addClass('ui-state-default').css({ 'height': 'auto'});
 
 				if(options['type'] == 'horizontal'){
-					var first_li = { 'display': 'inline-table', 'padding': '0px 10px', 'border': '1px solid transparent', 'width': 'auto', 'font-size': '14px', 'line-height': '30px'};
+					var first_li = { 'display': 'inline-table', 'padding': '0px 10px', 'border': '1px solid transparent',
+						'width': 'auto', 'font-size': '14px', 'line-height': '30px'};
 					var all_ul =   { 'position': 'absolute', 'padding': '0px', 'margin': '0px'};
 					var all_ul_ul ={ 'top': '0px', 'left': '120px'};
 					var all_li =   { 'position': 'relative', 'list-style-type': 'none', 'z-index': '10', 'text-align': 'left'};
@@ -21,7 +23,8 @@
 					var first_li = { 'display': 'block', 'width': '100px'};
 					var all_ul =   { 'position': 'absolute', 'padding': '0px', 'top': '0px', 'left': '190px', 'margin': '0px'};
 					var all_ul_ul = false;
-                    var all_li =   { 'position': 'relative', 'list-style-type': 'none', 'z-index': '10', 'text-align': 'left', 'padding': '4px', 'width': '180px'};
+                    var all_li =   { 'position': 'relative', 'list-style-type': 'none', 'z-index': '10', 'text-align': 'left',
+						'padding': '4px', 'width': '180px'};
 					var all_li_li ={ 'display': 'block'};
 				}
 				
