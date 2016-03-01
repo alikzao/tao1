@@ -34,10 +34,10 @@
         <div class="is_comm">
             <h3>Наличие комментариев</h3>
             <div class="radio">
-                <label> <input type="radio" name="is_comm" id="rad4" value="option4"> Да </label>
+                <label> <input type="radio" name="is_comm" id="rad4" value="option4"> Yes </label>
             </div>
             <div class="radio disabled">
-                <label> <input type="radio" name="is_comm" id="rad5" value="option5" checked> Нет </label>
+                <label> <input type="radio" name="is_comm" id="rad5" value="option5" checked> Not </label>
             </div>
         </div>
 

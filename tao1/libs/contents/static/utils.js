@@ -36,65 +36,7 @@
     //*comments*/
 
 
-function add_cite(){
-    // функция для отправки в твитер цитат или в комментарии
-    return false;
 
-//    var dialog_open = false;
-//
-//    $('article').mouseup(function(e){
-//        if ($('[contenteditable=true]').length) return;
-//        if ($(e.target).is('.alert') || $(e.target).closest('.alert').length) return false;
-//
-//        if (dialog_open && !$(this).closest('.alert').length) {
-//            dialog_open = false;
-//            $(".alert").alert('close');
-//            return;
-//        }
-//
-//        if(e.button==0){
-//            var text = dao.get_select1(window);
-//            var tag = document.createElement('div');
-//            log(['text', text])
-//            log(['text.getRangeAt', text.getRangeAt(0)])
-//            var sel2 = text.getRangeAt(0); //получаем выделение
-//            var sel = sel2.cloneContents(); //вырезаем из него контент
-//            tag.appendChild(sel); // вставляем контент в тег
-//            var txt = $(tag).text();
-//            dialog_open = true;
-////            window.getSelection().removeAllRanges();
-//            if(txt){
-//                var y =  e.clientY > $('body')[0].scrollHeight/2 ? 'top: 50px' : 'bottom: 20px';
-//                $('<div class="alert alert-block alert-info fade in" style="z-index:100500; position:absolute; '+y+'; right:20px;">'+
-//                    '<button type="button" class="close" data-dismiss="alert">×</button>'+
-//                    '<h4 class="alert-heading">Выделеный текст можно процитировать в комментариях или твитнуть.</h4><br/> ' +
-//                    '<span class="btn btn-primary cite_tv" href="#"><i class="icon-twitter"></i>Твитнуть</span> '+
-//                    '<span class="btn btn-warning cite_comm" href="#"><i class="icon-comment"></i>Цитировать в коментариях</span>'
-//                ).appendTo('body');
-//                $(".alert").alert();
-//                $('.cite_tv').click(function(){
-//                    var url = 'https://twitter.com/intent/tweet?text='+txt.substr(0, 140-(window.location.toString().length+1) )+'&url='+window.location+'&related=';
-//                    var w = window.open(url, '', 'location,width=450,height=280,left=300,top=290,status=no,toolbar=no,menubar=no');
-//                    w.focus();
-//                    dialog_open = false;
-//                    $(".alert").alert('close');
-//                });
-//                $('.cite_comm').click(function(){
-//                    move_editor('_');
-//                    $('.easewig textarea').focus().val('<blockquote>'+txt+'</blockquote>');
-//                    dialog_open = false;
-//                    $(".alert").alert('close');
-//                });
-//                $('.alert .close').click(function(){
-////                    console.log('123')
-//                    dialog_open = false;
-//                });
-//            } else {
-//                dialog_open = false;
-//            }
-//        }
-//    });
-}
 
 function reset_ang(){
     var customInterpolationApp = angular.module('customInterpolationApp', []);
@@ -117,28 +59,11 @@ function scroll_top(){
 }
 
 
-//function scrol_top(parent){
-//    var res = $('<div style="display:none; margin-left:20px; width:50px; height:30px; text-align:center; cursor:pointer; background-color:rgba(0,0,0,.5); ' +
-//    'border-radius:10px;"><i class="icon-arrow-up" style="color:white; font-size:26px;"></i></div>').appendTo(parent);
-//    res.on('click', function(){
-//       $(window).scrollTop(0);
-//    });
-//    $('html').css({'position':'relative'});
-//    $(window).on('scroll', function(){
-//        if(!toolbar)return;
-//        if(500 > $(window).scrollTop()) res.hide();
-//        else res.show();
-//    });
-//}
-
- //$('#up').click(function() { $('body,html').animate({scrollTop:0},500); return false; })
-
 function spam(doc_id){
-    // функция для отправки сообщений и жалоб администратору
+    // sending and complaints admin
     var toolbar = $('.in-toolbar');
-//    if (current_user.is_admin || current_user.is_logged_in){
-    $('<div class="rb spam btn btn-default btn-sm"><i style="color:orange" class="icon-warning-sign"></i> </div><span>&nbsp;</span>').prependTo(toolbar);
-    //$('<div class="rb spam btn "><i style="color:grey; font-size:28px;" class="icon-ellipsis-horizontal"></i> </div><span>&nbsp;</span>').prependTo(toolbar);
+    $('<div class="rb spam btn btn-default btn-sm"><i style="color:orange" class="icon-warning-sign"></i> </div><span>&nbsp;</span>')
+        .prependTo(toolbar);
 
     toolbar.on('click', '.rb.spam', spam_);
     $('body').on('click', '.btn.send_spam', spam_send);
@@ -161,7 +86,8 @@ function spam(doc_id){
                 '</div>'+
             '</div>'
         ).appendTo('body');
-        var tube = $('<label>Описание проблемы<br><textarea class="form-control" name="spam" style="height:150px; width:520px;"></textarea></label>').appendTo(dialog.find('.modal-body'));
+        var tube = $('<label>Описание проблемы<br><textarea class="form-control" name="spam" style="height:150px; width:520px;"></textarea>' +
+            '</label>').appendTo(dialog.find('.modal-body'));
         dialog.modal();
     }
     function spam_send(){
@@ -209,10 +135,12 @@ function comments_proc(doc_id, comm_id, text_help, mode){
             if (current_user.is_admin ){
                 $('<div id_comm="'+id_comm+'" class="rb comm_ban comm_ban1 btn btn-danger btn-sm"> бан</div><span>&nbsp;</span>').appendTo(toolbar);
             }
-            if (current_user.is_admin || current_user.moderator_comm || current_user.id == user_id && current_user.is_logged_in && !children.length || current_user.edit_comm){
+            if (current_user.is_admin || current_user.moderator_comm ||
+                current_user.id == user_id && current_user.is_logged_in && !children.length || current_user.edit_comm){
                 $('<div id_comm="' + id_comm+'" class="rb comm_edit btn btn-info btn-sm"><i class="icon-wrench icon-white"></i> </div><span>&nbsp;</span>').appendTo(toolbar);
             }
-            if (current_user.is_admin || current_user.moderator_comm || current_user.id == user_id && current_user.is_logged_in && !children.length || current_user.del_comm){
+            if (current_user.is_admin || current_user.moderator_comm ||
+                current_user.id == user_id && current_user.is_logged_in && !children.length || current_user.del_comm){
                 $(' <div id_comm="' + id_comm+'" class="rb comm_del btn btn-info btn-sm"><i class="icon-trash icon-white "></i></div>').appendTo(toolbar);
             }
             toolbar.find('.comm_edit').click(edit_comm);
@@ -222,7 +150,6 @@ function comments_proc(doc_id, comm_id, text_help, mode){
         $('.comm_editor').find('[data=name]').text(current_user.name);
         if(!text_help){text_help='';}
         if(mode=="strict"){
-            // $('.comment_button').html('<div id_comm="_"><div class="add_comm_b btn btn-default" style="margin:5px;">Добавить комментарий</div></div>' );
             if (current_user.can_comment || current_user.is_admin){
                 $('.comment_button').html('<div id_comm="_"><div class="add_comm_b btn btn-primary" style="margin:5px;"><i class="icon-facebook-sign"></i> Добавить комментарий </div></div>');
             }else {
@@ -232,8 +159,7 @@ function comments_proc(doc_id, comm_id, text_help, mode){
                 $('.comment_button').html(
                     '<div id_comm="_" class="row well" style="width:730px; margin-left:1px;">' +
                         '<div class="col-xs-4 btn btn-primary add_comm_b"><i class="icon-facebook-sign"></i> Добавить комментарий</div>' +
-                        '<div class="col-xs-7"> Посты читателей принятых в друзья на аккаунте АРИ в Фейсбуке <a href="https://www.facebook.com/arirupost">https://www.facebook.com/arirupost</a>,' +
-                        ' появляются без премодерации</div>'+
+                        '<div class="col-xs-7"> </div>'+
                         '</div>'+
                         '<div style="text-align: center; color:#68a; padding:3px; border:1px solid #ddd;" class="ui-corner-all"> ' + mess + '</div>');
                 $('.comm_answer').hide();
@@ -257,11 +183,7 @@ function comments_proc(doc_id, comm_id, text_help, mode){
         }
     };
 
-    //if(current_user.name) init_f()
-    //else current_user.on_status.push(init_f);
-    current_user.ready(function() {
-        init_f()
-    });
+    current_user.ready(function() { init_f() });
 
     function del_comm(){
         console.warn('del_comm');
@@ -320,8 +242,6 @@ function comments_proc(doc_id, comm_id, text_help, mode){
 
     //    $('.comm_ban1').click(function(){
     $('.ul_comments').on('click', '.comm_ban', function(){
-    //        alert('jgjgjgjgjhgj');
-        console.log('bannnnnn');
         var branch_id = $(this).attr('id_comm');
         $.ajax({
             url: '/comm/ban', type: 'POST', dataType: 'json',
@@ -367,7 +287,6 @@ function comments_proc(doc_id, comm_id, text_help, mode){
 
     $('.ggg').css({'height': '440px', 'height': '220px'  });
     $('.comm_create').on('click', function(){
-        console.log('wwwwwwwwwwww===>', "proc_id:"+comm_id, "parent: "+id_comm, "doc_id: "+doc_id );
 
         var aa = $('.easewig textarea').val();
         var name = $('.comm_title input').val();
@@ -397,7 +316,7 @@ function comments_proc(doc_id, comm_id, text_help, mode){
             }
         });
     });
-    //{% set comm_reversed = env.get_const_value('comm_reversed') == 'true' %}
+
     var comm_reversed = false;
     function draw_comm(content){
         var place = $('li[id_comm='+content.parent+'] >ul');
@@ -592,21 +511,6 @@ function make_lf(){
 }
 
 
-
-//$(function(){
-//    var rtext = $('.slot1_text');
-//    rtext.each(function(){
-//        $('<div style="cursor:pointer; color:#08f;">Читать далее ...</div>').appendTo($(this)).click(
-//            function(){
-//                window.location = $(this).parent().find('a:first').attr('href');
-//            }
-//        );
-//    });
-//
-//    rtext.removeClass('slot1_text');
-//});
-
-
 var current_user = function() {
     var on_ready = [];
     init();
@@ -637,16 +541,12 @@ var current_user = function() {
                     // panel
                     $('#header .placeholder').parent().append($(data.panel));
                     init_panel();
-                    // callbacks
-                    //for (var i in on_ready) {
-                    //    on_ready[i]();
-                    //}
                 }
             }
         });
     }
 }();
-//var current_user = {on_status: []};
+
 
 function init_panel() {
     if( typeof fb_login == 'function' ) $('[name=facebook]'     ).click(fb_login);
@@ -660,25 +560,6 @@ function init_panel() {
     $('.repost_fb').on('click', repost_fb);
     $('.import_radio a').on('click', import_radio);
 }
-
-//$(function(){
-//    $.ajax({
-//        type:"POST", dataType:"json", url:'/user_status', data: {},
-//        success:function (data) {
-//            if (data.result == 'ok') {
-//                $('#header .placeholder').parent().append($(data.panel));
-//                data.user.on_status = current_user.on_status;
-//                current_user = data.user;
-//                init_panel();
-//                for (var i in current_user.on_status) {
-//                    current_user.on_status[i]();
-//                }
-//            }
-//        }
-//    });
-//});
-
-
 
 
 function lj_login(){
@@ -709,7 +590,6 @@ function ok_login(){
     var redirect = 'http://'+window.location.host+'/oauth_ok';
     var scope = 'email,useroffline';
     var scope = 'VALUABLE_ACCESS;PHOTO_CONTENT';
-    //var loc = 'http://api.vk.com/oauth/authorize?client_id='+window.ok_id+'&scope='+scope+'&redirect_uri='+redirect+'&response_type=code';
     var loc = 'http://www.odnoklassniki.ru/oauth/authorize?client_id='+window.ok_id+'&scope='+scope+'&redirect_uri='+redirect+'&response_type=code';
 
     window.location = loc;
@@ -717,7 +597,6 @@ function ok_login(){
 }
 
 function vk_login(){
-//    encodeURIComponent
     var redirect = 'http://'+window.location.host+'/oauth_vk';
     var scope = 'email,useroffline';
     var loc = 'http://api.vk.com/oauth/authorize?client_id='+window.vk_id+'&scope='+scope+'&redirect_uri='+redirect+'&response_type=code';
@@ -733,10 +612,7 @@ auth_options = {
 function fb_login(){
     var scope = auth_options.fb.scope;
     var redirect = 'http://'+window.location.host+'/oauth_fb?wwww='+dao.base64_encode(window.location.toString());
-    dao.log(scope);
-//    var redirect = 'http://'+window.location+'/oauth_fb?wwww='+dao.base64_encode(window.location.toString());
     var loc = 'http://graph.facebook.com/oauth/authorize?display=page&client_id='+window.fb_id+'&type=web_server&scope='+scope+'&redirect_uri='+redirect+'&response_type=token';
-    console.log(window.fb_id);
     window.location = loc;
     return false;
 }
@@ -744,7 +620,6 @@ function fb_login(){
 function tw_login(){
     var loc = 'http://'+window.location.host+'/oauth_tw_login';
     window.location = loc;
-    console.warn(loc);
     return false;
 }
 function ya_login(){
@@ -754,48 +629,11 @@ function ya_login(){
 }
 
 function gl_login(){
-//	var scope = 'email,user_likes,user_groups,user_about_me,user_interests,user_photos,publish_stream,user_birthday,user_online_presence';
-//    var scope = 'email,user_about_me,user_interests,user_photos,publish_stream,user_checkins,friends_about_me,user_actions.music';
-//    var redirect = 'http://'+window.location.host+'/oauth_gl?wwww='+dao.base64_encode(window.location.toString());
-////    var redirect = 'http://'+window.location+'/oauth_fb?wwww='+dao.base64_encode(window.location.toString());
-////    var loc = 'http://graph.facebook.com/oauth/authorize?display=page&client_id='+window.gl_id+'&type=web_server&scope='+scope+'&redirect_uri='+redirect+'&response_type=token';
-//    var loc = 'http://graph.facebook.com/oauth/authorize?display=page&client_id='+window.gl_id+'&type=web_server&scope='+scope+'&redirect_uri='+redirect+'&response_type=token';
-//    window.location = loc
     var loc = 'http://'+window.location.host+'/oauth_gl_login';
     window.location = loc;
     return false;
 }
 
-function import_radio(){
-    var aaa ;
-    $.ajax({
-        type:"POST", dataType:"json", url:'/import_radio', data: {},
-        beforeSend:function(){ aaa = dao.bef();},
-        success:function (data) {
-            if (data.result == 'ok') {
-                alert('Успешно импортировано');
-                window.location.reload();
-                aaa.click();
-                return false;
-            }
-        }
-    });
-}
-
-function repost_fb(){
-    var aaa ;
-    $.ajax({
-        type:"POST", dataType:"json", url:"/repost/fb",
-        data:{ },
-        beforeSend:function(){ aaa = dao.bef();},
-        success:function (data) {
-            if (data['result'] == 'ok') {
-                alert('Репост с фейсбука выполнен успешно');
-            }
-            aaa.click();
-        }
-    });
-}
 
 function auto_loader(){
     $(window).on('scroll', function(){
@@ -815,7 +653,6 @@ function auto_loader(){
                 });
 
             }
-//            log(['aaa', aaa, $this.offset().top, $this.height(), $(window).scrollTop(), $('html')[0].offsetHeight]);
         });
     });
     function load(slot, skip, cb){
@@ -836,60 +673,3 @@ function auto_loader(){
 
 
 
-
-
-//    $('.edit_tv').click(function(){
-//
-//        var dialog = $('<div class="modal hide fade " style="width:300px; height:400px; margin-top:5px; margin-left:5px;">'+
-//            '<div class="modal-header">'+
-//            '<button class="close" data-dismiss="modal">×</button><h3>Заголовок</h3></div>' +
-//            '<div class="modal-body" style="width:auto; max-height:250px;">' +
-//            '<div class="content">Текст над видео<textarea name="content"></textarea></div>' +
-//            '<div class="link">Код для вставки видео<input type="text" name="link"/></div>' +
-//            '<div class="link2">Ссылка на соответствующий материал<input type="text" name="link2"/></div>' +
-//            '</div>' +
-//            '<div class="modal-footer">'+
-//            '<span  class="btn cancel" data-dismiss="modal">Закрыть</span>'+
-//            '<span class="btn btn-primary save" data-dismiss="modal">Сохранить</span>'+
-//            '</div></div>'
-//        ).appendTo('body');
-//
-//        dialog.find('[name=content]').val(($('edit_tv .text1').html() || '').trim());
-//        dialog.find('[name=link2]').val($('edit_tv .text1').attr('href'));
-//        dialog.find('[name=link]').val(($('edit_tv .video').html() || '').trim());
-//
-//        dialog.modal();
-//        dialog.find('.btn.save').click(function(){
-//
-//            var aaa;
-//            var content = dialog.find('[name=content]').val();
-//            var link = dialog.find('[name=link]').val();
-//            var link2 = dialog.find('[name=link2]').val();
-//            $.ajax({
-//                type:"POST", dataType:"json", url:"/edit/tv",
-//                data:{ content:content, link:link, link2:link2},
-//                beforeSend:function(){ aaa = dao.bef();},
-//                success:function (data) {
-//                    if (data.result == 'ok') {
-//                        alert('Успешно отредактировано');
-//                        window.location.reload();
-//                    }
-//                    aaa.click();
-//                }
-//            });
-//        });
-//
-//    });
-//		$('.edit_radio').click(function(){
-//    			$.ajax({
-//    				type:"POST", dataType:"json", url:'/edit_radio/read',
-//    				data:{ },
-//    				success:function (data) {
-//        					if (data['result'] == 'ok') {
-//            						link.val(data['link']);
-//            						text.val(data['text']);
-//            						dialog.dialog('open');
-//            					}
-//        				}
-//    			});
-//		});

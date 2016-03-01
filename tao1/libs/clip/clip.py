@@ -45,7 +45,6 @@ def list_clips(request):
 	req = db.doc.find({'doc_type':'des:clips', 'head_field.user': get_current_user(True)})
 	from libs.sites.sites import get_full_docs
 	dv = get_full_docs(req)
-	# return templ('app.clip:list_clips.tpl',  env=data['env'], parts = data['parts'], act = data['act'], hdata = data['hdata'], map_ = data['map_'], url = data['url'], proc_id = data['proc_id'], select_id =data['select_id'] )
 	return templ('libs.clip:list_clips.tpl', request, dict(docs=dv))
 
 
@@ -238,14 +237,12 @@ def upload_clip(request, doc_id):
 	"""
 	check_video_dir(doc_id)
 	doc = get_clip(doc_id)
-	# doc['title'] = get_post('title', '')
 	track = 'data_'+get_post('track', '')
 	frag = int(get_post('frag'))
 	fl = get_post('file')
 	# fl = img[0] if isinstance(img, list) and img else img
 	if 'file' in fl.__dict__ :
 		file_name = fl.filename
-		# die(fl.file)
 
 		images = ['jpg', 'png', 'jpeg', 'gif']
 		ext = file_name.split('.')[-1]
@@ -257,8 +254,6 @@ def upload_clip(request, doc_id):
 			open(os.path.join(bp, doc_id, 'in_a', str(frag)+'.'+ext), 'wb').write(fl.value)
 		rs = None
 		for res in doc[track]:
-			# die(track, frag)
-			# die( doc[track])
 			if res['frag'] == frag:
 				rs = res
 				break
@@ -281,8 +276,6 @@ def rolik_pub(request, doc_id):
 
 def clip_pub(request, doc_id):
 	db = request.db
-	# new_doc_id, updated = create_empty_row_('des:clips', None, None, {'pub':'true'}, clear_id=False)
-	# check_video_dir(new_doc_id)
 	track = get_post('track')
 	frag = int(get_post('frag'))
 	doc = get_clip(doc_id)
@@ -444,37 +437,12 @@ def proc_rolik(request):
 		db.doc.save(doc)
 		update_status(doc_id, 'ready')
 
-	doc = db.doc.find_one({'doc_type': 'des:clips', 'status.s': 'upload_vk'})
-	# if doc:
-	# 	doc_id = doc['_id']
-	# 	doc = get_clip(doc_id)
-	# 	if 'upload' in doc:
-	# 		frag = doc['upload']['frag']
-	# 		track = doc['upload']['track']
-	# 		t = 'data_'+track
-	# 		for res in doc[t]:
-	# 			if res['frag'] == int(frag): clip = res
-	# 		from app.parser.agent import vk_add_video
-	# 		fn = clip['filename']
-	# 		ext = fn.split('.')[-1]
-	# 		link, pl = vk_add_video(doc['descr'], doc['title'], open(os.path.join(bp, doc_id, 'in_'+track, str(frag)+'.'+ext), 'r') )
-	# 		del doc['upload']
-	# 	else:
-	# 		link, pl = vk_add_video(doc['descr'], doc['title'], open(os.path.join(bp, doc_id, 'final'+final_v), 'r') )
-	# 		doc['link_vk'] = link
-	# 		doc['link_pl'] = pl
-	# 	db.doc.save(doc)
-	# 	update_status(doc_id, 'ready')
-
 
 def get_filename(link):
 	if 'youtube' in link:
 		if 'feature=player_embedded&' in link:
 			link = re.sub(r'feature=player_embedded&', r'', link)
 		return cmd ('youtube-dl --get-filename {0}'.format(link))
-	if 'podfm' in link:
-		lnk, fn = down_podfm(link)
-		return fn
 	return ''
 
 
@@ -505,9 +473,6 @@ def down_rolik(link, file_name):
 		if 'feature=player_embedded&' in link:
 			link = re.sub(r'feature=player_embedded&', r'', link)
 		cmd ('youtube-dl -o {0} {1}'.format(file_name, link))
-	elif 'podfm' in link:
-		link, fn = down_podfm(link)
-		cmd('wget -O {0} {1}'.format(file_name, link))
 	return
 
 
@@ -544,13 +509,3 @@ def draw_img(request, doc_id):
 	return json.dumps(rs)
 
 
-
-
-
-
-
-
-
-
-
-# avconv -i 1.mp4 -strict experimental -y 1.ts

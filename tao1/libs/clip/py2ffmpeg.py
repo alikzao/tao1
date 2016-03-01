@@ -27,7 +27,8 @@ bp = os.path.join(os.getcwd(), 'clip') #base_path
 
 
 def screen_clip(doc_id, final):
-	c = 'avconv -i {f_in} -an -ss 00:00:30 -r 1 -vframes 1 -y -f mjpeg {f_out}'.format(f_in = os.path.join(bp, doc_id, final), f_out = os.path.join(bp, doc_id, 'screen.jpg') )
+	c = 'avconv -i {f_in} -an -ss 00:00:30 -r 1 -vframes 1 -y -f mjpeg {f_out}'.format(f_in = os.path.join(bp, doc_id, final),
+	                                                                                   f_out = os.path.join(bp, doc_id, 'screen.jpg') )
 	return c, cmd(c)
 
 def cmd(c):
@@ -89,7 +90,6 @@ def clone_img(doc_id, frag, ext, tm):
 		f_out = os.path.join(bp, doc_id, 'out_v', str(frag), '%08d', iformat),
 		len = tm
 	))
-# sox --multi-threaded -m out_a.mp3 out_v.mp3 out.wav
 
 
 def join_frag_a(doc_id, track, lst):
@@ -137,7 +137,8 @@ def cut_files(f_in, f_out, f_start, f_len, volume = 1024, del_video = False):
 	m1 = ''; m2 = ''
 	m2 += '-vol ' + str(volume)
 	if del_video: m2 += ' -map 0:a'
-	cmd('avconv {m1} -i {f_in} -ss {start} -t {len} {m2} -strict experimental -q 1 -b:a 128k -preset libvpx-720p -s hd720 -threads 8 -y {f_out}'.format(start = f_start, len = f_len, f_in = f_in, f_out = f_out, m1 = m1, m2 = m2, bp=bp))
+	cmd('avconv {m1} -i {f_in} -ss {start} -t {len} {m2} -strict experimental -q 1 -b:a 128k -preset libvpx-720p -s hd720 -threads 8 -y {f_out}'
+	    .format(start = f_start, len = f_len, f_in = f_in, f_out = f_out, m1 = m1, m2 = m2, bp=bp))
 
 
 def conv_img_to_files(doc_id, f_in, f_out, tm):
@@ -153,7 +154,6 @@ def conv_img_to_files(doc_id, f_in, f_out, tm):
 
 	anull = 'concat:'+('|'.join([anull for i in range( time2sec(tm) ) ]))
 	cmd ('avconv -i "{anull}" -y {f_out}'.format(f_out = os.path.join(bp, doc_id, 'a.avi'), anull = anull))
-	# c = 'avconv -loop 1 -i {f_in} -t {tm} -i {anull} -t {tm} -shortest -map 0:v -map 1:a -y {f_out}'.format(f_in = f_in, f_out = f_out, tm = tm, anull = anull)
 	cmd ('avconv -i {a} -i {v} -map 0:a -map 1:v -y {f_out}'.format(
 		a = os.path.join(bp, doc_id, 'a.avi'),
 		v = os.path.join(bp, doc_id, 'v.avi'),
@@ -167,7 +167,8 @@ def glue_files(f_in, f_out):
 
 
 def join_files(f_in1, f_in2, f_out):
-	cmd ('avconv -i {f_in1} -i {f_in2} -filter_complex amix=inputs=2 -q 1 -b:a 128k -preset libvpx-720p -s hd720 -threads 2 -y {f_out}'.format(f_in1 = f_in1, f_in2 = f_in2, f_out = f_out))
+	cmd ('avconv -i {f_in1} -i {f_in2} -filter_complex amix=inputs=2 -q 1 -b:a 128k -preset libvpx-720p -s hd720 -threads 2 -y {f_out}'
+	     .format(f_in1 = f_in1, f_in2 = f_in2, f_out = f_out))
 
 
 def conv_video(doc_id):

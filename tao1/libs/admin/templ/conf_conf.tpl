@@ -37,19 +37,7 @@
     });
 </script>
 
-{#<script type="text/javascript">#}
-{#	var t = $('[proc_id="{{proc_id}}"]');#}
-{#	if('{{proc_id}}' == 'change_pass_admin') change_pass_(t);#}
-{#	if('{{proc_id}}' == 'sandbox') sandbox(t);#}
-{#	if('{{proc_id}}' == 'add_func') add_func(t);#}
-{#	if('{{proc_id}}' == 'add_rb') {#}
-{#//		alert('aaaaa');#}
-{#		add_rb(false, true, t);#}
-{#	}#}
-{#	if('{{proc_id}}' == 'del_rb') del_rb(t);#}
-{#	if('{{proc_id}}' == 'conf_rb_doc') edit_conf(t);#}
-{#</script>#}
-	
+
 
 
 

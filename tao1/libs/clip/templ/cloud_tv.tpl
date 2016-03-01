@@ -5,8 +5,6 @@
 	{{ super() }}
     <link href="/static/core/jplayer/jplayer.blue.monday.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/static/core/jquery/jquery-ui.js" ></script>
-{#    <script type="text/javascript" src="/static/core/jplayer/jquery.jplayer.min.js"></script>#}
-{#    <script type="text/javascript" src="/static/core/jplayer/add-on/jquery.jplayer.inspector.js"></script>#}
 
 {% endblock %}
 
@@ -192,7 +190,7 @@
 <script>
 
 var doc_id = '{{ doc._id }}';
-onready (function() {
+$(function() {
 
     $('.edit_frag').find('[rel="popover"]').popover();
 

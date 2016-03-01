@@ -1,7 +1,7 @@
 {% extends "libs.admin:base.tpl" %}
 {% block content %}
 
-{#    conf.tpl -> /kl/templ/conf_templ.tpl -> conf_templ.js#}
+{#    conf.tpl -> /site/templ/conf_templ.tpl -> conf_templ.js#}
 <style type="text/css">
 {#        .tab-content{ position: absolute; top: 43px; left: 0; right: 0; bottom: 0; overflow:scroll; }#}
 {#        .nav-tabs{    position: absolute; top: 0px; left: 0; right: 0; }#}
@@ -12,12 +12,11 @@
 {#<div class="app" style="position:absolute; top:0px;">#}
 <div class="app">
     <ul class="nav nav-tabs ">
-        <li class="active"><a href="#home" ds_id="home" data-toggle="tab"><i class="fa fa-home"></i> Карта</a></li>
+        <li class="active"><a href="#home" ds_id="home" data-toggle="tab"><i class="fa fa-home"></i> Map</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content" >
         <div class="tab-pane active" id="home" style="">
-{#            <div class="ddda btn btn-info">aaaaaaaa</div>#}
             <div class="inner">
 
             <div class="set_auth col-xs-3" style="margin:12px;">
@@ -27,7 +26,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                    <i class="fa fa-caret-down"></i> Документы <div class="line_work_rb" style="padding:6px; color:green;"> ctr.doc  объектов </div>
+                                    <i class="fa fa-caret-down"></i> Docs <div class="line_work_rb" style="padding:6px; color:green;"> ctr.doc  объектов </div>
                                 </a>
                             </h4>
                         </div>
@@ -75,7 +74,7 @@
                             <div class="panel-body">
 {#                                {%  for i in all_rbs %}#}
 {#                                    <div class="add_rb ar btn btn-info" ng-href="/table/in/{{i._id}}" d_id="{{ i._id }}">{{ ct( i.conf.title ) }}</div>#}
-                                    <div class="add_rb ar btn btn-info" ng-href="" d_id="">Пока пусто</div>
+                                    <div class="add_rb ar btn btn-info" ng-href="" d_id="">While empty</div>
 {#                                {% endfor %}#}
                             </div>
                         </div>
@@ -215,9 +214,9 @@
 </div>
 
 
-{#'[{'title': u'd\u0438\u043a', '_id': 'add_rb', 'link': '', 'id': 'ss_add_rb', 'class': 'd_rb'},#}
-{#    {'title': u'\u0423\u0434\u0430\u043b\u0438\u0442\u044c ', '_id': 'del_rb', 'link': '', 'id': 'ss_del_rb', 'class': 'd_rb'},#}
-{#    {'title': u'\u041a\u043e\u043d\u0444\u04', '_id': 'conf_adm', 'link': '', 'id': 'ss_conf_adm', 'class': 'd_rb'}]#}
+{#'[{'title': u'title', '_id': 'add_rb', 'link': '', 'id': 'ss_add_rb', 'class': 'd_rb'},#}
+{#    {'title': u'title', '_id': 'del_rb', 'link': '', 'id': 'ss_del_rb', 'class': 'd_rb'},#}
+{#    {'title': u'title', '_id': 'conf_adm', 'link': '', 'id': 'ss_conf_adm', 'class': 'd_rb'}]#}
 
 
 <script type="text/javascript">
@@ -248,12 +247,8 @@
     $('.nav-tabs')    .on('click', 'li', function(){ $('[proc_id="des:ware"] .fa-refresh').click(); });  // инициализирует прокрутку, типа хак
 {#    $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {#}
     $(document).on( 'click', 'a[data-toggle="tab"]', function (e) {
-{#        console.log('e.target---->', e.target);#}
 		localStorage.setItem('current_tab', $(this).attr('ds_id') );
 	});
-{#	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {#}
-{#        console.log('eeeeeeee->', e.target, e.relatedTarget);#}
-{#	});#}
     /**
      * events
      */
@@ -267,7 +262,7 @@
 
         var tab = JSON.parse(localStorage.getItem('tabs'));
         if(tab != null && $('.nav-tabs [ds_id="'+proc_id+'"]').length) {
-            //заносим в localStorage id последней открытой вкладки
+            //add in localStorage id last opened tab
 	        localStorage.setItem('current_tab', proc_id );
 {#            $('.nav-tabs a[ds_id="'+proc_id+'"]').tab('show');#}
         }else {
@@ -279,9 +274,6 @@
                     '</a></li>').appendTo('.app .nav');
             $('<div class="tab-pane tab-pane1" id="' + proc_idd + '" ds_id="' + proc_id + '"></div>').appendTo('.tab-content');
             $('.nav-tabs a[ds_id="' + proc_id + '"]').tab('show');
-{#            console.log('else proc_id === >>', proc_id);#}
-            //заносим в localStorage id последней открытой вкладки
-{#	        localStorage.setItem('current_tab', proc_id );#}
             update_tab(proc_id, url);
         }
 
@@ -322,7 +314,6 @@
         var select_id = '';
         console.log('url => ', url, 'proc_id: ', proc_id);
         $.ajax({
-{#            url: url+(select_id ? '?select_id='+select_id : ''),#}
             url: url,
             type:"get", dataType: "html", data:{select_id:select_id},
             success : function (data) {
@@ -334,7 +325,6 @@
 
 });
 
-{#$('.tab-pane[ds_id="des:obj"]')#}
 
 </script>
 

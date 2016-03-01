@@ -27,15 +27,19 @@ $(function() {
 				beforeSend: function(){ },
 				success: function(data){
 					if(data.result == 'ok'){
-					    var color = data.score >= 0 ? 'green' : 'red'
+					    var color = data.score >= 0 ? 'green' : 'red';
 						$('[id_comm="'+id_comm+'"] .vote:first').removeClass('red green').addClass(color).html(data.score);
 						if (vote == 'up') {
-							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-up,.ui-icon-vote-up,.ui-icon-on-vote-up:first').removeClass('ui-icon-on-vote-up').addClass('ui-icon-vote-up');
-							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-down,.ui-icon-vote-down,.ui-icon-on-vote-down:first').removeClass('ui-icon-on-vote-down').addClass('ui-icon-off-vote-down');
+							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-up,.ui-icon-vote-up,.ui-icon-on-vote-up:first')
+                                    .removeClass('ui-icon-on-vote-up').addClass('ui-icon-vote-up');
+							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-down,.ui-icon-vote-down,.ui-icon-on-vote-down:first')
+                                    .removeClass('ui-icon-on-vote-down').addClass('ui-icon-off-vote-down');
 						}
 						if (vote == 'down') {
-							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-up,.ui-icon-vote-up,.ui-icon-on-vote-up:first').removeClass('ui-icon-on-vote-up').addClass('ui-icon-off-vote-up');
-							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-down,.ui-icon-vote-down,.ui-icon-on-vote-down:first').removeClass('ui-icon-on-vote-down').addClass('ui-icon-vote-down');
+							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-up,.ui-icon-vote-up,.ui-icon-on-vote-up:first')
+                                    .removeClass('ui-icon-on-vote-up').addClass('ui-icon-off-vote-up');
+							$('[id_comm="'+id_comm+'"]').find('.ui-icon-off-vote-down,.ui-icon-vote-down,.ui-icon-on-vote-down:first')
+                                    .removeClass('ui-icon-on-vote-down').addClass('ui-icon-vote-down');
 						}
 					}else{ dao.user_mess(data.error, 'error'); }
                 }
@@ -45,4 +49,3 @@ $(function() {
 	});
 });
 </script>
-{#{% endif %}#}

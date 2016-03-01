@@ -24,7 +24,7 @@
                     {% set user=get_full_user(ct(item.title), True) %}
 					<li user_id="{{ user.id }}" {%   if not item.is_del %}id_comm="{{item.id}}"{% endif %} class="one_comm" >
                         <a name="comm_{{item.id}}"></a>
-                        <div class="body_comment ui-corner-all" style="{{ 'background-color:#ff8;' if user.id == 'user:ariru' else ''  }}">
+                        <div class="body_comment ui-corner-all" style="{{ 'background-color:#ff8;' if user.id == 'user:' else ''  }}">
 						    {%   if not item.is_del %}
                                 <div class="comm_title" >
                                     {% include 'libs.sites:vote_comm.tpl' %}
@@ -57,7 +57,7 @@
                                         {% else  %}
                                             {{ct( item.title) }}
                                         {% endif  %}
-                                        {% if user.id != 'user:ariru' %}
+                                        {% if user.id != 'user:' %}
                                             {% set user_rate = (0 if not user.doc.rate else float(user.doc.rate)) %}
                                             <span class="{{'green' if user_rate >= 0 else 'red'}}" style="font-weight: bold; font-family: ubuntu; font-size: 10px;">{{'+' if user_rate >= 0 else '-'}}{{user.doc.rate}}</span>
 	                                    {% endif %}
@@ -96,7 +96,6 @@
 {% endif %}
 
 
-{#{%  if user.is_admin or item.title == user.id  %}#}
 
 
 

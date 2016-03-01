@@ -26,15 +26,11 @@ def user(request, u):
 	if u_id:      u = u_id
 	elif u_alias: u = u_alias
 	elif u_name:  u = u_name
-	# else: return redirect('/')
-	# die( u['_id'] )  user:fb:485054064984445
 	dv = get_full_doc( u['_id'] )
 
 	req = db.doc.find({'doc_type':'des:obj', 'doc.user':u['_id']})
 	docs = get_full_docs(req)
 
-	# friends = [res for res in u['friends']]
-	# followers = [res for res in u['followers']]
 	friends = json.loads(json.dumps(u['friends'])) if 'friends' in u else []
 	followers = json.loads(json.dumps(u['followers'])) if 'followers' in u else []
 
@@ -69,13 +65,13 @@ def add_email_post(request):
 
 	dom = get_settings('domain')
 	link_confirm = 'http://'+dom+'/signup/in/'+email+'/'+code_sub_in
-	text = u"""<html><head></head><body>
+	text = """<html><head></head><body>
 	       <p>Для подтверждения регистрации на сайте {0} перейдите по следующей <a href="{1}">ссылке</a>.</p>
 	       </body></html>""".format( dom, link_confirm )
 
 	route_mail(email, u'Подтверждение регистрации '+dom, text)
 
-	mess = u"Для подтверждения регистрации вам на почту выслано письмо."
+	mess = "Для подтверждения регистрации вам на почту выслано письмо."
 	return {"result":"ok", 'mess':mess}
 
 
@@ -97,7 +93,7 @@ def add_mess(request):
 	text = u"""<html><head></head><body>
 	       <p>Пользователь {0} написал новое <a href="{1}"><b>соощение</b></a>.</p>
 	       <p>Прокоментировать и оценить его вы можете <a href="{1}"><b>тут</b></a>.</p>
-	       <p>Отписатся от рассылки вы можете перейдя по адресу ...</p></body></html>""".format( user_name, 'http://edu.dev/news/'+doc_id )
+	       <p>Отписатся от рассылки вы можете перейдя по адресу ...</p></body></html>""".format( user_name, 'http://site.dev/news/'+doc_id )
 
 	if 'friends' in user:
 		for res in user['friends']:
@@ -114,8 +110,8 @@ def add_fr(request):
 	user_master = get_post('user_m')
 	user_slave = get_post('user_s')
 	request.db.doc.update({'_id':user_master}, {'$push':{'friends':user_slave}})
-	# db.doc.update({'_id':user_slave},  {'$push':{'friends':user_slave}})
 	return {"result":"ok"}
+
 
 def add_sub(request):
 	db = request.db
@@ -184,12 +180,7 @@ def main_page_login(request):
 	mail = get_post('mail')
 	passwd = get_post('passwd')
 	passw = getmd5(passwd)
-	# if mail == get_settings('admin') and passw == db.doc.find_one({ '_id':'user:'+mail }, {'password':1} )['password']:
-	# 	s['user_id'] = mail
-	# 	s.save()
-	# 	return {"result":"ok", "mess":"Вы успешно вошли на сайт."}
 	for res in db.doc.find({'doc_type':'des:users', 'mail':mail}):
-		# die(res)
 		if not 'confirmed' in res['doc']:
 			mess = u'Вы зарегистрированы только через социальные сети, либо не подтвердили свой электронный адрес'
 			return {"result":"warn", "mess":mess}
@@ -216,18 +207,20 @@ def subscribe_new(request):
 	route_mail(mail, u'Подтверждение подписки '+dom, link_confirm)
 	return {"result":"ok"}
 
+
 def subscribe_in(request, mail, code):
 	db = request.db
 	doc = db.doc.find_one({'doc_type':'des:subscr', 'doc.mail':mail})
 	if not doc:
-		return templ('sub_anonim_yes', request, dict(mess=u'Неизвестный E-mail'))
+		return templ('sub_anonim_yes', request, dict(mess= 'Неизвестный E-mail'))
 	if doc['doc']['confirmed'] == 'true':
-		return templ('sub_anonim_yes', request, dict(mess=u'Подписка уже подтверждена'))
+		return templ('sub_anonim_yes', request, dict(mess= 'Подписка уже подтверждена'))
 	if doc['doc']['code_sub_in'] != code:
-		return templ('sub_anonim_yes', request, dict(mess=u'Код подтверждения не верный'))
+		return templ('sub_anonim_yes', request, dict(mess= 'Код подтверждения не верный'))
 	doc['doc']['confirmed'] = 'true'
 	db.doc.save(doc)
-	return templ('sub_anonim_yes', request, dict(mess = u'Подписка успешно подтверждена'))
+	return templ('sub_anonim_yes', request, dict(mess = 'Подписка успешно подтверждена'))
+
 
 def subscribe_out(request, mail, code):
 	db = request.db
@@ -242,10 +235,12 @@ def subscribe_out(request, mail, code):
 	db.doc.save(doc)
 	return templ('sub_anonim_yes', request, dict(mess = u'Подписка успешно отменена'))
 
+
 def subscribe(request):
 	user = get_doc(get_current_user(True))
 	if not 'subscription' in user: user['subscription'] = {}
 	return templ('subscribe', request, dict(subscribe = user['subscription']))
+
 
 def subscribe_post(request):
 	user = get_doc(get_current_user(True))

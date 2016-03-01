@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-{#<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">#}
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="icon" href="/static/static/img/favicon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="/static/static/img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
 
 	{% if doc.proc_id == 'des:comments'%}
 	    <title> {{ ct(doc.doc.body)[:40]}} (Версия для печати)</title>
@@ -17,7 +16,7 @@
 <body style="">
 
 
-<div style="border-bottom:1px solid grey; text-align: center;">{{ domain }}&nbsp;&nbsp;&nbsp;Новости. События. Комментарии.</div>
+<div style="border-bottom:1px solid grey; text-align: center;">{{ domain }}&nbsp;&nbsp;&nbsp;Новости. </div>
 
 <div>
 	{% if doc.proc_id == 'des:comments'%}
@@ -31,7 +30,8 @@
     <div>{{ct(doc.doc.body)}} </div>
 </div>
 
-<div style="border-top:1px solid grey; text-align: center;" >При полном или частичном использовании материалов ссылка (для интернет-изданий - гиперссылка) на <a href="{{ domain }}">{{domain}}</a> обязательна.</div>
+<div style="border-top:1px solid grey; text-align: center;" >При полном или частичном использовании материалов ссылка (для интернет-изданий - гиперссылка) на
+    <a href="{{ domain }}">{{domain}}</a> обязательна.</div>
 
 
 </body>

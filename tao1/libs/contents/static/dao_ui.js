@@ -89,13 +89,15 @@
         },
         user_mess: function(mess, type){
             // type:error, type:info
-            var t = $('<div class="ui-corner-all mess_'+type +'"><img style="float:right;" onclick="$(this).parent().hide();" src="/static/core/img/cancel.png"> '+mess+' </div>').appendTo($('#user_mess'));
+            var t = $('<div class="ui-corner-all mess_'+type +'"><img style="float:right;" onclick="$(this).parent().hide();" ' +
+                'src="/static/core/img/cancel.png"> '+mess+' </div>').appendTo($('#user_mess'));
             (function(t){  setTimeout(function(){t.hide()}, 8000); })(t);
 
         },
          bef: function(target){
             target = target || 'body';
-            var aaa = $('<div style="position:fixed; left:0px; right:0; bottom:0px; top:0px; z-index:999999; background-color: rgba(0, 0, 0, .2)">' +
+            var aaa = $(
+                '<div style="position:fixed; left:0px; right:0; bottom:0px; top:0px; z-index:999999; background-color: rgba(0, 0, 0, .2)">' +
                 '<div style="display:inline-table; height:100%; width:100%;">' +
                 '<div class="ccc" style=" text-align:center; vertical-align:middle; display:table-cell; ">' +
                 '<img src="/static/core/img/wait.gif">' +

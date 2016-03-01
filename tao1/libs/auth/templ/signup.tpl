@@ -38,7 +38,7 @@
                <input class="form-control input-sm" type="text" name="captcha" style="display: inline-block; width: 200px;" /></label>
 
             <div style="display: inline-block; width: 150px;" ></div>
-		    <input class="btn btn-default" type="submit" value="Зарегистрироватся" style="margin-top: 10px; " />
+		    <input class="btn btn-default" type="submit" value=" Register" style="margin-top: 10px; " />
 
 		</form>
 	</div>
@@ -60,6 +60,6 @@
            <input class="form-control input-sm" type="password" name="pasw" style="display: inline-block; width: 200px;" /></label>
 
         <div style="display: inline-block; width: 60px;" ></div>
-       <input class="btn btn-default" type="submit" value="Войти" style="margin-top: 10px; " />
+       <input class="btn btn-default" type="submit" value="Enter" style="margin-top: 10px; " />
     </form>
 </div>

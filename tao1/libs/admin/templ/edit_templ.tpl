@@ -1,5 +1,5 @@
 
-<div class="save_templ">Сохранить</div>
+<div class="save_templ">Save</div>
 
 <div class="list_templ ui-corner-all" style="background-color: #333333;  line-height:110%; color:white; overflow:auto; position: absolute; top: 50px; left: 20px; bottom: 0; width: 200px;">
 {% for res in list_templ %}
@@ -17,17 +17,15 @@ $(function(){
 
 	var textarea1 = $('.t_area');
 	var myCodeMirror = CodeMirror.fromTextArea(textarea1.get(0), {
-		lineNumbers: true,               // показывать номера строк
-		matchBrackets: true,             // подсвечивать парные скобки
-{#		mode:  "jinja2",#}
+		lineNumbers: true,
+		matchBrackets: true,
 		mode:  "htmlmixed",
 		theme: "rubyblue",
-		//mode: 'application/x-httpd-php', // стиль подсветки
-		indentUnit: 4,                    // размер табуляции
+		indentUnit: 4,
 		tabSize: 4,
 		indentWithTabs: true,
 		lineWrapping: true,
-		gutter: true, // полоса слева
+		gutter: true,
 		fixedGutter: true,
 		onChange: function(){
 			textarea1.val(myCodeMirror.getValue());
@@ -55,8 +53,8 @@ $(function(){
 			type:"POST", dataType:"json", url:'/save_templ',
 			data:{ path:path, templ:templ},
 			success:function (data) {
-				if (data['result'] == 'ok') {
-					alert('Сохранено');
+				if (data.result == 'ok') {
+					alert('Saved');
 				}
 			}
 		});

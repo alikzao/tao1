@@ -6,11 +6,11 @@
 {% block content %}
 
 
-<div  style="margin:20px 20px 0 20px;" class="btn btn-success cr_clip"><i class="icon-ok"></i> Создать новый клип</div>
+<div  style="margin:20px 20px 0 20px;" class="btn btn-success cr_clip"><i class="icon-ok"></i> Create new clip</div>
 <div class="colls" >
     <table style="margin:20px; width:95%;" class="table table-hover table-condensed table-bordered">
         <thead>
-            <tr> <th>ID</th><th>Название</th> <th>Описание</th> <th>Дата</th> <th>Автор</th> </tr>
+            <tr> <th>ID</th><th>Title</th> <th>Описание</th> <th>Date</th> <th>Author</th> </tr>
         </thead>
         <tbody>
             {% for res in docs %}

@@ -1,9 +1,5 @@
 
 
-{#<div id = "left_menu" ></div>#}
-{#<div comm_cont="_"></div>#}
-
-
 <li id_comm="_" class="ui-corner-all " style="border: 1px solid #eee;">
 
     {%- for comm in tree.child recursive %}
@@ -36,13 +32,7 @@ $(function(){
 </script>
 
 <style type="text/css">
-{#.item_open{#}
-{#    display:block;#}
-{# }#}
-{#.item_close{#}
-{#    display:none;#}
-{#    background-color: #1c2128;#}
-{# }#}
+
 .sub_comments, .sub_comments li, .sub_comments li > a{
     background-color: #1c2128;
  }

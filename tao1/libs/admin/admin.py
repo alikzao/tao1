@@ -25,7 +25,7 @@ def get_ss( request ):
 			{'id':"ss:group_perm", "_id":"group_perm",  "class":"add_rb", "title":ct( request, 'right_group'), 'link': '/settings/group_perm'}
 	]
 
-def show_conf(request): #@route('/conf', method='GET')
+def show_conf(request): #route('/conf', 'GET')
 	"""Показывает список дизайнерских документов"""
 	if get_const_value(request, 'is_admin') == "false" and not is_admin(request): return web.HTTPSeeOther('/')
 	if not user_is_logged_in(request): return web.HTTPSeeOther('/login')
@@ -62,8 +62,6 @@ def left_menu_post(request):
 		docs.append(res)
 	value = form_tree_comm(request, docs)
 	return response_json(request, {"result":"ok", "content":value})
-# def show_conf1(request):
-# 	return templ('libs.admin:conf_2.tpl', request, {})
 
 
 def conf_post(request):
@@ -174,13 +172,13 @@ def recover_post(request):
 	if not error:
 		word = ''.join( [choice('QWERTYUPLKJHGFDSAZXCVNMabcdefjhigklmnopqrstuvwxyz2345679') for i in xrange(8)] )
 
-		link = name + ' Ваш новый пароль:' + word
-		subject = 'Востановление пароля от:' + get_host(request)
+		link = name + ' Your new password:' + word
+		subject = 'Password recovery by:' + get_host(request)
 		mail(request, email, subject, link)
 		doc['password'] = getmd5(word)
 		request.db.doc.save(doc)
 
-		error = u'Новый пароль отправлен на Ваш емейл'
+		error = 'New password sent to your email'
 	return templ('libs.admin:recover', request, {"mess": error} )
 
 
@@ -312,7 +310,7 @@ def get_templ_post(request):
 
 
 def get_arhiv_templ():
-	""" Получение архива сшаблоном или модулем и установка и раскидывание его по деректориям """
+	""" Получение архива с шаблоном или модулем и установка и раскидывание его по деректориям """
 	from zipfile import ZipFile
 	import os
 	# путь для распаковки файлов

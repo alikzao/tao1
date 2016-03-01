@@ -12,7 +12,6 @@ route(	'GET' ,   '/oauth_gl_login',			oauth_gl_login,		'oauth_gl_login'	)
 route(	'GET' ,   '/oauth_ya',					oauth_ya,   		'oauth_ya'			)
 route(	'GET' ,   '/oauth_ya_login',			oauth_ya_login,		'oauth_ya_login'	)
 route(	'POST',   '/oauth_action',				oauth_action_post,	'oauth_action'		)
-route(	'POST',   '/repost/fb',				    repost_fb_post,		'repost_fb_post'	)
 
 route(	'GET' ,   '/login',						login,				'login'				)
 route(	'GET' ,   '/signup',					signup,				'signup'			)

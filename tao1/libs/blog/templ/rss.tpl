@@ -3,9 +3,7 @@
 	<channel>
 		<title></title>
 		<language>ru</language>
-		<link></link>
 		<description></description>
-{#		<lastBuildDate>2012-12-04</lastBuildDate>#}
 		<lastBuildDate>{{dtime}}</lastBuildDate>
 		<webMaster>@</webMaster>
 		{% for res in data %}

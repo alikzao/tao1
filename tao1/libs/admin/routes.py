@@ -4,8 +4,6 @@ from core.union import route
 
 route( 'POST',  '/get_data_slot',		get_data_slot,	         'get_data_slot'		)
 route( 'POST',  '/save_slot',      		save_slot,	             'save_slot'		    )
-route( 'GET' ,  '/change_pass_admin',	change_pass_admin,	     'change_pass'			)
-route( 'POST',  '/change_pass_admin',	change_pass_admin_post,	 'change_pass_post'	    )
 route( 'GET' ,  '/recover',        		recover,	             'recover'  			)
 route( 'POST',  '/recover',        		recover_post,            'recover_post'  		)
 route( 'GET' ,  '/add_rb', 				add_rb,    			     'add_ref'				)
