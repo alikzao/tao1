@@ -11,9 +11,9 @@
 $(function() {
   var t = $('.users:last');
     dao.tableprocessor(t, {
-      url:'{{url}}',   //орппопопо
+      url:'{{url}}',
       id: 'users_group',
-      columns:{{map_}},  //сюда можно навесить кучу всего разного
+      columns:{{map_}},
 	  ajax_url: '/settings/',
       actions:{},
       parts:{},
@@ -22,10 +22,7 @@ $(function() {
       view_mode: 'table',
       is_editable: true,
       id_tree: null,
-      file_manager: {
-          img:true,
-          other:false
-      },
+      file_manager: { img: true, other: false},
         dumb:''
     });
 });

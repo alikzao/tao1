@@ -21,9 +21,9 @@ $(function() {
 
   var t = $('[proc_id="{{proc_id}}"]');
     dao.tableprocessor(t, {
-      url:'{{url}}',   //орппопопо
+      url:'{{url}}',
       id: '{{ proc_id }}',
-      columns:{{map_}},  //сюда можно навесить кучу всего разного
+      columns:{{map_}},  // можно навесить дополнительно
 	  ajax_url: '/settings/',
       actions:act,
       parts:{},
