@@ -1,6 +1,3 @@
-from pymongo import *
-import json, hashlib, os
-
 
 def get_doc_forum():
 	return {"_id":"des:forum", "hierarchy": ["tree"],"type": "templ", "actions": [{"title": {"ru": "","en": ""},"hint": {"ru": "Создать новую запись","en": "Create new row"},"id": "new","visible": True,"action": "this.createRow","type": "button","class": {"inrow": False,"toolbar": True,"context": True},"icon": "ui-icon-document"},{"title": {"ru": "","en": ""},"hint": {"ru": "Удалить выделенные записи","en": "Delete"},"id": "del","visible": True,"action": "this.deleteRow","type": "button","class": {"inrow": True,"toolbar": True,"context": True},"icon": "ui-icon-trash"},{"title": {"ru": "","en": ""},"hint": {"ru": "Обновить","en": "Refresh"},"id": "refresh","visible": True,"action": "this.updatelist","type": "button","class": {"inrow": False,"toolbar": True,"context": True},"icon": "ui-icon-refresh"},{"title": {"ru": "","en": ""},"hint": {"ru": "Дублировать","en": "Duplicate"},"id": "duplicate","visible": True,"action": "this.duplicate","type": "button","class": {"inrow": True,"toolbar": True,"context": True},"icon": "ui-icon-copy"},{"title": {"ru": "","en": ""},"hint": {"ru": "Редактировать","en": "Edit"},"id": "edit","visible": True,"action": "this.edit","type": "button","class": {"inrow": True,"toolbar": True,"context": True},"icon": "ui-icon-wrench"},{"title": {"ru": "","en": ""},"hint": {"ru": "Добавить поле","en": "Add field"},"id": "add_field","visible": True,"action": "this.add_field","type": "button","class": {"inrow": False,"toolbar": True,"context": False},"icon": "ui-icon-arrowreturnthick-1-s"},{"title": {"ru": "","en": ""},"hint": {"ru": "Удалить поле","en": "Delete field"},"id": "del_field","visible": True,"action": "this.del_field","type": "button","class": {"inrow": False,"toolbar": True,"context": False},"icon": "ui-icon-arrowreturnthick-1-n"},{"title": {"ru": "","en": ""},"hint": {"ru": "Перенести документ","en": "Move document"},"id": "transfer","visible": True,"action": "this.transfer","type": "button","class": {"inrow": False,"toolbar": True,"context": False},"icon": "ui-icon-transferthick-e-w"},{"hint": {"ru": "Отредактировать поле","en": "Edit field"},"title": {"ru": "","en": ""},"id": "edit_field","visible": True,"action": "this.edit_field","type": "button","class": {"inrow": False,"context": True,"toolbar": True},"icon": "ui-icon-gear"}],
@@ -83,7 +80,7 @@ def get_field_user():
 
 
 def get_field_title():
-	doc = {"hint": {"ru": "Название", "en": "Title"}, "title": {"ru": "Название", "en": "title"}, "is_editable": "true", "visible": "true", "oncreate": "edit", "id": "title"},
+	doc = {"hint": {"ru": "Название", "en": "Title"}, "title": {"ru": "Название", "en": "Title"}, "is_editable": "true", "visible": "true", "oncreate": "edit", "id": "title"},
 	return doc
 
 
