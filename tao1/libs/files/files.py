@@ -38,7 +38,8 @@ def img(proc_id, doc_id, img, action='img'):
 		fn, att, prefix = img_m(proc_id, doc_id, img, action)
 		if not fn:
 			return http_err(404, '')
-		response.headers['Content-Length'] = fn['length']   #возвращает информацию О файле    st_size-размер файла в байтах, st_mtime-время последней моификации содержания файла
+		#возвращает информацию О файле    st_size-размер файла в байтах, st_mtime-время последней моификации содержания файла
+		response.headers['Content-Length'] = fn['length']
 		lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", fn['uploadDate'].timetuple(), 'en_US.UTF-8')
 		response.headers['Last-Modified'] = lm
 
@@ -178,11 +179,6 @@ def del_files_post():
 		del_files_video(doc_id, file_name, proc_id)
 	else:
 		del_files(doc_id, file_name, proc_id)
-#	db = connect(); fs = GridFS(db)
-#	fn = get_file_meta(proc_id, file_name, doc_id, 'thumb')
-#	fs.delete(fn['_id'])
-#	fn = get_file_meta(proc_id, file_name, doc_id, 'orig')
-#	fs.delete(fn['_id'])
 	return '{"result":"ok"}'
 
 def del_files_video(request, doc_id, file_name, proc_id):
@@ -232,8 +228,10 @@ def add_files_post():
 	doc = get_doc(doc_id, proc_id)
 	if not doc:
 		doc = get_doc(doc_id)
-	if 'head_field' in doc and 'user' in doc['head_field'] and doc['head_field']['user'] == admin and proc_id == 'des:obj': pref = 'admin_img'
-	elif 'head_field' in doc and 'user' in doc['head_field'] and doc['head_field']['user'] == admin and proc_id == 'des:banners': pref = 'admin_img_b'
+	if 'head_field' in doc and 'user' in doc['head_field'] and doc['head_field']['user'] == admin and proc_id == 'des:obj':
+		pref = 'admin_img'
+	elif 'head_field' in doc and 'user' in doc['head_field'] and doc['head_field']['user'] == admin and proc_id == 'des:banners':
+		pref = 'admin_img_b'
 	elif proc_id == 'des:news': pref = 'news_img'
 	elif proc_id == 'des:users': pref = 'user_icon'
 	elif proc_id == 'des:radio': pref = 'radio_img'
@@ -356,7 +354,6 @@ def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = No
 	if mid_size:
 		fs.put(mid_raw, file_name ='middle_'+file_name, doc_id = doc_id, proc_id=proc_id,  mime = mime)
 
-	# open('/home/user/workspace/py.mongo/sites/ariru/1.png', 'w').write(small_raw)
 	fs.put(small_raw, file_name ='thumb_'+file_name, doc_id = doc_id, proc_id=proc_id, mime = mime)
 	return True
 
@@ -429,12 +426,14 @@ def simply_add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_ma
 	fs.put(small_raw, file_name ='thumb_'+file_name, doc_id = doc_id, proc_id=proc_id, mime = sml_mime)
 	return True
 
+
 def link_upload_post():
 	url = get_post('link')
 	doc_id = get_post('doc_id')
 	proc_id = get_post('proc_id')
 	link_upload_post_(url, proc_id, doc_id)
 	return{"result":"ok", "doc_id":doc_id}
+
 
 def link_upload_post_(url, proc_id, doc_id, avatar=False, pref="def"):
 	fl = requests.get(url)
@@ -443,7 +442,6 @@ def link_upload_post_(url, proc_id, doc_id, avatar=False, pref="def"):
 
 
 def set_def_img():
-	db = request.db
 	img  = get_post('id_img')
 	doc_id  = get_post('doc_id')
 	proc_id  = get_post('proc_id')
