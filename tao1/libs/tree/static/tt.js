@@ -59,7 +59,6 @@
         }
 
         function postupdatetree() {
-            //пацак чатлани кеце гравицапа пипелац
             var t = tree_body.find("[branch_id="+ cursor_id +"]");
             if(t.length > 0) set_widget_cursor(t);
             else updatelist();
@@ -67,9 +66,7 @@
             //назначаем обработчик перетаскивания
             tree_body.find("[branch_id]").each(function(){
 
-                // $(this).find("a:first>.inter").droppable({
                 $(this).find(".inter").droppable({
-                    // activeClass: "ui-state-hover",
                     hoverClass: "ui-state-highlight",
                     drop: function(event, ui){
                      //значит что мы тащим из дерева в дерево
