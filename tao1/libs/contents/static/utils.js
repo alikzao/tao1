@@ -557,8 +557,6 @@ function init_panel() {
     if( typeof ya_login == 'function' ) $('[name=ya]'           ).click(ya_login);
     if( typeof lj_login == 'function' ) $('[name=lj]'           ).click(lj_login);
 
-    $('.repost_fb').on('click', repost_fb);
-    $('.import_radio a').on('click', import_radio);
 }
 
 
