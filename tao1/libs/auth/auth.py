@@ -23,7 +23,7 @@ def user_ban(request): #@route('/logout')
 	user_id = get_post('user_id')
 	doc = request.db.doc.find_one({'_id':user_id})
 	if doc:
-		doc['head_field']['ban'] = 'true'
+		doc['doc']['ban'] = 'true'
 		request.db.doc.save(doc)
 	return {"result":"ok", "user": doc['_id'] }
 
@@ -134,7 +134,7 @@ def signup_post(request):
 	#проверяем есть ли такие пользователи в базе если нет то регистрируем
 	if not request.db.doc.find_one({'_id':'user:'+name}):
 		doc = {'_id': 'user:'+name, 'name': name, 'password': passw, 'mail': mail, "type": "table_row", "rate":0,
-				"doc_type": "des:users", "head_field": {"user":"user:"+name, "name": {'ru':name, 'en':name}, "old": "33", "phone":phone, "address": address,
+				"doc_type": "des:users", "doc": {"user":"user:"+name, "name": {'ru':name, 'en':name}, "old": "33", "phone":phone, "address": address,
 					'date': create_date(), "home": "false" } }
 		request.db.doc.save(doc)
 		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.user:'+name:'true'}} )
@@ -174,7 +174,7 @@ def oauth_ok(request):
 	user_id = str(res['uid'])
 	user_id = 'user:ok:'+user_id
 	user = request.db.doc.find_one({'_id':user_id })
-	if user and 'ban' in user['head_field'] and user['head_field']['ban'] == 'true':
+	if user and 'ban' in user['doc'] and user['doc']['ban'] == 'true':
 		session_add_mess(u'Ошибка входа на сайт')
 		redirect('/')
 		return ''
@@ -185,16 +185,16 @@ def oauth_ok(request):
 	name = res['first_name']+' '+res['last_name']
 	old = res['age'] if 'age' in res else ''
 	is_mail = False
-	if 'mail' in user['head_field'] and user['head_field']['mail']:  is_mail = True
+	if 'mail' in user['doc'] and user['doc']['mail']:  is_mail = True
 	if not user:
 		is_mail = False
 		user = {'_id': user_id, "alien":"vk", 'name': name, 'password': "passw", "type": "table_row", "doc_type":"des:users",
-		        "head_field":{"user":user_id, "old":old, "phone":"", "address":"", "mail":"", 'rate':0,
+		        "doc":{"user":user_id, "old":old, "phone":"", "address":"", "mail":"", 'rate':0,
 		        'date': create_date(), "home": "false", 'name': {'ru':name} }, "hierarchy": { "tree:des:users": "_" }}
 		request.db.doc.save(user)
 		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 		user = request.db.doc.find_one({'_id':user_id })
-	user['head_field']['name'] = {cur_lang(): name}
+	user['doc']['name'] = {cur_lang(): name}
 	from libs.files.files import link_upload_post_
 	link_upload_post_( res['pic_2'], 'des:users', user_id, True)
 	request.db.doc.save(user)
@@ -226,7 +226,7 @@ def oauth_vk(request):
 	user_id = str(user_id)
 	user_id = 'user:vk:'+user_id
 	user = request.db.doc.find_one({'_id':user_id })
-	if user and 'ban' in user['head_field'] and user['head_field']['ban'] == 'true':
+	if user and 'ban' in user['doc'] and user['doc']['ban'] == 'true':
 		session_add_mess(u'Ошибка входа на сайт')
 		redirect('/')
 		return ''
@@ -235,12 +235,12 @@ def oauth_vk(request):
 	name = res['first_name']+' '+res['last_name']
 	if not user:
 		user = {'_id': user_id, "alien":"vk", 'name': name, 'password': "passw", "type": "table_row",
-		        "doc_type":"des:users", "head_field":{"user":user_id, "old": "", "phone":"", "address":"", "mail":"", 'rate':0,
+		        "doc_type":"des:users", "doc":{"user":user_id, "old": "", "phone":"", "address":"", "mail":"", 'rate':0,
 		                                              'date': create_date(), "home": "false", 'name': {'ru':name} } }
 		request.db.doc.save(user)
 		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 		user = request.db.doc.find_one({'_id':user_id })
-	user['head_field']['name'] = {cur_lang(): name}
+	user['doc']['name'] = {cur_lang(): name}
 	from libs.files.files import link_upload_post_
 	link_upload_post_( res['photo'], 'des:users', user_id, True)
 	request.db.doc.save(user)
@@ -282,7 +282,7 @@ def oauth_tw(request):
 
 	user_id = 'user:tw:'+fs['user_id']
 	user = request.db.doc.find_one({'_id':user_id })
-	if user and 'ban' in user['head_field'] and user['head_field']['ban'] == 'true':
+	if user and 'ban' in user['doc'] and user['doc']['ban'] == 'true':
 		session_add_mess('Error logging in')
 		redirect('/')
 		return ''
@@ -291,12 +291,12 @@ def oauth_tw(request):
 	s.save()
 	if not user:
 		user = {'_id': user_id, "alien":"tw", 'name': fs['screen_name'], 'password': "passw", "type": "table_row",
-		       "doc_type":"des:users", "head_field":{"user":user_id, "old": "", "phone":"", "address":"", "mail":"", 'rate':0,
+		       "doc_type":"des:users", "doc":{"user":user_id, "old": "", "phone":"", "address":"", "mail":"", 'rate':0,
 		                'date': create_date(), "home": "false", 'name': {'ru':fs['screen_name']} } }
 		request.db.doc.save(user)
 		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 		user = request.db.doc.find_one({'_id':user_id })
-	user['head_field']['name'] = {cur_lang(): fs['screen_name']}
+	user['doc']['name'] = {cur_lang(): fs['screen_name']}
 	from libs.files.files import link_upload_post_
 	request.db.doc.save(user)
 	session_add_mess(u'You have successfully logged in')
@@ -354,12 +354,12 @@ def oauth_ya(request):
 	user = request.db.doc.find_one({'_id':user_id })
 	if not user:
 		user = {'_id': user_id, "alien":"ya", 'name': name, 'password': "passw", "type": "table_row",
-		        "doc_type":"des:users", "head_field":{"user":user_id, "old": "", "phone":"", "address":"", "mail":mail, 'rate':0,
+		        "doc_type":"des:users", "doc":{"user":user_id, "old": "", "phone":"", "address":"", "mail":mail, 'rate':0,
 		                                              'date': create_date(), "home": "false", 'name': {'ru':name} }, "hierarchy": { "tree:des:users": "_" }}
 		request.db.doc.save(user)
 		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 		user = request.db.doc.find_one({'_id':user_id })
-	user['head_field']['name'] = {cur_lang(): name}
+	user['doc']['name'] = {cur_lang(): name}
 	request.db.doc.save(user)
 	session_add_mess(u'You have successfully logged in')
 	redirect('/')
@@ -403,7 +403,7 @@ def oauth_gl(request):
 	resp, content = http.request('https://www.googleapis.com/userinfo/v2/me', method="GET")
 
 	s = session(request)
-	if 'error' in request.GET: return 'ошибка авторизации' + request.GET['error_description']
+	if 'error' in request.GET: return 'error autorize' + request.GET['error_description']
 	gl_user = content
 	gl_user = json.loads(content)
 	s['user_id'] = 'gl:'+gl_user['id']
@@ -413,12 +413,12 @@ def oauth_gl(request):
 	user = request.db.doc.find_one({'_id':user_id })
 	if not user:
 		user = {'_id': user_id, "alien":"gl", 'name': gl_user['name'], 'password': "passw", "type": "table_row",
-		        "doc_type":"des:users", "head_field":{"user":user_id, "old": "", "phone":"", "address":"", "mail":gl_user['email'], 'rate':0,
+		        "doc_type":"des:users", "doc":{"user":user_id, "old": "", "phone":"", "address":"", "mail":gl_user['email'], 'rate':0,
 		                                              'date': create_date(), "home": "false", 'name': {'ru':gl_user['name']} } }
 		request.db.doc.save(user)
 		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 		user = request.db.doc.find_one({'_id':user_id })
-	user['head_field']['name'] = {cur_lang(): gl_user['name']}
+	user['doc']['name'] = {cur_lang(request): gl_user['name']}
 	if 'picture' in gl_user:
 		from libs.files.files import link_upload_post_
 		link_upload_post_( gl_user['picture'], 'des:users', user_id, True)
@@ -445,14 +445,15 @@ def oauth_fb_(request):
 def oauth_fb(request):
 	s = session(request)
 
-	if 'error' in request.GET: return 'Authorisation Error' + request.GET['error_description']
-	code = request.GET['code']
-	wwww = request.GET['wwww']
+	error = request.match_info.get('error', '')
+	if error: return 'Authorisation Error' + request.match_info.get('error_description', '')
+	code = request.match_info.get('code', '')
+	wwww = request.match_info.get('wwww', '')
 	www = wwww.replace('_', '=')
-	app_id = settings.oauth_fb['id']; app_secret = settings.oauth_fb['key']
-	rr = request.environ['wsgi.url_scheme']+'://'+request.environ['HTTP_HOST']+'/oauth_fb?wwww='+wwww
+	app_id = settings.oauth_fb['id']
+	app_secret = settings.oauth_fb['key']
+	rr = request.scheme+'://'+request.host+'/oauth_fb?wwww='+wwww
 	ee = base64.b64decode(www)
-	# die(rr)
 	url = "https://graph.facebook.com/oauth/access_token?client_id="+app_id+"&redirect_uri="+rr+"&client_secret="+app_secret+"&code="+code
 
 	aaa  = requests.get(url)
@@ -466,13 +467,13 @@ def oauth_fb(request):
 	res = json.loads(aaa.content)
 	if not 'id' in res:
 		mess = 'Authorization error occurred' + aaa.content
-		return templ('app.auth:error', request, dict(mess=mess))
+		return templ('libs.auth:error', request, dict(mess=mess))
 	fb_id = str(res['id'])
 	user_data = { 'id': 'fb:'+fb_id, "link":res['link'] }
 	user_id = 'user:fb:'+fb_id
 
 	rrr = request.db.doc.find_one({'_id':user_id })
-	if rrr and 'ban' in rrr['head_field'] and rrr['head_field']['ban'] == 'true':
+	if rrr and 'ban' in rrr['doc'] and rrr['doc']['ban'] == 'true':
 		session_add_mess('Error logging in')
 		redirect('/')
 		return ''
@@ -481,18 +482,18 @@ def oauth_fb(request):
 	s.save()
 	if not rrr:
 		doc = {'_id': user_id, "alien":"fb", 'name': res['name'], 'password': "passw", "type": "table_row",
-				"doc_type":"des:users", "head_field":{"user":user_id, "old": "", "phone":"", "address":"", "mail":res['email'], 'rate':0,
+				"doc_type":"des:users", "doc":{"user":user_id, "old": "", "phone":"", "address":"", "mail":res['email'], 'rate':0,
 				'date': create_date(), "home": "false", 'name': {'ru':res['name']} } }
 		request.db.doc.save(doc)
 		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
-	elif not 'mail' in rrr['head_field']:
+	elif not 'mail' in rrr['doc']:
 		rate = get_old_post(user_id, res['email'])
-		rrr['head_field']['mail'] = res['email']
-		rrr['head_field']['rate'] = rate
-		rrr['head_field']['name'] = {cur_lang(): res['name']}
+		rrr['doc']['mail'] = res['email']
+		rrr['doc']['rate'] = rate
+		rrr['doc']['name'] = {cur_lang(request): res['name']}
 		request.db.doc.save(rrr)
 	else:
-		rrr['head_field']['name'] = {cur_lang(): res['name']}
+		rrr['doc']['name'] = {cur_lang(request): res['name']}
 		request.db.doc.save(rrr)
 
 	session_add_mess('You have successfully logged in')
@@ -518,14 +519,14 @@ def oauth_fb(request):
 
 
 def	get_old_post(request, id, mail):
-	cond = {'doc_type':'des:users', 'head_field.mail':str(mail), 'head_field.user_left':1}
+	cond = {'doc_type':'des:users', 'doc.mail':str(mail), 'doc.user_left':1}
 	user = request.db.doc.find_one(cond)
 	if not user: return 0
-	for res in request.db.doc.find({'doc_type':'des:obj', 'head_field.user':user['_id']}):
-		res['head_field']['user'] = id
+	for res in request.db.doc.find({'doc_type':'des:obj', 'doc.user':user['_id']}):
+		res['doc']['user'] = id
 		request.db.doc.save(res)
 	request.db.doc.remove({'_id':user['_id']})
-	return user['head_field']['rate'] if 'rate' in user['head_field'] else 0
+	return user['doc']['rate'] if 'rate' in user['doc'] else 0
 
 
 def req_fb(req, is_json = False):
