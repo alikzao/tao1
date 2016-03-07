@@ -111,10 +111,8 @@ def session(request):
 
 
 def get_current_user(request, full=False):
-    # global my_user
-    # if my_user: return 'user:'+my_user if full else my_user
     s = session( request )
-    if not 'user_id' in s or s['user_id'] == 0:
+    if not 'user_id' in s or s['user_id'] == 0 or s['user_id'] == 'guest':
         s['user_id'] = 'guest'
     return 'user:'+s['user_id'] if full else s['user_id']
 

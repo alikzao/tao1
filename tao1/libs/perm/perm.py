@@ -31,6 +31,16 @@ def user_is_logged_in(request):
 	return user != 'guest'
 
 
+async def u_is_l(request):
+	s = await get_session(request)
+	if not 'user_id' in s or s['user_id'] == 0 or s['user_id'] == 'guest':
+		s['user_id'] = 'guest'
+		return False
+	else:
+		return True
+
+
+
 def add_role(request, data):
 	domain = get_domain()
 	request.db.doc.save(  get_doc_role(data, domain) )
