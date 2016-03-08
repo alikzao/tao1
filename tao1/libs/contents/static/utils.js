@@ -555,33 +555,8 @@ function init_panel() {
     if( typeof vk_login == 'function' ) $('[name=odnoklassniki]').click(ok_login);
     if( typeof gl_login == 'function' ) $('[name=google]'       ).click(gl_login);
     if( typeof ya_login == 'function' ) $('[name=ya]'           ).click(ya_login);
-    if( typeof lj_login == 'function' ) $('[name=lj]'           ).click(lj_login);
-
 }
 
-
-function lj_login(){
-    var dialog = $('<div class="modal hide fade " style="width:280px; ">'+
-        '<div class="modal-header">'+
-        '<button class="close" data-dismiss="modal">×</button><h3>Авторизация на livejournal</h3></div>' +
-        '<div class="modal-body" style="width:250px; height:50px;">' +
-        '<input type="text" />' +
-        '</div>' +
-        '<div class="modal-footer"><div class="btn-group">'+
-        '<span  class="btn cancel" data-dismiss="modal">Закрыть</span>'+
-        '<span  class="btn lj_ok" >Войти</span>'+
-        '</div></div></div>'
-    ).appendTo('body');
-    dialog.modal();
-    // $('input[name=pasw]').prop('disabled', 'disabled');
-    $('.lj_ok').click(function(){
-        var lj_id = dialog.find('input').val();
-        var lj = '.livejournal.com';
-        if (lj_id.substr(-lj.length) != lj) lj_id += lj;
-        window.location = 'http://'+window.location.host+'/openid/'+lj_id;
-    });
-    return false;
-}
 
 function ok_login(){
 //    encodeURIComponent
@@ -603,13 +578,13 @@ function vk_login(){
 }
 auth_options = {
     fb: {
-        scope: 'email,user_about_me,user_interests,user_photos,read_stream,publish_stream,user_checkins,friends_about_me,user_actions.music,manage_pages'
+        scope: 'email,user_birthday,user_about_me,user_photos,publish_actions,user_checkins,user_actions.music,manage_pages'
     }
 };
-
 function fb_login(){
     var scope = auth_options.fb.scope;
-    var redirect = 'http://'+window.location.host+'/oauth_fb?wwww='+dao.base64_encode(window.location.toString());
+    //var redirect = 'http://'+window.location.host+'/oauth_fb?wwww='+dao.base64_encode(window.location.toString());
+    var redirect = 'http://'+window.location.host+'/oauth_fb';
     var loc = 'http://graph.facebook.com/oauth/authorize?display=page&client_id='+window.fb_id+'&type=web_server&scope='+scope+'&redirect_uri='+redirect+'&response_type=token';
     window.location = loc;
     return false;

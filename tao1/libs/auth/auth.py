@@ -442,27 +442,90 @@ def oauth_fb_(request):
 	post = graph.get('/me')
 
 
-def oauth_fb(request):
-	s = session(request)
+def count_old(d_birth):
+	if d_birth == '-': return d_birth
+	from datetime import datetime
+	d1 = d_birth
+	d2 = datetime.now()
+	try:
+		d1 = datetime.strptime(d1, "%Y-%m-%d")
+	except:
+		d1 = datetime.strptime(d1, "%d-%m-%Y")
+	d3 = d1 - d2
+	d3 = int(abs(d3.days)/365.24)
+	return d3
 
-	error = request.match_info.get('error', '')
-	if error: return 'Authorisation Error' + request.match_info.get('error_description', '')
-	code = request.match_info.get('code', '')
-	wwww = request.match_info.get('wwww', '')
+
+def oauth_fb(request):
+	if 'error' in request.GET: return 'Authorisation Error' + request.GET['error_description']
+	code = request.GET['code']
+
+	app_id = settings.oauth_fb['id']
+	app_secret = settings.oauth_fb['key']
+	redirect_uri = settings.oauth_fb['redirect_uri']
+
+	url = "https://graph.facebook.com/oauth/access_token?client_id="+app_id+"&redirect_uri="+redirect_uri +"&client_secret="+app_secret+"&code="+code
+	req  = requests.get(url)
+	access_token = req.content[13:-16]
+	url = 'https://graph.facebook.com/me?fields=id,name,picture,email,birthday,about,first_name,bio,last_name,gender&access_token='+str(access_token.decode("utf-8") )
+	me  = requests.get(url)
+	me = json.loads(me.content.decode("utf-8"))
+
+	user_id = "user:fb:"+me['id']
+	user_db = request.db.doc.find_one({'_id':user_id })
+	# if user_db: redirect('/')
+
+	sex = "true" if "gender" in me and me["gender"] == "male" else "false"
+	d_birth = me.get('birthday', '/').replace('/', '-')
+	old = count_old(d_birth)
+
+	s = session(request)
+	s['user_id'] = me['id']
+
+	print( 'user_id ', user_id )
+	doc = {'_id': user_id, "alien":"fb", 'name': me['name'], 'password': "passw", "doc_type":"des:users",
+	            "doc":{
+		            "nik":me['id'],
+		            "user":user_id, "old":old, "phone":"", "mail":me.get('email', ''), "sex":sex,
+		            "d_birth":d_birth, 'date': create_date(),
+		            "edu": {"en":me.get("bio", '') }, "about":{"en":me.get("about", '')},
+		            'name': {'en':me.get('first_name', '')}, "last_name":{"en":me.get('last_name', '') }
+	            }
+	       }
+	request.db.doc.save(doc)
+	# request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
+
+	return web.HTTPSeeOther('/')
+
+
+def oauth_fb1(request):
+	s = session(request)
+	if 'error' in request.GET: return 'Authorisation Error' + request.GET['error_description']
+	code = request.GET['code']
+	wwww = request.GET['wwww']
+
 	www = wwww.replace('_', '=')
 	app_id = settings.oauth_fb['id']
 	app_secret = settings.oauth_fb['key']
-	rr = request.scheme+'://'+request.host+'/oauth_fb?wwww='+wwww
+	rr = request.scheme+'://uk.dev/oauth_fb?wwww='+wwww
+	# redirect_uri = 'http://uk.dev/oauth_fb'
+	# rr = request.scheme+'://'+request.host+'/oauth_fb'
+
+	print('rr', rr)
 	ee = base64.b64decode(www)
 	url = "https://graph.facebook.com/oauth/access_token?client_id="+app_id+"&redirect_uri="+rr+"&client_secret="+app_secret+"&code="+code
 
 	aaa  = requests.get(url)
 	if aaa.content[12] == '|': access_token = aaa.content[13:]
 	else: access_token = aaa.content[13:-16]
-
+	access_token = str(access_token)
 	s['access_token'] = access_token
+	print('access_token', access_token)
+
 	url = 'https://graph.facebook.com/me?access_token='+access_token
 	aaa  = requests.get(url)
+	print('aaa->', aaa)
+
 	if 'error' in aaa.content: pass
 	res = json.loads(aaa.content)
 	if not 'id' in res:
@@ -499,8 +562,7 @@ def oauth_fb(request):
 	session_add_mess('You have successfully logged in')
 	trigger_hook('auth', {'fb_id':fb_id, 'user_id':user_id})
 
-	# занесение картинки пользователя в базу
-	# запрос на получение картинки с первым запросом не выдает
+	# занесение картинки
 	url = 'https://graph.facebook.com/me/picture?access_token='+access_token
 	aaa  = requests.get(url)
 	from libs.files.files import add_file_raw
