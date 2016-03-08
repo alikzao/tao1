@@ -374,23 +374,16 @@ def oauth_gl_login(request):
 		scope=          'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
 		redirect_uri=   gl["redirect_uri"],
 	)
-	print( 'flow->', flow)
 	try:
 		url = flow.step1_get_authorize_url()
-		print( 'url->', url)
 	except :
 		raise Exception('Google Auth 404')
-	print('redirect ')
 	redirect(request, url, 302)
 
 
 def oauth_gl(request):
 	import httplib2
-	print( '2 def->')
-
 	code = request.GET['code']
-
-	print( 'code->', code)
 
 	gl = settings.oauth_gl
 
