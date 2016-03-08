@@ -7,8 +7,10 @@ route(	'GET' ,   '/oauth_fb',					oauth_fb,   		'oauth_fb'			)
 route(	'GET' ,   '/oauth_ok',					oauth_ok,   		'oauth_ok'			)
 route(	'GET' ,   '/oauth_tw',					oauth_tw,   		'oauth_tw'			)
 route(	'GET' ,   '/oauth_tw_login',			oauth_tw_login,		'oauth_tw_login'	)
+
 route(	'GET' ,   '/oauth_gl',					oauth_gl,   		'oauth_gl'			)
 route(	'GET' ,   '/oauth_gl_login',			oauth_gl_login,		'oauth_gl_login'	)
+
 route(	'GET' ,   '/oauth_ya',					oauth_ya,   		'oauth_ya'			)
 route(	'GET' ,   '/oauth_ya_login',			oauth_ya_login,		'oauth_ya_login'	)
 route(	'POST',   '/oauth_action',				oauth_action_post,	'oauth_action'		)

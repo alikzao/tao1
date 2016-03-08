@@ -369,34 +369,41 @@ def oauth_gl_login(request):
 	gl = get_settings('oauth_gl')
 	from oauth2client.client import OAuth2WebServerFlow
 	flow = OAuth2WebServerFlow(
-		client_id = gl['id'],
+		client_id =     gl['id'],
 		client_secret = gl['key'],
-		scope='https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-		redirect_uri='http://'+settings.domain+'/oauth_gl'
+		scope=          'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+		redirect_uri=   gl["redirect_uri"],
 	)
+	print( 'flow->', flow)
 	try:
 		url = flow.step1_get_authorize_url()
+		print( 'url->', url)
 	except :
 		raise Exception('Google Auth 404')
-	redirect(url, 302)
+	print('redirect ')
+	redirect(request, url, 302)
 
 
 def oauth_gl(request):
 	import httplib2
-	ve = request.GET
+	print( '2 def->')
+
+	code = request.GET['code']
+
+	print( 'code->', code)
 
 	gl = settings.oauth_gl
 
 	from oauth2client.client import OAuth2WebServerFlow
 	flow = OAuth2WebServerFlow(
-		client_id = gl['id'],
+		client_id =     gl['id'],
 		client_secret = gl['key'],
-		scope='https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-		redirect_uri='http://'+settings.domain+'/oauth_gl',
-		state='profile'
+		scope=          'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+		redirect_uri=   gl["redirect_uri"],
+		state=          'profile'
 	)
 
-	credentials = flow.step2_exchange(ve['code'])
+	credentials = flow.step2_exchange( code )
 
 	http = httplib2.Http()
 	http = credentials.authorize(http)
@@ -406,40 +413,25 @@ def oauth_gl(request):
 	if 'error' in request.GET: return 'error autorize' + request.GET['error_description']
 	gl_user = content
 	gl_user = json.loads(content)
-	s['user_id'] = 'gl:'+gl_user['id']
-	s.save()
+	s['user_id'] = gl_user['id']
+	# s.save()
 	user_id = 'user:gl:'+gl_user['id']
 
 	user = request.db.doc.find_one({'_id':user_id })
 	if not user:
-		user = {'_id': user_id, "alien":"gl", 'name': gl_user['name'], 'password': "passw", "type": "table_row",
-		        "doc_type":"des:users", "doc":{"user":user_id, "old": "", "phone":"", "address":"", "mail":gl_user['email'], 'rate':0,
+		user = {'_id': user_id, "alien":"gl", 'name': gl_user['name'], 'password': "passw", "doc_type":"des:users",
+		        "doc":{"user":user_id, "old": "", "mail":gl_user['email'], 'rate':0,
 		                                              'date': create_date(), "home": "false", 'name': {'ru':gl_user['name']} } }
 		request.db.doc.save(user)
-		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
+		# request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 		user = request.db.doc.find_one({'_id':user_id })
 	user['doc']['name'] = {cur_lang(request): gl_user['name']}
 	if 'picture' in gl_user:
 		from libs.files.files import link_upload_post_
 		link_upload_post_( gl_user['picture'], 'des:users', user_id, True)
 	request.db.doc.save(user)
-	session_add_mess('You have successfully logged in')
+	# session_add_mess('You have successfully logged in')
 	redirect('/')
-
-
-
-def oauth_fb_(request):
-	import facepy
-	from urlparse import parse_qs
-	from facepy import GraphAPI
-	from facepy.utils import get_extended_access_token
-	oauth_fb = settings.oauth_fb
-	id = oauth_fb['id']
-	key = oauth_fb['key']
-	access_token = facepy.utils.get_application_access_token( id, key)
-	token_app=     facepy.utils.get_application_access_token('APP_ID','APP_SECRET_ID')
-	graph = GraphAPI(access_token)
-	post = graph.get('/me')
 
 
 def count_old(d_birth):
@@ -496,88 +488,6 @@ def oauth_fb(request):
 	# request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 
 	return web.HTTPSeeOther('/')
-
-
-def oauth_fb1(request):
-	s = session(request)
-	if 'error' in request.GET: return 'Authorisation Error' + request.GET['error_description']
-	code = request.GET['code']
-	wwww = request.GET['wwww']
-
-	www = wwww.replace('_', '=')
-	app_id = settings.oauth_fb['id']
-	app_secret = settings.oauth_fb['key']
-	rr = request.scheme+'://uk.dev/oauth_fb?wwww='+wwww
-	# redirect_uri = 'http://uk.dev/oauth_fb'
-	# rr = request.scheme+'://'+request.host+'/oauth_fb'
-
-	print('rr', rr)
-	ee = base64.b64decode(www)
-	url = "https://graph.facebook.com/oauth/access_token?client_id="+app_id+"&redirect_uri="+rr+"&client_secret="+app_secret+"&code="+code
-
-	aaa  = requests.get(url)
-	if aaa.content[12] == '|': access_token = aaa.content[13:]
-	else: access_token = aaa.content[13:-16]
-	access_token = str(access_token)
-	s['access_token'] = access_token
-	print('access_token', access_token)
-
-	url = 'https://graph.facebook.com/me?access_token='+access_token
-	aaa  = requests.get(url)
-	print('aaa->', aaa)
-
-	if 'error' in aaa.content: pass
-	res = json.loads(aaa.content)
-	if not 'id' in res:
-		mess = 'Authorization error occurred' + aaa.content
-		return templ('libs.auth:error', request, dict(mess=mess))
-	fb_id = str(res['id'])
-	user_data = { 'id': 'fb:'+fb_id, "link":res['link'] }
-	user_id = 'user:fb:'+fb_id
-
-	rrr = request.db.doc.find_one({'_id':user_id })
-	if rrr and 'ban' in rrr['doc'] and rrr['doc']['ban'] == 'true':
-		session_add_mess('Error logging in')
-		redirect('/')
-		return ''
-
-	s['user_id'] = user_data['id']
-	s.save()
-	if not rrr:
-		doc = {'_id': user_id, "alien":"fb", 'name': res['name'], 'password': "passw", "type": "table_row",
-				"doc_type":"des:users", "doc":{"user":user_id, "old": "", "phone":"", "address":"", "mail":res['email'], 'rate':0,
-				'date': create_date(), "home": "false", 'name': {'ru':res['name']} } }
-		request.db.doc.save(doc)
-		request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
-	elif not 'mail' in rrr['doc']:
-		rate = get_old_post(user_id, res['email'])
-		rrr['doc']['mail'] = res['email']
-		rrr['doc']['rate'] = rate
-		rrr['doc']['name'] = {cur_lang(request): res['name']}
-		request.db.doc.save(rrr)
-	else:
-		rrr['doc']['name'] = {cur_lang(request): res['name']}
-		request.db.doc.save(rrr)
-
-	session_add_mess('You have successfully logged in')
-	trigger_hook('auth', {'fb_id':fb_id, 'user_id':user_id})
-
-	# занесение картинки
-	url = 'https://graph.facebook.com/me/picture?access_token='+access_token
-	aaa  = requests.get(url)
-	from libs.files.files import add_file_raw
-	import hashlib
-	try:
-		res = json.loads(aaa.content)
-		if 'data' in res and 'url' in res['data']:
-			aaa = requests.get(res['data']['url'])
-	except Exception:
-		pass
-	if str(hashlib.md5( aaa.content).hexdigest()) == 'af10cdc4144e0a16b097a293b0d95422':
-		del_files(user_id, 'avatar', 'des:users')
-	else:
-		add_file_raw('des:users', user_id, aaa.content, aaa.headers['content-type'], 'avatar', pref='user_icon')
-	redirect(ee)
 
 
 def	get_old_post(request, id, mail):

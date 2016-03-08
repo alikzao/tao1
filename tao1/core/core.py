@@ -248,7 +248,11 @@ def calendar(date_range=None):
 
 def redirect(request, url='/', code=None):
     if code is None:
-         return web.HTTPSeeOther(url)
+        return web.HTTPSeeOther(url)
+    elif code == 200:
+        return web.HTTPOk(url)
+    elif code == 302:
+        raise web.HTTPFound(url)
     elif code == 404:
         return web.HTTPFound( url )
 
