@@ -402,29 +402,42 @@ def oauth_gl(request):
 	http = credentials.authorize(http)
 	resp, content = http.request('https://www.googleapis.com/userinfo/v2/me', method="GET")
 
-	s = session(request)
-	if 'error' in request.GET: return 'error autorize' + request.GET['error_description']
-	gl_user = content
-	gl_user = json.loads(content)
-	s['user_id'] = gl_user['id']
-	# s.save()
-	user_id = 'user:gl:'+gl_user['id']
 
-	user = request.db.doc.find_one({'_id':user_id })
-	if not user:
-		user = {'_id': user_id, "alien":"gl", 'name': gl_user['name'], 'password': "passw", "doc_type":"des:users",
-		        "doc":{"user":user_id, "old": "", "mail":gl_user['email'], 'rate':0,
-		                                              'date': create_date(), "home": "false", 'name': {'ru':gl_user['name']} } }
-		request.db.doc.save(user)
-		# request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
-		user = request.db.doc.find_one({'_id':user_id })
-	user['doc']['name'] = {cur_lang(request): gl_user['name']}
-	if 'picture' in gl_user:
-		from libs.files.files import link_upload_post_
-		link_upload_post_( gl_user['picture'], 'des:users', user_id, True)
-	request.db.doc.save(user)
+	if 'error' in request.GET: return 'error autorize' + request.GET['error_description']
+	me = json.loads(content.decode("utf-8"))
+
+	print( 'gl_user', me)
+
+	s = session(request)
+	s['user_id'] = me['id']
+
+	user_id = 'user:gl:'+me['id']
+
+	user_db = request.db.doc.find_one({'_id':user_id })
+	# if user_db: redirect(request, '/')
+	sex = "true" if "gender" in me and me["gender"] == "male" else "false"
+	doc = {'_id': user_id, "alien":"fb", 'name': me['name'], 'password': "passw", "doc_type":"des:users",
+            "doc":{
+	            "nik":me['id'],
+	            "user":user_id, "old":'', "phone":"", "mail":me.get('email', ''), "sex":sex,
+	            "d_birth":'', 'date': create_date(),
+	            "edu": {"en":me.get("bio", '') }, "about":{"en":me.get("about", '')},
+	            'name': {'en':me.get('given_name', '')}, "last_name":{"en":me.get('family_name', '') }
+            }
+       }
+	print( 'doc', doc)
+
+	request.db.doc.save(doc)
+	# request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
+	# user = request.db.doc.find_one({'_id':user_id })
+	# user['doc']['name'] = {cur_lang(request): me['name']}
+	# if 'picture' in me:
+	# 	from libs.files.files import link_upload_post_
+		# link_upload_post_( me['picture'], 'des:users', user_id, True)
+	# request.db.doc.save(user)
 	# session_add_mess('You have successfully logged in')
-	redirect('/')
+	return web.HTTPSeeOther('/')
+
 
 
 def count_old(d_birth):
@@ -458,7 +471,7 @@ def oauth_fb(request):
 
 	user_id = "user:fb:"+me['id']
 	user_db = request.db.doc.find_one({'_id':user_id })
-	# if user_db: redirect('/')
+	# if user_db: redirect(request, '/')
 
 	sex = "true" if "gender" in me and me["gender"] == "male" else "false"
 	d_birth = me.get('birthday', '/').replace('/', '-')
