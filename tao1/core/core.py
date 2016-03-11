@@ -20,7 +20,7 @@ def get_settings(name, def_val=None):
     else: return def_val
 
 
-async def locale_date(format, dt, loc = 'en_US.UTF-8'):
+def locale_date(format, dt, loc = 'en_US.UTF-8'):
     """ dt - set """
     import locale
     lc = locale.getdefaultlocale()
