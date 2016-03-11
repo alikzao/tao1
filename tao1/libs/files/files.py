@@ -1,10 +1,11 @@
-import sys, io
+import sys
 from urllib import *
 import  urllib
 from urllib.parse import *
 
 import io
 
+from aiohttp import MultiDict, web
 
 import email.utils
 from PIL import Image, ImageDraw
@@ -25,41 +26,53 @@ def img_m(request, proc_id, doc_id, img, action='img'):
 	elif action == 'thumb_img': prefix='thumb'
 	elif action == 'middle_img': prefix='middle'
 
-	fn = get_file_meta(proc_id, img, doc_id, prefix)
+	prefix = prefix + '_' if prefix else ''
+	file_name = prefix + img
+	fn = request.db.fs.files.find_one({'file_name':file_name, 'doc_id':doc_id})
+
 	if not fn: return None, None, None
-	f = fs.get(fn['_id']) # метод гридфс
+	f = fs.get(fn['_id'])
 	return fn, f, prefix
 
-def img(proc_id, doc_id, img, action='img'):
-	""" возвращает файл и информацию о нем, для статики
-	"""
-	att = None
-	try:
-		fn, att, prefix = img_m(proc_id, doc_id, img, action)
-		if not fn:
-			return http_err(404, '')
-		#возвращает информацию О файле    st_size-размер файла в байтах, st_mtime-время последней моификации содержания файла
-		response.headers['Content-Length'] = fn['length']
-		lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", fn['uploadDate'].timetuple(), 'en_US.UTF-8')
-		response.headers['Last-Modified'] = lm
 
-		ims = request.environ.get('HTTP_IF_MODIFIED_SINCE')
-		if ims: #если файл не менялся то достаточно передать 304 заголовок
+def img(request):
+	""" return file and information about it, for static """
+	print('request->', request.__dict__)
+
+	proc_id = request.match_info.get('proc_id', "des:obj")
+	doc_id =  request.match_info.get('doc_id', "")
+	img =     request.match_info.get('img', "")
+	action =  request.match_info.get('action', "img")
+	att = None
+	headers = {} #{'CONTENT-DISPOSITION': mp3_file}
+	try:
+		fn, att, prefix = img_m(request, proc_id, doc_id, img, action)
+		if not fn: return web.HTTPNotFound()
+		# st_size - file size in bytes, st_mtime - time of last modification of file contents
+		headers['Content-Length'] = fn['length']
+		lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", fn['uploadDate'].timetuple(), 'en_US.UTF-8')
+		headers['Last-Modified'] = lm
+
+		# ims = request.if_modified_since
+		ims = request['if_modified_since']
+		# ims = request.__dict__.if_modified_since
+		print('ims->', ims)
+		if ims: # if the file has not changed the transfer header 304
 			ims_ = parse_date(ims.split(";")[0].strip())
 
 		if ims and ims_ and ims > fn['uploadDate'].strftime('%Y-%m-%d %H:%M:%S'):
-			response.headers['Date'] = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(), 'en_US.UTF-8')
-			response.status = 304
-			return ''
+			headers['Date'] = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(), 'en_US.UTF-8')
+			return web.HTTPNotModified() #304  return web.Response(body=att, status=304, headers=MultiDict( headers ))
 
-		response.headers['Content-Type'] = fn['mime']
+		headers['Content-Type'] = fn['mime']
 		l = (len (prefix) + 1) if prefix else 0
-		response.headers['Cache-Control'] = 'max-age=604800'
-		aaa  = att.read()
+		headers['Cache-Control'] = 'max-age=604800'
+		content  = att.read()
 	finally:
 		if att: att.close()
 	# att.close()
-	return aaa
+	return web.Response(body=content, headers=MultiDict( headers ))
+
 
 def get_nf(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None):
 	""" Получение списка имен файла в документе  """
@@ -127,26 +140,27 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
 	return attachments
 
 #@cache.cache('get_nf', type='memory', expire=120)
-def get_teg_img(proc_id, doc_id):
-	att = get_nf(proc_id, doc_id, is_limit=0, avatar=False)
+def get_teg_img(request, proc_id, doc_id):
+	att = get_nf(request, proc_id, doc_id, is_limit=0, avatar=False)
 	if not att.keys(): return ''
 	return '<img src="http://{0}{1}" />'.format(get_settings('domain'), htmlspecialchars(att[att.keys()[0]]['orig']))
 
 
-def get_file_names_post():
+async def get_file_names_post(request):
+	data = await request.post()
 	is_limit=None
-	doc_id = get_post('doc_id')
-	proc_id = get_post('proc_id')
-	t = get_nf_(proc_id, doc_id, is_limit)
-	doc = get_doc(doc_id, proc_id)
+	doc_id = data.get('doc_id', '')
+	proc_id = data.get('proc_id', '')
+	t = get_nf_(request, proc_id, doc_id, is_limit)
+	doc = get_doc(request, doc_id, proc_id)
 	di = doc['default_img'] if doc and 'default_img' in doc else ''
-	t.update(get_alien_names(doc_id))
+	t.update(get_alien_names(request, doc_id))
 	if not t: t = 'false'
 	else: t = json.dumps(t)
-	return {"result":"ok", "content":t, "default_img":di}
+	return response_json(request, {"result":"ok", "content":t, "default_img":di})
 
-def get_alien_names(doc_id):
-	doc = get_doc(doc_id)
+def get_alien_names(request, doc_id):
+	doc = get_doc(request, doc_id)
 	if not doc or not 'alien_img' in doc: return {}
 	var = {}
 	for res in doc['alien_img']:
@@ -169,7 +183,7 @@ def get_file_meta(request, proc_id, file_name, doc_id, prefix=''):
 def del_files_post(request):
 	proc_id = get_post('proc_id')
 	# if not user_has_permission(proc_id, 'delete'):
-	# 	return '{"result": "fail", "error": "%s"}' % cgi.escape(ct("You have no permission."))
+	# 	return {"result": "fail", "error": "You have no permission."}
 	doc_id = get_post('doc_id') 
 	type = get_post('type')
 	file_name = get_post('file_name')
@@ -216,18 +230,21 @@ def del_all_files(request, doc_id, proc_id):
 		del_files(request, doc_id, file_name, proc_id)
 
 
-def add_files_post(request):
-	proc_id = get_post('proc_id')
-	# if not user_has_permission(proc_id, 'create') or proc_id == 'col:templ':
-	# 	return '{"result": "fail", "proc_id":"%s","error": "%s"}' % (proc_id, cgi.escape(ct("You have no permission.")) )
+async def add_files_post(request):
+	data = await request.post()
+	proc_id = data.get('proc_id', 'des:obj')
+	# if not user_has_permission(proc_id, 'create'):
+	# 	return {"result": "fail", "proc_id":proc_id, "error":"You have no permission."}
 	res = True
-	img = get_post('image'); file_st = get_post('file_st'); water_mark = get_post('water_mark')
+	img = data.get('image', '')
+	file_st = data.get('file_st', '')
+	water_mark = data.get('water_mark', '')
 	img = img if isinstance(img, list) else [img]
 
 	admin = get_settings('admin', '')
 	if not admin.startswith('user:'): admin = 'user:'+admin
-	doc_id = get_post('doc_id')
-	doc = get_doc(doc_id, proc_id)
+	doc_id = data.get('doc_id', '')
+	doc = get_doc(request, doc_id, proc_id)
 	if not doc:
 		doc = get_doc(doc_id)
 	if 'head_field' in doc and 'user' in doc['head_field'] and doc['head_field']['user'] == admin and proc_id == 'des:obj':
@@ -240,24 +257,26 @@ def add_files_post(request):
 	elif proc_id == 'col:templ' and doc_id == 'tv_frame_main.tpl': pref = 'tv_img'
 	else: pref = 'user_img'
 	for file in img:
-		res = res and add_file(proc_id, doc_id, file, water_mark, pref=pref )
+		res = res and add_file(request, proc_id, doc_id, file, water_mark, pref=pref )
 	if res: return response_json(request, {"result":"ok"})
 	else: return response_json(request, {"result":"fail", "error":"file not received"})
 
 
-def add_file(proc_id, doc_id, file, water_mark = None, pref='def' ):
-	""" получаем картинку с потока меняем размер сохраняем """
-	if 'file' in file.__dict__ :
-		mime = file.type
-		raw = file.value # This is dangerous for big files
-		file_name = file.filename
-		#  image/jpeg   video/mp4
-		if mime == 'video/mp4':
-			upload_video(proc_id, doc_id, raw, mime, file_name, water_mark, pref=pref)
-		else:
-			return add_file_raw(proc_id, doc_id, raw, mime, file_name, water_mark, pref=pref )
-	return False
+def add_file(request, proc_id, doc_id, file, water_mark = None, pref='def' ):
+	""" get the image from the stream and changing it the size   (image/jpeg   video/mp4)
+	file.file  -  This is dangerous for big files
+	"""
+	print('file=>', file)
+	mime = file.content_type
+	raw = file.file
+	print('raw=>', raw)
+	file_name = file.filename
+	if mime == 'video/mp4':
+		upload_video(request, proc_id, doc_id, raw, mime, file_name, water_mark, pref=pref)
+	else:
+		return add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark, pref=pref )
 	# return '{"result":"fail", "error": "File not uploaded"}'
+
 
 def upload_video(request, proc_id, doc_id, raw, mime, file_name, water_mark, pref='def'):
 	fname = os.path.join(os.getcwd(), 'static', 'video', doc_id) #base_path
@@ -268,7 +287,6 @@ def upload_video(request, proc_id, doc_id, raw, mime, file_name, water_mark, pre
 	# open(fname, 'wb').write(raw)
 	open(fname, 'w').write(raw)
 
-
 	doc = get_doc(doc_id)
 	if not 'files' in doc:
 		doc['files'] = []
@@ -276,16 +294,15 @@ def upload_video(request, proc_id, doc_id, raw, mime, file_name, water_mark, pre
 	request.db.doc.save(doc)
 	return True
 
-# смотреть загрузку файлов для видео  редактора
 
+# watch the download files for the video editor
 def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = None, only_small=False, pref = 'def' ):
-	"""сохранение в базу файла из переменой(сырого файла)"""
-	del_files(doc_id, file_name, proc_id)
-	del_files(doc_id, file_name, proc_id)
-	from core.dao_core import get_const_value
-#	size = 128, 128
-	img = ''
-	img = Image.open(io(raw))
+	""" save the file in a database from variable (raw file) """
+	from core.core import get_const_value
+	# img = Image.open( io.BytesIO(raw) )
+	img = Image.open( raw )
+	# img = raw
+	# img = Image.open( io.StringIO(raw) )
 
 	if pref == 'def':
 		mid_size = 500
@@ -294,7 +311,7 @@ def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = No
 		fl = get_settings('files')
 		sml_size, mid_size = fl[pref]
 
-	ttext = get_const_value('img_sign')
+	ttext = get_const_value(request, 'img_sign')
 	if ttext and water_mark:
 		watermark = Image.new("RGBA", img.size)
 		waterdraw = ImageDraw.ImageDraw(watermark, "RGBA")
@@ -360,76 +377,6 @@ def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = No
 	return True
 
 
-def simply_add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = None, only_small=False, pref = 'def' ):
-	""" save the file in a database from variable (raw file) """
-	from core.core import get_const_value
-	img = ''
-	img = Image.open(io.BytesIO(raw))
-	if pref == 'def':
-		mid_size = 500
-		sml_size = 250
-	else:
-		fl = get_settings('files')
-		sml_size, mid_size = fl[pref]
-
-	# Оригинальное изображение
-	s = io.BytesIO()
-
-	if mime == 'image/jpeg':
-		img.save(s, 'JPEG', quality=90)
-	elif mime == 'image/png':
-		img.save(s, 'PNG', quality=90)
-	elif mime == 'image/gif':
-		img.save(s, 'GIF', quality=90)
-
-	big_raw = s.getvalue()
-	s.close()
-
-	# Уменьшенная копия
-	wpercent = (sml_size/float(img.size[0]))
-	hsize = int((float(img.size[1])*float(wpercent)))
-	size = (sml_size, hsize)
-
-	small_img = img.resize(size, Image.ANTIALIAS)
-	s = io.BytesIO()
-
-	if mime == 'image/jpeg':
-		small_img.save(s, 'JPEG', quality=65)
-	elif mime == 'image/png':
-		small_img.save(s, 'PNG', quality=65)
-	elif mime == 'image/gif':
-		small_img.save(s, 'GIF', quality=65)
-
-	small_raw = s.getvalue()
-	s.close()
-
-	# Средний вариант, если предусмотрен
-	if mid_size:
-		wpercent = (mid_size/float(img.size[0]))
-		hsize = int((float(img.size[1])*float(wpercent)))
-		size = (mid_size, hsize)
-		mid_img = img.resize(size, Image.ANTIALIAS)
-		s = io.BytesIO()
-		if mime == 'image/jpeg':
-			mid_img.save(s, 'JPEG', quality=65)
-		elif mime == 'image/png':
-			mid_img.save(s, 'PNG', quality=65)
-		elif mime == 'image/gif':
-			mid_img.save(s, 'GIF', quality=65)
-		mid_raw = s.getvalue()
-		s.close()
-
-	db = request.db
-	fs = GridFS(db)
-
-	fs.put(big_raw, file_name ='orig_'+file_name, doc_id = doc_id, proc_id=proc_id,  mime = mime)
-	if mid_size:
-		fs.put(mid_raw, file_name ='middle_'+file_name, doc_id = doc_id, proc_id=proc_id,  mime = mid_mime)
-
-	fs.put(small_raw, file_name ='thumb_'+file_name, doc_id = doc_id, proc_id=proc_id, mime = sml_mime)
-	return True
-
-
 def link_upload_post(request):
 	url = get_post('link')
 	doc_id = get_post('doc_id')
@@ -458,8 +405,6 @@ def check_video_dir_(doc_id):
 	pass
 def get_clip_(doc_id):
 	return ''
-
-
 
 
 bp = os.path.join(os.getcwd(), 'clip') #base_path
