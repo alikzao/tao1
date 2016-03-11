@@ -165,21 +165,21 @@ def get_file_meta(request, proc_id, file_name, doc_id, prefix=''):
 	file_ = request.db.fs.files.find_one({'file_name':file_name, 'doc_id':doc_id})
 	return file_
 
-#ghtREmp5
 
-def del_files_post():
+def del_files_post(request):
 	proc_id = get_post('proc_id')
 	# if not user_has_permission(proc_id, 'delete'):
 	# 	return '{"result": "fail", "error": "%s"}' % cgi.escape(ct("You have no permission."))
 	doc_id = get_post('doc_id') 
 	type = get_post('type')
 	file_name = get_post('file_name')
-	if file_name is None: return '{"result":"fail", "error":"not file name"}'
+	if file_name is None: return response_json(request, {"result":"fail", "error":"not file name"})
 	if type == 'video':
 		del_files_video(doc_id, file_name, proc_id)
 	else:
 		del_files(doc_id, file_name, proc_id)
-	return '{"result":"ok"}'
+	return response_json(request, {"result":"ok"})
+
 
 def del_files_video(request, doc_id, file_name, proc_id):
 	doc = get_doc(doc_id)
@@ -188,6 +188,7 @@ def del_files_video(request, doc_id, file_name, proc_id):
 	request.db.doc.save(doc)
 	path = os.path.join(os.getcwd(), 'static', 'video', doc_id)
 	os.remove( path +'/'+ file_name )
+
 
 def del_files(request, doc_id, file_name, proc_id):
 	fs = GridFS(request.db)
@@ -207,14 +208,15 @@ def del_files(request, doc_id, file_name, proc_id):
 		fn = get_file_meta(proc_id, file_name, doc_id, 'middle')
 		fs.delete(fn['_id'])
 	except:pass
-	return {"result":"ok"}
+	return response_json(request, {"result":"ok"})
+
 
 def del_all_files(request, doc_id, proc_id):
 	for file_name in get_nf_(request, proc_id, doc_id):
 		del_files(request, doc_id, file_name, proc_id)
 
 
-def add_files_post():
+def add_files_post(request):
 	proc_id = get_post('proc_id')
 	# if not user_has_permission(proc_id, 'create') or proc_id == 'col:templ':
 	# 	return '{"result": "fail", "proc_id":"%s","error": "%s"}' % (proc_id, cgi.escape(ct("You have no permission.")) )
@@ -239,8 +241,9 @@ def add_files_post():
 	else: pref = 'user_img'
 	for file in img:
 		res = res and add_file(proc_id, doc_id, file, water_mark, pref=pref )
-	if res: return {"result":"ok"}
-	else: return {"result":"fail", "error":"фаил не получен"}
+	if res: return response_json(request, {"result":"ok"})
+	else: return response_json(request, {"result":"fail", "error":"file not received"})
+
 
 def add_file(proc_id, doc_id, file, water_mark = None, pref='def' ):
 	""" получаем картинку с потока меняем размер сохраняем """
@@ -300,8 +303,7 @@ def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = No
 		watermark.putalpha(watermask)
 		img.paste(watermark, None, watermark)
 
-	# try:
-	# Оригинальное изображение
+	# original image
 	s = io.BytesIO()
 	if mime == 'image/jpeg':
 		img.save(s, 'JPEG', quality=90)
@@ -313,7 +315,7 @@ def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = No
 	big_raw = s.getvalue()
 	s.close()
 
-	# Уменьшенная копия
+	# reduced copy
 	wpercent = (sml_size/float(img.size[0]))
 	hsize = int((float(img.size[1])*float(wpercent)))
 	size = (sml_size, hsize)
@@ -331,7 +333,7 @@ def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = No
 	small_raw = s.getvalue()
 	s.close()
 
-	# Средний вариант, если предусмотрен
+	# 	middle copy, if provided
 	if mid_size:
 		wpercent = (mid_size/float(img.size[0]))
 		hsize = int((float(img.size[1])*float(wpercent)))
@@ -357,8 +359,9 @@ def add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = No
 	fs.put(small_raw, file_name ='thumb_'+file_name, doc_id = doc_id, proc_id=proc_id, mime = mime)
 	return True
 
+
 def simply_add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_mark = None, only_small=False, pref = 'def' ):
-	"""сохранение в базу файла из переменой(сырого файла)"""
+	""" save the file in a database from variable (raw file) """
 	from core.core import get_const_value
 	img = ''
 	img = Image.open(io.BytesIO(raw))
@@ -427,12 +430,12 @@ def simply_add_file_raw(request, proc_id, doc_id, raw, mime, file_name, water_ma
 	return True
 
 
-def link_upload_post():
+def link_upload_post(request):
 	url = get_post('link')
 	doc_id = get_post('doc_id')
 	proc_id = get_post('proc_id')
 	link_upload_post_(url, proc_id, doc_id)
-	return{"result":"ok", "doc_id":doc_id}
+	return response_json(request, {"result":"ok", "doc_id":doc_id})
 
 
 def link_upload_post_(url, proc_id, doc_id, avatar=False, pref="def"):
@@ -441,14 +444,14 @@ def link_upload_post_(url, proc_id, doc_id, avatar=False, pref="def"):
 	add_file_raw(proc_id, doc_id, fl.content, fl.headers['content-type'], file_name, pref=pref)
 
 
-def set_def_img():
+def set_def_img(request):
 	img  = get_post('id_img')
 	doc_id  = get_post('doc_id')
 	proc_id  = get_post('proc_id')
 	doc = get_doc(doc_id, proc_id)
 	doc['default_img'] = img
 	save_doc(doc, proc_id)
-	return{"result":"ok", "doc_id":doc_id, "img":img}
+	return response_json(request, {"result":"ok", "doc_id":doc_id, "img":img})
 
 
 def check_video_dir_(doc_id):
@@ -461,7 +464,7 @@ def get_clip_(doc_id):
 
 bp = os.path.join(os.getcwd(), 'clip') #base_path
 def upload_clip(request, doc_id):
-	""" загружает файлы с компа на сервер
+	""" downloads files from a computer to the server
 	"""
 	check_video_dir_(doc_id)
 	doc = get_clip_(doc_id)
@@ -493,7 +496,7 @@ def upload_clip(request, doc_id):
 		db.doc.save(doc)
 		return json.dumps(rs)
 	else:
-		return {"result":"fail", "error": "File not uploaded"}
+		return response_json(request,  {"result":"fail", "error": "File not uploaded"})
 
 
 def parse_date(ims):
