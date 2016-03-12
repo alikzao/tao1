@@ -56,7 +56,8 @@ def table_data_(request, proc_id):
 			if conf_: conf_ += ", "
 			conf_ +='"' + k + '": '+ conf[k]
 		conf_ = "{"+conf_+"}"
-		_parts += '{"id": "' + tbl['_id'] + '", "title": "' + ct(request, tbl['conf']['title']) + '", "conf": ' + conf_ + ', "type": "' + tp + '" }'
+		_parts += '{"id": "' + tbl['_id'] + '", "title": "' + \
+		          ct(request, tbl['conf']['title']) + '", "conf": ' + conf_ + ', "type": "' + tp + '" }'
 	_parts = "["+_parts+"]"
 	map_ = rec_data_t(request, meta_table)
 	return  {'parts':_parts, 'hdata':meta_doc, 'map_':map_, 'url':url, 'proc_id':proc_id, 'select_id':select_id}
@@ -131,6 +132,7 @@ def sort_body(request, proc_id, meta_table, docs_table):
 
 
 async def table_data_post(request):
+	""" #page=текущая страница page ctr=кол-во pages=отрисованые ссылки на страницу навигация """
 	data = get_post(request)
 	proc_id = data['proc_id']
 	if not user_has_permission(request, proc_id, 'view'):  return {"result": "fail", "error": "You have no permission." }
@@ -143,7 +145,7 @@ async def table_data_post(request):
 	limit = int(get_const_value(request, 'doc_page_limit'))
 	bdata, docs_table_count = table_data_post_(request, proc_id, filtered, doc_id, parent)
 	otvet = {"result":"ok", "data":bdata,
-	         "pages":{"count":int(ceil(float(docs_table_count)/limit)), #page=текущая страница pagectr=кол-во pages=отрисованые ссылки на страницу навигация
+	         "pages":{"count":int(ceil(float(docs_table_count)/limit)),
 			 "current":page['current'], "next": id_next, "prev":id_prev} }
 	return response_json(request, otvet)
 
@@ -466,18 +468,18 @@ def update_row_(request, proc_id, doc_id, data, parent, noscript=True, no_synh=F
 				else:
 					doc["doc"][field['id']] = data[field['id']]
 
-	#=============================================================================================================================
+	#===================================================================================================================
 	if 'body' in doc['doc']:    # очищаем  боди от всякой ерунды
 		text = doc['doc']['body'][cur_lang(request)] if  type(doc['doc']['body']) == dict else doc['doc']['body']
 		text = re.sub(r'<!--(.|\n)*?-->', '', text)
-#		if noscript or True: #==========================================================================================================================================================================
+#		if noscript or True: #==========================================================================================
 		if noscript and not is_admin(request):
 			text = no_script(text, True)
 		if type(doc['doc']['body'] ) == dict:
 			doc['doc']['body'][cur_lang(request)] = text
 		else: doc['doc']['body'] = text
 
-	#=============================================================================================================================
+	#===================================================================================================================
 	# if res == 'ok':  # если поле
 	doc['doc_type'] = proc_id
 #		if not is_admin:

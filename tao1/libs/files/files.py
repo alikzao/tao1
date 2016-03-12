@@ -37,40 +37,30 @@ def img_m(request, proc_id, doc_id, img, action='img'):
 
 def img(request):
 	""" return file and information about it, for static """
-	print('request->', request.__dict__)
-
 	proc_id = request.match_info.get('proc_id', "des:obj")
 	doc_id =  request.match_info.get('doc_id', "")
 	img =     request.match_info.get('img', "")
 	action =  request.match_info.get('action', "img")
 	att = None
-	headers = {} #{'CONTENT-DISPOSITION': mp3_file}
+	headers = {}
 	try:
 		fn, att, prefix = img_m(request, proc_id, doc_id, img, action)
 		if not fn: return web.HTTPNotFound()
-		# st_size - file size in bytes, st_mtime - time of last modification of file contents
 		headers['Content-Length'] = fn['length']
 		lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", fn['uploadDate'].timetuple(), 'en_US.UTF-8')
 		headers['Last-Modified'] = lm
 
-		# ims = request.if_modified_since
-		ims = request['if_modified_since']
-		# ims = request.__dict__.if_modified_since
-		print('ims->', ims)
-		if ims: # if the file has not changed the transfer header 304
-			ims_ = parse_date(ims.split(";")[0].strip())
+		ims = request.if_modified_since
 
-		if ims and ims_ and ims > fn['uploadDate'].strftime('%Y-%m-%d %H:%M:%S'):
+		if ims and ims.strftime('%Y-%m-%d %H:%M:%S') >= fn['uploadDate'].strftime('%Y-%m-%d %H:%M:%S'):
 			headers['Date'] = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(), 'en_US.UTF-8')
-			return web.HTTPNotModified() #304  return web.Response(body=att, status=304, headers=MultiDict( headers ))
+			return web.HTTPNotModified( headers=MultiDict( headers ) )
 
 		headers['Content-Type'] = fn['mime']
-		l = (len (prefix) + 1) if prefix else 0
 		headers['Cache-Control'] = 'max-age=604800'
 		content  = att.read()
 	finally:
 		if att: att.close()
-	# att.close()
 	return web.Response(body=content, headers=MultiDict( headers ))
 
 

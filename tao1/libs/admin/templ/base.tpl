@@ -42,8 +42,11 @@
 
 	<script type="text/javascript" src="/static/contents/dao_ui.js" ></script>
 
-{#	<script type="text/javascript" src="/static/contents/lang_{{lang}}.js"></script>#}
-	<script type="text/javascript" src="/static/tree/menu.js"></script>
+{#	<script type="text/javascript" src="/static/contents/lang_{{lang}}.js"></script>  #}
+{#	<script type="text/javascript" src="/static/tree/menu.js"></script>               #}
+{#	<link   rel="stylesheet" type="text/css" href="/static/tree/lm.css" />            #}
+{#	<script type="text/javascript" src="/static/sandbox/sb.js"></script>     /* function for sandbox */   #}
+
 	<script type="text/javascript" src="/static/admin/conf_templ.js"></script>
 
 	<script type="text/javascript" src="/static/admin/sortable/Sortable.js"></script>
@@ -56,7 +59,6 @@
       <script type="text/javascript" src="/static/table/tp_new.js"></script>
       <script type="text/javascript" src="/static/table/tp_site.js"></script>
 
-{#	<script type="text/javascript" src="/static/sandbox/sb.js"></script>    {#  /* function for sandbox */   #}
 
 
 	<script type="text/javascript" src="/static/files/tf.js"></script>
@@ -67,7 +69,6 @@
 
     <script type="text/javascript" src="/static/tree/tt.js"></script>
 	<link   rel="stylesheet" type="text/css" href="/static/tree/tt.css" />
-	<link   rel="stylesheet" type="text/css" href="/static/tree/lm.css" />
 
 	<link   rel="stylesheet" type="text/css" href="/static/admin/cupertino/jquery-ui.custom.css" />
 
