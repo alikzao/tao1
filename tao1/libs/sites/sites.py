@@ -471,26 +471,28 @@ def get_pagination_p(request, pipe):
 	return pages, result
 
 
+
+
 async def user_status_post(request):
 	from libs.tree.tree import check_user_rate
 	user_is_logged = False
-	# s = session( request )
 	s = await get_session(request)
 	if not 'user_id' in s or s['user_id'] == 0 or s['user_id'] == 'guest':
 		s['user_id'] = 'guest'
 	else:
+		request.db.chat.update({"_id":s['user_id']}, {"$currentDate": {"date": {"$type":"timestamp"}}}, True )
+
 		user_is_logged = True
 	# print( 's', s, cur_lang(request) )
 	print( 'user_is_logged', user_is_logged )
 
 	if user_is_logged:
 		user_id = 'user:'+s['user_id']
-		user = get_full_user(request, user_id)
+		user = request.db.doc.find_one({"_id":user_id})
 		ac = request.db.doc.find({'doc_type':'des:comments', 'doc.parent_comm':user_id, 'doc.hidden':{'$ne':'true'} }).count()
-		rate = float(user['doc']['rate']) if 'rate' in user['doc'] else 0
+		rate = float( user['doc'].get('rate', 0) )
 		is_adm = is_admin(request)
-		if is_admin( request ): abuse = request.db.doc.find({'doc_type':'des:spam', 'doc.read':{'$ne':'true'}}).count()
-		else: abuse = 0
+		abuse = request.db.doc.find({'doc_type':'des:spam', 'doc.read':{'$ne':'true'}}).count() if is_adm else 0
 
 		return response_json(request, {'result': 'ok', 'panel':templ_str('soc_h2',  request, dict(
 				rate=rate, news_map = get_news_map(request, 'des:obj'), answer_comm=ac, abuse=abuse, is_logged=user_is_logged,
@@ -498,8 +500,7 @@ async def user_status_post(request):
 		    )),
 		    'user':{
 				'name': ct(request, user['doc']['name']),
-				'fb_id':user['doc']['fb_id']  if 'db_id' in user['doc'] else '',
-				'id': user['id'],
+				'id': user['_id'],
 				'is_admin': is_adm,
 				'is_logged_in':user_is_logged,
 				'alien': s['user_id'][:3],
@@ -507,7 +508,7 @@ async def user_status_post(request):
 				'answer_comm': ac,
 				'abuse': abuse,
 				'can_write': user_has_permission(request, 'des:obj', 'create'),
-				'can_comment':( user_has_permission(request, 'des:obj', 'add_com') or user_has_permission(request, 'des:obj', 'add_com_pre') ) and check_user_rate(request, user['id']),
+				'can_comment':( user_has_permission(request, 'des:obj', 'add_com') or user_has_permission(request, 'des:obj', 'add_com_pre') ) and check_user_rate(request, user['_id']),
 				'user_rate': check_user_rate(request, user_id ),
 				'del_comm': user_has_permission(request, 'des:obj', 'del_comm'),
 				'moderator_comm': user_has_permission(request, 'des:comments', 'edit'),

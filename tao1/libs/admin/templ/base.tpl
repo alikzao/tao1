@@ -47,8 +47,6 @@
 {#	<link   rel="stylesheet" type="text/css" href="/static/tree/lm.css" />            #}
 {#	<script type="text/javascript" src="/static/sandbox/sb.js"></script>     /* function for sandbox */   #}
 
-	<script type="text/javascript" src="/static/admin/conf_templ.js"></script>
-
 	<script type="text/javascript" src="/static/admin/sortable/Sortable.js"></script>
 
 	<script type="text/javascript" src="/static/perm/ta.js"></script>   {#  /* add_processor add field*/   #}

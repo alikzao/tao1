@@ -23,6 +23,16 @@
         	    '</div>'
         ).appendTo('body');
 
+//        var dialog = $('<div class="modal hide fade " style="width:730px; margin-left:-365px;">'+
+//            '<div class="modal-header">'+
+//            '<button class="close" data-dismiss="modal">×</button><h3>Галерея</h3></div>' +
+//            '<div class="modal-body" style="width:700px; height:600px;"></div>' +
+//            '<input class="fi" type="file" min="1" max="20" multiple="true"  style="display:none;"/>' +
+//            '<div class="modal-footer"><div class="btn-group">'+
+//            '<span  class="btn cancel" data-dismiss="modal">Закрыть</span>'+
+//            '</div></div></div>'
+//        ).appendTo('body');
+
         var mainw = dialog.find('.modal-body');
 
         var main_div_img = $('<div class="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 200px;"></div>').appendTo(mainw);
@@ -32,12 +42,24 @@
         var main_ul_img = $('<ul class="thumbnails" style="position:absolute; width:200px; overflow:auto; list-style:none; padding:8px; top:5px; right:5px; bottom:0px;"></ul>').appendTo(mainw)
         if (options.has_toolbar) {
             var btn_panel = dialog.find('.modal-footer .btn-group');
-            $('<span class="btn btn-info upload_file"> Добавить</span>'                 ).prependTo( btn_panel );
+            $('<span class="btn cancel btn-danger" data-dismiss="modal">Закрыть</span>' ).prependTo( btn_panel );
             $('<span class="btn btn-info update">'+dao.ct('refresh')+'</span>'          ).prependTo( btn_panel );
-            $('<span class="btn btn-info link_img">Ссылка</span>'                       ).prependTo( btn_panel );
+            //$('<span class="btn btn-info link_img">Ссылка</span>'                       ).prependTo( btn_panel );
             $('<span class="btn btn-info del">'+dao.ct('del')+'</span>'                 ).prependTo( btn_panel );
             $('<span class="btn btn-info default">По умолчанию</span>'                  ).prependTo( btn_panel );
-            $('<span class="btn cancel btn-danger" data-dismiss="modal">Закрыть</span>' ).prependTo( btn_panel );
+
+
+            $('<div class="btn-group dropup">'+
+                '<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Добавить <span class="caret"></span> </button>'+
+                '<ul class="dropdown-menu">'+
+                    '<li><a href="#" class="btn link_img">Загрузить по ссылке</a></li>'+
+                    '<li><a href="#" class="btn upload_file">Загрузить с диска</a></li>'+
+                    '<li><a href="#" class="btn set_link_img">Установить ссылку</a></li>'+
+                '</ul>'+
+            '</div>').prependTo( btn_panel );
+
+
+            //$('<span class="btn btn-info upload_file"> Добавить</span>'                 ).prependTo( btn_panel );
             if (options.on_select) {
                 $('<span class="btn insert_text btn-info">'+dao.ct('insert_in_text')+'</span>').prependTo(btn_panel );
             }
@@ -79,7 +101,22 @@
             }
         });
 
+        //$(document).on( 'click', 'a[data-toggle="tab"]', function (e) {
+        //    console.log('e.target---->', e.target);
+        //});
+        //dialog.on('hidden.bs.modal', function () {
         $(document).on('hidden.bs.modal', function () {
+        //    console.error('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww0->', form);
+		 // $(this).removeData('bs.modal');
+		 //   dialog.remove();
+		 //   dialog.empty();
+          //  dialog.find('.fi').reset();
+          //  dialog.find('.fi').empty();
+          //  dialog.find('.fi').remove();
+          //  delete form;
+            //$('frame').remove();
+            //$('frame').empty();
+            //console.error('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww1->', form);
 
         });
 
@@ -133,7 +170,7 @@
         }
         function clear(){
             //TODO реализовать очистку галереи
-            $(img_large).attr('src', '/static/core/img/clean.jpg')
+            $(img_large).attr('src', '/static/core/img/clean.jpg');
             $(main_ul_img).empty();
         }
         function set_def_img(id_img, doc_id){
@@ -178,8 +215,11 @@
 
         function draw(content, default_img){
 //            console.log('content1'  );
-//            console.log('content',  content);
+            console.log( "content === >>>",  JSON.parse(content));
+            console.log( "options.is_disk === >>> ", options.is_disk);
             if (content) {
+                console.warn(content);
+                var content = JSON.parse(content);
                 for (var i in content) {
                     var t = $('<li class="col-xs-12"></li>').appendTo(main_ul_img);
                     t = $('<a style="position:relative;" class="thumbnail" href="'+content[i]['orig']+'"></a>').attr('file_name', i).appendTo(t);
@@ -203,12 +243,15 @@
                     if( $(this).attr('href') == 'undefined'){
                         main_div_img.empty();
                         var attr = $(this).find('i').attr('attr');
-                        $('<div class="thumbnail big_img" type="video" attr="'+attr+'" style="font-size:24px;"><i class="icon-film" attr="'+attr+'" style="font-size:200px; padding:15px;"></i>'+attr+'</div>').appendTo(main_div_img);
+                        $('<div class="thumbnail big_img" type="video" attr="'+attr+'" style="font-size:24px;">' +
+                            '<i class="icon-film" attr="'+attr+'" style="font-size:200px; padding:15px;"></i>'+attr+'</div>').appendTo(main_div_img);
                     }else{
                         main_div_img.empty();
                         img_large.appendTo(main_div_img);
                         img_large.attr('src', $(this).attr('href'));
                         img_large.attr('file_name', $(this).attr('file_name'));
+                        console.log( "$(this).attr('href') === >>> ", $(this).attr('href') );
+
                     }
                     return false;
                 });
