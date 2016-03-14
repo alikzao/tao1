@@ -4,6 +4,15 @@
         console.log('users', users);
         var wsUri = (window.location.protocol == 'https:' && 'wss://' || 'ws://') + window.location.hostname + ':80/online';
         ws = new WebSocket(wsUri);
+
+
+        setTimeout(function() {
+            var user_id = $('[user_id]'); //TODO
+            ws.send( JSON.stringify( { 'e':'upd_on', 'id':user_id} ) );
+        }, 2000);
+
+
+
         ws.onopen = function () {
             ws.send(JSON.stringify({'e':"new", 'users':users} ) );
         };
