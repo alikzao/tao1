@@ -144,7 +144,7 @@ def main_page_signup(request):
 
 	doc = {'_id': 'user:'+email, 'name': name, 'password': passwd, 'mail': email, "type": "table_row", "rate":0, "doc_type": "des:users",
            "doc": {"user":"user:"+name, "name": {'ru':name, 'en':name}, 'date': create_date(), "home": "false", "mail": email },
-           "hierarchy": { "tree": "3" }, 'code_sub_in':code_sub_in, 'code_sub_out':code_sub_out}
+           'code_sub_in':code_sub_in, 'code_sub_out':code_sub_out}
 	db.doc.save(doc)
 	db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.user:'+name:'true'}} )
 	mess = "Для подтверждения регистрации вам на почту выслано письмо."
