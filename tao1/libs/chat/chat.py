@@ -4,6 +4,7 @@ import  urllib
 from urllib.parse import *
 
 import io
+import asyncio
 
 from aiohttp import MultiDict, web
 import aiohttp
@@ -16,13 +17,50 @@ from libs.contents.contents import *
 
 from settings import *
 
+from core.union import app
+
+
+clients = []
+
+async def ws(request):
+    return templ('test_chat', request, {} )
+
+
+clients = []
+
+async def ws_handler(request):
+    ws = web.WebSocketResponse()
+    await ws.prepare(request)
+    # if not ws in clients:
+    clients.append(ws)
+
+    async for msg in ws:
+        try:
+            if msg.tp == aiohttp.MsgType.text:
+                if msg.data == 'close':
+                    await ws.close()
+                    clients.remove(ws)
+                else:
+                    # print('clients=>', clients)
+                    for client in clients:
+                        if ws != client:
+                            client.send_str(msg.data + '/answer')
+            elif msg.tp == aiohttp.MsgType.error:
+                print('ws connection closed with exception %s' % ws.exception())
+        except Exception as e:
+            print('Dark forces tried to break down our infinite loop', e)
+            traceback.print_tb(e.__traceback__)
+    print('websocket connection closed')
+    clients.remove(ws)
+    return ws
 
 
 async def online(request):
-    print('online->')
 
     ws = web.WebSocketResponse()
     await ws.prepare(request)
+    # if not ws in clients:
+    clients.append(ws)
 
     async for msg in ws:
         if msg.tp == aiohttp.MsgType.text:
@@ -33,9 +71,15 @@ async def online(request):
 
                 if e['e'] == "new":
                     curr_date = time.time()
-                    users = [doc['_id'] for doc in request.db.chat.find() ]
+                    users = [doc['_id'] for doc in request.db.on.find() ]
                     print('users->', users)
-                    ws.send_str( json.dumps({"e":"on", "users":users }) )
+                    for client in clients:
+                        if ws != client:
+                            client.send_str(json.dumps({"e":"on", "users":users }))
+                            # ws.send_str( json.dumps({"e":"on", "users":users }) )
+                elif e['e'] == "upd_on":
+                    request.db.on.update({"_id":e['user_id']}, {"$currentDate": {"date": {"$type": "timestamp"}}} )
+                    # request.db.on.update({"_id":e['user_id']}, {"date":""})
         elif msg.tp == aiohttp.MsgType.error:
             print('ws connection closed with exception %s' % ws.exception())
 
@@ -44,6 +88,25 @@ async def online(request):
     return ws
 
 
+async def ping_chat_task():
+    while True:
+        for client in clients:
+            client.pong(message=b'pong')
+            break
+        await asyncio.sleep(20)
 
 
- # users = [doc['_id'] for doc in request.db.chat.find({"date":curr_date}) ]
+async def check_online_task():
+    while True:
+        ts = time.time()
+        for res in app.db.chat.find():
+            print(res, res['date'])
+            if res['date'] < 30: #600
+                app.on.chat.remove({"_id":res['_id']})
+            break
+        await asyncio.sleep(15)
+
+
+
+
+    # users = [doc['_id'] for doc in request.db.chat.find({"date":curr_date}) ]

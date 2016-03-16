@@ -1,19 +1,20 @@
 from libs.chat.chat import  *
 from core.union import route
-import asyncio
+# import asyncio
 
 route('GET',  	'/online',		online,			'online'      )
 
-async def test( name ):
-    ctr = 0
-    while True:
-        await asyncio.sleep(10)
-        ctr += 1
-        print("Task {}: test({})".format( ctr, name ))
+# chat_task()
 
-asyncio.ensure_future( test("A") )
-asyncio.ensure_future( test("B") )
-asyncio.ensure_future( test("C") )
+route('GET', '/chat',   ws,		    'w_s'  )
+route('GET', '/wsh',    ws_handler,	'ws_h' )
+
+asyncio.ensure_future( ping_chat_task() )
+asyncio.ensure_future( check_online_task() )
+
+# asyncio.ensure_future( test("A") )
+# asyncio.ensure_future( test("B") )
+# asyncio.ensure_future( test("C") )
 
 
 # route('POST', 	'/check_room',	check_room,		'check_room')
