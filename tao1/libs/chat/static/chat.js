@@ -6,10 +6,15 @@
         ws = new WebSocket(wsUri);
 
 
+        // setTimeout(function() {
+        //     var user_id = $('[user_id]'); //TODO
+        //     // ws.send( JSON.stringify( { 'e':'upd_on', 'id':user_id} ) );
+        //     ws.send( JSON.stringify( { 'e':'upd_on', 'id':'user_id'} ) );
+        // }, 300);
+
         setTimeout(function() {
-            var user_id = $('[user_id]'); //TODO
-            ws.send( JSON.stringify( { 'e':'upd_on', 'id':user_id} ) );
-        }, 2000);
+            ws.send( JSON.stringify( { 'e':'ping' } ) );
+        }, 1000);
 
 
 
@@ -24,6 +29,8 @@
                 for(var res in us) {
                     $('[user_id="' + us[res] + '"]').find('.fa-circle').css('color', '#00a300');
                 }
+            } else if (msg.e == 'ping') {
+                ws.send( JSON.stringify( { 'e':'ping'} ) );
             } else if (msg.e == 'move') {
 
             } else {
@@ -34,7 +41,6 @@
             console.log('close: ', e);
             if (e.wasClean) console.log('Connection was closed cleanly');
             else console.log('Disconnect the connection');
-            console.log('Code: ' + e.code + '  reason: ' + e.reason);
         };
         ws.onerror = function (error) {
             console.log("Error: error " + error);

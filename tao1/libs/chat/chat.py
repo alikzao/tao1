@@ -63,6 +63,7 @@ async def online(request):
 
     async for msg in ws:
         # try:
+        print('msg.tp=>', msg.tp)
         if msg.tp == aiohttp.MsgType.text:
             if msg.data == 'close': await ws.close()
             else:
@@ -76,7 +77,11 @@ async def online(request):
                         # if ws != client:
                         print('send')
                         client.send_str(json.dumps({"e":"on", "users":users }))
-                # elif e['e'] == "upd_on":
+                elif e['e'] == "ping":
+                    for client in clients:
+                        client.send_str(json.dumps({"e": "ping"}))
+
+                    # elif e['e'] == "upd_on":
                 #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
         elif msg.tp == aiohttp.MsgType.ping:
             print('Ping received')
@@ -101,7 +106,7 @@ async def ping_chat_task():
             # client.pong(message=b'pong')
             client.ping()
             # client.ping(message=b'ping')
-            print('ping task')
+            # print('ping task')
         await asyncio.sleep(20)
 
 
