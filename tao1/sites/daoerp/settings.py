@@ -1,6 +1,7 @@
 import os
 
 addr = ['127.0.0.1', 6677]
+
 session_key = b'Thirty  two  length  bytes  key.'
 
 debug = True

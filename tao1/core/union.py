@@ -50,6 +50,7 @@ mc = None
 
 async def init(loop):
     global mc
+    global app
 
     middlewares = []
     # middlewares.append(aiohttp_debugtoolbar.middleware) # debugtoolbar.intercept_redirects = false
@@ -89,7 +90,7 @@ async def init(loop):
 
     handler = app.make_handler()
     srv = await loop.create_server(handler, settings.addr[0], settings.addr[1])
-    print("Server started at http://127.0.0.1:6677")
+    print("Server started at "+settings.addr[0] +' '+ str(settings.addr[1]))
     return srv, handler, app
 
 

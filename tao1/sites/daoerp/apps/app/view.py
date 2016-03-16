@@ -31,8 +31,6 @@ async def ws_handler(request):
     await ws.prepare(request)
     # ws.start(request)
     async for msg in ws:
-        # while True:
-        # msg = yield from ws.receive()
         if msg.tp == MsgType.text:
             if msg.data == 'close':
                 await ws.close()

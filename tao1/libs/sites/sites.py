@@ -480,7 +480,8 @@ async def user_status_post(request):
 	if not 'user_id' in s or s['user_id'] == 0 or s['user_id'] == 'guest':
 		s['user_id'] = 'guest'
 	else:
-		request.db.chat.update({"_id":s['user_id']}, {"$currentDate": {"date": {"$type":"timestamp"}}}, True )
+		# request.db.on.update({"_id":s['user_id']}, {"$currentDate": {"date": {"$type":"timestamp"}}}, True )
+		request.db.on.update({"_id":s['user_id']}, {"$set":{"date": time.time() } }, True )
 
 		user_is_logged = True
 	# print( 's', s, cur_lang(request) )

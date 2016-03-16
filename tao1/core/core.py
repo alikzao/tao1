@@ -41,7 +41,6 @@ def format_date(_dt, format = '%Y-%m-%d'):
 
 def get_const_value(request, const_name, def_val=None):
     res = request.db.doc.find_one({'doc_type':'des:conf', "doc.name": const_name})
-    # print( res )
     if not res:
         res = {'_id': uuid4().hex, 'doc_type':'des:conf', 'doc': { 'name': const_name, 'value': def_val, 'title': const_name }}
         request.db.doc.save(res)

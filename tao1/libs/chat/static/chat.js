@@ -30,7 +30,7 @@
                     $('[user_id="' + us[res] + '"]').find('.fa-circle').css('color', '#00a300');
                 }
             } else if (msg.e == 'ping') {
-                ws.send( JSON.stringify( { 'e':'ping'} ) );
+                ws.send( JSON.stringify( { 'e':'pong'} ) );
             } else if (msg.e == 'move') {
 
             } else {
