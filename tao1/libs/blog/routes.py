@@ -12,6 +12,7 @@ route( 'GET' ,  '/signup/in/{mail}/{code}',          signup_in,          'signup
 route( 'GET' ,  '/add_email',                        add_email,          'add_email'      )
 route( 'POST',  '/add_email',                        add_email_post,     'add_email_'     )
 route( 'GET' ,  '/list/users',                       list_users,         'list_users'     )
+
 route( 'GET' ,  '/subscribe',                        subscribe,          'subscribe'      )
 route( 'POST',  '/subscribe',                        subscribe_post,     'subscribe_post' )
 route( 'POST',  '/subscribe/new',                    subscribe_new,      'subscribe_new'  )
