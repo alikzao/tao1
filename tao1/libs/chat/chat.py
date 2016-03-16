@@ -56,32 +56,40 @@ async def ws_handler(request):
 
 
 async def online(request):
-
+    s = await get_session(request)
     ws = web.WebSocketResponse()
     await ws.prepare(request)
-    # if not ws in clients:
     clients.append(ws)
 
     async for msg in ws:
-        if msg.tp == aiohttp.MsgType.text:
-            if msg.data == 'close': await ws.close()
-            else:
-                e = json.loads(msg.data)
-                print('msg.data->', e)
+        try:
+            if msg.tp == aiohttp.MsgType.text:
+                if msg.data == 'close': await ws.close()
+                elif msg.tp == aiohttp.MsgType.pong:
+                    print('ws pong')
+                    if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
+                        request.db.on.update({"_id": s['user_id']}, {"$currentDate": {"date": {"$type": "timestamp"}}})
+                else:
+                    e = json.loads(msg.data)
+                    print('msg.data->', e)
 
-                if e['e'] == "new":
-                    curr_date = time.time()
-                    users = [doc['_id'] for doc in request.db.on.find() ]
-                    print('users->', users)
-                    for client in clients:
-                        if ws != client:
-                            client.send_str(json.dumps({"e":"on", "users":users }))
-                            # ws.send_str( json.dumps({"e":"on", "users":users }) )
-                elif e['e'] == "upd_on":
-                    request.db.on.update({"_id":e['user_id']}, {"$currentDate": {"date": {"$type": "timestamp"}}} )
-                    # request.db.on.update({"_id":e['user_id']}, {"date":""})
-        elif msg.tp == aiohttp.MsgType.error:
-            print('ws connection closed with exception %s' % ws.exception())
+                    if e['e'] == "new":
+                        curr_date = time.time()
+                        users = [doc['_id'] for doc in request.db.on.find() ]
+                        print('users->', users)
+                        for client in clients:
+                            if ws != client:
+                                client.send_str(json.dumps({"e":"on", "users":users }))
+                                # ws.send_str( json.dumps({"e":"on", "users":users }) )
+                    elif e['e'] == "upd_on":
+                        request.db.on.update({"_id":e['user_id']}, {"$currentDate": {"date": {"$type": "timestamp"}}} )
+                        # request.db.on.update({"_id":e['user_id']}, {"date":""})
+            elif msg.tp == aiohttp.MsgType.error:
+                print('ws connection closed with exception %s' % ws.exception())
+        except Exception as e:
+            print('Dark forces tried to break down our infinite loop', e)
+            traceback.print_tb(e.__traceback__)
+
 
     print('websocket connection closed')
 
