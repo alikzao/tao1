@@ -62,30 +62,34 @@ async def online(request):
     clients.append(ws)
 
     async for msg in ws:
-        try:
-            if msg.tp == aiohttp.MsgType.text:
-                if msg.data == 'close': await ws.close()
-                else:
-                    e = json.loads(msg.data)
-                    print('msg.data->', e)
+        # try:
+        if msg.tp == aiohttp.MsgType.text:
+            if msg.data == 'close': await ws.close()
+            else:
+                e = json.loads(msg.data)
+                print('msg.data->', e)
 
-                    if e['e'] == "new":
-                        users = [doc['_id'] for doc in request.db.on.find() ]
-                        print('users->', users)
-                        for client in clients:
-                            if ws != client:
-                                client.send_str(json.dumps({"e":"on", "users":users }))
-                    # elif e['e'] == "upd_on":
-                    #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
-            elif msg.tp == aiohttp.MsgType.pong:
-                print('ws pong')
-                if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
-                    request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
-            elif msg.tp == aiohttp.MsgType.error:
-                print('ws connection closed with exception %s' % ws.exception())
-        except Exception as e:
-            print('Dark forces tried to break down our infinite loop', e)
-            traceback.print_tb(e.__traceback__)
+                if e['e'] == "new":
+                    users = [doc['_id'] for doc in request.db.on.find() ]
+                    print('users->', users)
+                    for client in clients:
+                        # if ws != client:
+                        print('send')
+                        client.send_str(json.dumps({"e":"on", "users":users }))
+                # elif e['e'] == "upd_on":
+                #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
+        elif msg.tp == aiohttp.MsgType.ping:
+            print('Ping received')
+            ws.pong()
+        elif msg.tp == aiohttp.MsgType.pong:
+            print('Pong received')
+            if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
+                request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
+        elif msg.tp == aiohttp.MsgType.error:
+            print('ws connection closed with exception %s' % ws.exception())
+        # except Exception as e:
+        #     print('Dark forces tried to break down our infinite loop', e)
+        #     traceback.print_tb(e.__traceback__)
 
     print('websocket connection closed')
     return ws
@@ -95,8 +99,9 @@ async def ping_chat_task():
     while True:
         for client in clients:
             # client.pong(message=b'pong')
-            client.ping(message=b'ping')
-            break
+            client.ping()
+            # client.ping(message=b'ping')
+            print('ping task')
         await asyncio.sleep(20)
 
 
@@ -104,7 +109,7 @@ async def check_online_task():
     while True:
         ts = time.time()
         for res in app.db.on.find():
-            print( res )
+            # print( res )
             if int(res['date']) < 30: #600
                 app.on.chat.remove({"_id":res['_id']})
             break
