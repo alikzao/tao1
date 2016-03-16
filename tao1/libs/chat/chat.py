@@ -70,16 +70,13 @@ async def online(request):
                     print('msg.data->', e)
 
                     if e['e'] == "new":
-                        curr_date = time.time()
                         users = [doc['_id'] for doc in request.db.on.find() ]
                         print('users->', users)
                         for client in clients:
                             if ws != client:
                                 client.send_str(json.dumps({"e":"on", "users":users }))
-                                # ws.send_str( json.dumps({"e":"on", "users":users }) )
-                    elif e['e'] == "upd_on":
-                        request.db.on.update({"_id":e['user_id']}, {"$currentDate": {"date": {"$type": "timestamp"}}} )
-                        # request.db.on.update({"_id":e['user_id']}, {"date":""})
+                    # elif e['e'] == "upd_on":
+                    #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
             elif msg.tp == aiohttp.MsgType.pong:
                 print('ws pong')
                 if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
