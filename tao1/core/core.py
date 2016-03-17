@@ -213,11 +213,11 @@ def send_mail(app):
         subject = doc['subject']
         msg = MIMEText( doc['body'].encode('UTF-8'), _subtype='html', _charset='utf-8' )
         msg['Subject'] = subject
-        msg['From'] = get_const_value('sub_mail', 'mailer@'+settings.domain)
+        msg['From'] = get_const_value(app, 'sub_mail', 'mailer@'+settings.domain)
         msg['To'] = to
         print('send_msg', msg)
-        s.sendmail(msg['From'], [msg['To']], msg.as_string())
-        app.db.queue.mail.remove(doc)
+        # s.sendmail(msg['From'], [msg['To']], msg.as_string())
+        # app.db.queue.mail.remove(doc)
     s.quit()
 
 
