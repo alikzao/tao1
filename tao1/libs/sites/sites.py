@@ -492,7 +492,7 @@ async def user_status_post(request):
 		user_id = 'user:'+s['user_id']
 		user = request.db.doc.find_one({"_id":user_id})
 		ac = request.db.doc.find({'doc_type':'des:comments', 'doc.parent_comm':user_id, 'doc.hidden':{'$ne':'true'} }).count()
-		rate = float( user['doc'].get('rate', 0) )
+		rate = float( user['doc'].get('rate', 0.0) )
 		is_adm = is_admin(request)
 		abuse = request.db.doc.find({'doc_type':'des:spam', 'doc.read':{'$ne':'true'}}).count() if is_adm else 0
 
