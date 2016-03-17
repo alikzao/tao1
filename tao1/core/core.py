@@ -197,8 +197,6 @@ def s_mail(to, from_, mess):
     s.quit()
 
 
-# def send_mail():
-#     from core.union import app
 def send_mail(app):
     import smtplib
     from email.mime.text import MIMEText
@@ -215,6 +213,7 @@ def send_mail(app):
         msg['Subject'] = subject
         msg['From'] = get_const_value('sub_mail', 'mailer@'+settings.domain)
         msg['To'] = to
+        print('send_msg', msg)
         s.sendmail(msg['From'], [msg['To']], msg.as_string())
         app.db.queue.mail.remove(doc)
     s.quit()
