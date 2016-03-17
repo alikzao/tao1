@@ -200,6 +200,7 @@ def s_mail(to, from_, mess):
 def send_mail(app):
     import smtplib
     from email.mime.text import MIMEText
+    print('send_mail')
     s = smtplib.SMTP()
     s.connect('localhost') # connect to the SMTP server
     while True:
