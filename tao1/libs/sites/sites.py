@@ -490,9 +490,8 @@ async def user_status_post(request):
 
 	if user_is_logged:
 		user_id = 'user:'+s['user_id']
-		# user = request.db.doc.find_one({"_id":user_id})
 		user = request.db.doc.find_one({'$or': [{"_id": user_id}, {'doc.mail': s['user_id']}]})
-		print('user', user, 'uid', 'user:'+s['user_id'])
+		# print('user', user, 'uid', 'user:'+s['user_id'])
 		ac = request.db.doc.find({'doc_type':'des:comments', 'doc.parent_comm':user_id, 'doc.hidden':{'$ne':'true'} }).count()
 		try:
 			rate = float( user['doc'].get('rate', 0) )
