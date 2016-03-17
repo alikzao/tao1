@@ -46,6 +46,7 @@ tpl_globals = {
     'h':htmlspecialchars,
 }
 mc = None
+app = None
 
 
 async def init(loop):

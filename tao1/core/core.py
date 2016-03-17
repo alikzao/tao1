@@ -197,8 +197,9 @@ def s_mail(to, from_, mess):
     s.quit()
 
 
-def send_mail():
-    from core.union import app
+# from core.union import app
+# def send_mail():
+def send_mail(app):
     import smtplib
     from email.mime.text import MIMEText
     s = smtplib.SMTP()
