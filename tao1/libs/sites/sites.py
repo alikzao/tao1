@@ -497,13 +497,15 @@ async def user_status_post(request):
 		except: rate = 0.0
 		is_adm = is_admin(request)
 		abuse = request.db.doc.find({'doc_type':'des:spam', 'doc.read':{'$ne':'true'}}).count() if is_adm else 0
-
+		try:
+			name = ct(request, user['doc'].get('name', '') )
+		except:name = ''
 		return response_json(request, {'result': 'ok', 'panel':templ_str('soc_h2',  request, dict(
 				rate=rate, news_map = get_news_map(request, 'des:obj'), answer_comm=ac, abuse=abuse, is_logged=user_is_logged,
 				user_id= user_id, is_admin=is_adm
 		    )),
 		    'user':{
-				'name': ct(request, user['doc'].get('name', '') ),
+				'name': name,
 				'id': user['_id'],
 				'is_admin': is_adm,
 				'is_logged_in':user_is_logged,
