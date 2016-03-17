@@ -161,17 +161,16 @@ def main_page_signup(request):
 
 
 def signup_in(request, mail, code):
-	db = request.db
-	doc = db.doc.find_one({'doc_type':'des:users', 'mail':mail})
+	doc = request.db.doc.find_one({'doc_type':'des:users', 'mail':mail})
 	if not doc:
-		return templ('sub_anonim_yes', request, dict(mess=u'Неизвестный E-mail'))
+		return templ('sub_anonim_yes', request, {'mess':'Unknown E-mail'} )
 	if 'confirmed' in doc['doc'] and doc['doc']['confirmed'] == 'true':
-		return templ('sub_anonim_yes', request, dict(mess=u'Регистрация уже подтверждена'))
+		return templ('sub_anonim_yes', request, {'mess':'Registration has already been confirmed'})
 	if 'code_sub_in' in doc['doc'] and doc['doc']['code_sub_in'] != code:
-		return templ('sub_anonim_yes', request, dict(mess=u'Код регистрации не верный'))
+		return templ('sub_anonim_yes', request, {'mess':'Registration code is incorrect'})
 	doc['doc']['confirmed'] = 'true'
-	db.doc.save(doc)
-	return templ('sub_anonim_yes', request, dict(mess = u'Регистрация успешно подтверждена'))
+	request.db.doc.save(doc)
+	return templ('error_page', request, {'mess':'Registration successfully verified'})
 
 
 def main_page_login(request):

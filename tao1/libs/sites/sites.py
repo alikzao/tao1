@@ -482,6 +482,7 @@ async def user_status_post(request):
 	else:
 		# request.db.on.update({"_id":s['user_id']}, {"$currentDate": {"date": {"$type":"timestamp"}}}, True )
 		request.db.on.update({"_id":s['user_id']}, {"$set":{"date": time.time() } }, True )
+		request.db.doc.update({"_id": "user:" + s['user_id']}, {"$set": {"status": "on"}})
 
 		user_is_logged = True
 	# print( 's', s, cur_lang(request) )

@@ -199,14 +199,13 @@ def s_mail(to, from_, mess):
 def send_mail(request):
     import smtplib
     from email.mime.text import MIMEText
-    db = request.db
     s = smtplib.SMTP()
     s.connect('localhost') # connect to the SMTP server
     while True:
-        doc = db.queue.mail.find_one({"sending":{"$exists":False}})
+        doc = request.db.queue.mail.find_one({"sending":{"$exists":False}})
         if not doc: break
         doc['sending']= True
-        db.queue.mail.save(doc)
+        request.db.queue.mail.save(doc)
         to = doc['to']
         subject = doc['subject']
         msg = MIMEText( doc['body'].encode('UTF-8'), _subtype='html', _charset='utf-8' )
@@ -214,7 +213,7 @@ def send_mail(request):
         msg['From'] = get_const_value('sub_mail', 'mailer@'+settings.domain)
         msg['To'] = to
         s.sendmail(msg['From'], [msg['To']], msg.as_string())
-        db.queue.mail.remove(doc)
+        request.db.queue.mail.remove(doc)
     s.quit()
 
 
