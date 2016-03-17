@@ -203,7 +203,7 @@ def send_mail(app):
     import smtplib
     from email.mime.text import MIMEText
     s = smtplib.SMTP()
-    # s.connect('localhost') # connect to the SMTP server
+    s.connect('localhost') # connect to the SMTP server
     while True:
         doc = app.db.queue.mail.find_one({"sending":{"$exists":False}})
         if not doc: break
