@@ -165,11 +165,11 @@ def signup_in(request):
 	code = request.match_info.get('code', '')
 	doc = request.db.doc.find_one({'doc_type':'des:users', 'mail':mail})
 	if not doc:
-		return templ('sub_anonim_yes', request, {'mess':'Unknown E-mail'} )
+		return templ('error_page', request, {'mess':'Unknown E-mail'} )
 	if 'confirmed' in doc['doc'] and doc['doc']['confirmed'] == 'true':
-		return templ('sub_anonim_yes', request, {'mess':'Registration has already been confirmed'})
+		return templ('error_page', request, {'mess':'Registration has already been confirmed'})
 	if 'code_sub_in' in doc['doc'] and doc['doc']['code_sub_in'] != code:
-		return templ('sub_anonim_yes', request, {'mess':'Registration code is incorrect'})
+		return templ('error_page', request, {'mess':'Registration code is incorrect'})
 	doc['doc']['confirmed'] = 'true'
 	request.db.doc.save(doc)
 	return templ('error_page', request, {'mess':'Registration successfully verified'})
