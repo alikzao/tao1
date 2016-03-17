@@ -503,7 +503,7 @@ async def user_status_post(request):
 		except:name = ''
 		return response_json(request, {'result': 'ok', 'panel':templ_str('soc_h2',  request, dict(
 				rate=rate, news_map = get_news_map(request, 'des:obj'), answer_comm=ac, abuse=abuse, is_logged=user_is_logged,
-				user_id= user_id, is_admin=is_adm
+				user_id= user['_id'], is_admin=is_adm
 		    )),
 		    'user':{
 				'name': name,
