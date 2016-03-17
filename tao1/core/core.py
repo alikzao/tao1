@@ -216,8 +216,8 @@ def send_mail(app):
         msg['From'] = get_const_value(app, 'sub_mail', 'mailer@'+settings.domain)
         msg['To'] = to
         print('send_msg', msg)
-        # s.sendmail(msg['From'], [msg['To']], msg.as_string())
-        # app.db.queue.mail.remove(doc)
+        s.sendmail(msg['From'], [msg['To']], msg.as_string())
+        app.db.queue.mail.remove(doc)
     s.quit()
 
 
