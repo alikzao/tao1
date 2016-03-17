@@ -503,7 +503,7 @@ async def user_status_post(request):
 				user_id= user_id, is_admin=is_adm
 		    )),
 		    'user':{
-				'name': ct(request, user['doc']['name']),
+				'name': ct(request, user['doc'].get('name', '') ),
 				'id': user['_id'],
 				'is_admin': is_adm,
 				'is_logged_in':user_is_logged,
