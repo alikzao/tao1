@@ -196,16 +196,18 @@ def s_mail(to, from_, mess):
     s.sendmail(msg['From'], [msg['To']], msg.as_string())
     s.quit()
 
-def send_mail(request):
+
+def send_mail():
+    from core.union import app
     import smtplib
     from email.mime.text import MIMEText
     s = smtplib.SMTP()
     s.connect('localhost') # connect to the SMTP server
     while True:
-        doc = request.db.queue.mail.find_one({"sending":{"$exists":False}})
+        doc = app.db.queue.mail.find_one({"sending":{"$exists":False}})
         if not doc: break
         doc['sending']= True
-        request.db.queue.mail.save(doc)
+        app.db.queue.mail.save(doc)
         to = doc['to']
         subject = doc['subject']
         msg = MIMEText( doc['body'].encode('UTF-8'), _subtype='html', _charset='utf-8' )
@@ -213,7 +215,7 @@ def send_mail(request):
         msg['From'] = get_const_value('sub_mail', 'mailer@'+settings.domain)
         msg['To'] = to
         s.sendmail(msg['From'], [msg['To']], msg.as_string())
-        request.db.queue.mail.remove(doc)
+        app.db.queue.mail.remove(doc)
     s.quit()
 
 
