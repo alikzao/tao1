@@ -160,7 +160,9 @@ def main_page_signup(request):
 	return {"result":"warn", "mess":mess.decode('UTF-8')}
 
 
-def signup_in(request, mail, code):
+def signup_in(request):
+	mail = request.match_info.get('mail', '')
+	code = request.match_info.get('code', '')
 	doc = request.db.doc.find_one({'doc_type':'des:users', 'mail':mail})
 	if not doc:
 		return templ('sub_anonim_yes', request, {'mess':'Unknown E-mail'} )
