@@ -224,7 +224,7 @@ async def add_files_post(request):
 	data = await request.post()
 	proc_id = data.get('proc_id', 'des:obj')
 	# if not user_has_permission(proc_id, 'create'):
-	# 	return {"result": "fail", "proc_id":proc_id, "error":"You have no permission."}
+	# 	return 	response_json(request, {"result": "fail", "proc_id":proc_id, "error":"You have no permission."})
 	res = True
 	img = data.get('image', '')
 	file_st = data.get('file_st', '')
@@ -234,17 +234,16 @@ async def add_files_post(request):
 	admin = get_settings('admin', '')
 	if not admin.startswith('user:'): admin = 'user:'+admin
 	doc_id = data.get('doc_id', '')
+
 	doc = get_doc(request, doc_id, proc_id)
 	if not doc:
-		doc = get_doc(doc_id)
-	if 'head_field' in doc and 'user' in doc['head_field'] and doc['head_field']['user'] == admin and proc_id == 'des:obj':
+		doc = get_doc(request, doc_id)
+	if 'doc' in doc and 'user' in doc['doc'] and doc['doc']['user'] == admin and proc_id == 'des:obj':
 		pref = 'admin_img'
-	elif 'head_field' in doc and 'user' in doc['head_field'] and doc['head_field']['user'] == admin and proc_id == 'des:banners':
+	elif 'doc' in doc and 'user' in doc['doc'] and doc['doc']['user'] == admin and proc_id == 'des:banners':
 		pref = 'admin_img_b'
 	elif proc_id == 'des:news': pref = 'news_img'
 	elif proc_id == 'des:users': pref = 'user_icon'
-	elif proc_id == 'des:radio': pref = 'radio_img'
-	elif proc_id == 'col:templ' and doc_id == 'tv_frame_main.tpl': pref = 'tv_img'
 	else: pref = 'user_img'
 	for file in img:
 		res = res and add_file(request, proc_id, doc_id, file, water_mark, pref=pref )

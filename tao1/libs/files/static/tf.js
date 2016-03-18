@@ -208,6 +208,7 @@
 
         function show(doc_id){
             //сначала нарисовать галерею пустую в ней значек загрузки
+            alert(doc_id);
             curent_doc_id = doc_id;
             dialog.modal('show');
             update(curent_doc_id);

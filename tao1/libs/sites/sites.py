@@ -157,7 +157,7 @@ def get_full_doc(request, doc_id, avatar=False, img_ctr=1):
 			units = ct(units['doc']['title'])
 		except: units = ''
 
-	d_img = doc['default_img'] if 'default_img' in doc and doc['default_img'] else None
+	d_img = doc.get('default_img', None)
 	attachment = get_nf(request, proc_id, doc['_id'], img_ctr)
 	data = doc['doc']
 	meta_table = get_mt(request, proc_id)['doc']
@@ -165,7 +165,7 @@ def get_full_doc(request, doc_id, avatar=False, img_ctr=1):
 		if f['id'] in data and 'is_translate' in f and (f['is_translate'] == 'true' or f['is_translate'] == True):
 			data[f['id']] = ct(request, data[f['id']])
 	tags = doc['tags'][cur_lang(request)] if 'tags' in doc and cur_lang(request) in doc['tags'] and doc['tags'][cur_lang(request)] else ''
-	fn = doc['final_name'] if 'final_name' in doc else ''
+	fn = doc.get('final_name', '')
 	return {"id": doc_id, "_id": doc['_id'], 'units':units, 'final_name':fn, 'count_branch':cb, "doc": data,
 	        "att": attachment, 'default_img':d_img, 'proc_id':proc_id, 'vote':get_vote(doc), 'tags':tags, 'poll':poll}
 

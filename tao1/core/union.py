@@ -38,6 +38,7 @@ tpl_globals = {
     'str':str,
     'len':len,
     'int':int,
+    'list':list,
     'float':float,
     'quote_url':quote,
     'urlparse':urlparse,
