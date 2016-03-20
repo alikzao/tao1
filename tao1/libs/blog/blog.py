@@ -171,6 +171,7 @@ def signup_in(request):
 	if 'code_sub_in' in doc['doc'] and doc['doc']['code_sub_in'] != code:
 		return templ('error_page', request, {'mess':'Registration code is incorrect'})
 	doc['doc']['confirmed'] = 'true'
+	doc['doc']['accept'] = 'true'
 	request.db.doc.save(doc)
 	return templ('error_page', request, {'mess':'Registration successfully verified'})
 
@@ -238,13 +239,13 @@ def subscribe_out(request, mail, code):
 
 
 def subscribe(request):
-	user = get_doc(get_current_user(True))
+	user = get_doc(request, get_current_user(request, True))
 	if not 'subscription' in user: user['subscription'] = {}
 	return templ('subscribe', request, dict(subscribe = user['subscription']))
 
 
 def subscribe_post(request):
-	user = get_doc(get_current_user(True))
+	user = get_doc(request, get_current_user(request, True))
 	if not 'subscription' in user: user['subscription'] = {}
 	channel = get_post('channel')
 	status = get_post('status')
