@@ -71,14 +71,19 @@ async def online(request):
                 print('msg.data->', e)
 
                 if e['e'] == "new":
-                    users = [doc['_id'] for doc in request.db.on.find() ]
-                    print('users->', users)
-                    for client in clients:
-                        # if ws != client:
-                        print('send')
-                        client.send_str(json.dumps({"e":"on", "users":users }))
+                    try:
+                        users = [doc['_id'] for doc in request.db.on.find() ]
+                        print('ws users->', users)
+                        for client in clients:
+                            # if ws != client:
+                            msg = {"e":"on", "users":users }
+                            print('ws send', msg)
+                            client.send_str(json.dumps(msg))
+                    except:pass
                 elif e['e'] == "pong":
+                    print( 'ws pong', e)
                     if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
+                        print( 'ws pong s[user_id]', s['user_id'])
                         request.db.on.update({"_id": s['user_id']}, {"$set": {"date": time.time()}})
 
                         # elif e['e'] == "upd_on":
@@ -117,13 +122,13 @@ async def check_online_task():
         ts = time.time()
         for res in app.db.on.find():
             print( 'check_online_task for res=>', res )
-            ts = time.time() - 30
+            ts = time.time() - 20
             if int(res['date']) < ts: #600
                 print( 'check_online_task if res=>', res )
                 app.db.on.remove({"_id":res['_id']})
                 app.db.doc.update({"_id":"user:"+res['_id']}, {"$set":{"status":"off"}})
             # break
-        await asyncio.sleep(30)
+        await asyncio.sleep(20)
 
 
 

@@ -7,14 +7,8 @@
 
 
         // setTimeout(function() {
-        //     var user_id = $('[user_id]'); //TODO
-        //     // ws.send( JSON.stringify( { 'e':'upd_on', 'id':user_id} ) );
-        //     ws.send( JSON.stringify( { 'e':'upd_on', 'id':'user_id'} ) );
-        // }, 300);
-
-        setTimeout(function() {
-            ws.send( JSON.stringify( { 'e':'ping' } ) );
-        }, 1000);
+        //     ws.send( JSON.stringify( { 'e':'ping' } ) );
+        // }, 1000);
 
 
 
@@ -30,21 +24,14 @@
                     $('[user_id="' + us[res] + '"]').find('.fa-circle').css('color', '#00a300');
                 }
             } else if (msg.e == 'ping') {
+                console.warn('ping', msg);
                 ws.send( JSON.stringify( { 'e':'pong'} ) );
-            } else if (msg.e == 'move') {
-
             } else {
 
             }
         };
-        ws.onclose = function (e) {
-            console.log('close: ', e);
-            if (e.wasClean) console.log('Connection was closed cleanly');
-            else console.log('Disconnect the connection');
-        };
-        ws.onerror = function (error) {
-            console.log("Error: error " + error);
-        };
+        ws.onclose = function (e)     { console.log('Connection close:', e     ); };
+        ws.onerror = function (error) { console.log('Connection error:', error ); };
     }
 
 
