@@ -380,13 +380,14 @@ def link_upload_post_(url, proc_id, doc_id, avatar=False, pref="def"):
 	add_file_raw(proc_id, doc_id, fl.content, fl.headers['content-type'], file_name, pref=pref)
 
 
-def set_def_img(request):
-	img  = get_post('id_img')
-	doc_id  = get_post('doc_id')
-	proc_id  = get_post('proc_id')
-	doc = get_doc(doc_id, proc_id)
+async def set_def_img(request):
+	data = await request.post()
+	img  = data.get('id_img', '')
+	doc_id  = data.get('doc_id')
+	proc_id  = data.get('proc_id')
+	doc = request.db.doc.find_one({"_id": doc_id})
 	doc['default_img'] = img
-	save_doc(doc, proc_id)
+	request.db.doc.save(doc)
 	return response_json(request, {"result":"ok", "doc_id":doc_id, "img":img})
 
 

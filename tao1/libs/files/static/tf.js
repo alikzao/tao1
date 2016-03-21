@@ -79,7 +79,9 @@
                 console.info('video');
             }
         });
-        dialog.on('click', '.btn.default', function(){ set_def_img(img_large.attr('file_name'), curent_doc_id) });
+        dialog.on('click', '.btn.default', function(){
+            set_def_img( img_large.attr('file_name'), curent_doc_id )
+        });
         dialog.on('click', '.img_large', function(){
             if(!$(this).closest('[contenteditable="true"]').length){
                 show_full_img($(this).attr('src'));
