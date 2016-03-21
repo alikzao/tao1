@@ -276,7 +276,7 @@ def upload_video(request, proc_id, doc_id, raw, mime, file_name, water_mark, pre
 	# open(fname, 'wb').write(raw)
 	open(fname, 'w').write(raw)
 
-	doc = get_doc(doc_id)
+	doc = get_doc(request, doc_id)
 	if not 'files' in doc:
 		doc['files'] = []
 	doc['files'].append( file_name )
