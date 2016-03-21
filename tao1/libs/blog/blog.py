@@ -155,7 +155,7 @@ def main_page_signup(request):
 	       <p>Для подтверждения регистрации на сайте {0} перейдите по следующей <a href="{1}">ссылке</a>.</p>
 	       </body></html>""".format( dom, link_confirm )
 
-	route_mail(email, u'Подтверждение регистрации '+dom, text)
+	route_mail(email, 'Подтверждение регистрации '+dom, text)
 
 	return {"result":"warn", "mess":mess.decode('UTF-8')}
 
@@ -184,7 +184,7 @@ def main_page_login(request):
 	passw = getmd5(passwd)
 	for res in db.doc.find({'doc_type':'des:users', 'mail':mail}):
 		if not 'confirmed' in res['doc']:
-			mess = u'Вы зарегистрированы только через социальные сети, либо не подтвердили свой электронный адрес'
+			mess = 'Вы зарегистрированы только через социальные сети, либо не подтвердили свой электронный адрес'
 			return {"result":"warn", "mess":mess}
 		if passw == res['password']:
 			s['user_id'] = mail
@@ -206,7 +206,7 @@ def subscribe_new(request):
 	update_row_('des:subscr', doc_id, {"mail":mail, "ip":ip, 'user_agent':str(user_agent), 'confirmed': 'false', 'code_sub_in':code_sub_in, 'code_sub_out':code_sub_out}, '_')
 	dom = get_settings('domain')
 	link_confirm = 'http://'+dom+'/subscribe/in/'+mail+'/'+code_sub_in
-	route_mail(mail, u'Подтверждение подписки '+dom, link_confirm)
+	route_mail(mail, 'Подтверждение подписки '+dom, link_confirm)
 	return {"result":"ok"}
 
 
