@@ -196,20 +196,20 @@ def del_files_video(request, doc_id, file_name, proc_id):
 
 def del_files(request, doc_id, file_name, proc_id):
 	fs = GridFS(request.db)
-	doc = get_doc(doc_id, proc_id)
+	doc = get_doc(request, doc_id, proc_id)
 	if doc and 'default_img' in doc:
 		del doc['default_img']
 		request.db.doc.save(doc)
 	try:
-		fn = get_file_meta(proc_id, file_name, doc_id, 'thumb')
+		fn = get_file_meta(request, proc_id, file_name, doc_id, 'thumb')
 		fs.delete(fn['_id'])
 	except:pass
 	try:
-		fn = get_file_meta(proc_id, file_name, doc_id, 'orig')
+		fn = get_file_meta(request, proc_id, file_name, doc_id, 'orig')
 		fs.delete(fn['_id'])
 	except:pass
 	try:
-		fn = get_file_meta(proc_id, file_name, doc_id, 'middle')
+		fn = get_file_meta(request, proc_id, file_name, doc_id, 'middle')
 		fs.delete(fn['_id'])
 	except:pass
 	return response_json(request, {"result":"ok"})
