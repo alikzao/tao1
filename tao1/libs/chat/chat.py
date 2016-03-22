@@ -107,13 +107,18 @@ async def online(request):
 
 async def ping_chat_task():
     while True:
-        for client in clients:
-            # client.pong(message=b'pong')
-            client.ping()
-            client.send_str(json.dumps({"e": "ping"}))
+        try:
+            for client in clients:
+                # client.pong(message=b'pong')
+                client.ping()
+                client.send_str(json.dumps({"e": "ping"}))
 
-            # client.ping(message=b'ping')
-            # print('ping task')
+                # client.ping(message=b'ping')
+                # print('ping task')
+        except Exception as e:
+            traceback.print_exc()
+            print('Bot error: {}'.format(e))
+
         await asyncio.sleep(20)
 
 
