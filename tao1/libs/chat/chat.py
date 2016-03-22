@@ -123,7 +123,7 @@ async def ping_chat_task():
             traceback.print_exc()
             print('Ping task error: {}'.format(e))
 
-        await asyncio.sleep(5)
+        await asyncio.sleep(20)
 
 
 async def check_online_task():
@@ -140,7 +140,7 @@ async def check_online_task():
         except Exception as e:
             traceback.print_exc()
             print('Ping task error: {}'.format(e))
-        await asyncio.sleep(5)
+        await asyncio.sleep(20)
 
 
 
