@@ -112,6 +112,7 @@ async def ping_chat_task():
                 # client.pong(message=b'pong')
                 # client.ping()
                 try:
+                    print('ping_task=>', client)
                     client.send_str(json.dumps({"e": "ping"}))
                 except Exception as e:
                     traceback.print_exc()
