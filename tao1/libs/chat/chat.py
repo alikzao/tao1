@@ -84,7 +84,7 @@ async def online(request):
                     elif e['e'] == "pong":
                         print( 'ws pong', e)
                         if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
-                            print( 'ws pong s[user_id]', s['user_id'])
+                            print( 'ws update time s[user_id]', s['user_id'])
                             request.db.on.update({"_id": s['user_id']}, {"$set": {"date": time.time()}})
 
                             # elif e['e'] == "upd_on":
@@ -114,6 +114,10 @@ async def finish(ws):
     if not ws.closed:
         await ws.close()
 
+tm = 65
+sl = 20
+# tm = 15
+# sl = 5
 
 async def ping_chat_task():
     while True:
@@ -134,7 +138,7 @@ async def ping_chat_task():
             traceback.print_exc()
             print('Ping task error: {}'.format(e))
 
-        await asyncio.sleep(20)
+        await asyncio.sleep(sl)
 
 
 async def check_online_task():
@@ -142,7 +146,7 @@ async def check_online_task():
         try:
             for res in app.db.on.find():
                 print( 'check_online_task for res=>', res )
-                ts = time.time() - 60
+                ts = time.time() - tm
                 if res['date'] < ts: #600
                     print( 'check_online_task if res=>', res )
                     app.db.on.remove({"_id":res['_id']})
@@ -151,7 +155,7 @@ async def check_online_task():
         except Exception as e:
             traceback.print_exc()
             print('Ping task error: {}'.format(e))
-        await asyncio.sleep(20)
+        await asyncio.sleep(sl)
 
 
 
