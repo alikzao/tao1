@@ -65,7 +65,8 @@ async def online(request):
         try:
             print('msg.tp=>', msg.tp)
             if msg.tp == aiohttp.MsgType.text:
-                if msg.data == 'close': finish(ws)
+                if msg.data == 'close':
+                    finish(ws)
                 else:
                     e = json.loads(msg.data)
                     print('msg.data->', e)
@@ -88,13 +89,13 @@ async def online(request):
 
                             # elif e['e'] == "upd_on":
                     #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
-            elif msg.tp == aiohttp.MsgType.ping:
-                print('Ping received')
-                ws.pong()
-            elif msg.tp == aiohttp.MsgType.pong:
-                print('Pong received')
-                if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
-                    request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
+            # elif msg.tp == aiohttp.MsgType.ping:
+            #     print('Ping received')
+            #     ws.pong()
+            # elif msg.tp == aiohttp.MsgType.pong:
+            #     print('Pong received')
+            #     if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
+            #         request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
             elif msg.tp == aiohttp.MsgType.error:
                 print('ws connection closed with exception %s' % ws.exception())
                 finish(ws)
@@ -117,6 +118,7 @@ async def finish(ws):
 async def ping_chat_task():
     while True:
         try:
+            print('ping_task_clients=>', clients)
             for client in clients:
                 # client.pong(message=b'pong')
                 # client.ping()
@@ -140,7 +142,7 @@ async def check_online_task():
         try:
             for res in app.db.on.find():
                 print( 'check_online_task for res=>', res )
-                ts = time.time() - 20
+                ts = time.time() - 30
                 if int(res['date']) < ts: #600
                     print( 'check_online_task if res=>', res )
                     app.db.on.remove({"_id":res['_id']})
