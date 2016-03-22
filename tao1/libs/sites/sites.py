@@ -121,8 +121,10 @@ def get_full_docs(request, docs, img_ctr=1):
 		last_comm = doc['last'] if 'last' in doc else {}
 		owner = doc['owner'] if 'owner' in doc else '-'
 
-		d_img = doc['default_img'] if 'default_img' in doc and doc['default_img'] else None
+		# d_img = doc['default_img'] if 'default_img' in doc and doc['default_img'] else None
+		d_img = doc.get('default_img', None)
 		attachment = get_nf(request, proc_id, doc_id, img_ctr, False, d_img)
+		img = get_curr_img(doc, attachment, img_ctr=1 )
 
 		data = doc['doc']
 
@@ -131,16 +133,18 @@ def get_full_docs(request, docs, img_ctr=1):
 		child =  doc['child']  if 'child'  in doc and doc['child']  else '_'
 
 		poll=[]
-		full_doc = {"_id":doc['_id'], "id": doc_id, "doc": data, "att": attachment, "img":get_curr_img(doc, attachment), 'default_img':d_img,
+		full_doc = {"_id":doc['_id'], "id": doc_id, "doc": data, "att": attachment, "img":img,
 		            'proc_id':proc_id, 'count_branch':cb, 'last_comm':last_comm, 'vote':get_vote(doc), 'tags':tags, 'poll':poll,
 		            'parent':parent, 'child':child, 'owner':owner}
 		full_docs.append(full_doc)
 	return full_docs
 
 
-def get_curr_img(doc, attachment, def_name = ''):
+def get_curr_img(doc, attachment, def_name = '', img_ctr=1):
 	if 'default_img' in doc: return doc['default_img']
 	if len(attachment):
+		if img_ctr==1:
+			return list(attachment.keys())[0]
 		return list(attachment.keys())
 	return def_name
 
