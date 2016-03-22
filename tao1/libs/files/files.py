@@ -94,16 +94,17 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
 			return attachments
 
 	if default_img:
-		# condition = {'doc_id':doc_id}
 	# 	condition = {'doc_id':doc_id, 'file_name': 'orig_' + default_img }
 		condition = {'doc_id':doc_id, 'file_name': re.compile('^orig_', re.I | re.U) }
 	else:
 		condition = {'doc_id':doc_id, 'file_name': 'orig_avatar' if avatar else re.compile('^thumb_', re.I | re.U)}
+		print('condition ', {'doc_id':doc_id, 'file_name': 'orig_avatar' if avatar else re.compile('^thumb_', re.I | re.U)} )
 	req = request.db.fs.files.find(condition)
 	if is_limit:
 		req = req.limit(is_limit)
 	for res in req:
-#		if is_limit != None and ctr==is_limit: break
+		# if doc_id == "user:uk": print('att=========', res)
+		#		if is_limit != None and ctr==is_limit: break
 		fn = res['file_name']
 		if fn[4] == '_': fn = fn[5:]
 		elif fn[5] == '_': fn = fn[6:]
@@ -170,18 +171,19 @@ def get_file_meta(request, proc_id, file_name, doc_id, prefix=''):
 	return file_
 
 
-def del_files_post(request):
-	proc_id = get_post('proc_id')
+async def del_files_post(request):
+	data = await request.post()
+	proc_id = data.get('proc_id', 'des:obj')
 	# if not user_has_permission(proc_id, 'delete'):
 	# 	return {"result": "fail", "error": "You have no permission."}
-	doc_id = get_post('doc_id') 
-	type = get_post('type')
-	file_name = get_post('file_name')
+	doc_id = data.get('doc_id')
+	type = data.get('type')
+	file_name = data.get('file_name')
 	if file_name is None: return response_json(request, {"result":"fail", "error":"not file name"})
 	if type == 'video':
-		del_files_video(doc_id, file_name, proc_id)
+		del_files_video(request, doc_id, file_name, proc_id)
 	else:
-		del_files(doc_id, file_name, proc_id)
+		del_files(request, doc_id, file_name, proc_id)
 	return response_json(request, {"result":"ok"})
 
 

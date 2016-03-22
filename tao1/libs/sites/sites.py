@@ -123,8 +123,10 @@ def get_full_docs(request, docs, img_ctr=1):
 
 		# d_img = doc['default_img'] if 'default_img' in doc and doc['default_img'] else None
 		d_img = doc.get('default_img', None)
-		attachment = get_nf(request, proc_id, doc_id, img_ctr, False, d_img)
-		img = get_curr_img(doc, attachment, img_ctr=1 )
+		att = get_nf(request, proc_id, doc_id, img_ctr, False, d_img)
+		if doc_id == "user:uk":
+			print('att', att)
+		img = get_curr_img(doc, att, img_ctr=1 )
 
 		data = doc['doc']
 
@@ -133,7 +135,7 @@ def get_full_docs(request, docs, img_ctr=1):
 		child =  doc['child']  if 'child'  in doc and doc['child']  else '_'
 
 		poll=[]
-		full_doc = {"_id":doc['_id'], "id": doc_id, "doc": data, "att": attachment, "img":img,
+		full_doc = {"_id":doc['_id'], "id": doc_id, "doc": data, "att": att, "img":img,
 		            'proc_id':proc_id, 'count_branch':cb, 'last_comm':last_comm, 'vote':get_vote(doc), 'tags':tags, 'poll':poll,
 		            'parent':parent, 'child':child, 'owner':owner}
 		full_docs.append(full_doc)
