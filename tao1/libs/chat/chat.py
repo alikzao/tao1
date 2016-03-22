@@ -110,9 +110,12 @@ async def ping_chat_task():
         try:
             for client in clients:
                 # client.pong(message=b'pong')
-                client.ping()
-                client.send_str(json.dumps({"e": "ping"}))
-
+                # client.ping()
+                try:
+                    client.send_str(json.dumps({"e": "ping"}))
+                except Exception as e:
+                    traceback.print_exc()
+                    print('Ping task error: {}'.format(e))
                 # client.ping(message=b'ping')
                 # print('ping task')
         except Exception as e:
@@ -124,15 +127,18 @@ async def ping_chat_task():
 
 async def check_online_task():
     while True:
-        ts = time.time()
-        for res in app.db.on.find():
-            print( 'check_online_task for res=>', res )
-            ts = time.time() - 20
-            # if int(res['date']) < ts: #600
-            #     print( 'check_online_task if res=>', res )
-            #     app.db.on.remove({"_id":res['_id']})
-            #     app.db.doc.update({"_id":"user:"+res['_id']}, {"$set":{"status":"off"}})
-            # break
+        try:
+            for res in app.db.on.find():
+                print( 'check_online_task for res=>', res )
+                ts = time.time() - 20
+                if int(res['date']) < ts: #600
+                    print( 'check_online_task if res=>', res )
+                    app.db.on.remove({"_id":res['_id']})
+                    app.db.doc.update({"_id":"user:"+res['_id']}, {"$set":{"status":"off"}})
+                # break
+        except Exception as e:
+            traceback.print_exc()
+            print('Ping task error: {}'.format(e))
         await asyncio.sleep(5)
 
 
