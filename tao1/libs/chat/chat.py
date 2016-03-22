@@ -123,10 +123,10 @@ async def check_online_task():
         for res in app.db.on.find():
             print( 'check_online_task for res=>', res )
             ts = time.time() - 20
-            if int(res['date']) < ts: #600
-                print( 'check_online_task if res=>', res )
-                app.db.on.remove({"_id":res['_id']})
-                app.db.doc.update({"_id":"user:"+res['_id']}, {"$set":{"status":"off"}})
+            # if int(res['date']) < ts: #600
+            #     print( 'check_online_task if res=>', res )
+            #     app.db.on.remove({"_id":res['_id']})
+            #     app.db.doc.update({"_id":"user:"+res['_id']}, {"$set":{"status":"off"}})
             # break
         await asyncio.sleep(20)
 
