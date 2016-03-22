@@ -65,7 +65,7 @@ async def online(request):
         try:
             print('msg.tp=>', msg.tp)
             if msg.tp == aiohttp.MsgType.text:
-                if msg.data == 'close': await ws.close()
+                if msg.data == 'close': finish(ws)
                 else:
                     e = json.loads(msg.data)
                     print('msg.data->', e)
@@ -97,12 +97,21 @@ async def online(request):
                     request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
             elif msg.tp == aiohttp.MsgType.error:
                 print('ws connection closed with exception %s' % ws.exception())
+                finish(ws)
         except Exception as e:
             print('Dark forces tried to break down our infinite loop', e)
             traceback.print_tb(e.__traceback__)
 
     print('websocket connection closed')
+    finish(ws)
     return ws
+
+
+async def finish(ws):
+    if ws in clients:
+        clients.remove(ws)
+    if not ws.closed:
+        await ws.close()
 
 
 async def ping_chat_task():
