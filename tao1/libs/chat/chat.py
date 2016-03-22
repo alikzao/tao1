@@ -62,44 +62,44 @@ async def online(request):
     clients.append(ws)
 
     async for msg in ws:
-        # try:
-        print('msg.tp=>', msg.tp)
-        if msg.tp == aiohttp.MsgType.text:
-            if msg.data == 'close': await ws.close()
-            else:
-                e = json.loads(msg.data)
-                print('msg.data->', e)
+        try:
+            print('msg.tp=>', msg.tp)
+            if msg.tp == aiohttp.MsgType.text:
+                if msg.data == 'close': await ws.close()
+                else:
+                    e = json.loads(msg.data)
+                    print('msg.data->', e)
 
-                if e['e'] == "new":
-                    try:
-                        users = [doc['_id'] for doc in request.db.on.find() ]
-                        print('ws users->', users)
-                        for client in clients:
-                            # if ws != client:
-                            msg = {"e":"on", "users":users }
-                            print('ws send', msg)
-                            client.send_str(json.dumps(msg))
-                    except:pass
-                elif e['e'] == "pong":
-                    print( 'ws pong', e)
-                    if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
-                        print( 'ws pong s[user_id]', s['user_id'])
-                        request.db.on.update({"_id": s['user_id']}, {"$set": {"date": time.time()}})
+                    if e['e'] == "new":
+                        try:
+                            users = [doc['_id'] for doc in request.db.on.find() ]
+                            print('ws users->', users)
+                            for client in clients:
+                                # if ws != client:
+                                msg = {"e":"on", "users":users }
+                                print('ws send', msg)
+                                client.send_str(json.dumps(msg))
+                        except:pass
+                    elif e['e'] == "pong":
+                        print( 'ws pong', e)
+                        if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
+                            print( 'ws pong s[user_id]', s['user_id'])
+                            request.db.on.update({"_id": s['user_id']}, {"$set": {"date": time.time()}})
 
-                        # elif e['e'] == "upd_on":
-                #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
-        elif msg.tp == aiohttp.MsgType.ping:
-            print('Ping received')
-            ws.pong()
-        elif msg.tp == aiohttp.MsgType.pong:
-            print('Pong received')
-            if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
-                request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
-        elif msg.tp == aiohttp.MsgType.error:
-            print('ws connection closed with exception %s' % ws.exception())
-        # except Exception as e:
-        #     print('Dark forces tried to break down our infinite loop', e)
-        #     traceback.print_tb(e.__traceback__)
+                            # elif e['e'] == "upd_on":
+                    #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
+            elif msg.tp == aiohttp.MsgType.ping:
+                print('Ping received')
+                ws.pong()
+            elif msg.tp == aiohttp.MsgType.pong:
+                print('Pong received')
+                if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
+                    request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
+            elif msg.tp == aiohttp.MsgType.error:
+                print('ws connection closed with exception %s' % ws.exception())
+        except Exception as e:
+            print('Dark forces tried to break down our infinite loop', e)
+            traceback.print_tb(e.__traceback__)
 
     print('websocket connection closed')
     return ws
@@ -117,9 +117,9 @@ async def ping_chat_task():
                 # print('ping task')
         except Exception as e:
             traceback.print_exc()
-            print('Bot error: {}'.format(e))
+            print('Ping task error: {}'.format(e))
 
-        await asyncio.sleep(20)
+        await asyncio.sleep(5)
 
 
 async def check_online_task():
@@ -133,7 +133,7 @@ async def check_online_task():
             #     app.db.on.remove({"_id":res['_id']})
             #     app.db.doc.update({"_id":"user:"+res['_id']}, {"$set":{"status":"off"}})
             # break
-        await asyncio.sleep(20)
+        await asyncio.sleep(5)
 
 
 
