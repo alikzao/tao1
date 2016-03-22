@@ -114,7 +114,8 @@ async def finish(ws):
     if not ws.closed:
         await ws.close()
 
-tm = 65
+tm = 3600
+# tm = 70
 sl = 20
 # tm = 15
 # sl = 5
