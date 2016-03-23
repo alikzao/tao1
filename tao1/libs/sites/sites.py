@@ -124,8 +124,6 @@ def get_full_docs(request, docs, img_ctr=1):
 		# d_img = doc['default_img'] if 'default_img' in doc and doc['default_img'] else None
 		d_img = doc.get('default_img', None)
 		att = get_nf(request, proc_id, doc_id, img_ctr, False, d_img)
-		if doc_id == "user:uk":
-			print('att', att)
 		img = get_curr_img(doc, att, img_ctr=1 )
 
 		data = doc['doc']

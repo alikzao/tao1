@@ -63,13 +63,13 @@ async def online(request):
 
     async for msg in ws:
         try:
-            print('msg.tp=>', msg.tp)
+            # print('msg.tp=>', msg.tp)
             if msg.tp == aiohttp.MsgType.text:
                 if msg.data == 'close':
                     finish(ws)
                 else:
                     e = json.loads(msg.data)
-                    print('msg.data->', e)
+                    # print('msg.data->', e)
 
                     if e['e'] == "new":
                         try:
@@ -82,10 +82,11 @@ async def online(request):
                                 client.send_str(json.dumps(msg))
                         except:pass
                     elif e['e'] == "pong":
-                        print( 'ws pong', e)
-                        if 'user_id' in s or s['user_id'] != 0 or s['user_id'] != 'guest':
-                            print( 'ws update time s[user_id]', s['user_id'])
-                            request.db.on.update({"_id": s['user_id']}, {"$set": {"date": time.time()}})
+                        # print( 'ws pong', e)
+                        if 'user_id' in s or s['user_id'] != 0:
+                            if s['user_id'] != 'guest':
+                                print( 'ws update time s[user_id]', s['user_id'])
+                                request.db.on.update({"_id": s['user_id']}, {"$set": {"date": time.time()}})
 
                             # elif e['e'] == "upd_on":
                     #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
@@ -123,7 +124,7 @@ sl = 20
 async def ping_chat_task():
     while True:
         try:
-            print('ping_task_clients=>', clients)
+            # print('ping_task_clients=>', clients)
             for client in clients:
                 # client.pong(message=b'pong')
                 # client.ping()
@@ -146,7 +147,7 @@ async def check_online_task():
     while True:
         try:
             for res in app.db.on.find():
-                print( 'check_online_task for res=>', res )
+                # print( 'check_online_task for res=>', res )
                 ts = time.time() - tm
                 if res['date'] < ts: #600
                     print( 'check_online_task if res=>', res )

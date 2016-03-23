@@ -72,11 +72,13 @@ async def login(request):
 async def logout_get(request): #'/logout'
 	""" User exit from the site /logout """
 	s = await get_session(request)
+	request.db.on.remove({"_id": s['user_id']})
+	request.db.doc.update({"_id": "user:" + s['user_id']}, {"$set": {"status": "off"}})
+	print('logout', request.db.doc.find_one({"_id": "user:" + s['user_id']})  )
+
 	s['user_id'] = 'guest'
 	if 'access_token' in s.__dict__:
 		s['access_token'] = None
-	request.db.on.remove({"_id": s['user_id']})
-	request.db.doc.update({"_id": "user:" + s['user_id']}, {"$set": {"status": "off"}})
 	return web.HTTPSeeOther('/')
 
 
