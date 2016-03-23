@@ -98,7 +98,7 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
 		condition = {'doc_id':doc_id, 'file_name': re.compile('^orig_', re.I | re.U) }
 	else:
 		condition = {'doc_id':doc_id, 'file_name': 'orig_avatar' if avatar else re.compile('^thumb_', re.I | re.U)}
-		print('condition ', {'doc_id':doc_id, 'file_name': 'orig_avatar' if avatar else re.compile('^thumb_', re.I | re.U)} )
+		# print('condition ', {'doc_id':doc_id, 'file_name': 'orig_avatar' if avatar else re.compile('^thumb_', re.I | re.U)} )
 	req = request.db.fs.files.find(condition)
 	if is_limit:
 		req = req.limit(is_limit)
