@@ -419,7 +419,7 @@ def upload_clip(request, doc_id):
 			fname = os.path.join(bp, doc_id, 'in_v', str(frag)+'.'+ext)
 			open(fname, 'wb').write(fl.value)
 		if track == 'data_a':
-			if ext in images: return '{"result":"fail", "error": "Image can\'t be on audio track"}'
+			if ext in images: return {"result":"fail", "error": "Image can\'t be on audio track"}
 			open(os.path.join(bp, doc_id, 'in_a', str(frag)+'.'+ext), 'wb').write(fl.value)
 		rs = None
 		for res in doc[track]:
