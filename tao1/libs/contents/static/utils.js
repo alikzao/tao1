@@ -1,5 +1,4 @@
 ;$(function(){
-
     //*subscribe start*/
     $('.subscribe input').click(function(){
         dao.ajax(
@@ -12,8 +11,6 @@
         )
     });
     // end subscribe
-
-
     $('.nav [lang_id] ').on( 'click', function (){
         console.log('ksdfhsdk');
         var lang_id = $(this).attr('lang_id');
@@ -29,11 +26,23 @@
                 }
             }
         });
+    });
 });
 
-});
-
-    //*comments*/
+function show_d(text){
+    var dialog =$(
+    "<div class='modal fade' tabindex='-1' role='dialog' style='margin-top:60px;'>" +
+        "<div class='modal-dialog'>"+
+            "<div class='modal-content' style='min-height:150px;'>"+
+                "<div class='modal-body' style='padding:30px;'>" +
+                    "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+
+                    "<p style='font-weight:bold; color:grey;'> "+text+"</p>" +
+                "</div>" +
+            "</div>"+
+        "</div>"+
+    "</div>").appendTo('body');
+    dialog.modal('show');
+}
 
 
 
