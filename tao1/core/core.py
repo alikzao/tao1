@@ -179,7 +179,7 @@ def mail(request, email, head, text):
 
 
 def route_mail(request, to, subject, text): #TODO  do not expect the system to send all letters.
-    """ save letter
+    """ save letter  route_mail(request, mail, 'Confirmation of registration ' + dom, text)
 	"""
     request.db.queue.mail.save({"_id": uuid4().hex, "subject":subject, "to":to, 'body': text})
 
