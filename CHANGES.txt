@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+0.2.5
+-----
+
+- added automatic reload after a code change
+- added admin panel
+- added twitter, facebook, google+ authorization
+
+
 0.1.8
 -----
 

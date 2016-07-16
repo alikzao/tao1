@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-import sys, os, re
+import sys, os
 
 
 # version = __import__(tao1).__version__
@@ -8,8 +8,8 @@ if sys.version_info < (3, 5, 0):
     raise RuntimeError("tao1 requires Python 3.5.1+")
 
 setup(name='tao1',
-      version="0.2.4",
-      description=("framework, CMS and CRM for aiohttp"),
+      version="0.2.5",
+      description=("framework, CMS and CRM for aiohttp and asyncio"),
 #      lond_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
 
       scripts=['tao1/core/utils.py'],
@@ -23,7 +23,8 @@ setup(name='tao1',
       url='https://github.com/alikzao/tao',
       license='MIT',
       packages=find_packages(),
-      install_requires=['aiohttp==0.20.2', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache', 'aiohttp_session'],
+      install_requires=['aiohttp==0.20.2', 'aiohttp_jinja2', 'aiohttp_debugtoolbar', 'pymongo', 'aiomcache',
+                        'aiohttp_session', 'aiohttp_autoreload'],
       include_package_data=True
     )
       

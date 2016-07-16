@@ -5,3 +5,4 @@ aiomcache
 Jinja2
 Pillow
 pymongo
+aiohttp_autoreload
