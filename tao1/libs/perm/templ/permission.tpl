@@ -1,5 +1,5 @@
 
-<div class="processor_id" proc_id="{{proc_id}}"></div>
+<div class="inner" proc_id="{{proc_id}}"></div>
 
 <script type="text/javascript">
 $(function() {
@@ -23,7 +23,7 @@ $(function() {
     dao.tableprocessor(t, {
       url:'{{url}}',
       id: '{{ proc_id }}',
-      columns:{{map_}},  // можно навесить дополнительно
+      columns:{{map_}},
 	  ajax_url: '/settings/',
       actions:act,
       parts:{},

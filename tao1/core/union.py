@@ -27,6 +27,10 @@ import settings
 # from core.utils import db_handler
 from core.core import cur_lang, ct, htmlspecialchars, format_date
 # from libs.sites.sites import short_text, get_slot
+from datetime import datetime
+from time import time
+import aiohttp_autoreload
+
 
 
 routes = []
@@ -34,6 +38,7 @@ tpl_globals = {
     # 'lang':cur_lang,
     'auth':{'vk':settings.oauth_vk, 'fb':settings.oauth_fb, 'ok':settings.oauth_ok},
     'debug':settings.debug,
+    'domain':settings.domain,
     'session_get_mess':dict,
     'str':str,
     'len':len,
@@ -48,7 +53,8 @@ tpl_globals = {
 }
 mc = None
 app = None
-
+debug = settings.debug
+reload = settings.reload
 
 async def init(loop):
     global mc
@@ -88,12 +94,82 @@ async def init(loop):
         app.router.add_route( res[0], res[1], res[2], name=name)
 
     path = os.path.join(settings.root_path, 'static')
-    app.router.add_static('/static/', path)
+    # print('path->', path)
+    app.router.add_static('/static/', os.path.join(settings.root_path, 'static'))
+    sites = os.path.join(settings.tao_path, 'libs', 'sites', 'st')
+    # print('sites->', sites)
+    app.router.add_static('/st/sites/', os.path.join(settings.tao_path, 'libs', 'sites', 'st'))
+    app.router.add_static('/st/table/', os.path.join(settings.tao_path, 'libs', 'table', 'st'))
+    app.router.add_static('/st/tree/', os.path.join(settings.tao_path,  'libs', 'tree', 'st'))
+    app.router.add_static('/st/admin/', os.path.join(settings.tao_path, 'libs', 'admin', 'st'))
+    app.router.add_static('/st/contents/', os.path.join(settings.tao_path, 'libs', 'contents', 'st'))
+    app.router.add_static('/st/chat/',  os.path.join(settings.tao_path, 'libs', 'chat',  'st'))
+    app.router.add_static('/st/files/', os.path.join(settings.tao_path, 'libs', 'files', 'st'))
+    app.router.add_static('/st/game/',  os.path.join(settings.tao_path, 'libs', 'game',  'st'))
+    app.router.add_static('/st/perm/',  os.path.join(settings.tao_path, 'libs', 'perm',  'st'))
 
-    handler = app.make_handler()
+
+    # app.router.add_route('GET', '/static/{dir}/{fname}', st_file, name='static')
+
+    handler = app.make_handler(debug=True )
+    if debug and reload:
+        aiohttp_autoreload.start()
     srv = await loop.create_server(handler, settings.addr[0], settings.addr[1])
     print("Server started at "+settings.addr[0] +' '+ str(settings.addr[1]))
+
     return srv, handler, app
+
+
+from pathlib import Path
+def st_file(request):
+    fname = request.match_info.get('fname')
+    try:
+        dir = Path(os.path.join(settings.root_path, 'static')).resolve()
+        filepath = dir.joinpath(fname).resolve()
+        # filepath.relative_to(dir)
+    except (ValueError, FileNotFoundError) as error:
+        raise web.HTTPNotFound
+
+
+async def union_stat(request, *args):
+    component = request.match_info.get('component', "Anonymous")
+    fname = request.match_info.get('fname', "Anonymous")
+    path = os.path.join( settings.tao_path, 'libs', component, 'static', fname )
+    # search in project directory
+    if component == 'static':
+        path = os.path.join(  settings.root_path, 'static')
+    # search in project components
+    elif not os.path.exists( path ):
+        path = os.path.join(  settings.root_path, 'apps', component, 'static' )
+    # search in core components
+    else:
+        path = os.path.join( settings.tao_path, 'libs', component, 'static')
+    # app.router.add_static()
+    content, headers = get_static_file(fname, path)
+    return web.Response(body=content, headers=MultiDict( headers ) )
+
+
+def get_static_file( filename, root ):
+    import mimetypes, time
+
+    root = os.path.abspath(root) + os.sep
+    filename = os.path.abspath(os.path.join(root, filename.strip('/\\')))
+    headers = {}
+
+    mimetype, encoding = mimetypes.guess_type(filename)
+    if mimetype: headers['Content-Type'] = mimetype
+    if encoding: headers['Content-Encoding'] = encoding
+
+    stats = os.stat(filename)
+    headers['Content-Length'] = stats.st_size
+    from core.core import locale_date
+    lm = locale_date("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(stats.st_mtime), 'en_US.UTF-8')
+    headers['Last-Modified'] = str(lm)
+    headers['Cache-Control'] = 'max-age=604800'
+    with open(filename, 'rb') as f:
+        content = f.read()
+        f.close()
+    return content, headers
 
 
 def get_trans(var):
@@ -182,13 +258,16 @@ def get_full_path(app):
     return app.__file__
 
 
-def get_path(app, pp=""):
-    if type(app) == str:
+def get_path(module_name, pp=""):
+    # print('app->', app)
+    if type(module_name) == str:
         try:
-            __import__(app) # - import module name. For example the name will "news".
-        except: print(pp, app)
-        app = sys.modules[app] # - named "news" we receive the news itself module and assign it to the variable app
-    return os.path.dirname(os.path.abspath(app.__file__))
+            # print('module_name->', module_name)
+            __import__(module_name) # - import module name. For example the name will "news".
+        except:
+            print(pp, module_name)
+        module_name = sys.modules[module_name] # - named "news" we receive the news itself module and assign it to the variable app
+    return os.path.dirname(os.path.abspath(module_name.__file__)) # like this:     import site;  site.__file__ --> '/usr/lib/python3.1/site.py'
 
 
 def get_templ_path(path):

@@ -1,6 +1,7 @@
+
+
 <div class = "users" >
-		<div id="all_view"> 
-		
+		<div id="all_view" style="border: 10px solid red;">
 		{%  for i in all_view %}
 			<h1><a href = "">{{i.value}}</a></h1>
 		{% endfor %} 
@@ -23,7 +24,7 @@ $(function() {
       is_editable: true,
       id_tree: null,
       file_manager: { img: true, other: false},
-        dumb:''
+      dumb:''
     });
 });
 </script>

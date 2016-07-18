@@ -1,6 +1,3 @@
-# coding: utf-8
-
-
 import json, cgi, sys
 
 from settings import *
@@ -17,6 +14,7 @@ from libs.perm.perm import is_admin, user_has_permission
 # from libs.perm.perm import *
 from core.union import response_json, response_string
 import html
+
 
 
 def table_data(request):
@@ -250,12 +248,13 @@ p = print
 def table_add_row_post(request):
 	data      = get_post(request)
 	proc_id   = data['proc_id']
-	owner     = data['owner']     if 'owner' in data else False
+	owner     = data.get('owner', None)
 	# defaults  = json.loads(data['defaults'] if 'defaults' in data else {})
 
-	auto_fill = data['auto_fill'] if 'auto_fill' in data else False
+	auto_fill = data.get('auto_fill', False)
 
-	if not user_has_permission(request, proc_id, 'create'): return {"result": "fail", "error": "You have no permission."}
+	if not user_has_permission(request, proc_id, 'create'):
+		return response_json(request, {"result": "fail", "error": "You have no permission."})
 	try:
 		doc_id, updated = create_empty_row_(request, proc_id, owner, auto_fill)   # update_row_(proc_id, doc_id, {})
 		if doc_id:
@@ -284,6 +283,7 @@ def create_empty_row_(request, proc_id, owner, auto_fill, defaults={}, clear_id=
 	doc_id= request.db.doc.save(doc_s)
 	updated = make_updated(request, {}, doc_s['doc'], proc_id)
 	if res == 'ok' and doc_s['owner'] != '_':
+		print('doc_s', doc_s)
 		res, err = on_create_subtable(request, doc_s)
 		if res != 'ok': return None, err
 	return doc_id, updated
@@ -542,11 +542,7 @@ def update_row_(request, proc_id, doc_id, data, parent, noscript=True, no_synh=F
 	from libs.sites.sites import wiki
 	clean_cache(doc)
 
-
-	doc_ = {}
-	try:
-		doc_ = {'body':wiki( ct(request, doc['doc']['body'])), 'date':doc['doc']['date'], 'title':ct(request, doc['doc']['title']) }
-	except:pass
+	doc_ = {'body':wiki(request, ct(request, doc['doc']['body'])), 'date':doc['doc']['date'], 'title':ct(request, doc['doc']['title']) }
 	return {"result":"ok", "doc_id":doc['_id'], "proc_id":proc_id, "updated":"", "doc":doc_}
 
 
@@ -725,8 +721,7 @@ def on_update_subtable(request, doc):
 
 def on_create_subtable(request, doc):
 	owner = get_doc(request, doc['owner'])
-	res = 'ok'; err=''
-	if res != 'ok': return {"result":"fail", "error":json.dumps(err)}
+	print('owner ', owner )
 	request.db.doc.save(owner)
 	return 'ok', None
 
@@ -771,16 +766,18 @@ def make_updated(request, old_row, new_row, proc_id):
 	return updated
 
 
-def table_del_row_post(request):
-	data = get_post(request)
+async def table_del_row_post(request):
+	data = await request.post()
 	# proc_id = data['proc_id'] if 'proc_id' in data else None
-	proc_id = data['proc_id']
-	force = data['force'] if 'force' in data else False
-	ids = json.loads(data['ids'])
+	proc_id = data.get('proc_id')
+	force = data.get('force', False)
+	ids =   data.get('ids')
+	ids =   json.loads( ids )
+	idsn =  data.get('idsn')
+	idsn =  json.loads(idsn)
 
 	print( "4444", data['idsn'])
 
-	idsn = json.loads(data['idsn'])
 	for doc in request.db.doc.find({'_id': {'$in': idsn}}):
 		final = False
 		if not 'final' in doc: final = True

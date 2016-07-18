@@ -1,6 +1,8 @@
 from libs.auth.auth import  *
 from core.union import route, reg_tpl_global
 
+# reg_tpl_global( 'short_text',    short_text,    need_request=False )
+
 
 route(	'GET' ,   '/oauth_vk',					oauth_vk,			'oauth_vk'		    )
 route(	'GET' ,   '/oauth_fb',					oauth_fb,   		'oauth_fb'			)

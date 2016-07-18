@@ -25,7 +25,7 @@ def user_ban(request): #@route('/logout')
 	if doc:
 		doc['doc']['ban'] = 'true'
 		request.db.doc.save(doc)
-	return {"result":"ok", "user": doc['_id'] }
+	return response_json(request, {"result":"ok", "user": doc['_id'] })
 
 
 
@@ -83,7 +83,7 @@ async def logout_get(request): #'/logout'
 
 
 async def login_post(request):
-	"""Если етсь такой пользователь в базе то заходим и сохраняем сесию или куки это oAuth """
+	"""If the user exists, then save in database session"""
 	# ip = request.environ.get('REMOTE_ADDR')
 	data = get_post( request )
 	# s = session(request)

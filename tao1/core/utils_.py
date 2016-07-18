@@ -26,10 +26,11 @@ def manage_console():
         set_file = """
 import os
 
-addr = ['127.0.0.1', 6677]
+addr = ['127.0.0.1', 8080]
 session_key = b'Thirty  two  length  bytes  key.'
 
 debug = True
+reload = True
 
 img_to_disk = True
 

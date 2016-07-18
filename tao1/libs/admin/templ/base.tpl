@@ -7,74 +7,74 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-	<link rel="icon" href="/static/static/img/favicon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="/static/static/img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
 
-    <script type="text/javascript" src="/static/sites/jquery1.11.min.js"></script>
-    <script type="text/javascript" src="/static/sites/jquery.mb.browser.min.js"></script>
+    <script type="text/javascript" src="/st/sites/jquery1.11.min.js"></script>
+    <script type="text/javascript" src="/st/sites/jquery.mb.browser.min.js"></script>
 
-    <script type="text/javascript"          src="/static/sites/bootstrap/js/bootstrap.min.js" ></script>
-    <link rel="stylesheet" type="text/css" href="/static/sites/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/static/sites/bootstrap/css/bootstrap-theme.min.css" />
+    <script type="text/javascript"          src="/st/sites/bootstrap/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/st/sites/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/st/sites/bootstrap/css/bootstrap-theme.min.css" />
 
-    <link rel="stylesheet" href="/static/sites/fa/css/font-awesome.min.css">
-
-
-	<script type="text/javascript" src="/static/admin/jquery-ui/jquery-ui.min.js" ></script>
-	<script type="text/javascript" src="/static/table/jquery.scrollTo.min.js" ></script>
+    <link rel="stylesheet" href="/st/sites/fa/css/font-awesome.min.css">
 
 
-	<script type="text/javascript" src="/static/admin/json2.js" ></script>
-	<script type="text/javascript" src="/static/admin/underscore.js" ></script>
-	<script type="text/javascript" src="/static/admin/backbone.js" ></script>
-	<script type="text/javascript" src="/static/admin/jquery.datetimepicker.js" ></script>
+	<script type="text/javascript" src="/st/admin/jquery-ui/jquery-ui.min.js" ></script>
+	<script type="text/javascript" src="/st/table/jquery.scrollTo.min.js" ></script>
 
 
-	<script type="text/javascript" src="/static/admin/code_mirror/lib/codemirror.js"></script>
-	<link   rel="stylesheet"        href="/static/admin/code_mirror/lib/codemirror.css">
-	<link   rel="stylesheet"        href="/static/admin/code_mirror/theme/rubyblue.css">
-	<script type="text/javascript" src="/static/admin/code_mirror/mode/python/python.js"></script>
-	<script type="text/javascript" src="/static/admin/code_mirror/mode/css/css.js"></script>
-	<script type="text/javascript" src="/static/admin/code_mirror/mode/javascript/javascript.js"></script>
-	<script type="text/javascript" src="/static/admin/code_mirror/mode/xml/xml.js"></script>
-	<script type="text/javascript" src="/static/admin/code_mirror/mode/htmlmixed/htmlmixed.js"></script>
-	<script type="text/javascript" src="/static/admin/code_mirror/mode/jinja2/jinja2.js"></script>
+	<script type="text/javascript" src="/st/admin/json2.js" ></script>
+	<script type="text/javascript" src="/st/admin/underscore.js" ></script>
+	<script type="text/javascript" src="/st/admin/backbone.js" ></script>
+	<script type="text/javascript" src="/st/admin/jquery.datetimepicker.js" ></script>
 
-	<script type="text/javascript" src="/static/contents/dao_ui.js" ></script>
+
+	<script type="text/javascript" src="/st/admin/code_mirror/lib/codemirror.js"></script>
+	<link   rel="stylesheet"        href="/st/admin/code_mirror/lib/codemirror.css">
+	<link   rel="stylesheet"        href="/st/admin/code_mirror/theme/rubyblue.css">
+	<script type="text/javascript" src="/st/admin/code_mirror/mode/python/python.js"></script>
+	<script type="text/javascript" src="/st/admin/code_mirror/mode/css/css.js"></script>
+	<script type="text/javascript" src="/st/admin/code_mirror/mode/javascript/javascript.js"></script>
+	<script type="text/javascript" src="/st/admin/code_mirror/mode/xml/xml.js"></script>
+	<script type="text/javascript" src="/st/admin/code_mirror/mode/htmlmixed/htmlmixed.js"></script>
+	<script type="text/javascript" src="/st/admin/code_mirror/mode/jinja2/jinja2.js"></script>
+
+	<script type="text/javascript" src="/st/contents/dao_ui.js" ></script>
 
 {#	<script type="text/javascript" src="/static/contents/lang_{{lang}}.js"></script>  #}
 {#	<script type="text/javascript" src="/static/tree/menu.js"></script>               #}
 {#	<link   rel="stylesheet" type="text/css" href="/static/tree/lm.css" />            #}
 {#	<script type="text/javascript" src="/static/sandbox/sb.js"></script>     /* function for sandbox */   #}
 
-	<script type="text/javascript" src="/static/admin/sortable/Sortable.js"></script>
+	<script type="text/javascript" src="/st/admin/sortable/Sortable.js"></script>
 
-	<script type="text/javascript" src="/static/perm/ta.js"></script>   {#  /* add_processor add field*/   #}
-
-
-
-      <script type="text/javascript" src="/static/table/ts_new.js"></script>
-      <script type="text/javascript" src="/static/table/tp_new.js"></script>
-      <script type="text/javascript" src="/static/table/tp_site.js"></script>
+	<script type="text/javascript" src="/st/perm/ta.js"></script>   {#  /* add_processor add field*/   #}
 
 
 
-	<script type="text/javascript" src="/static/files/tf.js"></script>
-	<script type="text/javascript" src="/static/contents/te_new.js"></script>
-
-	<script type="text/javascript" src="/static/admin/chosen/chosen.jquery.min.js"></script>
-	<link   rel="stylesheet" type="text/css" href="/static/admin/chosen/chosen.css" />
-
-    <script type="text/javascript" src="/static/tree/tt.js"></script>
-	<link   rel="stylesheet" type="text/css" href="/static/tree/tt.css" />
-
-	<link   rel="stylesheet" type="text/css" href="/static/admin/cupertino/jquery-ui.custom.css" />
+      <script type="text/javascript" src="/st/table/ts_new.js"></script>
+      <script type="text/javascript" src="/st/table/tp_new.js"></script>
+      <script type="text/javascript" src="/st/table/tp_site.js"></script>
 
 
-	<link   rel="stylesheet" type="text/css" href="/static/table/table.css" />
-	<link   rel="stylesheet" type="text/css" href="/static/contents/content.css" />
 
-    <script type="text/javascript" src="/static/contents/utils.js" ></script>
+	<script type="text/javascript" src="/st/files/tf.js"></script>
+	<script type="text/javascript" src="/st/contents/te_new.js"></script>
+
+	<script type="text/javascript" src="/st/admin/chosen/chosen.jquery.min.js"></script>
+	<link   rel="stylesheet" type="text/css" href="/st/admin/chosen/chosen.css" />
+
+    <script type="text/javascript" src="/st/tree/tt.js"></script>
+	<link   rel="stylesheet" type="text/css" href="/st/tree/tt.css" />
+
+	<link   rel="stylesheet" type="text/css" href="/st/admin/cupertino/jquery-ui.custom.css" />
+
+
+	<link   rel="stylesheet" type="text/css" href="/st/table/table.css" />
+	<link   rel="stylesheet" type="text/css" href="/st/contents/content.css" />
+
+    <script type="text/javascript" src="/st/contents/utils.js" ></script>
 
 
 	<title>{{ title }} </title>

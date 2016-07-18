@@ -9,7 +9,7 @@ route('GET' ,   '/table/in/{proc_id}',		    table_data,			      'table_data'			 
 route('POST',   '/table/data/{proc_id}',		table_data_post,		  'table_data_post'	        )
 route('POST',   '/table/add_row',	            table_add_row_post,		  'table_add_row'		    )
 route('POST',   '/table/update_cell/{proc_id}', table_update_cell_post,	  'table_update_cell'	    )
-route('POST',   '/table/del_row',	            table_del_row_post,		  'table_del_row' 		    )
+route('POST',   '/table/del_row',               table_del_row_post,		  'table_del_row' 		    )
 route('POST',   '/table/get_row',				table_get_row_post,		  'table_get_row'		    )
 route('POST',   '/table/transfer',         	    table_transfer_post,	  'table_transfer'		    )
 route('POST',   '/table/preedit_row',	        table_preedit_row_post,	  'table_preedit_row'       )
@@ -23,6 +23,5 @@ route('POST',   '/table/copy/doc', 		        table_copy_doc,           'table_co
 route('POST',   '/get_des_field', 				get_des_field_post, 	  'get_des_field' 		    )
 route('POST',   '/list/field',					get_field_post,			  'list_field'			    )
 route('POST',   '/table/sort/date',			    table_sort_post,		  'sort_date' 			    )
-
 
 
