@@ -1,0 +1,97 @@
+	Exporter version: 3.0.6, Blender version: 2.76 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Python World class constructor completed
+	WARNING: No active camera has been assigned, or is not in a currently selected Blender layer
+	processing begun of mesh:  Player_Haus_Windows
+		WARNING: Contains material requiring baking, but resources not available.  Probably .blend very old
+		processing begun of Standard material:  Aussen_Wand
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "Aussen_Wand_2_Sten"
+				WARNING: Texture is not mapped as UV or UV2, assigned 1
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "Aussen_Wand_2_Sten"
+				WARNING: Texture is not mapped as UV or UV2, assigned 1
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "Aussen_Wand_1_Sten"
+				WARNING: Texture is not mapped as UV or UV2, assigned 1
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UV"
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UV"
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UV"
+	Error encountered processing image file:  , Error:  [Errno 2] No such file or directory: '/home/user/dev/tao1/libs/game/static/dom3/textures/Steintest11.jpg'
+		processing begun of Standard material:  Aussen_Holz.001
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "AO"
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UV"
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UV"
+		processing begun of Standard material:  Aussen_Dach
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "AO"
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UV"
+		processing begun of multimaterial:  dom3.Multimaterial#0
+		num positions      :  1918
+		num normals        :  1918
+		num uvs            :  3836
+		num uvs2           :  3836
+		num colors         :  7672
+		num indices        :  2880
+	processing begun of node:  Empty.001
+	FCurve animation processing begun for:  Player_Hausdoor_4
+	processing begun of mesh:  Player_Hausdoor_4
+		WARNING: Contains material requiring baking, but resources not available.  Probably .blend very old
+		processing begun of Standard material:  Doors
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UV"
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "AO"
+		num positions      :  216
+		num normals        :  216
+		num uvs            :  432
+		num uvs2           :  432
+		num colors         :  864
+		num indices        :  264
+	FCurve animation processing begun for:  Player_Hausdoor_1
+	processing begun of mesh:  Player_Hausdoor_1
+		WARNING: Contains material requiring baking, but resources not available.  Probably .blend very old
+		registered as also a user of material:  Doors
+		num positions      :  250
+		num normals        :  250
+		num uvs            :  500
+		num uvs2           :  500
+		num colors         :  0
+		num indices        :  312
+	processing begun of mesh:  Plane.002
+		processing begun of Standard material:  Quad_Fenster_1
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UVTex"
+		processing begun of Standard material:  Quad_Fenster_2
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UVTex"
+		processing begun of multimaterial:  dom3.Multimaterial#1
+		num positions      :  1108
+		num normals        :  1108
+		num uvs            :  2216
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  2448
+	processing begun of mesh:  Plane.012
+		registered as also a user of material:  Quad_Fenster_1
+		num positions      :  4
+		num normals        :  4
+		num uvs            :  8
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  6
+	FCurve animation processing begun for:  Camera.002
+	processing begun of camera (FreeCamera):  Camera.002
+	processing begun of node:  Empty.002
+	processing begun of light (HEMI):  Hemi
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 0.4139 secs

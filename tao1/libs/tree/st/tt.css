@@ -1,0 +1,55 @@
+/*это к дереву*/
+.tree {
+    margin: 0px 0px 0px 0px;
+    padding: 0px;
+}
+.tree ul {
+    margin: 0px 0px 0px 0px;
+    padding: 0px;
+}
+.tree li {
+    border: solid gray;
+    border-width: 0px 0px 0px 1px;
+    margin: 0px 0px 0px 16px;
+    padding: 0px;
+    display: block;
+    /*line-height: 0px;*/
+    /*height:30px;*/
+}
+.tree h1 {
+    border: solid gray;
+    border-width: 0px 0px 1px 0px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px;
+    line-height: 20px;
+}
+.tree .inter {
+    top:13px;
+    left: 8px;
+    position: relative;
+}
+.tree a {
+    /*height:20px;*/
+    overflow: hidden;
+    background-color: white;
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    top: 13px;
+    left: 8px;
+    text-decoration: none;
+}
+.tree .div-icon {
+    padding: 0px 1px;
+    margin: 0px 1px 0px 1px;
+    border: transparent solid;
+    border-width: 0px 1px;
+    text-align: center;
+    font-size: 13px;
+    /*height:20px;*/
+}
+
+.tree a:active {
+    background-color: blue;
+}

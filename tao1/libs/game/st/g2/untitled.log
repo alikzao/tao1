@@ -1,0 +1,42 @@
+	Exporter version: 3.0.6, Blender version: 2.76 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Python World class constructor completed
+	processing begun of mesh:  Bananatre1
+		processing begun of Standard material:  Material #2300
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UVMap"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/g6/BTbranch_Defuse.tga' and '/home/user/dev/tao1/libs/game/static/g6/BTbranch_Defuse.tga' are the same file
+		num positions      :  166
+		num normals        :  166
+		num uvs            :  332
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  450
+	processing begun of mesh:  Bananatree
+		processing begun of Standard material:  Material #2299
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UVMap"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/g6/BTleave_Defuse.tga' and '/home/user/dev/tao1/libs/game/static/g6/BTleave_Defuse.tga' are the same file
+		num positions      :  1092
+		num normals        :  1092
+		num uvs            :  2184
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4584
+	processing begun of mesh:  Bananatre0
+		processing begun of Standard material:  Material #2301
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "UVMap"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/g6/BTree_Defuse.tga' and '/home/user/dev/tao1/libs/game/static/g6/BTree_Defuse.tga' are the same file
+		num positions      :  38
+		num normals        :  38
+		num uvs            :  76
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  90
+	processing begun of camera (FreeCamera):  Camera
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 0.0772 secs

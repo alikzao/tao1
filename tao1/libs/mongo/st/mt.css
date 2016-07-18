@@ -1,0 +1,112 @@
+body, html{
+    font-family: arial;
+    position: absolute; top:0; bottom: 0; left:0; right: 0px;
+    background-color: white !important;
+    background-image: none;
+    margin: 0;
+    padding: 0;
+}
+.db.current{
+    background-color: #fdd;
+}
+.dbs{
+    padding: 0 0 0 20px ;
+    position: absolute; top:40px; bottom: 60%; left:0; width: 200px;
+    vertical-align: top; font-size: 20px;  overflow: auto;
+    background-color: #eee;
+    color: darkred;
+}
+.db{cursor:pointer;}
+.collections{
+    padding: 40px 0 0 20px;
+    position: absolute; top:40%; bottom: 0; left:0; width: 200px;
+    vertical-align: top; font-size: 20px;  overflow: auto;
+    background-color: #eee;
+    color: darkblue;
+}
+.host{
+    position: absolute; top:0; height: 40px; left:0; width: 200px;
+    vertical-align: top; font-size: 20px;  overflow: hidden;
+    background-color: #eee;
+    padding: 10px 0 10px 20px;
+
+}
+.colls{
+    border-top: 1px solid #333;
+    z-index: 10;
+    padding: 10px 0 10px 20px;
+    position: absolute; top:40%; height: 20px; left:0; width: 200px;
+    vertical-align: top; font-size: 20px;  overflow: hidden;
+    background-color: #eee;
+    color: green;
+}
+.docs{
+
+    position: absolute; top:30px; bottom: 0; left: 220px; right: 0;
+    vertical-align: top;
+    padding: 10px;
+    font-size: 20px; overflow: auto;
+    background-color: white;
+}
+.doc> .title{width:450px;position: relative;}
+.doc> .title > .img {position: absolute; top: 0; right: 0; }
+.doc> .title > .img_edit {position: absolute; top: 0; right: 24px; }
+
+.doc{
+    margin: 10px;
+    color:#b00;
+}
+.collection {cursor: pointer;}
+.t_but{font-size: 12px; }
+.t_but>div{margin:2px; }
+
+.toolbar{
+    position: absolute; top:7px; left: 220px; right: 0; height: 22px;
+}
+.toolbar_b{
+    position: absolute; top:20px; left: 220px; right: 0; height: 20px;
+}
+.toolbar_b div {margin: 5px;}
+.toolbar .search{ position: absolute; top:0; bottom: 0; left:300px; }
+.toolbar .search > div{ display: inline-block; margin: 0 5px;}
+.collapsed > .content {
+    display: none !important;
+}
+.row{
+    border: 1px solid #def; border-width: 0 0 1px 1px;
+    background-color: white;
+    margin-left: 20px;
+    /*white-space: nowrap;*/
+}
+.row > .title {
+    /*border: 1px solid #808080; border-width: 0 0 1px 1px;*/
+    position: relative;
+    /*border: 1px solid #808080; border-width: 0 0 1px 0px;*/
+    display: inline-block; vertical-align: top; margin: 0px; padding: 5px;  font-size: 18px; overflow: hidden; width: 150px;
+    color:#000;
+}
+.row > .content{
+    /*border: 1px solid #808080; border-width: 0 0 0px 1px;*/
+
+    display: inline-block; vertical-align: top; margin: 0px; font-size: 18px; overflow: hidden; width: auto; padding: 5px;
+}
+.complex > .title, .doc > .title{cursor: pointer;}
+.content{position: relative; min-width: 100px; background-color: white;}
+.editor{position: absolute; top:3px; left:3px; right: 3px; bottom: 3px;}
+.editor input {width: 100%; height: 100%;}
+.primitive > .title{padding-left: 20px;}
+/*слева ключi   средина менюi  справа значение*/
+.complex > .title{
+    display: block; padding-left: 20px;
+    background-position: 3px 8px;
+    background-repeat: no-repeat;
+}
+.complex.collapsed > .title{ background-image: url(/static/core/img/plus.png);  }
+.complex.expanded> .title{ background-image: url(/static/core/img/minus.png);  }
+.row.complex > .content > .row > .title{ color:#666 !important; }
+.row.complex > .content{
+
+    display: block;
+}
+.primitive > .content{color:green;}
+.primitive{ white-space: nowrap;}

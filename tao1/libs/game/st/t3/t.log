@@ -1,0 +1,53 @@
+	Exporter version: 3.0.6, Blender version: 2.76 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Python World class constructor completed
+	processing begun of mesh:  gun
+		processing begun of Standard material:  Gun
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "ID57"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/t3/Gun.png' and '/home/user/dev/tao1/libs/game/static/t3/Gun.png' are the same file
+		num positions      :  7421
+		num normals        :  7421
+		num uvs            :  14842
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  19065
+	processing begun of mesh:  Turret
+		processing begun of Standard material:  Turret
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "ID48"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/t3/Turret.png' and '/home/user/dev/tao1/libs/game/static/t3/Turret.png' are the same file
+		num positions      :  6536
+		num normals        :  6536
+		num uvs            :  13072
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  17595
+	processing begun of mesh:  Main_Body_2
+		processing begun of Standard material:  Main_Body_2
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "ID30"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/t3/Main Body 2.png' and '/home/user/dev/tao1/libs/game/static/t3/Main Body 2.png' are the same file
+		num positions      :  7195
+		num normals        :  7195
+		num uvs            :  14390
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  18540
+	processing begun of mesh:  Main_Body
+		processing begun of Standard material:  Main_Body
+		Diffuse texture found
+			Image texture found, type:  diffuseTexture, mapped using: "ID39"
+	Error encountered processing image file:  , Error:  '/home/user/dev/tao1/libs/game/static/t3/Main Body.png' and '/home/user/dev/tao1/libs/game/static/t3/Main Body.png' are the same file
+		num positions      :  1921
+		num normals        :  1921
+		num uvs            :  3842
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4782
+	processing begun of camera (FreeCamera):  Camera
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 0.9291 secs

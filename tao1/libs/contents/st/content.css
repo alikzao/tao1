@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+
+
+
+.ui-icon-custom{ background-position: 0px 0px;}
+/*.custom-coins, .ui-state-default .custom-coins{  background-image: url(/static/core/img/coins.png) }*/
+/*.custom-print_excel, .ui-state-default .custom-print_excel{  background-image: url(/static/core/img/print_excel.png) }*/
+/*.custom-print_pdf, .ui-state-default .custom-print_pdf{  background-image: url(/static/core/img/pdf.png) }*/
+#title{ position: absolute; left: 220px; top:8px; font-size: 20px;}
+
+
+/* Положение иконок в голосовании */
+.ui-icon-vote{ width: 11px; height: 15px; background-image: url(/st/sites/icons_vote.gif); display: inline-block;}
+
+.ui-icon-off-vote-up{ background-position: -22px 0px; }/*вправо минус, вниз минус,  */
+.ui-icon-off-vote-down{ background-position: -22px -15px; }/*вправо минус, вниз минус,  */
+
+.ui-icon-vote-up { background-position: 0px 0px; }
+.ui-icon-vote-down { background-position: -11px 0px; }
+
+.ui-icon-on-vote-up { background-position: 0px -15px; }
+.ui-icon-on-vote-down { background-position: -11px -15px; }
+
+/*  Конец иконок в голосовании */
+
+.button {
+    border:0px solid red;
+    float:left;
+    margin-left:5px;
+    margin-top:5px;
+}
+.select_button {
+    border:2px solid blue;
+    float:left;
+    margin-left:5px;
+    margin-top:5px;
+}
+.frame{
+    border:5px solid #E59321;
+}
+cut{display:none; }
+.editor cut{display:block; border: 1px solid gray; background-color: #ddd}
+
+#login{ margin:100px 0px 0px 0px;}
+#signup{ margin:100px 0px 0px 0px;}
+#div_lang{cursor:pointer;}
+
+.jdialog {text-align: left;}
