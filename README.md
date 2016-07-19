@@ -13,7 +13,7 @@ Built on the basis of asyncio and aiohttp. In the framework, have batteries. The
 ###Requirements
 
 Python >= 3.5.1   
-aiohttp 
+aiohttp   
 aiohttp_jinja2    
 aiohttp_session      
 aiohttp_debugtoolbar        
