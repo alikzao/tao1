@@ -287,7 +287,8 @@ async def list_tags(request):
 	seo = request.db.doc.find_one({'doc.alias':'publics_seo'}, {'doc.description':1, 'doc.tags':1, 'doc.body':1, 'doc.footer':1, 'doc.add_title':1 })
 	seo = seo if seo and 'doc' in seo else ''
 
-	return templ('list_tags', request,{"docs":docs, "proc_id":proc_id, "url":simple_url, "pages":pages, "title":tags[0], "seo":seo})
+	# return templ('list_tags', request,{"docs":docs, "proc_id":proc_id, "url":simple_url, "pages":pages, "title":tags[0], "seo":seo})
+	return templ('single_list', request,{"docs":docs, "proc_id":proc_id, "url":simple_url, "pages":pages, "title":tags[0], "seo":seo})
 
 
 def list_arhiv(request, date_range):
