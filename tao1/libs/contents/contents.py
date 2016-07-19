@@ -1,4 +1,4 @@
-import sys, json, cgi, os, sys, hashlib, time, traceback
+import sys, json, os, sys, hashlib, time, traceback
 
 from pymongo import *
 
@@ -7,7 +7,8 @@ from uuid import uuid4
 from random import randint, choice
 from datetime import datetime
 from core.set import *
-from core.core import *
+
+from core.core import ct, get_post
 
 
 from urllib.parse import  *
