@@ -11,7 +11,6 @@ import builtins
 import jinja2
 import aiohttp_jinja2
 from aiohttp import web, HttpMessage
-from aiohttp.multidict import MultiDict
 from aiohttp import  MultiDict, CIMultiDict
 from functools import partial
 
