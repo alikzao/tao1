@@ -13,18 +13,24 @@ Built on the basis of asyncio and aiohttp. In the framework, have batteries. The
 ###Requirements
 
 Python >= 3.5.1   
-aiohttp == 0.20.2
+aiohttp 
 aiohttp_jinja2    
 aiohttp_session      
 aiohttp_debugtoolbar        
 aiomcache     
 pymongo        
 
-###Installation Python 3.5 for ubuntu 
+
+###Installation Python 3.5 for old version ubuntu 
 ```bash
 sudo add-apt-repository ppa:fkrull/deadsnakes
 sudo apt-get update
 sudo apt-get install python3.5 python3.5-dev 
+```
+
+###Installation dependencies
+```bash
+apt install gcc python3.5-dev build-essential libssl-dev libffi-dev libjpeg-dev libxslt1-dev libxml2-dev  python-pip
 ```
 
 #Framework Installation

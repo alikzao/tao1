@@ -9,15 +9,21 @@ if sys.version_info < (3, 5, 0):
 
 setup(name='tao1',
       version="0.2.5",
-      description=("framework, CMS and CRM for aiohttp and asyncio"),
+      description=('framework, CMS and CRM for aiohttp and asyncio'
+                   'rapid development and clean, pragmatic design.'),
 #      lond_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
 
       scripts=['tao1/core/utils.py'],
       classifiers=[
           'Intended Audience :: Developers',
+          'Environment :: Web Environment',
           'Programming Language :: Python',
           'Programming Language :: Python :: 3.5',
-          'Topic :: Internet :: WWW/HTTP'],
+          'Topic :: Internet :: WWW/HTTP',
+          'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+          'Topic :: Software Development :: Libraries :: Application Frameworks',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+      ],
       author="Alexandre Z",
       author_email="alikzao@gmail.com",
       url='https://github.com/alikzao/tao',
