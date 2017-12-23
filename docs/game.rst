@@ -11,7 +11,7 @@ The client side is written in the framework ``WEBGL`` babylon.js.
 
 .. image:: _static/game.jpg
 
-Game consists of `babylon.js <https://github.com/alikzao/tao1/issues>`_ and python 3.5.
+Game consists of `babylon.js <https://www.babylonjs.com/>`_ and python 3.5.
 
 Getting Started
 ---------------
