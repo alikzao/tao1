@@ -28,7 +28,7 @@ class Player(list):
         self._room = room
         Player.last_id += 1
         self._id = Player.last_id
-        # add self in room
+
         room.add_player(self)
 
     @property
@@ -152,7 +152,7 @@ class Bot(Player):
             await asyncio.sleep(0.1)
 
     async def shoot(self):
-        # pass
+
         while True:
             try:
                 players = list(sorted(self.room.players - {self}, key=lambda x: x.id))
@@ -206,13 +206,13 @@ class Bot(Player):
 def h_new(me, e):
     assert not hasattr(me, "player"), [id(me), e]
 
-    coor = random.sample([2, 3, 4, 5, 6, 7, 8, 9], 2)  # get random coordinates 2 to 10
+    coor = random.sample([2, 3, 4, 5, 6, 7, 8, 9], 2)
     me.player = Player(me, Room.get(e["room"]), coor[0], coor[1])
 
     mess = dict(e="new", id=me.player.id, msg="newPlayer", **me.player.as_dict)
     me.player.room.send_all(mess, except_=(me.player,))
 
-    for player in me.player.room.players:  # // Send existing players to the new player
+    for player in me.player.room.players:
         if player is me.player:
             continue
         is_bot = isinstance(player, Bot)
@@ -307,14 +307,10 @@ class FakeWS(object):
         pass
 
 
-# =====================================================================================================================
-
 socket = None
 clients = set()
 rooms = dict()
 number_bots = 1
-
-# =====================================================================================================================
 
 
 async def game(request):
@@ -380,7 +376,7 @@ async def game_handler(request):
             if msg.tp == MsgType.text:
                 if msg.data == "close":
                     print("client requests close")
-                    # TODO remove from room the player if he closed session
+
                     await ws.close()
                     clean(ws)
                 else:

@@ -194,7 +194,7 @@ def get_doc_title_cascad(request, doc, value=None):
         meta = get_mt(request, doc["doc_type"])
         if "conf" in meta and "is_doc" in meta["conf"] and meta["conf"]["is_doc"]:
             title = ct(request, meta["conf"]["title"]) + " No. - from -"
-        else:  # Legacy comment translated from Russian.
+        else:
             title = value
     return title
 
@@ -212,7 +212,7 @@ def get_doc_title(request, doc, value=None):
         meta = get_mt(request, doc["doc_type"])
         if "conf" in meta and "is_doc" in meta["conf"] and meta["conf"]["is_doc"]:
             title = ct(request, meta["conf"]["title"]) + " No. - from -"
-        else:  # Legacy comment translated from Russian.
+        else:
             title = value
     return title
 

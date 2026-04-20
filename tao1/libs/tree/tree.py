@@ -35,7 +35,7 @@ async def add_comm_post(request):
     data = await request.post()
     ip = None
     print("data->", data)
-    # get ip address client
+
     peername = request.transport.get_extra_info("peername")
     host = None
     if peername is not None:
@@ -289,9 +289,6 @@ def ban_comm_post(request):
         user["doc"]["ban"] = "true"
         request.db.doc.save(user)
     return response_json(request, {"result": "ok", "user": user_name})
-
-
-# ===========================================================================================================
 
 
 def conf_menu_get(request, action):

@@ -96,10 +96,6 @@ def read_status(doc_id, kind="s"):
     return doc["status"][kind] if kind in doc["status"] else ""
 
 
-# apt-get install libsox-fmt-mp3
-# apt-get install libavformat-extra-53
-
-
 def drag_fragment(request, doc_id):
     if not user_has_permission("des:clips", "edit"):
         return {"result": "fail", "error": "You have no permission."}
@@ -156,7 +152,7 @@ def edit_fragment(request, doc_id):
     len_ = check_time(get_post("len", "0"))
     end = check_time(get_post("end", "0"))
     if not start or not len_:
-        # TODO: legacy note translated from Russian.
+
         r = "Incorrect time"
     track = "data_" + get_post("track")
     del_audio = get_post("del_audio", "0")

@@ -18,7 +18,7 @@ def show_site():
     redirect("/")
 
 
-def user_ban(request):  # @route('/logout')
+def user_ban(request):
     if not is_admin(request):
         return {"result": "fail", "error": "no ban"}
     user_id = get_post("user_id")
@@ -29,7 +29,7 @@ def user_ban(request):  # @route('/logout')
     return response_json(request, {"result": "ok", "user": doc["_id"]})
 
 
-def root_signup_get(request):  #'/signup', 'GET'
+def root_signup_get(request):
     """Legacy docstring translated from Russian."""
     hash, raw = get_captcha(False)
     return templ("libs.auth:signup", request, dict(captcha=raw, hash=hash))
@@ -67,7 +67,7 @@ async def login(request):
     return templ("libs.auth:login", request, {})
 
 
-async def logout_get(request):  #'/logout'
+async def logout_get(request):
     """User exit from the site /logout"""
     s = await get_session(request)
     request.db.on.remove({"_id": s["user_id"]})

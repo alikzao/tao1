@@ -18,7 +18,7 @@ final_v = ".avi"
 iformat = ".png"
 iformat = ".jpg"
 
-bp = os.path.join(os.getcwd(), "clip")  # base_path
+bp = os.path.join(os.getcwd(), "clip")
 
 
 def screen_clip(doc_id, final):

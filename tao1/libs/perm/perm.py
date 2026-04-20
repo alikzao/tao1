@@ -17,7 +17,6 @@ from aiohttp import web
 import core.union
 
 
-# ACL - access controll list
 def user_has_permission(request, entity, permission, field=None):
     """Legacy docstring translated from Russian."""
     name = get_current_user(request, False)
@@ -67,14 +66,13 @@ def add_role(request, data):
     return response_json(request, {"result": "ok"})
 
 
-# START WORK WITS GROUPS AND ROLES
-def group_perm(request):  #'/permission', 'GET'
+def group_perm(request):
     url = request.scheme + "://" + request.host + request.path
     print("url->", url)
     if get_const_value(request, "is_admin") == "false" and not is_admin(request):
         return web.HTTPFound("/conf")
     if not user_has_permission(request, "ss:work_rb", "view"):
-        return "You have no permission."  # return '{"result": "fail", "error": "%s"}' % cgi.escape(ct("You have no permission."))
+        return "You have no permission."
     t = ""
 
     for res in request.db.doc.find({"type": "group"}).sort("_id", 1):
@@ -97,7 +95,7 @@ def group_perm(request):  #'/permission', 'GET'
     )
 
 
-async def users_group(request):  # @route('/users', method='GET')
+async def users_group(request):
     url = request.scheme + "://" + request.host + request.path
     print("url->", url)
 
@@ -243,14 +241,14 @@ def group_perm_post1(request, parent):
     if parent in ["des:obj"]:
         rb_perm += ["fb_import", "edit_radio"]
     doc = request.db.map.find_one({"_id": parent}, {"doc": 1})
-    for i in rb_perm:  # Legacy comment translated from Russian.
+    for i in rb_perm:
         sub_id = parent + "/" + i
         results = []
         for (
             role
         ) in (
             roles
-        ):  # {u'role:simple_users': {u'des:users/phone': {u'edit': u'true', u'view': u'true'}, u'des:PM/title': {u'edit': u'true', u'view': u'true'}, u'des:PM/date': {u'edit': u'true', u'view': u'true'}}}
+        ):
             val = (
                 parent in roles[role]
                 and i in roles[role][parent]
@@ -264,7 +262,7 @@ def group_perm_post1(request, parent):
         )
         child0.append(sub_id)
 
-    for rs in doc["doc"]:  # Legacy comment translated from Russian.
+    for rs in doc["doc"]:
         sub_id = parent + ":" + rs["id"]
         data.append(
             build_row_report(
@@ -296,7 +294,7 @@ def group_perm_post2(request, parent):
     data = []
     roles = get_roles(request)
     field_perm = ["view", "edit"]
-    for perm in field_perm:  # Legacy comment translated from Russian.
+    for perm in field_perm:
         sub_sub_id = parent + "/" + perm
         results = []
         for role in roles:
@@ -330,7 +328,7 @@ def group_perm_post2(request, parent):
         )
 
 
-async def group_perm_post0(request):  # @route('/permission', method='POST')
+async def group_perm_post0(request):
     """Legacy docstring translated from Russian."""
     if not user_is_logged_in(request):
         return response_json(
@@ -348,7 +346,7 @@ async def group_perm_post0(request):  # @route('/permission', method='POST')
 
     pages, req = await get_pagination2(request, condition, "map")
 
-    for res in req:  # Legacy comment translated from Russian.
+    for res in req:
         data.append(
             build_row_report(
                 title="<b>{}</b>".format(res["_id"]),
@@ -460,7 +458,7 @@ async def group_perm_uc_post(request):
     role = data.get("field")
     entity = data.get("branch_id")
     value = data.get("value")
-    doc = request.db.doc.find_one({"_id": role})  # get_doc(request, role)
+    doc = request.db.doc.find_one({"_id": role})
     if not entity in doc["permissions"]:
         doc["permissions"][entity] = {}
     doc["permissions"][entity][permission] = value

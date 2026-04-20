@@ -567,7 +567,7 @@ def show_list(
         sort = (
             "doc.date",
             -1,
-        )  # req = db.doc.find({"_id":{'$in':friends}}).sort('doc.date', -1)
+        )
     elif action == "user":
         if not filter.startswith("user:"):
             filter = "user:" + filter
@@ -579,7 +579,7 @@ def show_list(
         sort = (
             sort_order,
             -1,
-        )  # req = db.doc.find({"doc_type":"des:obj", 'doc.published':'true', "doc.user":u}).sort('doc.date', -1)
+        )
     elif action == "comments":
         if not filter.startswith("user:"):
             filter = "user:" + filter
@@ -1003,7 +1003,7 @@ def add_news(request):
     )
 
 
-def news_accept_post(request):  # @route('/', method = "GET")
+def news_accept_post(request):
     db = request.db
     doc = get_doc(get_post("doc_id"))
     proc_id = doc["doc_type"]
@@ -1032,7 +1032,7 @@ def news_accept_post(request):  # @route('/', method = "GET")
     return {"result": "ok"}
 
 
-def news_edit(request):  # @route('/', method = "GET")
+def news_edit(request):
     doc_id = request.match_info.get("doc_id")
     news_map = get_news_map(request, "des:obj")
     doc = get_full_doc(request, doc_id)
@@ -1042,13 +1042,6 @@ def news_edit(request):  # @route('/', method = "GET")
     return templ(
         "news_add", request, dict(news_map=news_map, doc_id=doc["id"], doc=doc)
     )
-
-
-#
-
-
-#
-#
 
 
 @cache("main_page", expire=10)
@@ -1222,7 +1215,7 @@ def show_object_(request, doc_id, templ_m=False):
     db = request.db
     if (
         d_com["conf"]["comments"] == "on"
-    ):  # db.doc.createIndex( { 'doc_type':1, 'doc.owner':1 } )
+    ):
         is_comments = True
         comm = get_doc_tree(doc["_id"], proc_id)
         comm = comm["_id"]
@@ -1620,7 +1613,7 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
         order = slot["sort"] if "sort" in slot else "none"
         term = (
             slot["term"] if "term" in slot else ""
-        )  # Legacy comment translated from Russian.
+        )
     except Exception:
         return "", 0
     if limit < 0:
@@ -1659,17 +1652,17 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
         condition["$and"].append({"doc.pub": "true"})
     if proc_id in ["des:obj", "des:news"]:
         condition["doc.accept"] = "true"
-    if len(tags):  #
+    if len(tags):
         tags = tags.split(",")
         tags = [
             (lambda x: x.strip().lower())(x) for x in tags
-        ]  # Legacy comment translated from Russian.
+        ]
         tags_minus = [
             x[1:] for x in tags if x.startswith("-")
-        ]  # Legacy comment translated from Russian.
+        ]
         tags = [
             x for x in tags if not x.startswith("-")
-        ]  # Legacy comment translated from Russian.
+        ]
 
         if len(tags):
             condition["$and"].append({"tags." + cur_lang(request): {"$in": tags}})

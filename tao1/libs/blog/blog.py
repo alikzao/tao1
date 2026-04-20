@@ -98,7 +98,7 @@ def add_email_post(request):
 
 
 def add_mess(request):
-    # TODO: legacy note translated from Russian.
+
     db = request.db
     mess = get_post("mess")
     user = get_post("user")

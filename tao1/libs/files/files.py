@@ -126,8 +126,8 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
             "filename": fn,
             "orig": "/img/" + proc_id + "/" + doc_id + "/" + quote(fne) + "/img",
             "thumb": "/img/" + proc_id + "/" + doc_id + "/" + quote(fne) + "/thumb_img",
-            #'orig': '/img/'+proc_id+'/'+doc_id+'/'+fn+'/img',
-            #'thumb': '/img/'+proc_id+'/'+doc_id+'/'+fn+'/thumb_img'
+
+
         }
 
     try:
@@ -302,7 +302,7 @@ def add_file(request, proc_id, doc_id, file, water_mark=None, pref="def"):
 def upload_video(
     request, proc_id, doc_id, raw, mime, file_name, water_mark, pref="def"
 ):
-    fname = os.path.join(os.getcwd(), "static", "video", doc_id)  # base_path
+    fname = os.path.join(os.getcwd(), "static", "video", doc_id)
     if not os.path.exists(fname):
         os.makedirs(fname)
     fname = os.path.join(fname, str(file_name))
@@ -349,7 +349,7 @@ def add_file_raw(
         watermark.putalpha(watermask)
         img.paste(watermark, None, watermark)
 
-    # original image
+
     s = io.BytesIO()
     if mime == "image/jpeg":
         img.save(s, "JPEG", quality=90)
@@ -361,7 +361,7 @@ def add_file_raw(
     big_raw = s.getvalue()
     s.close()
 
-    # reduced copy
+
     wpercent = sml_size / float(img.size[0])
     hsize = int((float(img.size[1]) * float(wpercent)))
     size = (sml_size, hsize)
@@ -457,7 +457,7 @@ def get_clip_(doc_id):
     return ""
 
 
-bp = os.path.join(os.getcwd(), "clip")  # base_path
+bp = os.path.join(os.getcwd(), "clip")
 
 
 def upload_clip(request, doc_id):

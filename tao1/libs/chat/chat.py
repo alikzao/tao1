@@ -131,7 +131,7 @@ async def check_online_task():
         try:
             for res in app.db.on.find():
                 ts = time.time() - tm
-                if res["date"] < ts:  # 600
+                if res["date"] < ts:
                     print("check_online_task if res=>", res)
                     app.db.on.remove({"_id": res["_id"]})
                     app.db.doc.update(

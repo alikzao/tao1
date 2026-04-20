@@ -193,10 +193,10 @@ def edit_key_post():
         parent = doc
         old_key = None
         for res in old_val:
-            old_target = parent  # doc
-            if res in parent:  # 'user' in doc
-                parent = parent[res]  # doc['user']
-            old_key = res  # 'user'
+            old_target = parent
+            if res in parent:
+                parent = parent[res]
+            old_key = res
 
         new_target = doc
         parent = doc
@@ -245,17 +245,17 @@ def edit_val_post1():
         parent = doc
         old_key = None
         for res in old_val:
-            old_target = parent  # doc
-            if res in parent:  # 'user' in doc
-                parent = parent[res]  # doc['user']
-            old_key = res  # 'user'
+            old_target = parent
+            if res in parent:
+                parent = parent[res]
+            old_key = res
             old_target[old_key] = new_val
         db[coll].save(doc)
         return {"result": "ok"}
 
 
 def import_db_post(request):
-    # request.POST
+
     for file in request.files.getall("file"):
         if not file.filename:
             continue

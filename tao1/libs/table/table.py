@@ -103,7 +103,7 @@ def sort_body(request, proc_id, meta_table, docs_table):
     from libs.files.files import get_nf
 
     out_docs = []
-    for res in docs_table:  # Legacy comment translated from Russian.
+    for res in docs_table:
         doc = res["doc"]
         for field in meta_table:
             if field["id"] in doc and "is_translate" in field and field["is_translate"]:
@@ -276,7 +276,7 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
         condition["$and"].append({"$or": ors})
     elif "column" in filter and any(
         filter["column"]
-    ):  # Legacy comment translated from Russian.
+    ):
         for field in filter["column"]:
             f = filter["column"][field]
             if not "val" in f and not "range" in f:
@@ -367,7 +367,7 @@ def table_add_row_post(request):
     try:
         doc_id, updated = create_empty_row_(
             request, proc_id, owner, auto_fill
-        )  # update_row_(proc_id, doc_id, {})
+        )
         if doc_id:
             return response_json(
                 request, {"result": "ok", "id": doc_id, "updated": updated}
@@ -395,7 +395,7 @@ def create_empty_row_(
     date = defaults["date"] if "date" in defaults else create_date()
     doc_type = (
         ": " if clear_id else proc_id,
-    )  # if you create a document that has been canceled then set :
+    )
     doc_s = {
         "_id": id,
         "doc": {
@@ -537,7 +537,7 @@ def count_tags(request, t, t_old, tag_dict):
     """Legacy docstring translated from Russian."""
     tags = request.db.conf.find_one(
         {"_id": "tags_" + tag_dict[4:]}
-    )  # Legacy comment translated from Russian.
+    )
     tags = (
         tags["tags"][cur_lang(request)]
         if tags and "tags" in tags and cur_lang(request) in tags["tags"]
@@ -546,7 +546,7 @@ def count_tags(request, t, t_old, tag_dict):
     tags_d = dict(tags)
     for res in t:
         if not res in tags_d:
-            tags_d[res] = 1  # Legacy comment translated from Russian.
+            tags_d[res] = 1
         else:
             tags_d[res] += 1
     for res in t_old:
@@ -562,7 +562,7 @@ def count_tags(request, t, t_old, tag_dict):
 
 def save_tags(request, doc, tag_dict):
     """Legacy docstring translated from Russian."""
-    # TODO: legacy note translated from Russian.
+
     lang = cur_lang(request)
     if "doc" in doc and doc["doc"] and "tags" in doc["doc"] and doc["doc"]["tags"]:
         if lang in doc["doc"]["tags"]:
@@ -640,17 +640,17 @@ def update_row_(
     doc = get_doc(request, doc_id)
     doc_parent = get_doc(request, parent) if parent != "_" else None
     user = request.db.doc.find_one({"_id": doc["doc"]["user"]})
-    old_row = dict(doc["doc"])  # Legacy comment translated from Russian.
-    # =============================================================================================================================
-    for field in meta_table:  # Legacy comment translated from Russian.
+    old_row = dict(doc["doc"])
+
+    for field in meta_table:
         if "is_translate" in field and (
             field["is_translate"] == True or field["is_translate"] == "true"
         ):
             if (
                 not field["id"] in doc["doc"] or type(doc["doc"][field["id"]]) != dict
-            ):  # Legacy comment translated from Russian.
+            ):
                 doc["doc"][field["id"]] = {}
-            if not field["id"] in data:  # Legacy comment translated from Russian.
+            if not field["id"] in data:
                 data[field["id"]] = (
                     old_row[field["id"]][cur_lang(request)]
                     if field["id"] in old_row
@@ -666,8 +666,8 @@ def update_row_(
                 else:
                     doc["doc"][field["id"]] = data[field["id"]]
 
-    # ===================================================================================================================
-    if "body" in doc["doc"]:  # Legacy comment translated from Russian.
+
+    if "body" in doc["doc"]:
         text = (
             doc["doc"]["body"][cur_lang(request)]
             if type(doc["doc"]["body"]) == dict
@@ -681,7 +681,7 @@ def update_row_(
         else:
             doc["doc"]["body"] = text
 
-    # ===================================================================================================================
+
     doc["doc_type"] = proc_id
 
     if "last_art" in doc["doc"] and doc["doc"]["last_art"] == "true":
@@ -707,7 +707,7 @@ def update_row_(
 
     save_auto_tags(
         request, doc, "tags_" + proc_id[4:]
-    )  # Legacy comment translated from Russian.
+    )
     save_tags(request, doc, "tags_" + proc_id[4:])
 
     if (
@@ -729,7 +729,7 @@ def update_row_(
         doc["parent"] = parent_id
     else:
         doc["parent"] = parent
-        if doc_parent:  # Legacy comment translated from Russian.
+        if doc_parent:
             if not "child" in doc_parent:
                 doc_parent["child"] = []
             doc_parent["child"].append(doc_id)
@@ -737,11 +737,11 @@ def update_row_(
 
     request.db.doc.update({"_id": doc_id}, doc)
 
-    # =======================================================================
+
     res, err = event("on_update_row", proc_id, doc_id)
     if res != "ok":
         return {"result": "fail", "error": json.dumps(err)}
-    # =======================================================================
+
 
     doc["final"] = 1
 
@@ -1011,7 +1011,7 @@ def updated_edit_cell(request, field, value, proc_id):
 
 
 def on_update_subtable(request, doc):
-    owner = get_doc(request, doc["owner"])  # parent doc
+    owner = get_doc(request, doc["owner"])
     res = "ok"
     err = ""
     if res != "ok":
@@ -1142,7 +1142,7 @@ def del_row(request, proc_id, ids):
         try:
             res, err = event(
                 "on_del_row", proc_id, {"old_row": old_row, "doc": doc}
-            )  # TODO: legacy note translated from Russian.
+            )
             if res != "ok":
                 errors += err
         except:
@@ -1168,7 +1168,7 @@ def del_doc_tags(request, proc_id, doc):
     """Legacy docstring translated from Russian."""
     cloud_tags = request.db.conf.find_one(
         {"_id": "tags_" + proc_id[4:]}
-    )  # get doc where storage cloud tags
+    )
     if not cloud_tags:
         return "not cloud_tags"
     tags = (
@@ -1177,7 +1177,7 @@ def del_doc_tags(request, proc_id, doc):
         and "tags" in cloud_tags
         and cur_lang(request) in cloud_tags["tags"]
         else []
-    )  # Legacy comment translated from Russian.
+    )
     del_tags = (
         doc["tags"][cur_lang(request)]
         if "tags" in doc and cur_lang(request) in doc["tags"]
@@ -1285,7 +1285,7 @@ def table_add_field_post(request):
 
 def add_field(
     request, proc_id, data, field_id=None
-):  # Legacy comment translated from Russian.
+):
     if not user_has_permission(request, proc_id, "create"):
         return response_json(
             request, {"result": "fail", "error": "You have no permission."}
@@ -1408,7 +1408,7 @@ def table_copy_doc(request):
     for fn in request.db.fs.files.find(
         {"doc_id": old_id, "file_name": re.compile("^orig_", re.I | re.U)}
     ):
-        # TODO: legacy note translated from Russian.
+
         if not fn:
             return None, None, None
         f = fs.get(fn["_id"]).read()

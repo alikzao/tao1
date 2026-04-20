@@ -87,7 +87,7 @@ def get_ss(request):
     ]
 
 
-def show_conf(request):  # route('/conf', 'GET')
+def show_conf(request):
     """Legacy docstring translated from Russian."""
     if get_const_value(request, "is_admin") == "false" and not is_admin(request):
         return web.HTTPSeeOther("/")
@@ -502,8 +502,8 @@ def get_arhiv_templ():
             unicode_name = name.decode("UTF-8").encode("UTF-8")
         except:
             unicode_name = name.decode("cp866").encode("UTF-8")
-        # some analyzing of unicode_name and execute some actions
-        # ...
+
+
         file_name = os.path.join(path, unicode_name)
         f2 = open(file_name, "w")
         f2.write(f.read(name))
