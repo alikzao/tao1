@@ -142,7 +142,6 @@ async def users_group_post(request):
         regex = re.compile(str(filter["column"]["title"]["val"]), re.I | re.UNICODE)
         condition["doc.name." + cur_lang(request)] = regex
 
-    # 	pages, req = get_pagination2(condition)
 
     count = 0
     for list_users in request.db.doc.find(condition):

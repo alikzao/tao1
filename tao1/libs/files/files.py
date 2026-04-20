@@ -84,7 +84,6 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
     attachments = {}
     attachments_n = {}
     ctr = 0
-    # /des:ware/7ce9/2/
     if get_settings("is_disk", False):
         doc = get_doc(doc_id)
         if "files" in doc:
@@ -94,10 +93,8 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
 
                 attachments[v] = {
                     "filename": fne,
-                    # 'filename': '/files/'+quote(fne),
                     "orig": "/files/" + quote(fne),
                     "thumb": "/files/" + quote(fne),
-                    # 'thumb': '/files/thumb_'+quote(fne)
                 }
                 if is_limit == ctr:
                     break
@@ -132,9 +129,6 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
             #'orig': '/img/'+proc_id+'/'+doc_id+'/'+fn+'/img',
             #'thumb': '/img/'+proc_id+'/'+doc_id+'/'+fn+'/thumb_img'
         }
-        # attachments['filename'] = fn
-        # attachments['orig'] = '/img/'+proc_id+'/'+doc_id+'/'+quote(fne)+'/img'
-        # attachments['thumb']= '/img/'+proc_id+'/'+doc_id+'/'+quote(fne)+'/thumb_img'
 
     try:
         video = get_doc(doc_id)
@@ -313,7 +307,6 @@ def upload_video(
         os.makedirs(fname)
     fname = os.path.join(fname, str(file_name))
     open(fname, "w")
-    # open(fname, 'wb').write(raw)
     open(fname, "w").write(raw)
 
     doc = get_doc(request, doc_id)
@@ -324,7 +317,6 @@ def upload_video(
     return True
 
 
-# watch the download files for the video editor
 def add_file_raw(
     request,
     proc_id,
@@ -376,7 +368,6 @@ def add_file_raw(
 
     small_img = img.resize(size, Image.ANTIALIAS)
     s = io.BytesIO()
-    # small_img.convert('RGB')
     if mime == "image/jpeg":
         small_img.save(s, "JPEG", quality=65)
     elif mime == "image/png":
@@ -387,7 +378,6 @@ def add_file_raw(
     small_raw = s.getvalue()
     s.close()
 
-    # 	middle copy, if provided
     if mid_size:
         wpercent = mid_size / float(img.size[0])
         hsize = int((float(img.size[1]) * float(wpercent)))
@@ -474,7 +464,6 @@ def upload_clip(request, doc_id):
     """downloads files from a computer to the server"""
     check_video_dir_(doc_id)
     doc = get_clip_(doc_id)
-    # doc['title'] = get_post('title', '')
     track = "data_" + get_post("track", "")
     frag = int(get_post("frag"))
     fl = get_post("file")

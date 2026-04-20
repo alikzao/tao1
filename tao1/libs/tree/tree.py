@@ -79,7 +79,6 @@ async def add_comm_post(request):
     descr = no_script(descr)
     descr = descr.replace("\n", "<br/>")
 
-    # Legacy comment translated from Russian.
     pre = "true" if not user_has_permission(request, "des:obj", "add_com") else "false"
     date = str(time.strftime("%Y-%m-%d %H:%M:%S"))
     user_ = get_current_user_name(request, title) or title
@@ -90,10 +89,8 @@ async def add_comm_post(request):
         descr,
     )
 
-    # Legacy comment translated from Russian.
     request.db.doc.update({"_id": parent}, {"$addToSet": {"child": doc_id}})
 
-    # Legacy comment translated from Russian.
     doc_id_comm, updated = create_empty_row_(
         request, "des:comments", parent, "", {"user": "user:" + title}
     )
@@ -120,8 +117,6 @@ async def add_comm_post(request):
     id = get_doc(request, id)["_id"]
     print("id2", id)
     invalidate_cache("single_page", id=id)
-    # reset_cache(type="doc", doc_id=rev)
-    # Legacy comment translated from Russian.
     request.db.doc.update({"_id": doc_id}, {"$inc": {"count_branch": 1}})
     return response_json(request, {"result": "ok", "content": data, "hash": ""})
 
@@ -160,7 +155,6 @@ async def del_comm_post(request):
     doc = get_doc(request, comm_id)
 
     if is_admin(request) or user_has_permission(request, "des:obj", "del_comm"):
-        # Legacy comment translated from Russian.
         request.db.doc.update(
             {"_id": doc["doc"]["owner"]}, {"$inc": {"count_branch": -1}}
         )
@@ -245,7 +239,6 @@ def add_vote_comm_post(request):
     request.db.doc.save(comm)
     comm_vote = comm["vote"]
 
-    # Legacy comment translated from Russian.
     u_id = ct(request, comm["doc"]["user"])
     u = get_doc(request, u_id)
     if u:

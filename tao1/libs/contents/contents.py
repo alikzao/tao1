@@ -21,7 +21,6 @@ from libs.perm.perm import user_is_logged_in, is_admin
 from core.union import response_json
 
 
-# Legacy comment translated from Russian.
 def get_mt(request, proc_id):
     return request.db.map.find_one({"_id": proc_id})
 
@@ -190,7 +189,6 @@ def get_doc_title_cascad(request, doc, value=None):
     elif "value" in doc["doc"]:
         val = ct(request, doc["doc"]["value"])
         if (len(val) != 32 or len(val) != 34) and not is_str(val):
-            # elif 'value' in doc['doc']:
             title = ct(request, doc["doc"]["value"])
     else:
         meta = get_mt(request, doc["doc_type"])

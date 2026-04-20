@@ -15,8 +15,6 @@ from datetime import datetime
 from math import ceil
 import aiohttp_jinja2
 
-# test()
-
 
 def page_404(request, page):
     us = "us"
@@ -41,10 +39,8 @@ def get_file_print_doc(request, proc_id, doc_id, file_name):
 
     fn = get_file_meta(proc_id, file_name, doc_id, "")
     f = fs.get(fn["_id"])
-    # Legacy comment translated from Russian.
     att = f.read()
     response.headers["Content-Type"] = fn["mime"]
-    # response.headers['Content-Disposition'] = 'attachment; filename="%s"' % fn['file_name']
     return att
 
 
@@ -854,7 +850,6 @@ async def user_status_post(request):
     if not "user_id" in s or s["user_id"] == 0 or s["user_id"] == "guest":
         s["user_id"] = "guest"
     else:
-        # request.db.on.update({"_id":s['user_id']}, {"$currentDate": {"date": {"$type":"timestamp"}}}, True )
         request.db.on.update(
             {"_id": s["user_id"]}, {"$set": {"date": time.time()}}, True
         )
@@ -1241,7 +1236,6 @@ def show_object_(request, doc_id, templ_m=False):
         docs = get_full_docs(docs)
         data_tree = form_tree_comm(docs)
 
-    # hash, raw = get_captcha(False)
     rating, votes = get_rating(proc_id, doc_id)
     title = ct(doc["doc"]["title"]) if "title" in doc["doc"] else ""
     templl = "single_page"
@@ -1378,8 +1372,6 @@ def get_rss(request):
         text = re.sub("<[^<>]+?>", " ", text)
         text = re.sub(" +", " ", text)
         res["doc"]["body"][cur_lang()] = str(text)[:200]
-        # 		data.append( {'id':str(res['_id']),'summary':cgi.escape(ct( res['doc']['title'])),'content':cgi.escape(text),
-        # 					'dtime':datetime.strptime(str(res['doc']['date']), '%Y-%m-%d').strftime('%a, %d %b %Y %H:%M:%S +0200' ) } )
         data.append(
             {
                 "id": str(res["doc"]["rev"]),
@@ -1554,7 +1546,6 @@ def action_add_friend_post(request):
 
 
 def robots_txt(request):
-    # response.headers['Content-Type'] = 'text/plain'
     return templ("robots", request, {})
 
 
@@ -1614,7 +1605,6 @@ def get_slot_list(request, slotname):
         return "[]"
 
 
-# 		condition['doc.tags.'+cur_lang()] = regex
 def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
     if not slot:
         return "", 0
@@ -1644,7 +1634,6 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
         dt = (datetime.today() + timedelta(days=-term)).strftime("%Y-%m-%d %H:%M:%S")
         condition["doc.date"] = {"$gt": dt}
 
-    # 	condition['doc.last_art'] = 'true'
     if vote:
         condition["vote.score"] = {"$gte": int(vote)}
     user_filter = []
@@ -1657,7 +1646,6 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
     if len(user_filter):
         condition["doc.user"] = {"$in": user_filter}
     condition["$and"] = []
-    # 		condition['$and'].append({'$or': [{'doc.pub': 'true'}, {'doc.user': get_current_user(True)} ]} )
     if proc_id in [
         "des:obj",
         "des:news",
@@ -1671,7 +1659,6 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
         condition["$and"].append({"doc.pub": "true"})
     if proc_id in ["des:obj", "des:news"]:
         condition["doc.accept"] = "true"
-    # 			condition['$and'].append({'$or': [{'doc.accept': 'true'}, {'doc.user': get_current_user(True)} ]} )
     if len(tags):  #
         tags = tags.split(",")
         tags = [
@@ -1745,7 +1732,6 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
                 }
             }
         )
-    # pipe.append({'allowDiskUse':True})
     if page:
         pages, result = get_pagination_p(pipe)
     elif skip:
@@ -1871,7 +1857,6 @@ def add_vote_post(request):
     doc["vote"]["votes_count"] += 1
     db.doc.save(doc)
 
-    # Legacy comment translated from Russian.
     u_id = doc["doc"]["user"]
     u = get_doc(u_id)
     if not "rate" in u["doc"]:

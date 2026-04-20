@@ -17,7 +17,6 @@ class MyEventHandler(pyinotify.ProcessEvent):
         pathname = event.pathname
         name = event.name
 
-        # time.sleep(1)  # delays for 5 seconds
         print("name1", name)
         if "jb_tmp" in name:
             name = name[:-10]
@@ -41,7 +40,6 @@ class EventHandler(pyinotify.ProcessEvent):
         pathname = event.pathname
         name = event.name
 
-        # time.sleep(1)  # delays for 5 seconds
         print("name1", name)
         if "jb_tmp" in name:
             name = name[:-12]

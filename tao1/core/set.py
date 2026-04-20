@@ -852,7 +852,6 @@ def get_doc_role(data, domain):
         "_id": "role:" + data["id"],
         "title": data["title"],
         "type": "group",
-        # 		"users": { "user:"+get_domain(): "true" },
         "users": {"user:" + domain: "true"},
         "permissions": {},
     }

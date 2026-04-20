@@ -17,9 +17,7 @@ from settings import *
 
 
 def connect(host, db_name, login, passw):
-    # 	vd ( host, db_name, login, passw)
     db = get_settings("database", {})
-    # db_conn['conn'] = MongoClient(db['host'], **kw)
     kw = {"slave_okay": True}
     cn = MongoClient(db["host"])
     db = cn[db["name"]]
@@ -122,7 +120,6 @@ def get_docs():
         db, cn = connect(**s["mongo"])
         docs = []
         for res in db[coll].find().limit(100):
-            # 			"data": "<Mongo Binary Data>",  fs.chunks (82)
             res["__coll_id"] = coll
             docs.append(check_val(res))
     return {"result": "ok", "docs": docs, "coll": coll}
@@ -138,7 +135,6 @@ def get_doc_mongo():
         doc = db[coll].find_one({"_id": doc_id})
         doc = check_val(doc)
         doc["__coll_id"] = coll
-    # 		docs.append(res)
     return {"result": "ok", "doc": doc, "coll": coll}
 
 
@@ -254,7 +250,6 @@ def edit_val_post1():
                 parent = parent[res]  # doc['user']
             old_key = res  # 'user'
             old_target[old_key] = new_val
-        # old_target[old_key] = new_val
         db[coll].save(doc)
         return {"result": "ok"}
 

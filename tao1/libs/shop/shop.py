@@ -50,7 +50,6 @@ def list_basket(request):
     basket = basket_show()
     amount = 0
     for i in basket:
-        # amount += float(basket[i]['quantity']) * float(basket[i]['price'])
         amount += float(basket[i]["amount"])
     return templ(
         "libs.shop:list_basket",
@@ -196,12 +195,10 @@ def basket_check():
 
 
 # =====================================================================================================================================
-# ====================================== ADVANCED FILTER ===========================================================================
 # =====================================================================================================================================
 
 
 def ware_filter(filter):
-    # Legacy comment translated from Russian.
     if not isinstance(filter, list):
         filter = [filter]
     categ = {}
@@ -212,29 +209,19 @@ def ware_filter(filter):
             categ[cat] = []
         categ[cat].append(attr)
     cond = dict([("attr." + i, {"$in": v}) for i, v in categ.items()])
-    # Legacy comment translated from Russian.
-    # Legacy comment translated from Russian.
-    # db.test.aggregate({$unwind: "$likes"})
     return cond
 
 
 def get_ware_cls(request, cls):
     """Legacy docstring translated from Russian."""
-    # Legacy comment translated from Russian.
-    # $cat =
-    # select c.* from ware_cat as c inner join on c.id = cc.owner ware_class_cat as cc where cc.owner = $cls
-    # select a.* from ware_attr as a where owner in $cat
     db = request.db
     categ = []
     list_cat = []
-    # Legacy comment translated from Russian.
     for res in db.doc.find({"doc_type": "des:ware_class_cat", "owner": cls}):
         list_cat.append(res["doc"]["cat"])
-    # Legacy comment translated from Russian.
     for res in db.doc.find({"doc_type": "des:ware_cat", "_id": {"$in": list_cat}}):
         cat = {"id": res["_id"], "title": ct(res["doc"]["title"]), "attr": []}
         categ.append(cat)
-        # Legacy comment translated from Russian.
         for rs in db.doc.find({"doc_type": "des:ware_attr", "owner": cat["id"]}):
             attr = {"id": rs["_id"], "title": ct(rs["doc"]["title"])}
             cat["attr"].append(attr)
@@ -243,7 +230,6 @@ def get_ware_cls(request, cls):
 
 def list_ware(request, cls):
     """Legacy docstring translated from Russian."""
-    # Legacy comment translated from Russian.
     cond = {"doc_type": "des:ware", "doc.class": cls, "doc.pub": "true"}
     if request.method == "POST":
         cond.update(
@@ -307,7 +293,6 @@ def ware_page(request, doc_id):
             "doc.add_title": 1,
         },
     )
-    # else: seo = ''
     return templ(
         "ware_page",
         request,
@@ -662,9 +647,6 @@ def list_ware_cls(request, full=False):
     return form_tree_(docs)
 
 
-# 			doc['child'] = [tree[id] for id in doc['child']]
-
-
 def form_tree_(docs):
     """Legacy docstring translated from Russian."""
     tree = {doc["_id"]: doc for doc in docs}
@@ -722,5 +704,4 @@ def callback(phone, dom, basket):
         route_mail(mail, "Site cart ", text)
     else:
         route_mail(mail, "Request on site ", text)
-    # Legacy comment translated from Russian.
     return {"result": "ok"}

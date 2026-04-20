@@ -24,10 +24,8 @@ class Player(list):
     def __init__(self, client, room, x=0, y=0, z=0, a=0, b=0):
         assert isinstance(room, Room)
         list.__init__(self, (x, y, z, a, b))
-        # Legacy comment translated from Russian.
         self._client = client
         self._room = room
-        # Legacy comment translated from Russian.
         Player.last_id += 1
         self._id = Player.last_id
         # add self in room
@@ -261,7 +259,6 @@ def h_chat(me, e):
 
 
 class Room(object):
-    # me.player.room {'id': '46c', '_players': {[4, 5, 0, 0, 0]}}
     @staticmethod
     def get(_id):
         if not _id in rooms:
@@ -292,7 +289,6 @@ class Room(object):
     def add_player(self, player):
         assert isinstance(player, Player)
         self._players.add(player)
-        # self.updated()
 
     def remove_player(self, player):
         assert isinstance(player, Player)
@@ -364,9 +360,6 @@ def clean(me):
     clients.remove(me)
 
 
-# me.player.room {'id': '46c', '_players': {[4, 5, 0, 0, 0]}}
-# me.player      {'_id': 1, 'last_id': 1, '_room': <libs.game.game.Room object at 0x7fae8e8324e0>, '_client': <WebSocketResp Switching Protocols GET /game_handler >, }
-
 handlers = {
     "new": h_new,
     "move": h_move,
@@ -375,7 +368,6 @@ handlers = {
     "chat": h_chat,
 }
 
-# show all except 'move'
 debug_handlers = set(handlers.keys()) - {"move"}
 
 
@@ -398,11 +390,9 @@ async def game_handler(request):
                         pass
                     if action in handlers:
                         handler = handlers[action]
-                        # handler(player, e)
                         handler(ws, e)
                     else:
                         print("Unknown action:", e["e"], "->", e)
-                        # send_all(e)
             elif msg.tp == aiohttp.MsgType.error:
                 print("ws connection closed with exception ", ws.exception())
                 clean(ws)

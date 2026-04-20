@@ -390,7 +390,6 @@ def proc_rolik(request):
     doc = db.doc.find_one({"doc_type": "des:clips", "status.s": "download"})
     print("\n" * 5, doc)
     if doc:
-        # Legacy comment translated from Russian.
         doc_id = doc["_id"]
         update_status(doc_id, "downloading")
         check_video_dir(doc_id)
@@ -452,7 +451,6 @@ def proc_rolik(request):
 
         if flag_audio:
             if not doc["data_a"]:
-                # Legacy comment translated from Russian.
                 clone_mp3(doc_id, 0, "00:00:01", "a")
             else:
                 for res in doc["data_a"]:
@@ -473,22 +471,17 @@ def proc_rolik(request):
                         )
 
         update_status(doc_id, "start glue")
-        # Legacy comment translated from Russian.
         if flag_video:
             if doc["data_v"]:
                 join_frag_v(doc_id, [i["frag"] for i in doc["data_v"]])
-        # Legacy comment translated from Russian.
         if flag_audio:
             if doc["data_v"]:
                 join_frag_a(doc_id, track="v", lst=[i["frag"] for i in doc["data_v"]])
-        # Legacy comment translated from Russian.
         if flag_audio:
             join_frag_a(
                 doc_id, track="a", lst=[i["frag"] for i in doc["data_a"]] or [0]
             )
-        # exit()
 
-        # Legacy comment translated from Russian.
         if flag_audio and flag_video:
             join_av_track(doc_id)
 

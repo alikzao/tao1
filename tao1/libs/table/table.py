@@ -43,9 +43,7 @@ def table_data_(request, proc_id):
     meta_doc = get_mt(request, proc_id)
 
     meta_table = check_map_perm(request, proc_id, meta_doc["doc"])
-    # Legacy comment translated from Russian.
     parts = []
-    # Legacy comment translated from Russian.
     for res in request.db.map.find({"conf.owner": proc_id}):
         parts.append(res)
     _parts = ""
@@ -88,7 +86,6 @@ def table_data_(request, proc_id):
 
 
 def rec_data_t(request, meta_table):
-    # Legacy comment translated from Russian.
     for res in range(0, len(meta_table)):
         meta_table[res]["title"] = ct(request, meta_table[res]["title"])
         meta_table[res]["hint"] = ct(request, meta_table[res]["hint"])
@@ -233,7 +230,6 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
         page["current"] = 1
     limit = int(get_const_value(request, "doc_page_limit"))
     skip = (page["current"] - 1) * limit
-    # Legacy comment translated from Russian.
     condition = {"$and": [{"doc_type": proc_id}]}
     if parent == "_":
         condition["$and"].append({"$or": ({"parent": "_"}, {"parent": {"$exists": 0}})})
@@ -241,11 +237,9 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
         condition["$and"].append({"parent": parent})
         no_limit = True
     _meta_table = {}
-    # Legacy comment translated from Russian.
     for meta in meta_doc["doc"]:
         _meta_table[meta["id"]] = meta
     user_in_meta = "user" in _meta_table
-    # Legacy comment translated from Russian.
     _meta_table = {}
     for meta in meta_table:
         _meta_table[meta["id"]] = meta
@@ -575,7 +569,6 @@ def save_tags(request, doc, tag_dict):
             if not doc["doc"]["tags"][lang]:
                 doc["doc"]["tags"][lang] = ""
             t_old = doc["tags"][lang] if "tags" in doc and lang in doc["tags"] else []
-            # Legacy comment translated from Russian.
             tags = dict(
                 [
                     (i.strip().lower(), 1)
@@ -588,7 +581,6 @@ def save_tags(request, doc, tag_dict):
             if not is_admin(request) and not user_has_permission(
                 request, doc["doc_type"], "edit_tag"
             ):
-                # Legacy comment translated from Russian.
                 tags2 = tags
                 tags = {}
                 for res in tags2:
@@ -692,7 +684,6 @@ def update_row_(
     # ===================================================================================================================
     doc["doc_type"] = proc_id
 
-    # Legacy comment translated from Russian.
     if "last_art" in doc["doc"] and doc["doc"]["last_art"] == "true":
         for res in request.db.doc.find(
             {
@@ -703,7 +694,6 @@ def update_row_(
         ):
             res["doc"]["last_art"] = "false"
             request.db.doc.save(res)
-    # Legacy comment translated from Russian.
     if (
         is_admin(request)
         or accept_def
@@ -720,7 +710,6 @@ def update_row_(
     )  # Legacy comment translated from Russian.
     save_tags(request, doc, "tags_" + proc_id[4:])
 
-    # Legacy comment translated from Russian.
     if (
         accept_def
         or proc_id == "des:obj"
@@ -733,13 +722,10 @@ def update_row_(
 
     if "parent_id" in data and data["parent_id"]:
         parent_id = data["parent_id"]
-        # Legacy comment translated from Russian.
         request.db.doc.update(
             {"child": {"$in": [doc_id]}}, {"$pull": {"child": doc_id}}
         )
-        # Legacy comment translated from Russian.
         request.db.doc.update({"_id": parent_id}, {"$push": {"child": doc_id}})
-        # Legacy comment translated from Russian.
         doc["parent"] = parent_id
     else:
         doc["parent"] = parent
@@ -1048,7 +1034,6 @@ def make_updated(request, old_row, new_row, proc_id):
     for k, v in new_row.items():
         if not k in old_row or old_row[k] != v:
             meta = find_field(k, meta_table)
-            # Legacy comment translated from Russian.
             if meta and "type" in meta and meta["type"] == "passw":
                 v = "*****"
                 formatted = "*****"
@@ -1089,7 +1074,6 @@ def make_updated(request, old_row, new_row, proc_id):
                 formatted = ct(request, v)
             if updated:
                 updated += ", "
-            # Legacy comment translated from Russian.
             t = type(v)
             if (
                 t == int
@@ -1128,7 +1112,6 @@ async def table_del_row_post(request):
         final = False
         if not "final" in doc:
             final = True
-        # Legacy comment translated from Russian.
         if (
             not force
             and final
@@ -1166,7 +1149,6 @@ def del_row(request, proc_id, ids):
             pass
         ctr += 1
         request.db.doc.remove({"owner": doc["_id"]})
-        # request.db.tree.remove({"owner":doc['_id']})
         if children != "_":
             request.db.doc.update_many(
                 {"parent": doc["_id"]}, {"$set": {"parent": "_"}}
@@ -1418,9 +1400,7 @@ def table_copy_doc(request):
 
     from libs.files.files import get_nf, get_file_meta, add_file_raw
 
-    # Legacy comment translated from Russian.
     new_id_owner = simply_copy_doc(request, old_id)
-    # Legacy comment translated from Russian.
 
     from gridfs import GridFS
 
@@ -1446,9 +1426,7 @@ def table_copy_doc(request):
             proc_id=fn["proc_id"],
             mime=fn["mime"],
         )
-        # add_file_raw(fn['proc_id'], old_id, f, fn['mime'], '1'+fn['file_name'] )
 
-    # Legacy comment translated from Russian.
     for res in request.db.doc.find({"owner": old_id}):
         doc_id = simply_copy_doc(request, res["_id"])
         request.db.doc.update({"_id": doc_id}, {"$set": {"owner": new_id_owner}})

@@ -277,9 +277,6 @@ def union_routes(dir, p=False):
                 builtins.__import__(name, globals=globals())
 
 
-# routes.append ( module )
-
-
 def get_full_path(app):
     if type(app) == str:
         __import__(app)
@@ -407,7 +404,6 @@ def cache_key(name, kwargs):
     return key
 
 
-# if isinstance(func, asyncio.coro)
 def cache(name, expire=0):
     def decorator(func):
         async def wrapper(request=None, **kwargs):
@@ -444,7 +440,6 @@ def clean_cache(key):
     yield from mc.delete(key)
 
 
-# example   `invalidate_cache('silngle_page', id=123123)`.
 def invalidate_cache(name, **kwargs):
     key = cache_key(name, kwargs)
     yield from mc.delete(key)

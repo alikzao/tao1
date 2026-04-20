@@ -98,7 +98,6 @@ def show_conf(request):  # route('/conf', 'GET')
     ss = []
     all_menu = []
     special = ["des:users", "des:report_pe", "des:conf", "des:role"]
-    # Legacy comment translated from Russian.
     for res in request.db.map.find(
         {
             "conf.turn": "true",
@@ -119,13 +118,11 @@ def show_conf(request):  # route('/conf', 'GET')
             request, res["_id"], "view"
         ):
             all_rbs.append(res)
-    # Legacy comment translated from Russian.
     for res in get_ss(request):
         if user_has_permission(request, res["id"], "view"):
             res["id"] = res["id"][:2] + "_" + res["id"][3:]
             ss.append(res)
 
-    # Legacy comment translated from Russian.
     for res in request.db.tree.find({"sub_type": "menu"}):
         if user_has_permission(request, res["_id"], "view"):
             all_menu.append(res)
@@ -199,7 +196,6 @@ def get_slot_name(request, slot):
     if "user" in slot and slot["user"]:
         users = []
         for rs in slot["user"]:
-            # 		slot['user'] = get_doc(rs)
             doc = request.db.doc.find_one({"_id": rs})
             if not doc:
                 continue
@@ -407,7 +403,6 @@ def add_main_ref(request, id, name_ru, name_en, owner, is_doc, comm):
     if comm == "on" or is_doc == "obj" or is_doc == "forum":
         doc.update({"is_comm": True})
     request.db.map.save(doc)
-    # request.db.doc.update({'_id':'role:admin'}, {"$set":{'permissions':{"des:"+id: {"edit":"true", "delete":"true", "create":"true", "move":"true", "view":"true" } } } } )
     doc_perm = get_doc(request, "role:admin")
     doc_perm["permissions"].update(
         {
@@ -491,7 +486,6 @@ def save_templ_post(request):
 def get_templ_post(request):
     data = get_post(request)
     path = data["path"]
-    # 	else: path = os.path.join(os.getcwd(), 'templ', templ)
     tpl = r_file(path)
     return {"result": "ok", "tpl": tpl}
 
@@ -501,7 +495,6 @@ def get_arhiv_templ():
     from zipfile import ZipFile
     import os
 
-    # Legacy comment translated from Russian.
     path = os.path.join(settings.lib_path, "media/upload/products")
     f = ZipFile("filename", "r")
     for name in f.namelist():
@@ -513,7 +506,6 @@ def get_arhiv_templ():
         # ...
         file_name = os.path.join(path, unicode_name)
         f2 = open(file_name, "w")
-        # f.extract(name, path) # works only for python 2.6+
         f2.write(f.read(name))
         f2.close()
     f.close()

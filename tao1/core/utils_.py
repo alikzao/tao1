@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import os, sys, time, argparse, shutil
 
 
@@ -62,7 +61,6 @@ reg_routes = {
         """ % p_root
         with open(os.path.join(str(args.project), "settings.py"), "w") as f:
             f.write(set_file)
-        # os.symlink(source, link_name, target_is_directory=False, *, dir_fd=None)
         dir = os.path.join(p_root, "libs")
         for name in os.listdir(dir):
             if name == "__pycache__" or name == "__init__.py":
@@ -117,9 +115,3 @@ def update_static(p_root):
         os.symlink(
             os.path.join(r_p, name, "static"), os.path.join(os.getcwd(), "static", name)
         )
-
-
-#     manage_console()
-
-
-# db.doc.save({"_id", "123", "Update", [{"_id", '1', "time":'345', "Version", '3'}, {"_id", '2', "time":'234', "Version", '4'}]})

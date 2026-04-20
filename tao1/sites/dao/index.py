@@ -6,7 +6,6 @@ import sys, os
 assert sys.version_info >= (3, 5)
 import asyncio
 
-# Basic path for all stuff. There must be placed file settings.py
 sys.path.append(os.path.dirname(__file__))
 
 import settings

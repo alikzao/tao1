@@ -1,13 +1,7 @@
-# Legacy comment translated from Russian.
 # python lang.py /sites/site cpl
 import sys, getopt, os, time
 from shutil import *
 import re
-
-# 	logee(mess)
-
-# 	#	t = str(mess)#	if t == str or t == str or t == int or t == float: str(mess)#	else: mess = json.dumps(mess)
-# 		loge.info(str(mess))
 
 
 list_lang = ["ru_RU", "en_US"]
@@ -82,7 +76,6 @@ def iter_templ(dir):
     """From template to extract the line transfers and we put them in a pot files.
     And then create the list of languages necessary _.po files or merge with existing ones.
     """
-    # (py -> pot) xgettext myapplib/*.py -o myapp.pot
     out_f = os.path.join(dir, "..", "locale", "_.pot")
     file_o = open(out_f, "w")
     # Write in the header file.
@@ -92,7 +85,6 @@ def iter_templ(dir):
         if name.endswith(".tpl"):
             load_translation(os.path.join(dir, name), file_o)
     file_o.close()
-    # 	os.popen("xgettext %s -o %s" % (tmp, out_f )).read()
     for res in list_lang:
         lang = res[:2]
         po_path = os.path.join(dir, "..", "locale", lang)
@@ -105,16 +97,12 @@ def iter_templ(dir):
             )  # os.makedirs(path, mode=0o777, exist_ok=False) 0755
         po_f = os.path.join(po_path, "_.po")
         if not os.path.isfile(po_f):
-            # (pot -> po) msginit -l ru -i myapp.pot -o myapp-ru.po -l ru_RU.UTF-8
             os.popen(
                 "msginit --no-translator -i %s -o %s -l %s"
                 % (out_f, po_f, res + ".UTF-8")
             ).read()
         else:  # 'msgmerge myapp-ru.po myapp.pot -o new.po'
             os.popen("msgmerge %s %s -o %s" % (po_f, out_f, po_f)).read()
-
-
-# 	os.remove(tmp)
 
 
 def load_translation(in_f, file):
@@ -125,12 +113,9 @@ def load_translation(in_f, file):
     r = {}
     for rs in l:
         n += 1
-        # Legacy comment translated from Russian.
         aa = re.findall(r"_\([^)]+\)", rs)
         for res in aa:
-            # Legacy comment translated from Russian.
             res = res[3:-2]
-            # Legacy comment translated from Russian.
             if not res in r:
                 r[res] = []
             # Add line number
@@ -142,7 +127,6 @@ def load_translation(in_f, file):
 
 
 app_path = lib_path + app[1][1:-1]
-# Legacy comment translated from Russian.
 if len(app) > 2 and app[2][1:-1] == "cpl":
     iter_po(lib_path + "/", False)
     iter_po(lib_path + "/app/")

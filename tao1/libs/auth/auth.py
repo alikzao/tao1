@@ -139,7 +139,6 @@ def signup_post(request):
                 mess=mess.decode("UTF-8"),
             ),
         )
-    # Legacy comment translated from Russian.
     if not request.db.doc.find_one({"_id": "user:" + name}):
         doc = {
             "_id": "user:" + name,
@@ -609,11 +608,6 @@ def oauth_gl(request):
     print("doc", doc)
 
     request.db.doc.save(doc)
-    # request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
-    # user['doc']['name'] = {cur_lang(request): me['name']}
-    # link_upload_post_( me['picture'], 'des:users', user_id, True)
-    # request.db.doc.save(user)
-    # session_add_mess('You have successfully logged in')
     return web.HTTPSeeOther("/")
 
 
@@ -694,7 +688,6 @@ def oauth_fb(request):
         },
     }
     request.db.doc.save(doc)
-    # request.db.doc.update({'_id':'role:simple_users'}, {'$set':{'users.'+user_id:'true'}} )
 
     return web.HTTPSeeOther("/")
 
