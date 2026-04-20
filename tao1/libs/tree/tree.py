@@ -286,7 +286,6 @@ def ban_comm_post(request):
     doc = doc["doc"]
     ip = doc["ip"] if "ip" in doc else ""
     lst = [x.strip() for x in get_const_value(request, "ban_comm", "").split(",")]
-    # die([lst, ip, branch])
     if not ip in lst:
         lst.append(ip)
     set_const_value(request, "ban_comm", ",".join(lst))
@@ -416,7 +415,6 @@ def accept_comm_post(request):
     owner = doc["doc"]["doc_id"]
     comm_id = str(doc["doc"]["comm_id"])
     tree = request.db.tree.find_one({"_id": owner})
-    # die(tree['tree'].keys())
     tree["tree"][comm_id]["pre"] = "false"
     request.db.tree.save(tree)
     return response_json(request, {"result": "ok"})

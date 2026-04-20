@@ -1,7 +1,8 @@
-;(function($){
+;
+(function($) {
     var defaults = {}
 
-    window.dao.scroll = function(vertical_bar_place, horizontal_bar_place, params){
+    window.dao.scroll = function(vertical_bar_place, horizontal_bar_place, params) {
         // Правильное создание нового объекта с присвоением ему значений по-умолчанию и частично указанных новых значений
         var options = $.extend({}, defaults, params);
         var aside_scroll_bar = null;
@@ -17,7 +18,7 @@
         var scroll_width = 0;
         var is_scrolling = false;
 
-//        $('[proc_id="'+options.proc_id+'"] .icon-refresh').click();
+        //        $('[proc_id="'+options.proc_id+'"] .icon-refresh').click();
         bottom_scroll_bar = $('<div style="position:absolute; top:0px; bottom:0px; left:120px; right:0px; border:1px solid #eee;"></div>').appendTo(horizontal_bar_place);
         var bottom_scroll_left = $('<div style="position:absolute; top:0px; bottom:0px; left:0px; width:18px; text-align:center; border:1px solid #eee;" class="ui-corner-left"></div>').appendTo(bottom_scroll_bar);
         bottom_scroll_left.html('◂');
@@ -28,49 +29,53 @@
             .draggable({
                 containment: 'parent',
                 axis: 'x',
-                start: function(){
+                start: function() {
                     $(this).addClass('ui-state-active');
                 },
-                drag: function(){
+                drag: function() {
                     _updateScroll();
                 },
-                stop: function(){
+                stop: function() {
                     $(this).removeClass('ui-state-active');
-                    if(options.stopscroll){
+                    if (options.stopscroll) {
                         options.stopscroll();
                     }
                 }
             });
 
-        bottom_scroll_left.click(function(){
+        bottom_scroll_left.click(function() {
             var poss = bottom_scroll_caret.position();
-            if(poss.left > 0){
+            if (poss.left > 0) {
                 poss.left -= poss.left > 30 ? 30 : poss.left;
-                bottom_scroll_caret.css({'left':poss.left+'px'});
+                bottom_scroll_caret.css({
+                    'left': poss.left + 'px'
+                });
                 _updateScroll();
             }
         });
-        bottom_scroll_right.click(function(){
+        bottom_scroll_right.click(function() {
             var poss = bottom_scroll_caret.position();
             var sc_w = bottom_scroll_caret.width();
             var sp_wh = bottom_scroll_space.width();
             var sp = sp_wh - sc_w - poss.left - 2;
-            if(sp > 0){
+            if (sp > 0) {
                 poss.left += sp > 30 ? 30 : sp;
-                bottom_scroll_caret.css({'left':poss.left+'px'});
+                bottom_scroll_caret.css({
+                    'left': poss.left + 'px'
+                });
                 _updateScroll();
             }
         });
 
 
         // переинициализируем плавающие элементы сетки
-        $(window).resize(function(){
+        $(window).resize(function() {
             _initScroll();
         });
         //              this.bottom_scroll_caret.text('◦◦◦');
-        bottom_scroll_bar.find('.ui-widget-header').hover(function(){
+        bottom_scroll_bar.find('.ui-widget-header').hover(function() {
             $(this).addClass('ui-state-hover');
-        }, function(){
+        }, function() {
             $(this).removeClass('ui-state-hover');
         });
 
@@ -85,65 +90,69 @@
             .draggable({
                 containment: 'parent',
                 axis: 'y',
-                start: function(){
+                start: function() {
                     $(this).addClass('ui-state-active');
                 },
-                drag: function(){
+                drag: function() {
                     _updateScroll();
                 },
-                stop: function(){
+                stop: function() {
                     $(this).removeClass('ui-state-active');
-                    if(options.stopscroll){
+                    if (options.stopscroll) {
                         options.stopscroll();
                     }
                 }
             });
 
-        aside_scroll_top.click(function(){
+        aside_scroll_top.click(function() {
             var poss = aside_scroll_caret.position();
-            if(poss.top > 0){
-                poss.top-= poss.top > 30 ? 30 : poss.top;
-                aside_scroll_caret.css({'top':poss.top+'px'});
+            if (poss.top > 0) {
+                poss.top -= poss.top > 30 ? 30 : poss.top;
+                aside_scroll_caret.css({
+                    'top': poss.top + 'px'
+                });
                 _updateScroll();
             }
         });
-        aside_scroll_bottom.click(function(){
+        aside_scroll_bottom.click(function() {
             var poss = aside_scroll_caret.position();
             var sc_w = aside_scroll_caret.height();
             var sp_wh = aside_scroll_space.height();
             var sp = sp_wh - sc_w - poss.top - 2;
-            if(sp > 0){
-                poss.top+= sp > 30 ? 30 : sp;
-                aside_scroll_caret.css({'top':poss.top+'px'});
+            if (sp > 0) {
+                poss.top += sp > 30 ? 30 : sp;
+                aside_scroll_caret.css({
+                    'top': poss.top + 'px'
+                });
                 _updateScroll();
             }
         });
 
-        aside_scroll_bar.find('.ui-widget-header').hover(function(){
+        aside_scroll_bar.find('.ui-widget-header').hover(function() {
             $(this).addClass('ui-state-hover');
-        }, function(){
+        }, function() {
             $(this).removeClass('ui-state-hover');
         });
         // Назначаем обработчик прокрутки
-        options.vertical_target.scroll(function(){
+        options.vertical_target.scroll(function() {
             _initScroll();
             _updateScroll();
         });
-        options.horizontal_target.scroll(function(){
+        options.horizontal_target.scroll(function() {
             _initScroll();
             _updateScroll();
         });
         reinit();
 
-        function reinit(){
+        function reinit() {
             _initScroll();
             // Инициализируем плавающие элементы сетки
             options.horizontal_target.triggerHandler('scroll');
             options.vertical_target.triggerHandler('scroll');
         }
 
-        function _prepareScroll(){
-//            $('.icon-refresh').click();
+        function _prepareScroll() {
+            //            $('.icon-refresh').click();
 
             // перед прокруткой вычисляет координаты
             var width = options.horizontal_target.width();
@@ -159,7 +168,7 @@
         /**
          * Подготавливает элементы управления и приводит их в соответствие с реальным положением вещей
          */
-        function _initScroll(){
+        function _initScroll() {
             _prepareScroll();
             if (h_scrollSpace > 0) {
                 var space = bottom_scroll_space.innerWidth(); // ширина линии ползунка.
@@ -170,28 +179,34 @@
                     var h_space = bottom_scroll_space.innerWidth() - bottom_scroll_caret.outerWidth(); // свободное пространство
                     var h_scroll = options.horizontal_target.scrollLeft(); //
                     var left = Math.round(h_space * h_scroll / h_scrollSpace);
-                    bottom_scroll_caret.css({ 'display': 'block', 'width': size + 'px', 'left': left + 'px' });
+                    bottom_scroll_caret.css({
+                        'display': 'block',
+                        'width': size + 'px',
+                        'left': left + 'px'
+                    });
                 }
-            }
-            else bottom_scroll_caret.css('display', 'none');
-//                alert( v_scrollSpace);
+            } else bottom_scroll_caret.css('display', 'none');
+            //                alert( v_scrollSpace);
             if (v_scrollSpace > 0) {
                 var space = aside_scroll_space.innerHeight();
                 var size = Math.round(space * v_scrollSize);
                 if (size < 30) size = 30;
                 if (size >= space - 3) size = space - 3;
-//                        alert( options.vertical_target.scrollTop());
+                //                        alert( options.vertical_target.scrollTop());
                 if (size >= 30) {
                     var v_space = aside_scroll_space.innerHeight() - aside_scroll_caret.outerHeight();
                     var v_scroll = options.vertical_target.scrollTop();
                     var top = v_space * v_scroll / v_scrollSpace;
-                    aside_scroll_caret.css({'display':'block', 'height':size + 'px', 'top':top + 'px'});
+                    aside_scroll_caret.css({
+                        'display': 'block',
+                        'height': size + 'px',
+                        'top': top + 'px'
+                    });
                 }
-            }
-            else aside_scroll_caret.css('display', 'none');
+            } else aside_scroll_caret.css('display', 'none');
         }
 
-        function _updateScroll(){ // в соответствии с позицией бегунка выставляет положение таблички
+        function _updateScroll() { // в соответствии с позицией бегунка выставляет положение таблички
             if (is_scrolling) return;
             is_scrolling = true;
             _prepareScroll();
@@ -203,7 +218,7 @@
             var v_back = v_space - v_pos;
             var left;
             var top;
-//                    alert( h_scrollSpace);
+            //                    alert( h_scrollSpace);
             if (h_scrollSpace > 0) {
                 if (h_back == 0) left = h_scrollSpace;
                 else {
@@ -212,7 +227,7 @@
                 }
                 options.horizontal_target.scrollLeft(left);
             }
-//                    alert(v_scrollSpace );
+            //                    alert(v_scrollSpace );
             if (v_scrollSpace > 0) {
                 if (v_back == 0) top = v_scrollSpace;
                 else {
@@ -221,21 +236,17 @@
                 }
                 options.vertical_target.scrollTop(top);
             }
-            if( options.onscroll && (v_scrollSpace>0 || h_scrollSpace>0)) options.onscroll(left, top);
+            if (options.onscroll && (v_scrollSpace > 0 || h_scrollSpace > 0)) options.onscroll(left, top);
             is_scrolling = false;
         }
 
         this.reinit = reinit;
-        this.width = function(){ return scroll_width; }
-        this.height = function(){ return scroll_height;}
+        this.width = function() {
+            return scroll_width;
+        }
+        this.height = function() {
+            return scroll_height;
+        }
 
     }
-})(jQuery);//(function()
-
-
-
-
-
-
-
-
+})(jQuery); //(function()

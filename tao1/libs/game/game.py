@@ -123,7 +123,6 @@ class Bot(Player):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.move_vec = (0, 0)
-        # self.run_task = asyncio.async(self.update)
         self.run_task = asyncio.ensure_future(self.update())
         self.run_task = asyncio.ensure_future(self.update_bot_vec())
         self.run_task = asyncio.ensure_future(self.shoot())
@@ -195,8 +194,6 @@ class Bot(Player):
                 self.move_vec = self.rotate(
                     player.x - self.x, player.z - self.z, math.pi / 2.5
                 )
-
-                # break
             except Exception as e:
                 traceback.print_exc()
                 print("Bot error: {}".format(e))
@@ -277,7 +274,6 @@ class Room(object):
         self._players = set()
         coor = random.sample([2, 3, 4, 5, 6, 7, 8, 9], 2)
         self.bot = Bot(FakeWS(), self, *coor)
-        # self.bot.id = get_hash(3)
 
     def send_all(self, mess, except_=tuple()):
 

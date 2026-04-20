@@ -101,7 +101,6 @@ def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None
                 }
                 if is_limit == ctr:
                     break
-            # die(  attachments  )
             return attachments
 
     if default_img:

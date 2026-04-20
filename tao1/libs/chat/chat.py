@@ -86,13 +86,6 @@ async def online(request):
                                     {"_id": s["user_id"]},
                                     {"$set": {"date": time.time()}},
                                 )
-
-                            # elif e['e'] == "upd_on":
-                    #     request.db.on.update({"_id":e['user_id']}, {"$set": {"date":time.time() } } )
-            # elif msg.tp == aiohttp.MsgType.ping:
-            #     ws.pong()
-            # elif msg.tp == aiohttp.MsgType.pong:
-            #         request.db.on.update({"_id": s['user_id']}, {"$set": {"date":time.time() } } )
             elif msg.tp == aiohttp.MsgType.error:
                 print("ws connection closed with exception %s" % ws.exception())
                 finish(ws)
@@ -120,15 +113,12 @@ async def ping_chat_task():
     while True:
         try:
             for client in clients:
-                # client.pong(message=b'pong')
-                # client.ping()
                 try:
                     print("ping_task=>", client)
                     client.send_str(json.dumps({"e": "ping"}))
                 except Exception as e:
                     traceback.print_exc()
                     print("Ping task error: {}".format(e))
-                # client.ping(message=b'ping')
         except Exception as e:
             traceback.print_exc()
             print("Ping task error: {}".format(e))
@@ -147,7 +137,6 @@ async def check_online_task():
                     app.db.doc.update(
                         {"_id": "user:" + res["_id"]}, {"$set": {"status": "off"}}
                     )
-                # break
         except Exception as e:
             traceback.print_exc()
             print("Ping task error: {}".format(e))

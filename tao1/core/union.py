@@ -29,7 +29,6 @@ import aiohttp_autoreload
 
 routes = []
 tpl_globals = {
-    # 'lang':cur_lang,
     "auth": {"vk": settings.oauth_vk, "fb": settings.oauth_fb, "ok": settings.oauth_ok},
     "debug": settings.debug,
     "domain": settings.domain,
@@ -66,8 +65,6 @@ async def init(loop):
     global app
 
     middlewares = []
-    # middlewares.append(aiohttp_debugtoolbar.middleware) # debugtoolbar.intercept_redirects = false
-
     middlewares.append(db_handler())
     if settings.debug:
         middlewares.append(session_middleware(SimpleCookieStorage()))
@@ -77,10 +74,6 @@ async def init(loop):
         )
 
     app = web.Application(loop=loop, middlewares=middlewares)
-
-    # aiohttp_debugtoolbar.setup(app)
-    # debugtoolbar.intercept_redirects = False
-    # aiohttp_debugtoolbar.intercept_redirects = False
 
     aiohttp_jinja2.setup(
         app, loader=jinja2.FunctionLoader(load_templ), bytecode_cache=None, cache_size=0
@@ -135,8 +128,6 @@ async def init(loop):
         "/st/perm/", os.path.join(settings.tao_path, "libs", "perm", "st")
     )
 
-    # app.router.add_route('GET', '/static/{dir}/{fname}', st_file, name='static')
-
     handler = app.make_handler(debug=True)
     if debug and reload:
         aiohttp_autoreload.start()
@@ -154,7 +145,7 @@ def st_file(request):
     try:
         dir = Path(os.path.join(settings.root_path, "static")).resolve()
         filepath = dir.joinpath(fname).resolve()
-        # filepath.relative_to(dir)
+        filepath.relative_to(dir)
     except (ValueError, FileNotFoundError) as error:
         raise web.HTTPNotFound
 
@@ -172,7 +163,6 @@ async def union_stat(request, *args):
     # search in core components
     else:
         path = os.path.join(settings.tao_path, "libs", component, "static")
-    # app.router.add_static()
     content, headers = get_static_file(fname, path)
     return web.Response(body=content, headers=MultiDict(headers))
 
@@ -374,12 +364,8 @@ def db_handler():
             ):
                 response = await handler(request)
                 return response
-            # # init
-
-            # db.authenticate(settings.database['login'], settings.database['pass'] )
             request.db = app.db
             response = await handler(request)
-            # mongo.close() # yield from db.close()
             return response
 
         return middleware
@@ -518,7 +504,6 @@ def trans(module, s):
     if lng:
         for i in reversed(lng):
             translated = i.gettext(s)
-            # if it transferred to the transleyt different from the original and does not need to look further.
             if s != translated:
                 break
     return translated
@@ -542,7 +527,6 @@ async def union_stat(request, *args):
     # search in core components
     else:
         path = os.path.join(settings.tao_path, "libs", component, "static")
-    # app.router.add_static()
     content, headers = get_static_file(fname, path)
     return web.Response(body=content, headers=MultiDict(headers))
 

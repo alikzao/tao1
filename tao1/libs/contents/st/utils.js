@@ -244,7 +244,8 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
                 }
             });
         } else {
-            /* Do nothing!*/ }
+            /* Do nothing!*/
+        }
     }
 
 

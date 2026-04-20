@@ -131,7 +131,6 @@ def del_fragment(request, doc_id):
     track = "data_" + get_post("track")
     doc = get_clip(doc_id)
     rs = None
-    # die(doc[track])
     for res in range(len(doc[track])):
         if doc[track][res]["frag"] == frag:
             rs = res
@@ -360,7 +359,6 @@ def add_dir(path):
 
 
 def check_video_dir(doc_id, clean=False):
-    # die(bp)
     if not os.path.exists(bp):
         add_dir(bp)
     p = os.path.join(bp, doc_id)
@@ -573,7 +571,6 @@ def draw_img(request, doc_id):
         if res["frag"] == frag:
             rs = res
             break
-    # die(doc)
     rs["title"] = str(frag) + ".jpg"
     rs["filename"] = str(frag) + ".jpg"
     rs["thumb"] = ""

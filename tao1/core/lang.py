@@ -119,7 +119,6 @@ def iter_templ(dir):
 
 def load_translation(in_f, file):
     """Extract lines from a template and save it to a file."""
-    # 	vd( in_f)
     with open(in_f, "r") as f:
         l = f.read().split("\n")
     n = 0

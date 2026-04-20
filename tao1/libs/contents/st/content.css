@@ -3,47 +3,77 @@
 
 
 
-.ui-icon-custom{ background-position: 0px 0px;}
+.ui - icon - custom {
+    background - position: 0 px 0 px;
+}
 /*.custom-coins, .ui-state-default .custom-coins{  background-image: url(/static/core/img/coins.png) }*/
 /*.custom-print_excel, .ui-state-default .custom-print_excel{  background-image: url(/static/core/img/print_excel.png) }*/
 /*.custom-print_pdf, .ui-state-default .custom-print_pdf{  background-image: url(/static/core/img/pdf.png) }*/
-#title{ position: absolute; left: 220px; top:8px; font-size: 20px;}
+#title {
+    position: absolute;left: 220 px;top: 8 px;font - size: 20 px;
+}
 
 
 /* Положение иконок в голосовании */
-.ui-icon-vote{ width: 11px; height: 15px; background-image: url(/st/sites/icons_vote.gif); display: inline-block;}
+.ui - icon - vote {
+        width: 11 px;height: 15 px;background - image: url(/st/sites / icons_vote.gif);display: inline - block;
+    }
 
-.ui-icon-off-vote-up{ background-position: -22px 0px; }/*вправо минус, вниз минус,  */
-.ui-icon-off-vote-down{ background-position: -22px -15px; }/*вправо минус, вниз минус,  */
+    .ui - icon - off - vote - up {
+        background - position: -22 px 0 px;
+    } /*вправо минус, вниз минус,  */
+    .ui - icon - off - vote - down {
+        background - position: -22 px - 15 px;
+    } /*вправо минус, вниз минус,  */
 
-.ui-icon-vote-up { background-position: 0px 0px; }
-.ui-icon-vote-down { background-position: -11px 0px; }
+    .ui - icon - vote - up {
+        background - position: 0 px 0 px;
+    }
+    .ui - icon - vote - down {
+        background - position: -11 px 0 px;
+    }
 
-.ui-icon-on-vote-up { background-position: 0px -15px; }
-.ui-icon-on-vote-down { background-position: -11px -15px; }
+    .ui - icon - on - vote - up {
+        background - position: 0 px - 15 px;
+    }
+    .ui - icon - on - vote - down {
+        background - position: -11 px - 15 px;
+    }
 
-/*  Конец иконок в голосовании */
+    /*  Конец иконок в голосовании */
 
-.button {
-    border:0px solid red;
-    float:left;
-    margin-left:5px;
-    margin-top:5px;
+    .button {
+        border: 0 px solid red;
+        float: left;
+        margin - left: 5 px;
+        margin - top: 5 px;
+    }
+    .select_button {
+        border: 2 px solid blue;
+        float: left;
+        margin - left: 5 px;
+        margin - top: 5 px;
+    }
+    .frame {
+        border: 5 px solid #E59321;
+    }
+cut {
+    display: none;
 }
-.select_button {
-    border:2px solid blue;
-    float:left;
-    margin-left:5px;
-    margin-top:5px;
+.editor cut {
+    display: block;border: 1 px solid gray;background - color: #ddd
 }
-.frame{
-    border:5px solid #E59321;
+
+#login {
+    margin: 100 px 0 px 0 px 0 px;
 }
-cut{display:none; }
-.editor cut{display:block; border: 1px solid gray; background-color: #ddd}
+#signup {
+    margin: 100 px 0 px 0 px 0 px;
+}
+#div_lang {
+    cursor: pointer;
+}
 
-#login{ margin:100px 0px 0px 0px;}
-#signup{ margin:100px 0px 0px 0px;}
-#div_lang{cursor:pointer;}
-
-.jdialog {text-align: left;}
+.jdialog {
+    text - align: left;
+}

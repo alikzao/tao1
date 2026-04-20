@@ -29,7 +29,3 @@ finally:
     loop.run_until_complete(handler.finish_connections(1.0))
     loop.run_until_complete(app.finish())
 loop.close()
-
-# 	loop.call_soon(loop.stop)
-# 	loop.run_forever()
-# 	loop.stop()

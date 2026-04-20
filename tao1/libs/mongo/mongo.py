@@ -323,7 +323,6 @@ def get_exp_file(db_id):
     response.headers["Content-Disposition"] = 'attachment; filename="%s"' % filename
     from core.union import static_file1
 
-    # die(static_file1(fullname, root='/')[:100])
     return static_file1(fullname, root="/")
 
 
@@ -384,6 +383,5 @@ def edit_doc_post():
         db, cn = connect(**s["mongo"])
         db[coll].update({"_id": doc_id}, doc)
         doc = db[coll].find_one({"_id": doc_id})
-        # die(doc)
         return json.dumps({"result": "ok", "doc": doc, "coll": coll})
     return {"result": "fail"}

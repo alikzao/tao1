@@ -31,7 +31,6 @@ def add_basket(ware, quantity):
             "_id": doc["_id"],
         }
     s["basket"][ware]["quantity"] += quantity
-    # die(doc['doc']['count_opt'])
     if (
         "count_opt" in doc["doc"]
         and doc["doc"]["count_opt"]
@@ -40,7 +39,6 @@ def add_basket(ware, quantity):
         amount = float(quantity * doc["doc"]["price_opt"])
         s["basket"][ware]["amount"] = amount
         s.save()
-        # die( s['basket'][ware]['amount'] )
     else:
         amount = float(quantity * doc["doc"]["price"])
         s["basket"][ware]["amount"] += amount

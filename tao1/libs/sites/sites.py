@@ -16,7 +16,6 @@ from math import ceil
 import aiohttp_jinja2
 
 # test()
-# vd(_('ccc'))
 
 
 def page_404(request, page):
@@ -1239,7 +1238,6 @@ def show_object_(request, doc_id, templ_m=False):
                 {"doc_type": "des:comments", "doc.owner": doc["_id"]}
             ).sort("doc.date", 1)
         ]
-        # die( [ doc['_id'], doc_id  ])
         docs = get_full_docs(docs)
         data_tree = form_tree_comm(docs)
 
@@ -1307,7 +1305,6 @@ def show_object_(request, doc_id, templ_m=False):
 @cache("show_object1", expire=get_settings("cache_single_page", 7))
 def show_wiki(request, title):
     title = title.decode("utf-8").lower()
-    # die(title)
     doc = request.db.doc.find_one(
         {"doc_type": "des:wiki", "doc.title." + cur_lang(): title}, {"_id": 1}
     )
@@ -1506,7 +1503,6 @@ def user_profile(request, u):
         db = request.db
         uu = u.replace(".", " ")
         u = db.doc.find_one({"doc_type": "des:users", "doc.name.ru": uu})
-        # die(u)
         if not u:
             return redirect("/")
 
@@ -1608,7 +1604,6 @@ def get_slot_json(request, slotname):
         return t
     else:
         return []
-    # else: return '[]'
 
 
 def get_slot_list(request, slotname):
@@ -2050,7 +2045,6 @@ def test_main(request):
             if "doc" in doc and "small_bit" in doc["doc"]:
                 video = doc["doc"]["small_bit"]
         doc = get_doc("tv_frame_main.tpl", "col:templ")
-        # die(doc)
         if "doc" in doc:
             di = doc["default_img"] if doc and "default_img" in doc else ""
             att = get_nf("col:templ", doc["_id"], 1)
@@ -2072,7 +2066,6 @@ def test_main2(request):
             if "doc" in doc and "small_bit" in doc["doc"]:
                 video = doc["doc"]["small_bit"]
         doc = get_doc("tv_frame_main.tpl", "col:templ")
-        # die(doc)
         if "doc" in doc:
             di = doc["default_img"] if doc and "default_img" in doc else ""
             att = get_nf("col:templ", doc["_id"], 1)

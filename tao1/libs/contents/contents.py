@@ -180,7 +180,6 @@ def get_doc_title_cascad(request, doc, value=None):
     """проверяем что есть поле title или name или value и что оно не равно 32 и в нем нет цыфр
     это для того чтоб не попадало _id в выпадающий список
     """
-    # die(doc)
     title = ""
     if "title" in doc["doc"]:
         titl = ct(request, doc["doc"]["title"])
@@ -266,7 +265,6 @@ def event(event, proc_id, *args, **kwargs):
 def event_1(event, proc_id, doc_id):
     if proc_id in events and events[proc_id]:
         ev = str(events[proc_id][event])
-        # die(ev)
         try:
             eval(ev, glb, {"doc_id": doc_id})
         except Exception as e:
@@ -278,7 +276,6 @@ def event_1(event, proc_id, doc_id):
 
 def event2(event, proc_id, data):
     ev = events.__dict__[proc_id]
-    # die(ev)
     if proc_id in ev and ev[proc_id]:
         try:
             ev = str(ev[proc_id][event])
@@ -333,19 +330,6 @@ def importer(a, s, d, f=[], level=-1):
 
 def sandboxed(request, code, data):
     pass
-
-
-# 	# from app.accounting.accounting import export
-# 	# e = export()
-# 	data.update()
-# #	data['vd'] = vd
-# 	data['error'] = ''
-# 	data['db_doc'] = db.doc
-# 	__builtin__.__import__ = importer
-# 		exec(ev, data)
-#
-# 		__builtin__.__import__ = import_backup
-# 	__builtin__.__import__ = import_backup
 
 
 def add_func(request):

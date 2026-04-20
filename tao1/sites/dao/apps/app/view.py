@@ -28,7 +28,6 @@ async def ws(request):
 async def ws_handler(request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
-    # ws.start(request)
     async for msg in ws:
         if msg.tp == MsgType.text:
             if msg.data == "close":
