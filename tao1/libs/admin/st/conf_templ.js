@@ -1,30 +1,32 @@
-function init_conf_templ(conf, conf_name){
+function init_conf_templ(conf, conf_name) {
 
-    $('.switch_template').on('click', '.btn', function(){
+    $('.switch_template').on('click', '.btn', function() {
         var t_name = $(this).text();
         $('.templates').find('> *').hide()
-        $('.templates').find('> [t_name="'+t_name+'"]').show()
+        $('.templates').find('> [t_name="' + t_name + '"]').show()
         $(this).parent().find('*').removeClass('disabled');
         $(this).addClass('disabled');
         return false;
     });
     $('.templates').find('> *').hide().eq(0).show();
 
-    $('body').on('click', '.switch_div .btn', function(){
+    $('body').on('click', '.switch_div .btn', function() {
         var a_name = $(this).attr('target');
         $(this).closest('[t_name]').find('[a_name]').hide();
-        $(this).closest('[t_name]').find('[a_name="'+a_name+'"]').show()
+        $(this).closest('[t_name]').find('[a_name="' + a_name + '"]').show()
         $(this).parent().find('*').removeClass('disabled');
         $(this).addClass('disabled');
         return false;
     });
-    $('[t_name]').each(function(){ $(this).find('[a_name]').hide().eq(0).show(); });
+    $('[t_name]').each(function() {
+        $(this).find('[a_name]').hide().eq(0).show();
+    });
 
-    $('body').on('click', '.conf_templ_dialog', function(e){
+    $('body').on('click', '.conf_templ_dialog', function(e) {
         var slot_name = $(this).closest('[slot]').attr('slot');
         var conf_name = $(this).closest('[t_name]').attr('t_name');
-        get_data_dialog( slot_name, conf_name);
-//        e.stopPropagation();
+        get_data_dialog(slot_name, conf_name);
+        //        e.stopPropagation();
         e.stopImmediatePropagation();
         return false;
     });
@@ -48,35 +50,45 @@ function init_conf_templ(conf, conf_name){
         "<div><div data-content='Показывать только один раз каждого уникального автора или нет' data-placement='right' rel='popover' data-trigger='hover' title='Уник. автор в ячейке' class='title'>Уник. автор: </div><div class='val'><%= last_art %></div></div>" +
         "<div><div data-content='Срок дней показа'                                              data-placement='right' rel='popover' data-trigger='hover' title='Срок показа' class='title'>Срок показа: </div><div class='val'><%= term %> дней</div></div>" +
         "</div>" +
-        "<style>"+
-        ".single_slot .title{ display:inline-block; width: 93px; color:#48f; }"+
-        ".single_slot > div{ margin-top:2px; padding:2px; border:1px solid #ddd; border-radius:3px;}"+
-        ".single_slot .val{ display:inline; width: 150px; font-weight: normal; }"+
-        "</style>" ;
-//    <a href="#" class="www" data-content="Привет" data-placement='right' rel="popover" data-trigger="hover" title="first tooltip">hover over me</a>
-
-//    var conf = {{ env.jd(conf) }};
+        "<style>" +
+        ".single_slot .title{ display:inline-block; width: 93px; color:#48f; }" +
+        ".single_slot > div{ margin-top:2px; padding:2px; border:1px solid #ddd; border-radius:3px;}" +
+        ".single_slot .val{ display:inline; width: 150px; font-weight: normal; }" +
+        "</style>";
     $('[name="by_group"]').chosen();
     dao.log('start');
-    $('[t_name="'+conf_name+'"] [slot]').each(function(){
+    $('[t_name="' + conf_name + '"] [slot]').each(function() {
         var slot = conf[$(this).attr('slot')];
-//        if(!slot) return;
         draw_slot.call(this, slot ? slot : {}, $(this).attr('slot'));
     });
 
-    function draw_slot(slot, slot_name){
+    function draw_slot(slot, slot_name) {
         log(slot);
-        $(this).html(_.template(t, {slot_name:slot_name, kind:slot['kind'], templ:slot['templ'], tag:slot['tag'], user:slot['user'], by_group:slot['by_group'],
-            role:slot['role'], sort:slot['sort_title'], limit:slot['limit'], vote:slot['vote'], term:slot['term'],
-            last_art :slot['last_art_title'], color2:slot['color2'],color:slot['color'], name:slot['name'], kind_title:slot['kind_title'], user_title:slot['user_title'] }));
-    //    		$(this).html(_.template(t, {name:slot['name'], templ:slot['templ'], tag:slot['tags'], user:slot['user']}));
+        $(this).html(_.template(t, {
+            slot_name: slot_name,
+            kind: slot['kind'],
+            templ: slot['templ'],
+            tag: slot['tag'],
+            user: slot['user'],
+            by_group: slot['by_group'],
+            role: slot['role'],
+            sort: slot['sort_title'],
+            limit: slot['limit'],
+            vote: slot['vote'],
+            term: slot['term'],
+            last_art: slot['last_art_title'],
+            color2: slot['color2'],
+            color: slot['color'],
+            name: slot['name'],
+            kind_title: slot['kind_title'],
+            user_title: slot['user_title']
+        }));
         $(this).find('[rel="popover"]').popover();
-//        $('.single_slot [rel="popover"]').popover();
     }
 
-    function make_slot(slot){
-        if(!slot) return;
-        $(':input', this).each(function () {
+    function make_slot(slot) {
+        if (!slot) return;
+        $(':input', this).each(function() {
             // получаем имя инпута
             dao.log('f');
             var i = $(this).attr('name');
@@ -92,24 +104,22 @@ function init_conf_templ(conf, conf_name){
                 if (i == 'sort') $(this).val(slot[i]);
                 if (i == 'last_art') $(this).attr('checked', slot[i] == 'true');
                 if (i == 'user') dao.get_list_doc_($(this), 'des:users', slot[i], true);
-                if (i == 'by_group') dao.get_list_branch_( $(this), 'des:users', slot[i], false);
-                if (i == 'role') dao.get_list_doc_( $(this), 'des:role', slot[i], false);
+                if (i == 'by_group') dao.get_list_branch_($(this), 'des:users', slot[i], false);
+                if (i == 'role') dao.get_list_doc_($(this), 'des:role', slot[i], false);
 
-                else $(this).val(slot[i] );
+                else $(this).val(slot[i]);
             } else {
                 dao.log('false');
                 if (i == 'user') dao.get_list_doc_($(this), 'des:users', [], true);
-                if (i == 'by_group')dao.get_list_branch_( $(this), 'des:users', '', false);
-                if (i == 'role')dao.get_list_doc_( $(this), 'des:role', '', false);
+                if (i == 'by_group') dao.get_list_branch_($(this), 'des:users', '', false);
+                if (i == 'role') dao.get_list_doc_($(this), 'des:role', '', false);
             }
-    //        			if (i == 'templ') $(this).chosen();
-    //        			if (i == 'kind') $(this).chosen();
         })
-        $('[name="color"]', this).find('option').each(function(){
-            $(this).html('<div class="col_h '+$(this).attr('value')+'">'+$(this).attr('value')+'</div>');
+        $('[name="color"]', this).find('option').each(function() {
+            $(this).html('<div class="col_h ' + $(this).attr('value') + '">' + $(this).attr('value') + '</div>');
         });
-        $('[name="color2"]', this).find('option').each(function(){
-            $(this).html('<div class="col_h '+$(this).attr('value')+'">'+$(this).attr('value')+'</div>');
+        $('[name="color2"]', this).find('option').each(function() {
+            $(this).html('<div class="col_h ' + $(this).attr('value') + '">' + $(this).attr('value') + '</div>');
         });
 
     }
@@ -138,7 +148,7 @@ function init_conf_templ(conf, conf_name){
         "<option class='col_h yellow' value='yellow'></option>" +
         "<option class='col_h violet' value='violet'></option>" +
         "<option class='col_h pink' value='pink'></option>" +
-        "</select>"+
+        "</select>" +
         "<select class='form-control input-sm' name='color2'>" +
         "<option class='col_h blue' value='blue'></option>" +
         "<option class='col_h blue1' value='blue1'></option>" +
@@ -248,49 +258,60 @@ function init_conf_templ(conf, conf_name){
         "</div>" +
         "<style> .sett input, .sett select{margin-bottom:5px;}</style>";
 
-    function get_data_dialog(slot_name, conf_name){
+    function get_data_dialog(slot_name, conf_name) {
         $.ajax({
-            type:"POST", dataType:"json", url:'/get_data_slot',
-            data:{ slot_name:slot_name, conf_name: conf_name},
-            success:function (data) {
+            type: "POST",
+            dataType: "json",
+            url: '/get_data_slot',
+            data: {
+                slot_name: slot_name,
+                conf_name: conf_name
+            },
+            success: function(data) {
                 var dialog = $(
 
-                    '<div class="modal">'+
-                        '<div class="modal-dialog">'+
-                            '<div class="modal-content">'+
-                                '<div class="modal-header">'+
-                                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Edit template</h3></div>' +
-                                '<div class="modal-body" ></div>' +
-                                '<div class="modal-footer"><div class="btn-group">'+
-                            '<span class="btn" data-dismiss="modal">Close</span>'+
-                            '<span class="save btn btn-primary" data-dismiss="modal">Ok</span>'+
-                                '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
+                    '<div class="modal">' +
+                    '<div class="modal-dialog">' +
+                    '<div class="modal-content">' +
+                    '<div class="modal-header">' +
+                    '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Edit template</h3></div>' +
+                    '<div class="modal-body" ></div>' +
+                    '<div class="modal-footer"><div class="btn-group">' +
+                    '<span class="btn" data-dismiss="modal">Close</span>' +
+                    '<span class="save btn btn-primary" data-dismiss="modal">Ok</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
                     '</div>'
 
                 ).appendTo('body');
                 dialog.modal();
                 var modal_body = dialog.find('.modal-body');
-                modal_body.html(_.template(t_dialog ));
+                modal_body.html(_.template(t_dialog));
                 make_slot.call(modal_body[0], data);
-                dialog.find('.save').on('click', function () {
+                dialog.find('.save').on('click', function() {
                     var rs = {};
                     $(':input', dialog).each(function() {
                         var n = $(this).attr('name');
-                        if( !n) return ;
+                        if (!n) return;
                         var v = '';
-                        if($(this).is(':checkbox')) v = $(this).is(':checked') ? 'true' : 'false';
+                        if ($(this).is(':checkbox')) v = $(this).is(':checked') ? 'true' : 'false';
                         else v = $(this).val()
                         rs[n] = v;
                     });
                     $.ajax({
-                        type:"POST", dataType:"json", url:'/save_slot',
-                        data:{ slot_name:slot_name, conf_name:conf_name, data:JSON.stringify(rs)},
-                        success:function (data) {
+                        type: "POST",
+                        dataType: "json",
+                        url: '/save_slot',
+                        data: {
+                            slot_name: slot_name,
+                            conf_name: conf_name,
+                            data: JSON.stringify(rs)
+                        },
+                        success: function(data) {
                             if (data.result == 'ok') {
-                                draw_slot.call($('[t_name="'+conf_name+'"] [slot="'+slot_name+'"]')[0], data.slot);
+                                draw_slot.call($('[t_name="' + conf_name + '"] [slot="' + slot_name + '"]')[0], data.slot);
                             }
                         }
                     });
@@ -299,13 +320,3 @@ function init_conf_templ(conf, conf_name){
         });
     }
 }
-
-
-
-
-
-
-
-
-
-
