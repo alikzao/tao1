@@ -7,9 +7,9 @@
 	<link rel="shortcut icon" href="/static/static/img/favicon.ico" type="image/x-icon">
 
 	{% if doc.proc_id == 'des:comments'%}
-	    <title> {{ env.ct(doc.doc.body)[:40]}} (Версия для печати)</title>
+	    <title> {{ env.ct(doc.doc.body)[:40]}} (Print version)</title>
 	{% else %}
-	    <title> {{ env.ct(doc.doc.title)}} (Версия для печати)</title>
+	    <title> {{ env.ct(doc.doc.title)}} (Print version)</title>
 	{% endif %}
 
 </head>
@@ -17,7 +17,7 @@
 <body style="">
 
 
-<div style="border-bottom:1px solid grey; text-align: center;">{{ env.domain }}&nbsp;&nbsp;&nbsp;Новости. События. Комментарии.</div>
+<div style="border-bottom:1px solid grey; text-align: center;">{{ env.domain }}&nbsp;&nbsp;&nbsp;News. Events. Comments.</div>
 
 <div>
 	{% if doc.proc_id == 'des:comments'%}
@@ -31,7 +31,7 @@
     <div>{{env.ct(doc.doc.body)}} </div>
 </div>
 
-<div style="border-top:1px solid grey; text-align: center;" >При полном или частичном использовании материалов ссылка (для интернет-изданий - гиперссылка) на <a href="{{ env.domain }}">{{env.domain}}</a> обязательна.</div>
+<div style="border-top:1px solid grey; text-align: center;" >When using materials in full or in part, a link (for online media: a hyperlink) to <a href="{{ env.domain }}">{{env.domain}}</a> is required.</div>
 
 
 </body>

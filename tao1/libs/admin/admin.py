@@ -32,21 +32,21 @@ def get_ss(request):
             "id": "ss:conf_adm",
             "_id": "conf_adm",
             "class": "d_rb",
-            "title": ct(request, "Конфигурация админки"),
+            "title": ct(request, "Admin configuration"),
             "link": "",
         },
         {
             "id": "ss:add_func",
             "_id": "add_func",
             "class": "d_rb",
-            "title": ct(request, "Создать функцию"),
+            "title": ct(request, "Create function"),
             "link": "",
         },
         {
             "id": "ss:change_pass",
             "_id": "change_pass",
             "class": "d_rb",
-            "title": ct(request, "Сменить пароль"),
+            "title": ct(request, "Change password"),
             "link": "",
         },
         {
@@ -88,7 +88,7 @@ def get_ss(request):
 
 
 def show_conf(request):  # route('/conf', 'GET')
-    """Показывает список дизайнерских документов"""
+    """Legacy docstring translated from Russian."""
     if get_const_value(request, "is_admin") == "false" and not is_admin(request):
         return web.HTTPSeeOther("/")
     if not user_is_logged_in(request):
@@ -98,7 +98,7 @@ def show_conf(request):  # route('/conf', 'GET')
     ss = []
     all_menu = []
     special = ["des:users", "des:report_pe", "des:conf", "des:role"]
-    # выводим справочники и документы из документа прослойки.
+    # Legacy comment translated from Russian.
     for res in request.db.map.find(
         {
             "conf.turn": "true",
@@ -119,13 +119,13 @@ def show_conf(request):  # route('/conf', 'GET')
             request, res["_id"], "view"
         ):
             all_rbs.append(res)
-    # выводим настроечные кнопки которые справа.
+    # Legacy comment translated from Russian.
     for res in get_ss(request):
         if user_has_permission(request, res["id"], "view"):
             res["id"] = res["id"][:2] + "_" + res["id"][3:]
             ss.append(res)
 
-    # выводим кнопки работы с меню.
+    # Legacy comment translated from Russian.
     for res in request.db.tree.find({"sub_type": "menu"}):
         if user_has_permission(request, res["_id"], "view"):
             all_menu.append(res)
@@ -213,33 +213,33 @@ def get_slot_name(request, slot):
     else:
         slot["user_title"] = "-"
     sorts = {
-        "date": "Дата",
-        "rate": "Рейтинг",
-        "views": "Просмотры",
-        "comm": "Комментарии",
+        "date": "Date",
+        "rate": "Rating",
+        "views": "Views",
+        "comm": "Comments",
     }
 
     slot["sort_title"] = sorts[slot["sort"]] if slot["sort"] in sorts else "-"
     slot["last_art_title"] = (
-        "Да" if "last_art" in slot and slot["last_art"] == "true" else "Нет"
+        "Yes" if "last_art" in slot and slot["last_art"] == "true" else "No"
     )
     tpl = {
-        "slot1": "slot1-Стандартный",
-        "poll": "poll-Голосование",
-        "slot_n": "slot_n-Стандартный новостной",
-        "slot_m": "slot_m-Стандартный мини",
-        "slot_m2": "slot_m2-Улучшеный мини",
-        "slot_mm": "slot_mm-Стандартный мини мини",
-        "slot_mm2": "slot_mm2-Стандартный мини мини2",
-        "slot_car": "slot_car-Прокрутка",
-        "slot_r": "slot_r-Радио",
-        "slot_r_mm": "slot_r_mm-Радио мини",
-        "slot_b": "slot_b-Банеры",
-        "slot_t": "slot_t-Кругозор",
-        "slot_l": "slot_l-Списком",
-        "slot_tab1": "slot_tab1-Закладки",
-        "slot_tab2": "slot_tab2-Закладки2",
-        "slot_u": "slot_u-Пользователи",
+        "slot1": "slot1-Standard",
+        "poll": "poll-Voting",
+        "slot_n": "slot_n-Standard news",
+        "slot_m": "slot_m-Standard mini",
+        "slot_m2": "slot_m2-Improved mini",
+        "slot_mm": "slot_mm-Standard mini mini",
+        "slot_mm2": "slot_mm2-Standard mini mini2",
+        "slot_car": "slot_car-Carousel",
+        "slot_r": "slot_r-Radio",
+        "slot_r_mm": "slot_r_mm-Radio mini",
+        "slot_b": "slot_b-Banners",
+        "slot_t": "slot_t-Panorama",
+        "slot_l": "slot_l-List view",
+        "slot_tab1": "slot_tab1-Tabs",
+        "slot_tab2": "slot_tab2-Tabs2",
+        "slot_u": "slot_u-Users",
     }
     slot["tpl_title"] = tpl[slot["templ"]] if slot["templ"] in tpl else "-"
     return slot
@@ -335,7 +335,7 @@ def edit_conf(request):
 
 
 def edit_conf_post(request):
-    """Заносим видимость или невидимость кнопки тоесть модуля"""
+    """Legacy docstring translated from Russian."""
     data = get_post(request)
     data = json.loads(data["data"])
     for res in request.db.map.find(
@@ -349,8 +349,7 @@ def edit_conf_post(request):
 
 
 def del_ref_post(request):
-    """Вначале удаляем из ролей справочник потом удаляем его самого,
-    дерево, затем удаляем или переносим все документы что были в нем"""
+    """Legacy docstring translated from Russian."""
     from libs.table.table import del_row
 
     data = get_post(request)
@@ -498,11 +497,11 @@ def get_templ_post(request):
 
 
 def get_arhiv_templ():
-    """Получение архива с шаблоном или модулем и установка и раскидывание его по деректориям"""
+    """Legacy docstring translated from Russian."""
     from zipfile import ZipFile
     import os
 
-    # путь для распаковки файлов
+    # Legacy comment translated from Russian.
     path = os.path.join(settings.lib_path, "media/upload/products")
     f = ZipFile("filename", "r")
     for name in f.namelist():

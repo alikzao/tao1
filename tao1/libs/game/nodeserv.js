@@ -22,11 +22,11 @@ function init() {
 	var WebSocketServer = require('ws').Server , wss = new WebSocketServer({port: 9999});
     wss.on('connection', function(ws) {
         max_id += 1;  // math.random()
-        console.log("Новое соединение, клиент " + max_id);
+        console.log("New connection, client " + max_id);
         clients[max_id] = ws;
         this.id = max_id;
         ws.id = max_id;
-        console.log("Список клиентов: " + clients);
+        console.log("Client list: " + clients);
         ws.on('message', function(e) {
 
             var e =JSON.parse(e);
@@ -106,7 +106,7 @@ function init() {
                 }
 
             }else{
-                console.log('получено сообщение ' + e);
+                console.log('message received ' + e);
                 for(var i in clients)
                     clients[i].send(e);
             }

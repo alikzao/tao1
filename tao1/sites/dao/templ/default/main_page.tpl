@@ -9,7 +9,7 @@
 	<link rel="alternate" href="/rss" type="application/rss+xml" title="RSS">
 	<link rel="shortcut icon" href="/static/static/img/favicon.ico" type="image/x-icon">
 
-	<title> тест aiohttp </title>
+	<title> aiohttp test </title>
 	<meta content="IE=Edge" http-equiv="X-UA-Compatible">
 </head>
 

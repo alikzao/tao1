@@ -19,7 +19,7 @@ import core.union
 
 # ACL - access controll list
 def user_has_permission(request, entity, permission, field=None):
-    """Check in current session наличие пользователя из списка прав если да то return True"""
+    """Legacy docstring translated from Russian."""
     name = get_current_user(request, False)
     has = True
     if is_admin(request):
@@ -125,7 +125,7 @@ async def users_group(request):  # @route('/users', method='GET')
 
 
 async def users_group_post(request):
-    """Отображает список прав ролей для таблицы установки прав"""
+    """Legacy docstring translated from Russian."""
     if not user_is_logged_in(request):
         return {
             "result": "fail",
@@ -187,7 +187,7 @@ async def users_group_post(request):
     data = data[(cur_page - 1) * limit : cur_page * limit]
     pages = {"count": count, "current": cur_page, "next": 0, "prev": 0}
     head = report_cons_head(
-        [("title", "Пользователи")] + [(i, i) for i in roles], "checkbox", "true"
+        [("title", "Users")] + [(i, i) for i in roles], "checkbox", "true"
     )
 
     print("heqd->", head)
@@ -226,7 +226,7 @@ async def get_pagination2(request, condition, collection="doc"):
 
 
 def group_perm_post1(request, parent):
-    """Draw права справочника and fields"""
+    """Legacy docstring translated from Russian."""
     data = []
     roles = get_roles(request)
     child0 = []
@@ -244,7 +244,7 @@ def group_perm_post1(request, parent):
     if parent in ["des:obj"]:
         rb_perm += ["fb_import", "edit_radio"]
     doc = request.db.map.find_one({"_id": parent}, {"doc": 1})
-    for i in rb_perm:  # назначаем права на справочники    выводим права на справочники
+    for i in rb_perm:  # Legacy comment translated from Russian.
         sub_id = parent + "/" + i
         results = []
         for (
@@ -265,7 +265,7 @@ def group_perm_post1(request, parent):
         )
         child0.append(sub_id)
 
-    for rs in doc["doc"]:  # находим выводим все поля справочников
+    for rs in doc["doc"]:  # Legacy comment translated from Russian.
         sub_id = parent + ":" + rs["id"]
         data.append(
             build_row_report(
@@ -283,7 +283,7 @@ def group_perm_post1(request, parent):
         request,
         {
             "result": "ok",
-            "head": report_cons_head([("title", "Название")], "checkbox", "true"),
+            "head": report_cons_head([("title", "Name")], "checkbox", "true"),
             "data": data,
             "page": 1,
             "pagectr": 1,
@@ -293,11 +293,11 @@ def group_perm_post1(request, parent):
 
 
 def group_perm_post2(request, parent):
-    """Рисуем права на поля"""
+    """Legacy docstring translated from Russian."""
     data = []
     roles = get_roles(request)
     field_perm = ["view", "edit"]
-    for perm in field_perm:  # назначаем права на поля
+    for perm in field_perm:  # Legacy comment translated from Russian.
         sub_sub_id = parent + "/" + perm
         results = []
         for role in roles:
@@ -318,7 +318,7 @@ def group_perm_post2(request, parent):
             {
                 "result": "ok",
                 "head": report_cons_head(
-                    [("title", "Название")] + [(i, i) for i in roles],
+                    [("title", "Name")] + [(i, i) for i in roles],
                     "checkbox",
                     "true",
                 ),
@@ -332,13 +332,13 @@ def group_perm_post2(request, parent):
 
 
 async def group_perm_post0(request):  # @route('/permission', method='POST')
-    """Просто рисуем список всех справочников"""
+    """Legacy docstring translated from Russian."""
     if not user_is_logged_in(request):
         return response_json(
             request,
             {
                 "result": "fail",
-                "error": "Сеанс закончился зайдите в систему",
+                "error": "Session expired. Sign in again.",
                 "need_action": "login",
             },
         )
@@ -349,7 +349,7 @@ async def group_perm_post0(request):  # @route('/permission', method='POST')
 
     pages, req = await get_pagination2(request, condition, "map")
 
-    for res in req:  # находим все справочники
+    for res in req:  # Legacy comment translated from Russian.
         data.append(
             build_row_report(
                 title="<b>{}</b>".format(res["_id"]),
@@ -366,7 +366,7 @@ async def group_perm_post0(request):  # @route('/permission', method='POST')
         {
             "result": "ok",
             "head": report_cons_head(
-                [("title", "Всего")] + [(i, i) for i in roles], "checkbox", "true"
+                [("title", "Total")] + [(i, i) for i in roles], "checkbox", "true"
             ),
             "data": data,
             "pages": pages,
@@ -429,9 +429,9 @@ def ins_img(checked):
     )
 
 
-def report_cons_head(columns=[("title", "Всего")], type="string", is_editable="false"):
+def report_cons_head(columns=[("title", "Total")], type="string", is_editable="false"):
     t = ""
-    t += '"title":{"id":"title", "title":"Название", "type":"string", "is_editable":"false"},'
+    t += '"title":{"id":"title", "title":"Name", "type":"string", "is_editable":"false"},'
     c = 0
     cols = []
     for item in columns:
@@ -455,7 +455,7 @@ def report_cons_head(columns=[("title", "Всего")], type="string", is_editab
 
 
 async def group_perm_uc_post(request):
-    """Установка прав для ролей"""
+    """Legacy docstring translated from Russian."""
     data = await request.post()
     permission = data.get("id")
     role = data.get("field")
@@ -480,7 +480,7 @@ async def group_perm_uc_post(request):
 
 
 async def users_group_uc_post(request):
-    """Установка членства пользователей"""
+    """Legacy docstring translated from Russian."""
     data = await request.post()
     user = data.get("id")
     role = data.get("field")

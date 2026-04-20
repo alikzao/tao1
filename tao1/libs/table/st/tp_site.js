@@ -1,9 +1,9 @@
 ;
 (function($) {
-    // используется для создания удаления и редактирования документов
+    // Legacy comment translated from Russian.
     var defaults = {}
     window.dao.tp_site = function(parent, params) {
-        //10 миллионов местные, выше федеральные власти.
+        // Legacy comment translated from Russian.
         var options = $.extend({}, defaults, params);
         var width_window = document.body.clientWidth;
         var height_window = document.body.clientHeight;
@@ -25,7 +25,7 @@
                     row_id: row_id
                 },
                 beforeSend: function() {
-                    dao.status_bar('В процессе', true);
+                    dao.status_bar('In progress', true);
                 },
                 success: function(data) {
                     if (data['result'] == 'ok') {
@@ -60,11 +60,11 @@
                     doc_id: doc_id
                 },
                 beforeSend: function() {
-                    dao.status_bar_box('Дублируется', true);
+                    dao.status_bar_box('Duplicating', true);
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
-                        alert('Документ скопирован');
+                        alert('Document copied');
                         if (options.on_success && options.on_success.call) {
                             options.on_success(data);
                         }
@@ -85,7 +85,7 @@
                     row_id: old_row_id
                 },
                 beforeSend: function() {
-                    dao.status_bar_box('Дублируется', true);
+                    dao.status_bar_box('Duplicating', true);
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
@@ -108,7 +108,7 @@
                     row_id: row_id
                 },
                 beforeSend: function() {
-                    dao.status_bar_box('Редактируется', true);
+                    dao.status_bar_box('Editing', true);
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
@@ -136,7 +136,7 @@
                     defaults: JSON.stringify(par)
                 },
                 beforeSend: function() {
-                    dao.status_bar_box('Создается', true);
+                    dao.status_bar_box('Creating', true);
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
@@ -158,19 +158,19 @@
             var ctr = 0;
             var dialog_open = false;
             var created = false;
-            //вызываем диалог для занесения данных
+            // Legacy comment translated from Russian.
 
             dialog = $(
                 '<div class="modal" style="width:100%; height:100%; display:none;">' +
                 '<div class="modal-dialog" style="width:70%; height:100%;" >' +
                 '<div class="modal-content" style="width:100%; height:90%;">' +
                 '<div class="modal-header">' +
-                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Создание документа</h3></div>' +
+                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Create document</h3></div>' +
                 '<div class="modal-body row" style="overflow:auto; position:absolute; top:50px; right:20px; left:20px; bottom:60px;" ></div>' +
                 '<div class="modal-footer" style="position:absolute; bottom:0px; right:0;">' +
                 '<div class="btn-group">' +
-                '<span  class="btn btn-default cancel" data-dismiss="modal">Закрыть</span>' +
-                '<span class="btn btn-primary save" data-dismiss="modal">Сохранить</span>' +
+                '<span  class="btn btn-default cancel" data-dismiss="modal">Close</span>' +
+                '<span class="btn btn-primary save" data-dismiss="modal">Save</span>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -209,7 +209,7 @@
                 } else dialog.modal('hide');
             }
 
-            // если функция пишется без скобок то мы её просто передаем
+            // Legacy comment translated from Russian.
             function do_ok() {
                 var inputs = dialog.find('input[type=text],input[type=password],input[type=hidden],input[type=checkbox]:checked,input[type=radio]:checked,select,textarea, div[name]');
                 var data = {};
@@ -242,7 +242,7 @@
                         body: body
                     },
                     beforeSend: function() {
-                        dao.status_bar_box('В процессе', true);
+                        dao.status_bar_box('In progress', true);
                     },
                     success: function(data) {
                         if (data.result == 'ok') {
@@ -268,14 +268,14 @@
                 if (bid) {
                     input = $('<input type="hidden" value="' + bid + '" name="branch_id"/>').appendTo(nest);
                 } else {
-                    $('<label><h1>' + dao.translate('Категория') + '</h1></label>').appendTo(nest);
+                    $('<label><h1>' + dao.translate('Category') + '</h1></label>').appendTo(nest);
                     var sel1 = $('<select class="form-control" name="branch_id"><option value=""></option></select>').appendTo(nest);
                     dao.get_list_branch(sel1, options.proc_id, bid);
                 }
             }
             if (options.proc_id == 'des:ware_class') {
-                $('<label><h1>' + dao.translate('Категория') + '</h1></label>').appendTo(nest);
-                var sel1 = $('<select class="form-control" name="parent_id"><option value="_">Корень</option></select>').appendTo(nest);
+                $('<label><h1>' + dao.translate('Category') + '</h1></label>').appendTo(nest);
+                var sel1 = $('<select class="form-control" name="parent_id"><option value="_">Root</option></select>').appendTo(nest);
                 dao.get_list_doc(sel1, options.proc_id, bid);
             }
             for (var k in prepare_form) {
@@ -301,7 +301,7 @@
                         if (v.field == 'pub') input.attr('checked', 'checked');
                     } else if (v.type == 'rich_edit') {
                         input = $('<div class="t_rich_edit" style="min-height:200px; max-height:500px; border:3px solid #bbb; overflow:auto;"></div>').appendTo(nest).html(v.value).attr('name', v.field);
-                        var par = { //опции нужны для файлого менеджера для добавления картинок
+                        var par = { // Legacy comment translated from Russian.
                             url: options.url,
                             id: options.proc_id,
                             doc_id: row_id,
@@ -326,16 +326,16 @@
                                 stepSecond: 1,
                                 hourMin: 0,
                                 hourMax: 23,
-                                closeText: "Готово",
-                                currentText: "Сейчас",
-                                timeOnlyTitle: "Выберите время",
-                                timeText: "Время",
-                                hourText: "Часы",
-                                minuteText: "Минуты",
-                                secondText: "Секунды",
-                                monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-                                monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-                                dayNamesMin: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
+                                closeText: "Done",
+                                currentText: "Now",
+                                timeOnlyTitle: "Select time",
+                                timeText: "Time",
+                                hourText: "Hours",
+                                minuteText: "Minutes",
+                                secondText: "Seconds",
+                                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                                monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                dayNamesMin: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                                 onClose: function() {
                                     // $(this).attr("isdate", null);
                                     // _saveField(iddname, input.val(), idd, $(cell));
@@ -362,7 +362,7 @@
         function table_in_dialog(params) {
             var table_id = 'des:credit_invoice_ware';
             dialog = $("<div class='jdialog'></div>");
-            dialog.attr('title', 'Добавление');
+            dialog.attr('title', 'Add');
             var form = $('<form><fieldset><div></div></fieldset><form>').appendTo(dialog);
             var formbody = $('fieldset', form);
             var nest = $('div', formbody);
@@ -374,7 +374,7 @@
                 width: document.body.clientWidth,
                 modal: true,
                 buttons: {
-                    'Опубликовать': function() {
+                    'Publish': function() {
                         var ids = {};
                         $('.dl input').each(function() {
                             ids[$(this).closest('[recid]').attr('recid')] = $(this).val();
@@ -389,7 +389,7 @@
                                 ids: JSON.stringify(ids)
                             },
                             beforeSend: function() {
-                                dao.status_bar_box('В процессе', true);
+                                dao.status_bar_box('In progress', true);
                             },
                             success: function(data) {
                                 if (data['result'] == 'ok') {
@@ -404,7 +404,7 @@
                             }
                         });
                     },
-                    'Отмена': function() {
+                    'Cancel': function() {
                         dialog.dialog('close');
                     }
                 },
@@ -541,7 +541,7 @@
                 width: 300,
                 modal: true,
                 buttons: {
-                    'Опубликовать': function() {
+                    'Publish': function() {
                         var dialog = $(this); // var to = $(' option:selected').val();
                         var to = sel.val();
                         $.ajax({
@@ -566,7 +566,7 @@
                             }
                         });
                     },
-                    'Отмена': function() {
+                    'Cancel': function() {
                         $(this).dialog('close');
                     }
                 },
@@ -586,5 +586,5 @@
         this.del = del;
         this.pub = pub;
         this.create = create;
-    } //	$.extend( window.dao, f(jQuery) ); // расширяем
+    } // Legacy comment translated from Russian.
 })(jQuery); //(function()

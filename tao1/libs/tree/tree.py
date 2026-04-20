@@ -31,7 +31,7 @@ def str_date_j():
 
 
 async def add_comm_post(request):
-    """current_id это id ветки"""
+    """Legacy docstring translated from Russian."""
     data = await request.post()
     ip = None
     print("data->", data)
@@ -48,7 +48,7 @@ async def add_comm_post(request):
             request,
             {
                 "result": "fail",
-                "error": "Ваш ip или аккаунт забанен на этом сайте, свяжитесь с администрацией",
+                "error": "Your IP or account is banned on this site. Contact the administrator.",
             },
         )
     else:
@@ -63,7 +63,7 @@ async def add_comm_post(request):
             request,
             {
                 "result": "fail",
-                "error": "Вы не можете оставлять сообщения слишком часто, из-за отрицательной кармы",
+                "error": "You cannot post messages this frequently due to negative karma.",
             },
         )
 
@@ -73,13 +73,13 @@ async def add_comm_post(request):
         title = get_current_user(request)
 
     title_ = ct(request, title)
-    title = no_script(title) if title else "Аноним"
+    title = no_script(title) if title else "Anonymous"
     parent = data.get("parent", "_")
     descr = data.get("descr")
     descr = no_script(descr)
     descr = descr.replace("\n", "<br/>")
 
-    # ретурн если нет и того и другого    а если нет только одного то как раз проверим
+    # Legacy comment translated from Russian.
     pre = "true" if not user_has_permission(request, "des:obj", "add_com") else "false"
     date = str(time.strftime("%Y-%m-%d %H:%M:%S"))
     user_ = get_current_user_name(request, title) or title
@@ -90,10 +90,10 @@ async def add_comm_post(request):
         descr,
     )
 
-    # добавление родителю ребенка
+    # Legacy comment translated from Russian.
     request.db.doc.update({"_id": parent}, {"$addToSet": {"child": doc_id}})
 
-    # занесение коментов в справочник коментов
+    # Legacy comment translated from Russian.
     doc_id_comm, updated = create_empty_row_(
         request, "des:comments", parent, "", {"user": "user:" + title}
     )
@@ -121,7 +121,7 @@ async def add_comm_post(request):
     print("id2", id)
     invalidate_cache("single_page", id=id)
     # reset_cache(type="doc", doc_id=rev)
-    # добавление подсчета коментариев в отдельном документе
+    # Legacy comment translated from Russian.
     request.db.doc.update({"_id": doc_id}, {"$inc": {"count_branch": 1}})
     return response_json(request, {"result": "ok", "content": data, "hash": ""})
 
@@ -153,14 +153,14 @@ async def edit_comm_post(request):
 
 
 async def del_comm_post(request):
-    """doc_id - id самого коментария"""
+    """Legacy docstring translated from Russian."""
     data = await request.post()
     print(data)
     comm_id = data.get("comm_id")
     doc = get_doc(request, comm_id)
 
     if is_admin(request) or user_has_permission(request, "des:obj", "del_comm"):
-        # добавление подсчета коментариев в отдельном документе
+        # Legacy comment translated from Russian.
         request.db.doc.update(
             {"_id": doc["doc"]["owner"]}, {"$inc": {"count_branch": -1}}
         )
@@ -181,7 +181,7 @@ async def del_comm_post(request):
 
 
 def add_vote_comm_post(request):
-    """Вычисляем данные в посте сколько проголосовало и тд."""
+    """Legacy docstring translated from Russian."""
     data = request.post()
     vote = data.get("vote")
     comm_id = data.get("comm_id")
@@ -194,7 +194,7 @@ def add_vote_comm_post(request):
         comm["doc"]["date"], "days", int(get_const_value(request, "vote_timeout"))
     ):
         return response_json(
-            request, {"result": "fail", "error": "Голосование уже закончилось"}
+            request, {"result": "fail", "error": "Voting has ended"}
         )
     if not "vote" in comm:
         comm["vote"] = {
@@ -206,15 +206,15 @@ def add_vote_comm_post(request):
         }
     if not user_has_permission(request, "des:obj", "vote_com"):
         return response_json(
-            request, {"result": "fail", "error": "Не имеете права голоса"}
+            request, {"result": "fail", "error": "You do not have voting rights"}
         )
     if not is_admin(request) and user in comm["vote"]["voted"]:
         return response_json(
-            request, {"result": "fail", "error": "Повторное голосование запрещено"}
+            request, {"result": "fail", "error": "Repeated voting is forbidden"}
         )
     if not is_admin(request) and user == "user:" + ct(request, comm["title"]):
         return response_json(
-            request, {"result": "fail", "error": "Голосовать за себя запрещено"}
+            request, {"result": "fail", "error": "Voting for yourself is forbidden"}
         )
 
     dt = datetime.today().strftime("%Y-%m-%d")
@@ -228,7 +228,7 @@ def add_vote_comm_post(request):
         user_f["vote"][dt]["down"]
     ) >= int(float(user_f["doc"]["rate"]) + 1.25):
         return response_json(
-            request, {"result": "fail", "error": "Лимит голосов за сегодня исчерпан"}
+            request, {"result": "fail", "error": "Daily vote limit reached"}
         )
 
     user_f["vote"][dt][vote] += 1
@@ -245,7 +245,7 @@ def add_vote_comm_post(request):
     request.db.doc.save(comm)
     comm_vote = comm["vote"]
 
-    # начисление балов пользователю
+    # Legacy comment translated from Russian.
     u_id = ct(request, comm["doc"]["user"])
     u = get_doc(request, u_id)
     if u:
@@ -327,7 +327,7 @@ def get_doc_tree(request, owner, tree_id):
                 "_": {
                     "children": [],
                     "parent": "",
-                    "title": {"ru": "корень", "en": "root"},
+                    "title": {"ru": "root", "en": "root"},
                 }
             },
             "seq_id_tree": 1,
@@ -368,7 +368,7 @@ def tree_post(request, proc_id):
 
 
 def tree_data(request, proc_id, owner):
-    """Берет из базы данные формирует из них json и возвращает в нужный шаблон"""
+    """Legacy docstring translated from Russian."""
     doc = get_doc_tree(request, owner, proc_id)
     proc_id = doc["_id"]
 

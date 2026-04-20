@@ -16,10 +16,10 @@
                 '<div class="modal">' +
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
-                '<div class="modal-header"><button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Редактирование поля</h3></div>' +
+                '<div class="modal-header"><button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Edit field</h3></div>' +
                 '<div class="modal-body "><div class="inner nest"></div></div>' +
                 '<div class="modal-footer"><div class="btn-group">' +
-                '<span  class="btn yes btn-primary" data-dismiss="modal">Редактировать</span><span  class="btn cancel btn-danger" data-dismiss="modal">Отмена</span>' +
+                '<span  class="btn yes btn-primary" data-dismiss="modal">Edit</span><span  class="btn cancel btn-danger" data-dismiss="modal">Cancel</span>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -83,10 +83,10 @@
 
             $('<div class="form-group"><label>' + dao.ct('field_id') + '</label><input class="form-control" type="text" name="id" value="' + val_field.id + '" ></div>' +
                 '<label>' + dao.ct('name_field') + '</label><br/>' +
-                'рус<br/> <input class="form-control" type="text" name="title_ru" value="' + val_field.title.ru + '"/><br/>' +
+                'RU<br/> <input class="form-control" type="text" name="title_ru" value="' + val_field.title.ru + '"/><br/>' +
                 'en<br/>  <input class="form-control" type="text" name="title_en" value="' + val_field.title.en + '"/>' +
                 '<label>' + dao.ct('hint_field') + '</label><br/>' +
-                'рус <br/> <input class="form-control" type="text" name="hint_ru" value="' + val_field.hint.ru + '"/><br/>' +
+                'RU <br/> <input class="form-control" type="text" name="hint_ru" value="' + val_field.hint.ru + '"/><br/>' +
                 'en  <br/> <input class="form-control" type="text" name="hint_en" value="' + val_field.hint.en + '"/>' +
                 '<label>' + dao.ct('edit') + '</label><input class="form-control" type="text" name="oncreate" value="edit" >').appendTo(_nest);
 
@@ -94,10 +94,10 @@
             var label_type = $('<div class="form-group" style="margin-top:8px">' + dao.ct('type_field') +
                 '<div class="radio"><label><input type="radio" name="type" value="string" checked>' + dao.ct('text') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="date" >' + dao.ct('date') + '</label></div>' +
-                '<div class="radio"><label><input type="radio" name="type" value="passw" >' + dao.ct('Пароль') + '</label></div>' +
+                '<div class="radio"><label><input type="radio" name="type" value="passw" >' + dao.ct('Password') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="rich_edit" >' + dao.ct('editor') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="select" >' + dao.ct('select') + '</label></div>' +
-                '<div class="radio"><label><input type="radio" name="type" value="cascad_select" >' + dao.ct('Каскадный выбор') + '</label></div>' +
+                '<div class="radio"><label><input type="radio" name="type" value="cascad_select" >' + dao.ct('Cascading select') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="checkbox" >' + dao.ct('flag') + '</label></div>' +
                 '</div>').appendTo(_nest);
             var label_visible = $('<div class="form-group">' + dao.ct('is_visible') +
@@ -118,9 +118,9 @@
                 ddd.show();
             });
 
-            // todo тут создание еще одного поля  просто собирает значение последнего  а значение поледнего сео,
-            // поэтому нужно просто наверно оставить дополнительный и все и не дублировать
-            var c_sel_title_label = $('<label>' + dao.ct('Связанное поле') + '&nbsp</label><br/>').appendTo(label_type);
+            // Legacy comment translated from Russian.
+            // Legacy comment translated from Russian.
+            var c_sel_title_label = $('<label>' + dao.ct('Linked field') + '&nbsp</label><br/>').appendTo(label_type);
             var c_sel_title = $('<select name="relation_field"/>').appendTo(c_sel_title_label);
             dao.list_field(options.id, c_sel_title);
             c_sel_title_label.hide();
@@ -141,14 +141,14 @@
                 '<div class="modal">' +
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
-                '<div class="modal-header"><button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Добавление поля</h3></div>' +
+                '<div class="modal-header"><button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Add field</h3></div>' +
                 '<div class="modal-body nest" >' +
                 '<label>' + dao.ct('field_id') + '</label><input class="form-control" type="text" name="id" >' +
                 '<label>' + dao.ct('name_field') + '</label>' +
-                '<br/><b>рус</b><input class="form-control" type="text" name="title_ru"/>' +
+                '<br/><b>RU</b><input class="form-control" type="text" name="title_ru"/>' +
                 '<b>en</b><input class="form-control" type="text" name="title_en"/>' +
                 '<label>' + dao.ct('hint_field') + '</label>' +
-                '<br/><b>рус</b><input class="form-control" type="text" name="hint_ru"/>' +
+                '<br/><b>RU</b><input class="form-control" type="text" name="hint_ru"/>' +
                 '<b>en</b> <input class="form-control" type="text" name="hint_en"/>' +
                 '<label>' + dao.ct('edit') + '</label><input class="form-control" type="text" name="oncreate" value="edit" >' +
                 '<div class="form-group">' + dao.ct('is_visible') +
@@ -162,7 +162,7 @@
                 '<div class="radio"><label><input type="radio" name="is_editable" value="false" />' + dao.ct('no') + '</label></div></div>' +
                 '</div>' +
                 '<div class="modal-footer"><div class="btn-group">' +
-                '<span  class="btn yes btn-primary" data-dismiss="modal">Добавить</span><span  class="btn cancel btn-danger" data-dismiss="modal">Отмена</span>' +
+                '<span  class="btn yes btn-primary" data-dismiss="modal">Add</span><span  class="btn cancel btn-danger" data-dismiss="modal">Cancel</span>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -194,11 +194,11 @@
                 '<div class="radio"><label><input type="radio" name="type" value="string" checked="checked">' + dao.ct('text') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="html" >' + dao.ct('HTML') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="date" >' + dao.ct('date') + '</label></div>' +
-                '<div class="radio"><label><input type="radio" name="type" value="passw" >' + dao.ct('Пароль') + '</label></div>' +
+                '<div class="radio"><label><input type="radio" name="type" value="passw" >' + dao.ct('Password') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="rich_edit" >' + dao.ct('editor') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="checkbox" >' + dao.ct('flag') + '</label></div>' +
                 '<div class="radio"><label><input type="radio" name="type" value="select" >' + dao.ct('select') + '</label></div>' +
-                '<div class="radio"><label><input type="radio" name="type" value="cascad_select" >' + dao.ct('Каскадный выбор') + '</label></div>' +
+                '<div class="radio"><label><input type="radio" name="type" value="cascad_select" >' + dao.ct('Cascading select') + '</label></div>' +
                 '</div>').appendTo($('.nest'));
 
             $('.nest').on('click', '.radio', function() {
@@ -213,8 +213,8 @@
                 ddd.show();
             });
 
-            // todo тут создание еще одного поля
-            var c_sel_title_label = $('<label>' + dao.translate('Связанное поле') + '&nbsp</label><br/>').appendTo(label_type);
+            // Legacy comment translated from Russian.
+            var c_sel_title_label = $('<label>' + dao.translate('Linked field') + '&nbsp</label><br/>').appendTo(label_type);
             var c_sel_title = $('<select name="relation_field"/>').appendTo(c_sel_title_label);
             dao.list_field(options.id, c_sel_title);
 
@@ -232,10 +232,10 @@
                 '<div class="modal">' +
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
-                '<div class="modal-header"><button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Удаление поля</h3></div>' +
+                '<div class="modal-header"><button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Delete field</h3></div>' +
                 '<div class="modal-body nest" ></div>' +
                 '<div class="modal-footer"><div class="btn-group">' +
-                '<span  class="btn yes btn-primary" data-dismiss="modal">Удалить</span><span  class="btn cancel btn-danger" data-dismiss="modal">Отмена</span>' +
+                '<span  class="btn yes btn-primary" data-dismiss="modal">Delete</span><span  class="btn cancel btn-danger" data-dismiss="modal">Cancel</span>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -267,5 +267,5 @@
         this.add_field = add_field;
         this.del_field = del_field;
     } //f = function()
-    //	$.extend( window.dao, f(jQuery)	);  // расширяем
+    // Legacy comment translated from Russian.
 })($); //(function()

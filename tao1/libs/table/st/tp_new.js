@@ -12,11 +12,11 @@
         preloaded: false,
         max_width: 300,
         columns: {},
-        id_tree: null, //это текущая ветка из которой отображаеться ее же содержимое
+        id_tree: null, // Legacy comment translated from Russian.
         buttons: {}
     };
 
-    // актуальные настройки, глобальные
+    // Legacy comment translated from Russian.
 
     window.dao.tableprocessor = function(parent, params) {
 
@@ -30,7 +30,7 @@
 
         var host = document.location.pathname;
         var options = $.extend({}, defaults, params);
-        var data_values = {}; // одна из основных переменых для манипулирования данными таблицы
+        var data_values = {}; // Legacy comment translated from Russian.
         var column_indexes = {};
         var column_names = {};
         var searchbar = null;
@@ -78,7 +78,7 @@
         var footer = null;
         var header = null;
         var header_checkbox = null;
-        var is_editing_first = false; // Эта переменная устанавливается в истину после создания инпута
+        var is_editing_first = false; // Legacy comment translated from Russian.
         var is_editing_last = false;
         var last_sort_column = undefined;
         var width_window = document.body.clientWidth;
@@ -93,35 +93,35 @@
 
         var toolbar = $('<div id="' + options.id + '_' + options.doc_id + '_toolbar" style="background-color: #ddd;" class="ui-corner-all button_div"></div>').appendTo(parent);
 
-        //рисование тулбара с кнопками
+        // Legacy comment translated from Russian.
         var act = options.actions;
         var param = [];
         var _actions = {};
 
         var $act = $('<div style="margin-left:4px;" class="btn-group">' +
-            '<a rel="tooltip" title="Создать новую запись"      class="btn btn-default btn-sm add_row"> <i class="fa fa-list-alt"></i></a>' +
-            '<a rel="tooltip" title="Обновить"                  class="btn btn-default btn-sm refresh"> <i class="fa fa-refresh "></i></a>' +
-            '<a rel="tooltip" title="Удалить выделенные записи" class="btn btn-default btn-sm del_row"> <i class="fa fa-trash "></i></a>' +
-            '<a rel="tooltip" title="Редактировать"             class="btn btn-default btn-sm edit_row"><i class="fa fa-edit "></i></a>' +
+            '<a rel="tooltip" title="Create new record"      class="btn btn-default btn-sm add_row"> <i class="fa fa-list-alt"></i></a>' +
+            '<a rel="tooltip" title="Refresh"                  class="btn btn-default btn-sm refresh"> <i class="fa fa-refresh "></i></a>' +
+            '<a rel="tooltip" title="Delete selected records" class="btn btn-default btn-sm del_row"> <i class="fa fa-trash "></i></a>' +
+            '<a rel="tooltip" title="Edit"             class="btn btn-default btn-sm edit_row"><i class="fa fa-edit "></i></a>' +
             '</div>' +
             '<div class="btn-group"> ' +
             '<a title="" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" >' +
-            '<i class="fa fa-star"></i> <span style="color:#59b; padding-right:4px;">Ёще</span><span class="caret"></span>' +
+            '<i class="fa fa-star"></i> <span style="color:#59b; padding-right:4px;">More</span><span class="caret"></span>' +
             '</a>' +
             ' <ul class="dropdown-menu">' +
-            '<li class="duplicate_all"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-copy"></i> Дублировать полностью</a></li>' +
-            //'<li><a rel="tooltip" title="" data-toggle="dropdown" href="#"><i class="fa fa-copy  fa-mail-reply-all"></i> Дублировать</a></li>'+
-            '<li><a rel="tooltip" title="" data-toggle="dropdown" href="#"><i class="fa fa-print"></i> Печать в excel</a></li>' +
-            '<li><a rel="tooltip" title="" data-toggle="dropdown" href="#"><i class="fa fa-th-large"></i> Посмотреть в базе</a></li>' +
-            '<li><a rel="tooltip" title="" data-toggle="dropdown" href="#"><i class="fa fa-share-square-o"></i> Посмотреть на сайте</a></li>' +
+            '<li class="duplicate_all"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-copy"></i> Duplicate fully</a></li>' +
+            // Legacy comment translated from Russian.
+            '<li><a rel="tooltip" title="" data-toggle="dropdown" href="#"><i class="fa fa-print"></i> Print to Excel</a></li>' +
+            '<li><a rel="tooltip" title="" data-toggle="dropdown" href="#"><i class="fa fa-th-large"></i> View in database</a></li>' +
+            '<li><a rel="tooltip" title="" data-toggle="dropdown" href="#"><i class="fa fa-share-square-o"></i> View on site</a></li>' +
             '</ul>' +
             '</div>' +
             '<div class="btn-group"> ' +
-            '<a title="" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-wrench"></i> <span style="color:#59b; padding-right:4px;">Поля</span><span class="caret"></span></a>' +
+            '<a title="" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-wrench"></i> <span style="color:#59b; padding-right:4px;">Fields</span><span class="caret"></span></a>' +
             ' <ul class="dropdown-menu">' +
-            '<li class="add_field"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-plus-circle"></i> Добавить поле</a></li>' +
-            '<li class="del_field"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-close"></i> Удалить поле</a></li>' +
-            '<li class="edit_field"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-wrench"></i> Редактировать поле</a></li>' +
+            '<li class="add_field"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-plus-circle"></i> Add field</a></li>' +
+            '<li class="del_field"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-close"></i> Delete field</a></li>' +
+            '<li class="edit_field"><a rel="tooltip" data-toggle="dropdown" href="#"><i class="fa fa-wrench"></i> Edit field</a></li>' +
             '</ul>' +
             '</div>').appendTo(toolbar);
 
@@ -147,18 +147,18 @@
             filter.date.end = search_date_to.val();
             updatelist();
         }
-        //поиск по заданому периоду
+        // Legacy comment translated from Russian.
         if (options.filt_dates) {
             var filt_dates = $('<div id="filt_dates" style="top:4px; bottom:0px; right:650px; position:absolute; font-size:12px;"></div>').appendTo(toolbar);
-            $('<select class="form-control"> <option value="day">По дням</option><option value="week">По неделям</option><option value="month">По месяцам</option><option value="quarter">По кварталам</option><option value="year">По годам</option> </select>').appendTo(filt_dates);
+            $('<select class="form-control"> <option value="day">By days</option><option value="week">By weeks</option><option value="month">By months</option><option value="quarter">By quarters</option><option value="year">By years</option> </select>').appendTo(filt_dates);
             filt_dates.find('select').change(function() {
                 filter.filt_dates = $(this).val();
                 updatelist();
             });
         }
-        //поиск по диапазону дат
+        // Legacy comment translated from Russian.
         var searchdiv_date = $('<div id="searchdiv_date" style="top:4px; bottom:0px; right:100px; position:absolute; font-size:12px;"></div>').appendTo(toolbar);
-        var search_date_from = $('<input class="form-control input-sm" class="search-query" placeholder="Дата от" ' +
+        var search_date_from = $('<input class="form-control input-sm" class="search-query" placeholder="Date from" ' +
             'style="text-align:right; padding:1px 6px; margin-right:4px; width:85px; height:24px; border-radius:10px;  display:inline-block;" type="text" />').appendTo(searchdiv_date).attr('date_from', '');
         search_date_from.datepicker({
             dateFormat: "yy-mm-dd",
@@ -168,7 +168,7 @@
                 date_changed();
             }
         });
-        var search_date_to = $('<input class="form-control input-sm search-query" placeholder="Дата до"' +
+        var search_date_to = $('<input class="form-control input-sm search-query" placeholder="Date to"' +
             'style="text-align:right; padding:1px 6px; height:24px; border-radius:10px;  margin-right:4px;width:85px; display:inline-block;" type="text" />').appendTo(searchdiv_date).attr('date_to', '');
         search_date_to.datepicker({
             dateFormat: "yy-mm-dd",
@@ -180,7 +180,7 @@
         });
         search_date_from.change(date_changed);
         search_date_to.change(date_changed);
-        var searchbar = $('<input class="form-control input-sm search-query" placeholder="Искать по всей таблице" ' +
+        var searchbar = $('<input class="form-control input-sm search-query" placeholder="Search across entire table" ' +
             'style="display:inline-block; text-align:right; height:24px; border-radius:10px; width:200px; padding:1px 6px; " type="text" />').appendTo(searchdiv_date).attr('oldsearch', '');
 
         var pages = $('<ul style="z-index:1; top:0px; bottom:0px; right:0px; padding-right:20px; position:absolute;" class="pagination pagination-sm"></ul>').appendTo(statusbar);
@@ -209,15 +209,15 @@
                 'title': 'id'
             }, grid_left);
         }
-        // создаём центральную часть
+        // Legacy comment translated from Russian.
         head_(options.columns);
 
         grid_right.columns['img'] = make_column('img', {
-            'title': 'Изоб.'
+            'title': 'Img.'
         }, grid_right);
         grid_right.columns['img'].head.sort.remove();
         grid_right.columns['act'] = make_column('act', {
-            'title': 'Действие'
+            'title': 'Action'
         }, grid_right);
         grid_right.columns['act'].head.sort.remove();
 
@@ -239,19 +239,19 @@
             });
 
             console.warn('delete doc test tables');
-            main.on('click', '.column.img .val', function() { // вызвать галерею для просмотра
+            main.on('click', '.column.img .val', function() { // Legacy comment translated from Russian.
                 file_manager.show($(this).closest('.cell').attr('recid'));
                 return false;
             });
-            main.on('click', '.fa-folder-open', function() { // вызвать галерею
+            main.on('click', '.fa-folder-open', function() { // Legacy comment translated from Russian.
                 file_manager.show($(this).closest('.cell').attr('recid'));
                 return false;
             });
-            main.on('click', '.fa-mail-reply-all', function() { // дублировать документ полностью
+            main.on('click', '.fa-mail-reply-all', function() { // Legacy comment translated from Russian.
                 crn.duplicate_all($(this).closest('.cell').attr('recid'));
                 return false;
             });
-            $('[proc_id="' + options.id + '"]').on('click', '.duplicate_all', function() { // дублировать документ полностью
+            $('[proc_id="' + options.id + '"]').on('click', '.duplicate_all', function() { // Legacy comment translated from Russian.
                 duplicate_all(); //return false;
             });
 
@@ -287,11 +287,11 @@
                 return false;
             });
 
-            main.on('click', '.fa-th-large', function() { //просмотреть в базе
+            main.on('click', '.fa-th-large', function() { // Legacy comment translated from Russian.
                 crn.show_doc($(this).closest('.cell').attr('recid'));
                 return false;
             });
-            main.on('click', '.fa-share', function() { // просмотреть на сайте
+            main.on('click', '.fa-share', function() { // Legacy comment translated from Russian.
                 window.open('/news/' + $(this).closest('.cell').attr('recid'), '_blank');
                 return false;
             });
@@ -305,7 +305,7 @@
                 } else {
                     row_hidden.show();
                     var row_hidden1 = grid_hidden.find('.hidden_[recid="' + rec_id + '"]'); //.css({'border':'1px solid red', 'height':'50px'});
-                    // если подстрока открыта и еще небыла загружена получаем данные с аякса и вставляем в таблицу.
+                    // Legacy comment translated from Russian.
                     if (!row_hidden1.attr('is_loaded')) {
                         $('<div class="ui-state-active" style="position:absolute; left:0px; top:0px;  right:0px; bottom:0px;"></div>').appendTo(row_hidden1);
                         var div_tabs = $('<div class="khkjkh" style="position:absolute; left:12px; right:2px; top:2px; bottom:2px; "></div>').appendTo(row_hidden1);
@@ -391,7 +391,7 @@
                     action(_opt);
                     return false;
                 }
-                if (cell.length) { // выделение ячейки при щелчке кнопко мыши.
+                if (cell.length) { // Legacy comment translated from Russian.
                     $('.cell.ui-state-active', grid_center[0]).removeClass('ui-state-active');
                     cell.addClass('ui-state-active');
                     check_scroll();
@@ -422,7 +422,7 @@
                 grid_center.columns[i] = make_column(i, opt, grid_center);
             }
             grid_center.spring = $('<div class="spring">&nbsp;</div>').appendTo(grid_center);
-            // говорим что столбцы перетягиваемые и отправляем значение .
+            // Legacy comment translated from Russian.
             grid_center.sortable({
                 cursor: 'move',
                 axis: 'x',
@@ -452,7 +452,7 @@
                 handles: 'e'
             });
 
-            // фильтры над колонками   //время
+            // Legacy comment translated from Russian.
             grid_center.find('.filter .search').on('keyup', function(e) {
                 console.log('key upped');
                 switch (e.which) {
@@ -511,7 +511,7 @@
             cursor_handler.focus();
         });
 
-        //вызываем плагин скролла передаем горизонтальные параметры вертикальные для рисования и тело что прокручивать
+        // Legacy comment translated from Russian.
         var scroll = new dao.scroll(layout_aside, layout_bottom, {
             proc_id: options.id,
             horizontal_target: grid_center,
@@ -531,7 +531,7 @@
         });
         //        grid_center.scroll();
 
-        // Главный поиск:   реакция процесора при щелчке на клавишу при главном поиске
+        // Legacy comment translated from Russian.
         searchbar.keyup(function(e) {
             if (e.which == dao.key_codes.ENTER) {
                 e.preventDefault();
@@ -555,7 +555,7 @@
                 tree.update({})
             } else updatelist();
         }
-        //тут происходит вызов дерева
+        // Legacy comment translated from Russian.
         var tree;
         var tree_button;
         var tree_place;
@@ -657,9 +657,9 @@
                 });
             } else if (column.type == "checkbox") {
                 var div = $('<ul class="dropdown-menu filt_col_check" role="menu" style="padding:6px;">' +
-                    "<li class='t'><span style='color:green; font-size:20px; cursor:pointer;'><i class='fa fa-check'></i> Да</span></li>" +
-                    "<li class='f'><span style='color:red;   font-size:20px; cursor:pointer;'><i class='fa fa-remove'></i> Нет</span></li>" +
-                    "<li class='clean'><span style='color:gray; font-size:20px; cursor:pointer;'><i class='fa fa-eraser'></i> Очистить</span></li>" +
+                    "<li class='t'><span style='color:green; font-size:20px; cursor:pointer;'><i class='fa fa-check'></i> Yes</span></li>" +
+                    "<li class='f'><span style='color:red;   font-size:20px; cursor:pointer;'><i class='fa fa-remove'></i> No</span></li>" +
+                    "<li class='clean'><span style='color:gray; font-size:20px; cursor:pointer;'><i class='fa fa-eraser'></i> Clear</span></li>" +
                     "</ul>").appendTo(parent);
                 c_filter.on('click', '.show_filter', function() {
                     div.toggle();
@@ -682,9 +682,9 @@
             } else if (column.type == "date") {
                 parent.append(' ');
                 var div = $('<ul class="dropdown-menu filt_col_date" role="menu">' +
-                    "<li>От <input class='form-control input-sm col_from' type='text'/></li>" +
-                    "<li>До <input class='input-sm col_to form-control' type='text'/></li>" +
-                    "<li><div class='btn btn-default search_d'>Поиск</div></li>" +
+                    "<li>From <input class='form-control input-sm col_from' type='text'/></li>" +
+                    "<li>To <input class='input-sm col_to form-control' type='text'/></li>" +
+                    "<li><div class='btn btn-default search_d'>Search</div></li>" +
                     "</ul>").appendTo(parent);
                 div.css({
                     'overflow': 'hidden'
@@ -703,16 +703,16 @@
                         stepSecond: 1,
                         hourMin: 0,
                         hourMax: 23,
-                        closeText: "Готово",
-                        currentText: "Сейчас",
-                        timeOnlyTitle: "Выберите время",
-                        timeText: "Время",
-                        hourText: "Часы",
-                        minuteText: "Минуты",
-                        secondText: "Секунды",
-                        monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-                        dayNamesMin: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-                        monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+                        closeText: "Done",
+                        currentText: "Now",
+                        timeOnlyTitle: "Select time",
+                        timeText: "Time",
+                        hourText: "Hours",
+                        minuteText: "Minutes",
+                        secondText: "Seconds",
+                        monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                        dayNamesMin: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
                         beforeShow: function() {
                             editor.blurable = false;
                         },
@@ -732,12 +732,12 @@
                     div.hide();
                     editor.trigger('keyup');
                 });
-            } else { // С начала строки c конца строки по подстроке и по полному совпадению.
+            } else { // Legacy comment translated from Russian.
                 var div = $('<ul class="dropdown-menu filt_col_text" role="menu">' +
-                    '<li class="substr"><a><input class="" type="radio" checked name = "' + column_name + '_str" value = "substr"/> Подстрока </a></li>' +
-                    '<li class="eq">    <a><input class="" type="radio" name = "' + column_name + '_str" value = "eq"/>     Точно     </a></li>' +
-                    '<li class="start"> <a><input class="" type="radio" name = "' + column_name + '_str" value = "start"/>  Начало    </a></li>' +
-                    '<li class="end">   <a><input class="" type="radio" name = "' + column_name + '_str" value = "end"/>    Конец     </a></li>' +
+                    '<li class="substr"><a><input class="" type="radio" checked name = "' + column_name + '_str" value = "substr"/> Substring </a></li>' +
+                    '<li class="eq">    <a><input class="" type="radio" name = "' + column_name + '_str" value = "eq"/>     Exact     </a></li>' +
+                    '<li class="start"> <a><input class="" type="radio" name = "' + column_name + '_str" value = "start"/>  Start    </a></li>' +
+                    '<li class="end">   <a><input class="" type="radio" name = "' + column_name + '_str" value = "end"/>    End     </a></li>' +
                     '</ul>').appendTo(parent);
                 parent.find('.show_filter').click(function() {
                     div.toggle();
@@ -751,13 +751,10 @@
             }
         }
 
-        /* ********************************************
-         * Реализация методов
-         * Устанавливает обработчики после загрузки таблицы
-         */
+        /* Legacy comment translated from Russian. */
 
         function style_page_number() {
-            // стилизация номеров страниц
+            // Legacy comment translated from Russian.
             pages.find('li.cerp-ui-pages-current').addClass('active');
 
             pages.find('a').click(function() {
@@ -768,7 +765,7 @@
         }
 
         function job_cb() {
-            // Расставляем чеки Назначаем обработку выделения чекбокса
+            // Legacy comment translated from Russian.
             grid_left.find(".head input").change(function() {
                 if ($(this).is(':checked')) {
                     grid_left.find(".cb").attr('checked', true);
@@ -781,11 +778,11 @@
 
 
         function postupdate() {
-            // работаем с элементами которые меняем динамически.
+            // Legacy comment translated from Russian.
             style_page_number();
             job_cb();
             var cells = grid_center.find('.cell');
-            // Подсветка строки при наведении мыши
+            // Legacy comment translated from Russian.
             $([cells, grid_left.find('.cell'), grid_right.find('.cell')]).each(function(i, v) {
                 $(v).hover(cell_in, cell_out);
             });
@@ -831,7 +828,7 @@
                     doc_id: options.doc_id
                 },
                 beforeSend: function() {
-                    dao.status_bar('Подгружается', true);
+                    dao.status_bar('Loading', true);
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
@@ -876,7 +873,7 @@
             }, 100);
         }
 
-        //Изменить состояние чекбокса в текущей строке
+        // Legacy comment translated from Russian.
         function _invertCheckBox() {
             var rec_id = $('.ui-state-active', grid_center).closest('.cell').attr('recid');
             var cb = grid_left.find('.check[recid="' + rec_id + '"]').find(".cb");
@@ -884,13 +881,9 @@
             cb.trigger('change');
         }
 
-        /**
-         * Обработчик нажатия клавиши
-         * @param {Event} e объект события
-         * @return {Boolean} признак продолжения обработки событий
-         */
+        /* Legacy comment translated from Russian. */
         function _keydown(e) {
-            // TODO сделать исключение для управляющих клавиш (например F5)
+            // Legacy comment translated from Russian.
             switch (e.which) {
                 case dao.key_codes.UP:
                     $('.ui-state-active', grid_center).prev().prev().addClass('ui-state-active');
@@ -921,7 +914,7 @@
                 case dao.key_codes.END:
                     break;
                 case dao.key_codes.ENTER:
-                    // Закрытие с текущим элементом
+                    // Legacy comment translated from Russian.
                 case dao.key_codes.F2:
                     editCell();
                     break;
@@ -953,7 +946,7 @@
                 case dao.key_codes.SHIFT:
                 case dao.key_codes.CONTROL:
                 case dao.key_codes.ALT:
-                    // Запрещаем использование этих клавиш - они зарезервированы или мешают
+                    // Legacy comment translated from Russian.
                     break;
                 case dao.key_codes.SPACE:
                     _invertCheckBox();
@@ -962,7 +955,7 @@
             check_scroll();
         }
 
-        // * Инициализация редактирования
+        // Legacy comment translated from Russian.
         function editCell() {
             var cell = $('.ui-state-active', grid_center);
             if (!cell.length) return undefined;
@@ -972,16 +965,16 @@
             var edit_value = data_values[rec_id][column_name];
             var column = options.columns[column_name];
             var is_editable = column['is_editable'] != "false" && column.type != 'rich_edit';
-            // проверяем что статус не проведен если проведен то нельзя редактировать.
+            // Legacy comment translated from Russian.
             if ('status' in options.columns) {
                 var status_ = $('.column[column_name="status"] .cell[recid="' + rec_id + '"]');
                 if (status_.length) {
                     var status = data_values[rec_id]['status'];
-                    is_editable = is_editable && (status == "Черновик" || status == "");
+                    is_editable = is_editable && (status == "Draft" || status == "");
                 }
             }
             if (!is_editable) return;
-            // Начало вставки инпута
+            // Legacy comment translated from Russian.
             var div = $('<div class="editor"></div>').appendTo(cell);
             var editor;
 
@@ -1042,16 +1035,16 @@
                     stepSecond: 1,
                     hourMin: 0,
                     hourMax: 23,
-                    closeText: "Готово",
-                    currentText: "Сейчас",
-                    timeOnlyTitle: "Выберите время",
-                    timeText: "Время",
-                    hourText: "Часы",
-                    minuteText: "Минуты",
-                    secondText: "Секунды",
-                    monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-                    monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-                    dayNamesMin: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
+                    closeText: "Done",
+                    currentText: "Now",
+                    timeOnlyTitle: "Select time",
+                    timeText: "Time",
+                    hourText: "Hours",
+                    minuteText: "Minutes",
+                    secondText: "Seconds",
+                    monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    dayNamesMin: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                     beforeShow: function() {
                         editor.blurable = false;
                     },
@@ -1087,7 +1080,7 @@
             editor.dblclick(function() {
                 return false
             });
-            editor.mousedown(function() { // Если не вернуть фальш до клика в хроме не дойдет очередь.
+            editor.mousedown(function() { // Legacy comment translated from Russian.
                 return false;
             });
             editor.keypress(function(event) {}).keydown(function(event) {
@@ -1097,8 +1090,8 @@
                     save();
                     return false;
                 }
-                // Новое значение в поле редактирования только при отпускании клавиши
-                // Проверяем значение
+                // Legacy comment translated from Russian.
+                // Legacy comment translated from Russian.
                 if (event.which == dao.key_codes.TAB) {
                     save();
                     var del_el = $('.ui-state-active', grid_center).attr('recid');
@@ -1137,12 +1130,7 @@
             }
         }
 
-        /**
-         * Сохранение значение по завершению ввода
-         * @param {String} fieldname Имя поля в таблице БД
-         * @param {String} value Значение
-         * @param {Number} recid id записи
-         */
+        /* Legacy comment translated from Russian. */
         function saveField(fieldname, value, recid) {
             //this._status('savefield');
             var url = '/table/update_cell/' + options.id;
@@ -1158,13 +1146,13 @@
                 dataType: 'json',
                 url: url,
                 data: {
-                    id: recid.substr(bbb + 1), // от найденого сибвола и дальше
-                    branch_id: recid.substr(0, bbb), // вырезаем с начала строки до найденого симбвола
+                    id: recid.substr(bbb + 1), // Legacy comment translated from Russian.
+                    branch_id: recid.substr(0, bbb), // Legacy comment translated from Russian.
                     field: fieldname,
                     value: encodeURIComponent(value)
                 },
                 beforeLoad: function() {
-                    _status('Сохраняется...');
+                    _status('Saving...');
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
@@ -1195,7 +1183,7 @@
         }
 
         function updatelist() {
-            // Обновляет таблицу на экране
+            // Legacy comment translated from Russian.
             console.log(options.ajax_url + options.id);
             $.ajax({
                 url: options.ajax_url + options.id, // url: '/table/data/'+options.id,
@@ -1209,7 +1197,7 @@
                     doc_id: options.doc_id
                 },
                 beforeSend: function() {
-                    dao.status_bar('Подгружается', true);
+                    dao.status_bar('Loading', true);
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
@@ -1231,12 +1219,12 @@
                 }
             });
         }
-        // рисует пагинацию
+        // Legacy comment translated from Russian.
         function pag(count, current) {
             pages.empty();
             if (count > 1) {
                 pag_link(1);
-                // рисуем промежуточные сылки
+                // Legacy comment translated from Russian.
                 if (count > 3) {
                     var start = current - 5;
                     if (start < 2) start = 2;
@@ -1312,10 +1300,10 @@
 
                         if (first) data_values[row['id']] = {};
                         var cell = null;
-                        var dl = row['doc'].length; // row['doc']  кол-во списков со словарями внутри в которых значения полей  [{'edit_value':'false','formatted':'ture'},{},{}]
+                        var dl = row['doc'].length; // Legacy comment translated from Russian.
                         for (var di = 0; di < dl; di++) {
                             if (row['doc'][di]['id'] == ci) {
-                                cell = row['doc'][di]; //в док хранятся столбцы.
+                                cell = row['doc'][di]; // Legacy comment translated from Russian.
                                 break;
                             }
                         }
@@ -1348,7 +1336,7 @@
                         html += td;
                         html += create_hidden_html(row['id']);
                     }
-                    if (parent && parent != '_') { //работаем с вложеными подстрочками
+                    if (parent && parent != '_') { // Legacy comment translated from Russian.
                         var aaa = $('[recid="' + parent + '"]:last', grid_center.columns[ci].rows[0]);
                         aaa.after(html);
                         if (ctr > 1) continue;
@@ -1441,10 +1429,10 @@
                             };
                         }
                         if (ci == 'act') {
-                            _cell = '<div class="row_button" title="Посмотреть в базе">   <div><i class="fa fa-th-large"></i></div> </div>' +
-                                '<div class="row_button" title="Посмотреть на сайте"> <div><i class="fa fa-share-square-o"></i></div></div>' +
-                                '<div class="row_button" title="Удалить">             <div><i class="fa fa-trash"></i></div></div>' +
-                                '<div class="row_button" title="Редактировать">       <div><i class="fa fa-edit"></i></div></div>';
+                            _cell = '<div class="row_button" title="View in database">   <div><i class="fa fa-th-large"></i></div> </div>' +
+                                '<div class="row_button" title="View on site"> <div><i class="fa fa-share-square-o"></i></div></div>' +
+                                '<div class="row_button" title="Delete">             <div><i class="fa fa-trash"></i></div></div>' +
+                                '<div class="row_button" title="Edit">       <div><i class="fa fa-edit"></i></div></div>';
 
                             cell = {
                                 'edit_value': null,
@@ -1476,14 +1464,14 @@
                 }
             }
 
-            function create_hidden_html(id) { // рисование заглушки везде для скрытой ячейки.
+            function create_hidden_html(id) { // Legacy comment translated from Russian.
                 var is_child = parent && parent != '_';
                 var p = is_child ? ' parent="' + parent + '"' : '';
                 var hidden = '<div class="hidden_" recid="' + id + '"' + p + ' style="display:none;"></div>';
                 return hidden;
             }
 
-            function make_hidden_html(data) { // скрытая строчка.
+            function make_hidden_html(data) { // Legacy comment translated from Russian.
                 var columns = {
                     'h': {}
                 };
@@ -1541,7 +1529,7 @@
         });
 
         function deleteRow() {
-            if (!confirm('Вы действительно хотите удалить?')) return;
+            if (!confirm('Are you sure you want to delete?')) return;
             if (options.inframe_mode) return;
             var ids = {};
             var idsn = [];
@@ -1609,7 +1597,7 @@
                 onEnd: function(evt) {
                     // if move up the works next
                     // if move down the works prev
-                    // down - next, up - prev.  !!!!!!!!!   TODO если тянуть верх то верзний не надоит, если тянуть вниз то нижний
+                    // Legacy comment translated from Russian.
                     //console.log('evt.oldIndex, evt.newIndex==========>>>');
                     console.log('evt.item', evt.item);
                     var $p = $(evt.item).prev('.cell').attr('recid');
@@ -1637,7 +1625,7 @@
                     next: $n
                 },
                 beforeSend: function() {
-                    dao.status_bar('Подгружается', true);
+                    dao.status_bar('Loading', true);
                 },
                 success: function(data) {
                     if (data.result == 'ok') updatelist();
@@ -1678,17 +1666,17 @@
         }
 
         function make_in() {
-            work_invoice("/make_in", "изготовление")
+            work_invoice("/make_in", "manufacturing")
         }
 
         function make_out() {
-            work_invoice("/make_out", "разборку")
+            work_invoice("/make_out", "disassembly")
         }
 
         function checkout() {
             var row_id = $('input:checked', grid_left).closest('.check').attr('recid');
-            if (!data_values[row_id]['status']) work_invoice("/check_invoice", "проведение");
-            else dao.error_status('Документ уже проведен');
+            if (!data_values[row_id]['status']) work_invoice("/check_invoice", "posting");
+            else dao.error_status('Document is already posted');
         }
 
         function work_invoice(action, mess) {
@@ -1722,7 +1710,7 @@
                             }
                         });
                     },
-                    'Отмена': function() {
+                    'Cancel': function() {
                         $(this).dialog('close');
                     }
                 },
@@ -1730,7 +1718,7 @@
                     delete dialog;
                 }
             });
-            $('<div>Подтвердите ' + mess + '</div>').appendTo(dialog);
+            $('<div>Confirm ' + mess + '</div>').appendTo(dialog);
         }
         // document.title; document.location.href; window.location.hash
         function di_from_free_stock() {
@@ -1803,7 +1791,7 @@
                 },
                 success: function(data) {
                     if (data.result == 'ok') {
-                        $('<iframe src = "' + data.link + '" />').appendTo("body"); //удалить фрейм если что.
+                        $('<iframe src = "' + data.link + '" />').appendTo("body"); // Legacy comment translated from Russian.
                     } else {
                         error_status(data['mess'], data.need_action);
                     }

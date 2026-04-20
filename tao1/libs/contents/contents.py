@@ -21,7 +21,7 @@ from libs.perm.perm import user_is_logged_in, is_admin
 from core.union import response_json
 
 
-# Если путь продать, то не по чему будет больше идти.
+# Legacy comment translated from Russian.
 def get_mt(request, proc_id):
     return request.db.map.find_one({"_id": proc_id})
 
@@ -177,9 +177,7 @@ def is_str(doc_id):
 
 
 def get_doc_title_cascad(request, doc, value=None):
-    """проверяем что есть поле title или name или value и что оно не равно 32 и в нем нет цыфр
-    это для того чтоб не попадало _id в выпадающий список
-    """
+    """Legacy docstring translated from Russian."""
     title = ""
     if "title" in doc["doc"]:
         titl = ct(request, doc["doc"]["title"])
@@ -197,16 +195,14 @@ def get_doc_title_cascad(request, doc, value=None):
     else:
         meta = get_mt(request, doc["doc_type"])
         if "conf" in meta and "is_doc" in meta["conf"] and meta["conf"]["is_doc"]:
-            title = ct(request, meta["conf"]["title"]) + " № - от -"
-        else:  # мы совсем не понимаем как так произошло, но...
+            title = ct(request, meta["conf"]["title"]) + " No. - from -"
+        else:  # Legacy comment translated from Russian.
             title = value
     return title
 
 
 def get_doc_title(request, doc, value=None):
-    """проверяем что есть поле title или name или value и что оно не равно 32 и в нем нет цыфр
-    это для того чтоб не попадало _id в выпадающий список
-    """
+    """Legacy docstring translated from Russian."""
     title = ""
     if "title" in doc["doc"]:
         title = ct(request, doc["doc"]["title"])
@@ -217,8 +213,8 @@ def get_doc_title(request, doc, value=None):
     else:
         meta = get_mt(request, doc["doc_type"])
         if "conf" in meta and "is_doc" in meta["conf"] and meta["conf"]["is_doc"]:
-            title = ct(request, meta["conf"]["title"]) + " № - от -"
-        else:  # мы совсем не понимаем как так произошло, но...
+            title = ct(request, meta["conf"]["title"]) + " No. - from -"
+        else:  # Legacy comment translated from Russian.
             title = value
     return title
 

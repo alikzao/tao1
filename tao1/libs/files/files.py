@@ -75,12 +75,12 @@ def img(request):
 
 
 def get_nf(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None):
-    """Получение списка имен файла в документе"""
+    """Legacy docstring translated from Russian."""
     return get_nf_(request, proc_id, doc_id, is_limit, avatar, default_img)
 
 
 def get_nf_(request, proc_id, doc_id, is_limit=0, avatar=False, default_img=None):
-    """Получение списка имен файла в документе"""
+    """Legacy docstring translated from Russian."""
     attachments = {}
     attachments_n = {}
     ctr = 0

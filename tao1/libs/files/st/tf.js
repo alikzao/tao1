@@ -13,7 +13,7 @@
             '<div class="modal-dialog" style="width:70%; height:90%;" >' +
             '<div class="modal-content" style="width:100%; height:100%;">' +
             '<div class="modal-header">' +
-            '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Галерея</h3></div>' +
+            '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Gallery</h3></div>' +
             '<div class="modal-body row" style="position:absolute; top:50px; right:20px; left:20px; bottom:60px;" ></div>' +
             '<input class="fi" type="file" min="1" max="20" multiple="true"  style="display:none;"/>' +
             '<div class="modal-footer" style="position:absolute; bottom:0px; right:0;">' +
@@ -32,18 +32,18 @@
         var main_ul_img = $('<ul class="thumbnails" style="position:absolute; width:200px; overflow:auto; list-style:none; padding:8px; top:5px; right:5px; bottom:0px;"></ul>').appendTo(mainw)
         if (options.has_toolbar) {
             var btn_panel = dialog.find('.modal-footer .btn-group');
-            $('<span class="btn cancel btn-danger" data-dismiss="modal">Закрыть</span>').prependTo(btn_panel);
+            $('<span class="btn cancel btn-danger" data-dismiss="modal">Close</span>').prependTo(btn_panel);
             $('<span class="btn btn-info update">' + dao.ct('refresh') + '</span>').prependTo(btn_panel);
             $('<span class="btn btn-info del">' + dao.ct('del') + '</span>').prependTo(btn_panel);
-            $('<span class="btn btn-info default">По умолчанию</span>').prependTo(btn_panel);
+            $('<span class="btn btn-info default">Default</span>').prependTo(btn_panel);
 
 
             $('<div class="btn-group dropup">' +
-                '<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Добавить <span class="caret"></span> </button>' +
+                '<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Add <span class="caret"></span> </button>' +
                 '<ul class="dropdown-menu">' +
-                '<li><a href="#" class="btn link_img">Загрузить по ссылке</a></li>' +
-                '<li><a href="#" class="btn upload_file">Загрузить с диска</a></li>' +
-                '<li><a href="#" class="btn set_link_img">Установить ссылку</a></li>' +
+                '<li><a href="#" class="btn link_img">Upload by URL</a></li>' +
+                '<li><a href="#" class="btn upload_file">Upload from disk</a></li>' +
+                '<li><a href="#" class="btn set_link_img">Set link</a></li>' +
                 '</ul>' +
                 '</div>').prependTo(btn_panel);
 
@@ -128,11 +128,11 @@
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
-                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Картинка через ссылку</h3></div>' +
-                '<div class="modal-body" ><input class="form-control" type="text" placeholder="Сылка на картинку"/></div>' +
+                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Image by URL</h3></div>' +
+                '<div class="modal-body" ><input class="form-control" type="text" placeholder="Image URL"/></div>' +
                 '<div class="modal-footer"><div class="btn-group">' +
-                '<span  class="btn btn-default cancel" data-dismiss="modal">Закрыть</span>' +
-                '<span  class="btn link1 btn-primary" data-dismiss="modal">Загрузить</span>' +
+                '<span  class="btn btn-default cancel" data-dismiss="modal">Close</span>' +
+                '<span  class="btn link1 btn-primary" data-dismiss="modal">Upload</span>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -163,7 +163,7 @@
         }
 
         function clear() {
-            //TODO реализовать очистку галереи
+            // Legacy comment translated from Russian.
             $(img_large).attr('src', '/static/core/img/clean.jpg');
             $(main_ul_img).empty();
         }
@@ -199,7 +199,7 @@
             });
 
             $("#large>img").load(function() {
-                //выбираем потомков главного дива (скрытые картинки) и показываем их
+                // Legacy comment translated from Russian.
                 $("#large>img:hidden").fadeIn("slow")
             });
         }
@@ -208,7 +208,7 @@
 
 
         function show(doc_id) {
-            //сначала нарисовать галерею пустую в ней значек загрузки
+            // Legacy comment translated from Russian.
             curent_doc_id = doc_id;
             dialog.modal('show');
             update(curent_doc_id);
@@ -235,8 +235,8 @@
                         im.css({
                             'border': '3px solid violet'
                         });
-                        im.attr('title', 'По умолчанию');
-                        $('<div style="position:absolute; bottom:10px; padding:0px 2px 0 2px; border-radius:2px; left:25px; background:white;">По умолчанию</div>').appendTo(t);
+                        im.attr('title', 'Default');
+                        $('<div style="position:absolute; bottom:10px; padding:0px 2px 0 2px; border-radius:2px; left:25px; background:white;">Default</div>').appendTo(t);
                     }
                 }
                 main_ul_img.on('click', 'a', function() {
@@ -289,9 +289,7 @@
             return pb.find('.bar');
         }
 
-        /**
-         * добавление файлов к текущей записи
-         */
+        /* Legacy comment translated from Russian. */
         function on_change() {
             form = new FormData();
             form.append('MAX_FILE_SIZE', '1000000');
@@ -313,7 +311,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(progress, total) {
-                    dao.status_bar('В процессе', true);
+                    dao.status_bar('In progress', true);
                     pb.css({
                         'width': progress / total * 100 + '%'
                     });

@@ -1,8 +1,8 @@
 
 
 <div class="tags">
-	<div class="add_map btn btn-primary"><i class=" icon-map-marker"></i> Оставить заявку123</div>
-	<div class=""><a href="/news/">О заявках и картах123</a></div>
+	<div class="add_map btn btn-primary"><i class=" icon-map-marker"></i> Submit request123</div>
+	<div class=""><a href="/news/">About requests and maps123</a></div>
 </div>
 
 

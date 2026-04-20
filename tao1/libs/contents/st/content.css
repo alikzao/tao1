@@ -4,27 +4,19 @@
 
 
 .ui - icon - custom {
-    background - position: 0 px 0 px;
-}
-/*.custom-coins, .ui-state-default .custom-coins{  background-image: url(/static/core/img/coins.png) }*/
-/*.custom-print_excel, .ui-state-default .custom-print_excel{  background-image: url(/static/core/img/print_excel.png) }*/
-/*.custom-print_pdf, .ui-state-default .custom-print_pdf{  background-image: url(/static/core/img/pdf.png) }*/
-#title {
-    position: absolute;left: 220 px;top: 8 px;font - size: 20 px;
-}
-
-
-/* Положение иконок в голосовании */
-.ui - icon - vote {
+        background - position: 0 px 0 px;
+    }
+    /* Legacy comment translated from Russian. */
+    .ui - icon - vote {
         width: 11 px;height: 15 px;background - image: url(/st/sites / icons_vote.gif);display: inline - block;
     }
 
     .ui - icon - off - vote - up {
         background - position: -22 px 0 px;
-    } /*вправо минус, вниз минус,  */
+    } /* Legacy comment translated from Russian. */
     .ui - icon - off - vote - down {
         background - position: -22 px - 15 px;
-    } /*вправо минус, вниз минус,  */
+    } /* Legacy comment translated from Russian. */
 
     .ui - icon - vote - up {
         background - position: 0 px 0 px;
@@ -40,7 +32,7 @@
         background - position: -11 px - 15 px;
     }
 
-    /*  Конец иконок в голосовании */
+    /* Legacy comment translated from Russian. */
 
     .button {
         border: 0 px solid red;

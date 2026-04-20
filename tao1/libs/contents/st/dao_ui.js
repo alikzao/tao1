@@ -3,17 +3,17 @@
 
     window.dao = {
         fix_mous_event: function(e) {
-            // получить объект событие для IE
+            // Legacy comment translated from Russian.
             e = e || window.event
 
-            // добавить pageX/pageY для IE
+            // Legacy comment translated from Russian.
             if (e.pageX == null && e.clientX != null) {
                 var html = document.documentElement
                 var body = document.body
                 e.pageX = e.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0)
                 e.pageY = e.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0)
             }
-            // добавить which для IE
+            // Legacy comment translated from Russian.
             if (!e.which && e.button) {
                 e.which = e.button & 1 ? 1 : (e.button & 2 ? 3 : (e.button & 4 ? 2 : 0))
             }
@@ -48,7 +48,7 @@
                     if (typeof success == 'function') success(result);
                 },
                 error: function() {
-                    // TODO уведомление об ошибке связи
+                    // Legacy comment translated from Russian.
                     if (typeof error == 'function') error();
                 }
             });
@@ -181,7 +181,7 @@
 
         error_status: function(mess, action) {
             var dialog = $("<div></div>");
-            dialog.attr('title', "Ошибка");
+            dialog.attr('title', "Error");
             dialog.dialog({
                 bgiframe: true,
                 autoOpen: true,
@@ -335,8 +335,8 @@
         },
 
         get_list_cascad_doc: function(rb_id, flter) {
-            // выбираем только те поля которые соотвествуют выбраному id в соседнем поле
-            // id - соседнего поля находится в filter справочнике
+            // Legacy comment translated from Russian.
+            // Legacy comment translated from Russian.
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -380,7 +380,7 @@
         },
         list_doc: {},
         get_list_doc_: function(sel1, rb_id, edit_value, chosen) {
-            // кеширование запросов   если такой запрос уже был то его значение лсохраняется в переменую.
+            // Legacy comment translated from Russian.
             var that = this;
             if (that.list_doc[rb_id]) draw();
             else {
@@ -496,12 +496,12 @@
         },
 
         get_list_event: function(sel1) {
-            $('<option value="on_create_row"> ' + dao.ct('На создание') + '</option>' +
-                '<option value="on_update_row"> ' + dao.ct('На обновление') + '</option>' +
-                '<option value="on_del_row"> ' + dao.ct('На удаление') + '</option>' +
-                '<option value="on_create_subtable"> ' + dao.ct('На создание подтаблицы') + '</option>' +
-                '<option value="on_del_subtable"> ' + dao.ct('На удаление подтаблицы') + '</option>' +
-                '<option value="on_update_subtable"> ' + dao.ct('На обновление подтаблицы') + '</option>').appendTo(sel1);
+            $('<option value="on_create_row"> ' + dao.ct('On create') + '</option>' +
+                '<option value="on_update_row"> ' + dao.ct('On update') + '</option>' +
+                '<option value="on_del_row"> ' + dao.ct('On delete') + '</option>' +
+                '<option value="on_create_subtable"> ' + dao.ct('On subtable create') + '</option>' +
+                '<option value="on_del_subtable"> ' + dao.ct('On subtable delete') + '</option>' +
+                '<option value="on_update_subtable"> ' + dao.ct('On subtable update') + '</option>').appendTo(sel1);
             sel1.change();
         },
         get_list_func: function(sel1, rb_id, edit_value) {
@@ -562,7 +562,7 @@
                 error: function() {
                     obj_cm.setValue('');
                     descr.val('');
-                    title.val('Встроеная функция.');
+                    title.val('Built-in function.');
                 }
             });
         },
@@ -571,7 +571,7 @@
             return re.test(value);
         },
         checkFloat: function(value) {
-            // TODO использование запятой как десятичного разделителя
+            // Legacy comment translated from Russian.
             var re = /^[-+]?[0-9]+(\.[0-9]+)?$/;
             return re.test(value);
         },

@@ -24,10 +24,10 @@ class Player(list):
     def __init__(self, client, room, x=0, y=0, z=0, a=0, b=0):
         assert isinstance(room, Room)
         list.__init__(self, (x, y, z, a, b))
-        # клиент и комната, к которым относится игрок
+        # Legacy comment translated from Russian.
         self._client = client
         self._room = room
-        # вычисляем свой id
+        # Legacy comment translated from Russian.
         Player.last_id += 1
         self._id = Player.last_id
         # add self in room

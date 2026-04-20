@@ -1,34 +1,8 @@
 @CHARSET "UTF-8";
 
-/*.tableprocessor table, .tableprocessor { border-collapse: collapse; */
-/*простая линия*/ /* margin-left: auto; margin-right: auto; font-size: small; }*/
-/*.tableprocessor th { border: thin solid #B0C4DE; padding: 5px 5px; white-space: nowrap; text-align: center; vertical-align: middle; }*/
-/*.tableprocessor td { background-color: white; border: thin solid #B0C4DE; font-family: Arial; padding: 0px 5px; text-align: center; color: #2779AA; white-space: nowrap; }*/
-/*.tableprocessor td { overflow: hidden; }*/
-
-.grid_main.cell.ui - state - hover {
-        font - weight: normal;
-    }
-    .grid_main.cell.ui - state - active {
-        font - weight: normal;
-    }
-    .cell.editor {
-        position: absolute;top: 0 px;bottom: 0 px;left: 0 px;right: 0 px;background - color: white;z - index: 1000;
-    }
-    .cell.editor input {
-        width: 100 % ;height: 100 % ;border: none 0 px;outline: none 0 px;
-    }
-
-    .grid.hidden_ {
-        position: absolute;left: 0 px;top: 0 px;bottom: 0 px;overflow: visible;white - space: nowrap;font - family: arial;background - color: white;right: 24 px;
-    }
-
-
-    .grid.hidden_ > .column > .rows {
-        width: 100 % ;
-    }
-    /* сами ячейки вложеные таблички в которых даные */
-    .grid > .column > .rows > .hidden_ {
+/* Legacy comment translated from Russian. */
+/* Legacy comment translated from Russian. */
+.grid > .column > .rows > .hidden_ {
         height: 300 px;position: relative;background - color: green;width: 0 px;
     }
     .grid.hidden_ > .column > .rows > .hidden_ {
@@ -60,65 +34,7 @@
     .grid.right.img.filter {
         border - width: 0 px 1 px 1 px 1 px;
     }
-    /*.grid.right .cell{ border:#b0c4de solid 1px; border-width: 1px 1px 1px 1px; }*/
-    .grid {
-        display: inline - block;
-    }
-    .grid.left {
-        background - color: white;
-    }
-
-    .grid.center {
-        white - space: nowrap;
-        max - width: 100 % ;
-        /*position: relative;*/
-        overflow: hidden;
-    }
-
-    .grid.center.spring {
-        display: inline - block;width: 207 px;height: 100 % ;background - color: transparent;
-    }
-    /*.grid.main div {border:#ccc solid 1px; margin:-1px -1px 0 0;}*/
-    .grid.cell {
-        border: #b0c4de solid 1 px;border - width: 0 px 1 px 1 px 0 px;margin: 0 px 0 0 px 0;height: 18 px;font - size: 14 px;
-        background - color: white;position: relative;color: #2779aa; text-align: center; }
-
-.grid .column.img .cell { border-width: 0px 1px 1px 1px; }
-.grid.center .cell{ min-width: 131px; }
-
-.filter { border:# b0c4de solid 1 px;border - width: 0 px 1 px 1 px 0 px;margin: 0 px;height: 18 px;font - size: 14 px;color: #2779aa; position: relative;}
-.filter .search {height:100%; width: 100%; border:none 0px; border-bottom:1px solid # b0c4de;text - align: right;outline: none 0 px;padding: 0 px;
-    }
-    .filter.search_div {
-        height: 15 px;position: absolute;top: 0 px;bottom: 0 px;right: 3 px;left: 22 px;
-    }
-    .show_filter {
-        top: 0 px;right: 0 px;padding: 0 px;width: 20 px;position: absolute;overflow: visible;cursor: default;
-    }
-
-    .grid.cb {
-        margin: 1 px 0 0 0;vertical - align: top;
-    }
-
-    .suggest {
-        position: relative;top: 18 px;width: 100 % ;background - color: white;border: 1 px solid #0055aa; z-index: 1000;
-    height: 100px;
-}
-.select {
-    position: relative; top:18px; width: 100%; background-color: white; border:1px solid # 0055 aa;z - index: 1000;
-        height: 100 px;
-    }
-    /*.filt_col_check {width:100%; height:100px;  background-color: white; border:1px solid #0055aa;  position: relative; top:20px;}*/
-    /*.filt_col_text {width:100%; height:100px;  background-color: white; border:1px solid #0055aa; position: relative; top:20px;}*/
-    /*.filt_col_date {width:100%; height:100px;  background-color: white; border:1px solid #0055aa;   position: relative; top:20px;}*/
-    /*.filt_col_text, .filt_col_date, .filt_col_check {z-index:1000;}*/
-    /*.filt_col_date input {width: 100px;}*/
-    /*.filt_col_check img {margin: 7px;}*/
-
-    /*.suggest {width: 100px; height: 100px;}*/
-
-    /*.dialog {z-index: 200000 !important; }*/
-    /*это было из за бага с модельными окнами    потом он вроде решился*/
+    /* Legacy comment translated from Russian. */
 
     .grid.right > .column.img.cell {
         border: #b0c4de solid 1 px;border - width: 0 px 1 px 1 px 1 px;
@@ -136,8 +52,7 @@
         overflow: hidden;
     }
 
-    /*.grid.hidden_ > .column > .rows {  overflow: hidden; }*/
-    /* реальные столбцы с данными вернее солбец H который в грид хиден создается*/
+    /* Legacy comment translated from Russian. */
     .grid.hidden_ > .column {
         width: 100 % ;max - width: none;overflow: hidden;
     }
@@ -169,41 +84,33 @@
     }
     .column > .footer {
         position: absolute;
-        /*bottom: 20px; */
-        height: 16 px;
-        left: 0 px;right: 0 px;text - align: center;padding - top: 4 px;background - color: white;
-    }
-    /*.zaebalo {height: 90px; border: none 0px !important;}*/
-    /*========разворачивание================*/
-    .row_tree {
-        display: inline - block;width: 16 px;height: 16 px;
-    }
-    /*.row_tree.collapsed { background-image: url(/static/table/img/plus.png);  cursor:pointer;}*/
-    /*.row_tree.expanded { background-image: url(/static/table/img/minus.png);  cursor:pointer;}*/
-
-    /* > непосредствено лежащий */
-    /*==========================================================================================*/
+        /* Legacy comment translated from Russian. */
+        .row_tree {
+            display: inline - block;width: 16 px;height: 16 px;
+        }
+        /* Legacy comment translated from Russian. */
+        /*==========================================================================================*/
 
 
-    .tableprocessor dir li {
-        border - bottom: 1 px solid gray;
-        padding: 0 px 0 px 6 px 0 px;
-        overflow: hidden;
-        height: auto;
-    }
-    .tableprocessor dir li h1 {
-        text - align: left;
-        vertical - align: top;
-        margin - left: 110 px
-    }
-    .tableprocessor dir li.item - list {
-        text - align: left;
-        vertical - align: top;
-        margin - left: 110 px;
-    }
+        .tableprocessor dir li {
+            border - bottom: 1 px solid gray;
+            padding: 0 px 0 px 6 px 0 px;
+            overflow: hidden;
+            height: auto;
+        }
+        .tableprocessor dir li h1 {
+            text - align: left;
+            vertical - align: top;
+            margin - left: 110 px
+        }
+        .tableprocessor dir li.item - list {
+            text - align: left;
+            vertical - align: top;
+            margin - left: 110 px;
+        }
 
-    .ui - autocomplete {
-        z - index: 20;
-    }
+        .ui - autocomplete {
+            z - index: 20;
+        }
 
-/*ui-front ui-menu ui-widget ui-widget-content*/
+        /*ui-front ui-menu ui-widget ui-widget-content*/

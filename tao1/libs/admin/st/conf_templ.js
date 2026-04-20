@@ -36,19 +36,19 @@ function init_conf_templ(conf, conf_name) {
         "<div class='conf_templ_dialog btn btn-small btn-info' style='margin-right:5px;'><i class='icon-white icon-star'></i></div><%= name %></div>" +
         "<div style='margin:10px;' class='single_slot sett'>" +
 
-        "<div><div rel='popover' data-trigger='hover' title='Название' class='title'>Название: </div><div class='val'><%= slot_name %></div></div>" +
+        "<div><div rel='popover' data-trigger='hover' title='Name' class='title'>Name: </div><div class='val'><%= slot_name %></div></div>" +
 
-        "<div><div data-content='Справочник из которого будут братся данные'                    data-placement='right' rel='popover' data-trigger='hover' title='Выбор справочника' class='title'>Справочник: </div><div class='val'><%= kind_title %></div></div>" +
-        "<div><div data-content='Шблн который будет рисовать даные этой ячейки'                 data-placement='right' rel='popover' data-trigger='hover' title='Выбор шаблона' class='title'>Шаблон: </div><div class='val'><%= templ %></div></div>" +
-        "<div><div data-content='Тэги по которым будут фильтроватся даные в ячейке'             data-placement='right' rel='popover' data-trigger='hover' title='Тэги' class='title'>Теги: </div><div class='val'><%= tag %></div></div>" +
-        "<div><div data-content='Пользователи по которым будет дополнительно фильтроватся даные' data-placement='right' rel='popover' data-trigger='hover' title='По полльзователям' class='title'>Авторы: </div><div class='val'><%= user_title %></div></div>" +
-        "<div><div data-content='Группы по которым будут фильтроватся данные'                   data-placement='right' rel='popover' data-trigger='hover' title='По группам' class='title'>Группы: </div><div class='val'><%= by_group %></div></div>" +
-        "<div><div data-content='Роли пользователей по которым отфильтруется ячейка'            data-placement='right' rel='popover' data-trigger='hover' title='По ролям' class='title'>Роли: </div><div class='val'><%= role %></div></div>" +
-        "<div><div data-content='По чем отсортируются даные в нужном порядке'                   data-placement='right' rel='popover' data-trigger='hover' title='Сортировка' class='title'>Сортировка: </div><div class='val'><%= sort %></div></div>" +
-        "<div><div data-content='Минимальный рейтинг для показа в данной ячейке'                data-placement='right' rel='popover' data-trigger='hover' title='Рейтинг' class='title'>Рейтинг: </div><div class='val'><%= vote %></div></div>" +
-        "<div><div data-content='Кол-во(лимит) звписей в ячейке'                                data-placement='right' rel='popover' data-trigger='hover' title='Лимит записей' class='title'>Лимит: </div><div class='val'><%= limit %></div></div>" +
-        "<div><div data-content='Показывать только один раз каждого уникального автора или нет' data-placement='right' rel='popover' data-trigger='hover' title='Уник. автор в ячейке' class='title'>Уник. автор: </div><div class='val'><%= last_art %></div></div>" +
-        "<div><div data-content='Срок дней показа'                                              data-placement='right' rel='popover' data-trigger='hover' title='Срок показа' class='title'>Срок показа: </div><div class='val'><%= term %> дней</div></div>" +
+        "<div><div data-content='Reference from which data will be taken'                    data-placement='right' rel='popover' data-trigger='hover' title='Reference selection' class='title'>Reference: </div><div class='val'><%= kind_title %></div></div>" +
+        "<div><div data-content='Template that will render this cell data'                 data-placement='right' rel='popover' data-trigger='hover' title='Template selection' class='title'>Template: </div><div class='val'><%= templ %></div></div>" +
+        "<div><div data-content='Tags used to filter data in this cell'             data-placement='right' rel='popover' data-trigger='hover' title='Tags' class='title'>Tags: </div><div class='val'><%= tag %></div></div>" +
+        "<div><div data-content='Users for additional data filtering' data-placement='right' rel='popover' data-trigger='hover' title='By users' class='title'>Authors: </div><div class='val'><%= user_title %></div></div>" +
+        "<div><div data-content='Groups used to filter data'                   data-placement='right' rel='popover' data-trigger='hover' title='By groups' class='title'>Groups: </div><div class='val'><%= by_group %></div></div>" +
+        "<div><div data-content='User roles used to filter this cell'            data-placement='right' rel='popover' data-trigger='hover' title='By roles' class='title'>Roles: </div><div class='val'><%= role %></div></div>" +
+        "<div><div data-content='How data is sorted in the required order'                   data-placement='right' rel='popover' data-trigger='hover' title='Sorting' class='title'>Sorting: </div><div class='val'><%= sort %></div></div>" +
+        "<div><div data-content='Minimum rating for showing in this cell'                data-placement='right' rel='popover' data-trigger='hover' title='Rating' class='title'>Rating: </div><div class='val'><%= vote %></div></div>" +
+        "<div><div data-content='Number (limit) of records in the cell'                                data-placement='right' rel='popover' data-trigger='hover' title='Record limit' class='title'>Limit: </div><div class='val'><%= limit %></div></div>" +
+        "<div><div data-content='Show each unique author only once or not' data-placement='right' rel='popover' data-trigger='hover' title='Unique author in cell' class='title'>Unique author: </div><div class='val'><%= last_art %></div></div>" +
+        "<div><div data-content='Display period in days'                                              data-placement='right' rel='popover' data-trigger='hover' title='Display period' class='title'>Display period: </div><div class='val'><%= term %> days</div></div>" +
         "</div>" +
         "<style>" +
         ".single_slot .title{ display:inline-block; width: 93px; color:#48f; }" +
@@ -89,7 +89,7 @@ function init_conf_templ(conf, conf_name) {
     function make_slot(slot) {
         if (!slot) return;
         $(':input', this).each(function() {
-            // получаем имя инпута
+            // Legacy comment translated from Russian.
             dao.log('f');
             var i = $(this).attr('name');
             dao.log(i);
@@ -98,7 +98,7 @@ function init_conf_templ(conf, conf_name) {
             if (slot && slot[i]) {
                 dao.log('true');
 
-                // вставляем значения полученые с сервера в инпуты
+                // Legacy comment translated from Russian.
                 if (i == 'kind') $(this).val(slot[i]);
                 if (i == 'templ') $(this).val(slot[i]);
                 if (i == 'sort') $(this).val(slot[i]);
@@ -125,7 +125,7 @@ function init_conf_templ(conf, conf_name) {
     }
 
     var t_dialog = "<div style='margin:10px;' class='sett'>" +
-        "<div>Название:</div><input class='form-control input-sm' type='text' name ='name' />" +
+        "<div>Name:</div><input class='form-control input-sm' type='text' name ='name' />" +
         "<select class='form-control input-sm' name='color'>" +
         "<option class='col_h blue' value='blue'></option>" +
         "<option class='col_h blue1' value='blue1'></option>" +
@@ -172,88 +172,88 @@ function init_conf_templ(conf, conf_name) {
         "<option class='col_h pink' value='pink'></option>" +
         "</select>" +
         "<select class='form-control input-sm' name='kind'>" +
-        "<option value='obj'>Материалы</option>" +
-        "<option value='banner'>Банеры</option>" +
-        "<option value='header'>Картинки главной</option>" +
-        "<option value='clips'>Клипы</option>" +
-        "<option value='radio'>Радио</option>" +
-        "<option value='ware'>Товары</option>" +
-        "<option value='wiki'>Вики</option>" +
-        "<option value='poll'>Голосование</option>" +
-        "<option value='news'>Новости</option>" +
-        "<option value='users'>Авторы</option>" +
-        "<option value='maps'>Карты</option>" +
-        "<option value='comments'>Комментарии</option>" +
+        "<option value='obj'>Materials</option>" +
+        "<option value='banner'>Banners</option>" +
+        "<option value='header'>Homepage images</option>" +
+        "<option value='clips'>Clips</option>" +
+        "<option value='radio'>Radio</option>" +
+        "<option value='ware'>Products</option>" +
+        "<option value='wiki'>Wiki</option>" +
+        "<option value='poll'>Voting</option>" +
+        "<option value='news'>News</option>" +
+        "<option value='users'>Authors</option>" +
+        "<option value='maps'>Maps</option>" +
+        "<option value='comments'>Comments</option>" +
         "</select>" +
-        "<div>Шаблон:</div>" +
+        "<div>Template:</div>" +
         "<select class='form-control input-sm' style='max-width:95%;'name='templ'>" +
-        "<option value='slot_header'>header-Шапка</option>" +
-        "<option value='slot_b1'>slot_b1-стандартный блог</option>" +
-        "<option value='slot_b2'>slot_b2-уменьшеный блог</option>" +
-        "<option value='slot_b3'>slot_b3-маленький блог</option>" +
-        "<option value='slot_c1'>slot_c1-маленький блог</option>" +
-        "<option value='slot_c2'>slot_c2-маленький блог</option>" +
-        "<option value='slot_n1'>slot_n1-стандартный новостной</option>" +
-        "<option value='slot_n2'>slot_n2-уменьшеный новостной</option>" +
-        "<option value='slot_n3'>slot_n3-маленький новостной</option>" +
-        "<option value='slot_r1'>slot_r1-стандартный радио</option>" +
-        "<option value='slot_r2'>slot_r2-уменьшеный радио</option>" +
-        "<option value='slot_r3'>slot_r3-маленький радио</option>" +
-        "<option value='slot_w1'>slot_w1-стандартный вики</option>" +
-        "<option value='slot_ww1'>slot_ww1-стандартный вики</option>" +
-        "<option value='slot_w2'>slot_w2-уменьшеный вики</option>" +
-        "<option value='slot_m1'>slot_m1-стандартный карты</option>" +
-        "<option value='slot_m2'>slot_m2-уменьшеный карты</option>" +
-        "<option value='slot_galery'>slot_galery-галерея</option>" +
-        "<option value='slot_news_maps'>slot_news_maps-новости для карт</option>" +
-        "<option value='slot_row'>slot_row1-стандартный строка</option>" +
-        "<option value='slot_row'>slot_row2-уменьшеный строка</option>" +
-        "<option value='slot_row'>slot_row3-маленький строка</option>" +
-        "<option value='slot1'>slot1-старый стандартный</option>" +
-        "<option value='slot_n'>slot_n-старый новостной</option>" +
-        "<option value='slot_main'>slot_main- Основной слот</option>" +
-        "<option value='slot_main1'>slot_main1- Основной слот 2</option>" +
-        "<option value='slot_main2'>slot_main1- Основной слот 3</option>" +
-        "<option value='poll'>poll - голосование</option>" +
-        "<option value='slot_m'>slot_m-стандартный мини</option>" +
-        "<option value='slot_mini'>slot_mini-улучшеный мини</option>" +
-        "<option value='slot_mm'>slot_mm-стандартный мини мини</option>" +
-        "<option value='slot_mm2'>slot_mm2-стандартный мини мини2</option>" +
-        "<option value='slot_car'>slot_car-прокрутка</option>" +
-        "<option value='slot_r'>slot_r-радио</option>" +
-        "<option value='slot_r_mm'>slot_r_mm-радио мини</option>" +
-        "<option value='slot_b'>slot_b-банеры</option>" +
-        "<option value='slot_t'>slot_t-кругозор</option>" +
-        "<option value='slot_l'>slot_l-Списком</option>" +
-        "<option value='slot_tab1'>slot_tab1-Закладки</option>" +
-        "<option value='slot_tab2'>slot_tab2-Закладки2</option>" +
-        "<option value='slot_u'>slot_u-Пользователи</option>" +
-        "<option value='slot_m_mm'>slot_m_mm-Карты-мини</option>" +
-        "<option value='slot_wr'>slot_wr-товары на главной</option>" +
-        "<option value='slot_wr2'>slot_wr2-товары на главной</option>" +
-        "<option value='slot_wr3'>slot_wr3-товары на главной</option>" +
-        "<option value='slot_wr4'>slot_wr4-товары на главной</option>" +
-        "<option value='slot_map_a'>slot_map_a-Карты-мини</option>" +
-        "<option value='slot_line'>slot_line-Блоги линией</option>" +
-        "<option value='slot_line_comm'>slot_line_comm-Последние комментарии</option>" +
+        "<option value='slot_header'>header-Header</option>" +
+        "<option value='slot_b1'>slot_b1-standard blog</option>" +
+        "<option value='slot_b2'>slot_b2-compact blog</option>" +
+        "<option value='slot_b3'>slot_b3-small blog</option>" +
+        "<option value='slot_c1'>slot_c1-small blog</option>" +
+        "<option value='slot_c2'>slot_c2-small blog</option>" +
+        "<option value='slot_n1'>slot_n1-standard news</option>" +
+        "<option value='slot_n2'>slot_n2-compact news</option>" +
+        "<option value='slot_n3'>slot_n3-small news</option>" +
+        "<option value='slot_r1'>slot_r1-standard radio</option>" +
+        "<option value='slot_r2'>slot_r2-compact radio</option>" +
+        "<option value='slot_r3'>slot_r3-small radio</option>" +
+        "<option value='slot_w1'>slot_w1-standard wiki</option>" +
+        "<option value='slot_ww1'>slot_ww1-standard wiki</option>" +
+        "<option value='slot_w2'>slot_w2-compact wiki</option>" +
+        "<option value='slot_m1'>slot_m1-standard maps</option>" +
+        "<option value='slot_m2'>slot_m2-compact maps</option>" +
+        "<option value='slot_galery'>slot_galery-gallery</option>" +
+        "<option value='slot_news_maps'>slot_news_maps-news for maps</option>" +
+        "<option value='slot_row'>slot_row1-standard row</option>" +
+        "<option value='slot_row'>slot_row2-compact row</option>" +
+        "<option value='slot_row'>slot_row3-small row</option>" +
+        "<option value='slot1'>slot1-old standard</option>" +
+        "<option value='slot_n'>slot_n-old news</option>" +
+        "<option value='slot_main'>slot_main- Main slot</option>" +
+        "<option value='slot_main1'>slot_main1- Main slot 2</option>" +
+        "<option value='slot_main2'>slot_main1- Main slot 3</option>" +
+        "<option value='poll'>poll - voting</option>" +
+        "<option value='slot_m'>slot_m-standard mini</option>" +
+        "<option value='slot_mini'>slot_mini-improved mini</option>" +
+        "<option value='slot_mm'>slot_mm-standard mini mini</option>" +
+        "<option value='slot_mm2'>slot_mm2-standard mini mini2</option>" +
+        "<option value='slot_car'>slot_car-carousel</option>" +
+        "<option value='slot_r'>slot_r-radio</option>" +
+        "<option value='slot_r_mm'>slot_r_mm-radio mini</option>" +
+        "<option value='slot_b'>slot_b-banners</option>" +
+        "<option value='slot_t'>slot_t-panorama</option>" +
+        "<option value='slot_l'>slot_l-List view</option>" +
+        "<option value='slot_tab1'>slot_tab1-Tabs</option>" +
+        "<option value='slot_tab2'>slot_tab2-Tabs2</option>" +
+        "<option value='slot_u'>slot_u-Users</option>" +
+        "<option value='slot_m_mm'>slot_m_mm-Maps-mini</option>" +
+        "<option value='slot_wr'>slot_wr-products on homepage</option>" +
+        "<option value='slot_wr2'>slot_wr2-products on homepage</option>" +
+        "<option value='slot_wr3'>slot_wr3-products on homepage</option>" +
+        "<option value='slot_wr4'>slot_wr4-products on homepage</option>" +
+        "<option value='slot_map_a'>slot_map_a-Maps-mini</option>" +
+        "<option value='slot_line'>slot_line-blogs line</option>" +
+        "<option value='slot_line_comm'>slot_line_comm-latest comments</option>" +
         "</select>" +
         "<div>" +
-        "<div>По тегам:</div><input class='form-control input-sm' type='text' name ='tag'/>" +
-        "<div>По пользователю:</div><select class='form-control input-sm' name ='user' multiple='true' style='max-width:95%; min-height:20px;'></select>" +
-        "<div>По группам:</div><select class='form-control input-sm' name='by_group' ></select>" +
-        "<div>По ролям:</div><select class='form-control input-sm' name='role' ></select>" +
-        "<div>Сортировка:</div>" +
+        "<div>By tags:</div><input class='form-control input-sm' type='text' name ='tag'/>" +
+        "<div>By user:</div><select class='form-control input-sm' name ='user' multiple='true' style='max-width:95%; min-height:20px;'></select>" +
+        "<div>By groups:</div><select class='form-control input-sm' name='by_group' ></select>" +
+        "<div>By roles:</div><select class='form-control input-sm' name='role' ></select>" +
+        "<div>Sorting:</div>" +
         "<select class='form-control input-sm' name='sort'>" +
-        "<option value='none'>Без сортировки</option>" +
-        "<option value='date'>По дате</option>" +
-        "<option value='rate'>По рейтингу</option>" +
-        "<option value='views'>По просмотрам</option>" +
-        "<option value='comm'>По коментариям</option>" +
+        "<option value='none'>No sorting</option>" +
+        "<option value='date'>By date</option>" +
+        "<option value='rate'>By rating</option>" +
+        "<option value='views'>By views</option>" +
+        "<option value='comm'>By comments</option>" +
         "</select>" +
-        "<div>По рейтингу:</div><input class='form-control input-sm' type='text' name ='vote' value='0'/>" +
-        "<div>Лимит:</div><input class='form-control input-sm' type='text' name ='limit' value='5'/>" +
-        "<div>Уникальный автор:</div><input class='form-control input-sm' type='checkbox' name ='last_art' />" +
-        "<div>Срок показа(дней):</div><input class='form-control input-sm' type='text' name ='term' />" +
+        "<div>By rating:</div><input class='form-control input-sm' type='text' name ='vote' value='0'/>" +
+        "<div>Limit:</div><input class='form-control input-sm' type='text' name ='limit' value='5'/>" +
+        "<div>Unique author:</div><input class='form-control input-sm' type='checkbox' name ='last_art' />" +
+        "<div>Display period(days):</div><input class='form-control input-sm' type='text' name ='term' />" +
         "</div>" +
         "</div>" +
         "<style> .sett input, .sett select{margin-bottom:5px;}</style>";

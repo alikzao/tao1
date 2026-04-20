@@ -8,7 +8,7 @@ $(function() {
     var aaa =
     {
 	    "title": '',
-	    "hint": 'Обновить',
+	    "hint": 'Refresh',
 	    "id": "refresh",
 	    "visible": true,
 	    "action": "this.updatelist",

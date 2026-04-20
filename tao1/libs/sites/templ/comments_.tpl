@@ -67,7 +67,7 @@
                                 <div  class="comm_answer ui-corner-all " style="cursor: pointer; padding-bottom:10px;"> <a href='#'>{{ ct('reply') }}</a></div>
                                 <div comm_cont="{{comm.id}}">   </div>
                             {%  else %}
-                                <div id_comm="{{comm.id}}" class="comm_comment ">Коментарий удален.</div>
+                                <div id_comm="{{comm.id}}" class="comm_comment ">Comment deleted.</div>
                             {%  endif %}
                         </div>
                         <ul class="sub_comments ui-corner-all">{{ loop(comm.child) }}</ul>

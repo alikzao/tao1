@@ -26,7 +26,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                    <i class="fa fa-caret-down"></i> Docs <div class="line_work_rb" style="padding:6px; color:green;"> ctr.doc  объектов </div>
+                                    <i class="fa fa-caret-down"></i> Docs <div class="line_work_rb" style="padding:6px; color:green;"> ctr.doc  objects </div>
                                 </a>
                             </h4>
                         </div>
@@ -44,7 +44,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                    <i class="fa fa-caret-down"></i> Справочники <div class="line_work_rb" style="padding:6px; color:green;"> ctr.doc  объектов </div>
+                                    <i class="fa fa-caret-down"></i> References <div class="line_work_rb" style="padding:6px; color:green;"> ctr.doc  objects </div>
                                 </a>
                             </h4>
                         </div>
@@ -66,7 +66,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#report">
-                                    <i class="fa fa-caret-down"></i> Отчеты <div class="line_work_rb" style="padding:6px; color:green;"> 1 объект </div>
+                                    <i class="fa fa-caret-down"></i> Reports <div class="line_work_rb" style="padding:6px; color:green;"> 1 object </div>
                                 </a>
                             </h4>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#report_n">
-                                    <i class="fa fa-caret-down"></i> Разное<div class="line_work_rb" style="padding:6px; color:green;"> 1 объект </div>
+                                    <i class="fa fa-caret-down"></i> Misc<div class="line_work_rb" style="padding:6px; color:green;"> 1 object </div>
                                 </a>
                             </h4>
                         </div>
@@ -109,14 +109,14 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#templ">
-                                    <i class="fa fa-caret-down"></i> Внешний вид(шаблоны) <div class="line_work_rb" style="padding:6px; color:green;"> 2  обьекта </div>
+                                    <i class="fa fa-caret-down"></i> Appearance(templates) <div class="line_work_rb" style="padding:6px; color:green;"> 2  objects </div>
                                 </a>
                             </h4>
                         </div>
                         <div id="templ" class="panel-collapse collapse out">
                             <div class="panel-body">
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/conf_templ" d_id="conf_templ"> Шаблоны конфигурация </div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/edit_templ" d_id="edit_templ"> Шаблоны редактиование </div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/conf_templ" d_id="conf_templ"> Templates configuration </div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/edit_templ" d_id="edit_templ"> Templates editing </div>
                             </div>
                         </div>
                     </div>
@@ -125,17 +125,17 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#acl">
-                                    <i class="fa fa-caret-down"></i> ACL — контроля доступа <div class="line_work_rb" style="padding:6px; color:green;"> 4 обьекта </div>
+                                    <i class="fa fa-caret-down"></i> ACL — access control <div class="line_work_rb" style="padding:6px; color:green;"> 4 objects </div>
                                 </a>
                             </h4>
                         </div>
                         <div id="acl" class="panel-collapse collapse out">
                             <div class="panel-body">
-    {#                            <div class="add_rb ar btn btn-info" style="width:240px;" ng-href="{{i.link}}" d_id="{{ i._id }}">Пользователи</div>#}
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/table/in/des:users"    d_id="create_user"> Пользователи</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/settings/users_group"  d_id="users_group"> Состав групп</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/settings/group_perm"   d_id="group_perm">  Права групп</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/table/in/des:role"     d_id="conf_role">   Роли пользователей</div>
+    {#                            <div class="add_rb ar btn btn-info" style="width:240px;" ng-href="{{i.link}}" d_id="{{ i._id }}">Users</div>#}
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/table/in/des:users"    d_id="create_user"> Users</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/settings/users_group"  d_id="users_group"> Group membership</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/settings/group_perm"   d_id="group_perm">  Group permissions</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/table/in/des:role"     d_id="conf_role">   User roles</div>
                             </div>
                         </div>
                     </div>
@@ -144,14 +144,14 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#set_conf">
-                                    <i class="fa fa-caret-down"></i> Настройки конфигурации <div class="line_work_rb" style="padding:6px; color:green;"> 2 обьекта </div>
+                                    <i class="fa fa-caret-down"></i> Configuration settings <div class="line_work_rb" style="padding:6px; color:green;"> 2 objects </div>
                                 </a>
                             </h4>
                         </div>
                         <div id="set_conf" class="panel-collapse collapse out">
                             <div class="panel-body">
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/conf_rb_doc" d_id="conf_conf">Конфигурация админки</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/table/in/des:conf" d_id="conf_rb_doc">Справочник настроек</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/conf_rb_doc" d_id="conf_conf">Admin configuration</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/table/in/des:conf" d_id="conf_rb_doc">Settings reference</div>
                             </div>
                         </div>
                     </div>
@@ -160,14 +160,14 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#sandbox">
-                                    <i class="fa fa-caret-down"></i> Песочница <div class="line_work_rb" style="padding:6px; color:green;"> 2 обьекта </div>
+                                    <i class="fa fa-caret-down"></i> Sandbox <div class="line_work_rb" style="padding:6px; color:green;"> 2 objects </div>
                                 </a>
                             </h4>
                         </div>
                         <div id="sandbox" class="panel-collapse collapse out">
                             <div class="panel-body">
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/add_func" d_id="add_func">Создать функцию</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/sandbox"       d_id="sb">Песочница</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/add_func" d_id="add_func">Create function</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/sandbox"       d_id="sb">Sandbox</div>
                             </div>
                         </div>
                     </div>
@@ -176,14 +176,14 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#set_ref">
-                                    <i class="fa fa-caret-down"></i> Настройки справочников <div class="line_work_rb" style="padding:6px; color:green;"> 2 обьекта </div>
+                                    <i class="fa fa-caret-down"></i> Reference settings <div class="line_work_rb" style="padding:6px; color:green;"> 2 objects </div>
                                 </a>
                             </h4>
                         </div>
                         <div id="set_ref" class="panel-collapse collapse out">
                             <div class="panel-body">
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/add_rb" d_id="add_rb">Создать справочник</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/del_rb" d_id="del_rb">Удалить справочник</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/add_rb" d_id="add_rb">Create reference</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/del_rb" d_id="del_rb">Delete reference</div>
                             </div>
                         </div>
                     </div>
@@ -192,15 +192,15 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#set_menu">
-                                    <i class="fa fa-caret-down"></i> Настройки меню <div class="line_work_rb" style="padding:6px; color:green;"> 3 обьекта </div>
+                                    <i class="fa fa-caret-down"></i> Menu settings <div class="line_work_rb" style="padding:6px; color:green;"> 3 objects </div>
                                 </a>
                             </h4>
                         </div>
                         <div id="set_menu" class="panel-collapse collapse out">
                             <div class="panel-body">
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/menu/menu:site:left"      d_id="menu:site:left">Левое меню</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/menu/menu:site:top"       d_id="menu:site:top">Верхнее меню</div>
-                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/menu/menu:root:left_menu" d_id="menu:root:left_menu">Внутренее меню</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/menu/menu:site:left"      d_id="menu:site:left">Left menu</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/menu/menu:site:top"       d_id="menu:site:top">Top menu</div>
+                                <div class="add_rb ar btn btn-info" style="width:180px;" ng-href="/menu/menu:root:left_menu" d_id="menu:root:left_menu">Inner menu</div>
                             </div>
                         </div>
                     </div>
@@ -330,7 +330,6 @@
 
 
 {% endblock %}
-
 
 
 

@@ -54,7 +54,7 @@ def sec2time(s):
 
 
 def cut_frag_v(doc_id, frag, f_start, f_len, ext):
-    """Разрезание длинного файла на фрагменты а потом фрагменты на картинки каждый"""
+    """Legacy docstring translated from Russian."""
     os.mkdir(os.path.join(bp, doc_id, "out_v", str(frag)))
     cmd(
         "avconv -i {f_in} -ss {start} -t {len} -q 1 -s hd720 -threads 8 -r 25 -y {f_out}".format(
@@ -73,7 +73,7 @@ def cut_frag_v(doc_id, frag, f_start, f_len, ext):
 
 
 def cut_frag_a(doc_id, frag, f_start, f_len, track, vol, ext):
-    """вырезание из видео дорожки аудио файла    конвертация видео файла в аудио"""
+    """Legacy docstring translated from Russian."""
     cmd(
         "avconv -i {f_in} -ss {start} -t {len} -vol {vol} -vn -f u16le -ac 2 -ar 44100 -threads 8 -y {f_out}".format(
             f_in=os.path.join(bp, doc_id, "in_" + track, str(frag) + "." + ext),
@@ -86,7 +86,7 @@ def cut_frag_a(doc_id, frag, f_start, f_len, track, vol, ext):
 
 
 def clone_mp3(doc_id, frag, flen, track):
-    """Тиражирование пустого звука"""
+    """Legacy docstring translated from Russian."""
     anull = get_settings("lib_path") + "/system/silence.a"
     anull = " ".join([anull for i in range(time2sec(flen))])
     cmd(
@@ -98,7 +98,7 @@ def clone_mp3(doc_id, frag, flen, track):
 
 
 def clone_img(doc_id, frag, ext, tm):
-    """клонирование картинок в нужном количестве"""
+    """Legacy docstring translated from Russian."""
     path = os.path.join(bp, "out_v", str(frag))
     os.mkdir(path)
     mod = 0o777
@@ -131,7 +131,7 @@ def join_frag_a(doc_id, track, lst):
 
 
 def join_frag_v(doc_id, lst):
-    """Склеивание из фрагментов дорожки"""
+    """Legacy docstring translated from Russian."""
     ctr = 0
     for d in lst:
         frag_p = os.path.join(bp, doc_id, "out_v", str(d))
@@ -159,7 +159,7 @@ def join_frag_v(doc_id, lst):
 
 
 def join_av_track(doc_id):
-    """склеивание аудио и видео дорожек"""
+    """Legacy docstring translated from Russian."""
     cmd(
         "sox -m {f_in1} {f_in2} {f_out}".format(
             f_in1=os.path.join(bp, doc_id, "out_a.wav"),

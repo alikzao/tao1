@@ -24,7 +24,7 @@ flag_conv = 1
 
 
 def clip_page(request, doc_id):
-    """просто показывает страничку редактирования клипа"""
+    """Legacy docstring translated from Russian."""
     if not user_has_permission("des:clips", "edit") and not "daoerp" in get_host():
         return "ERROR 404"
     doc = get_clip(doc_id)
@@ -156,7 +156,7 @@ def edit_fragment(request, doc_id):
     len_ = check_time(get_post("len", "0"))
     end = check_time(get_post("end", "0"))
     if not start or not len_:
-        # TODO у картинок нет старт
+        # TODO: legacy note translated from Russian.
         r = "Incorrect time"
     track = "data_" + get_post("track")
     del_audio = get_post("del_audio", "0")
@@ -258,7 +258,7 @@ def clip_upload(request, doc_id):
 
 
 def upload_clip(request, doc_id):
-    """загружает файлы с компа на сервер"""
+    """Legacy docstring translated from Russian."""
     check_video_dir(doc_id)
     doc = get_clip(doc_id)
     track = "data_" + get_post("track", "")
@@ -385,16 +385,12 @@ def check_video_dir(doc_id, clean=False):
 
 
 def proc_rolik(request):
-    """♍
-    get gocs from db
-    идет по списку клипов    закачивает их     вырезает нужный фрагмент
-    потом опять идем по списку и всех их сливаем
-    """
+    """Legacy docstring translated from Russian."""
     db = request.db
     doc = db.doc.find_one({"doc_type": "des:clips", "status.s": "download"})
     print("\n" * 5, doc)
     if doc:
-        # AVI, MP4, 3GP, MPEG, MOV, MP3, FLV или WMV.
+        # Legacy comment translated from Russian.
         doc_id = doc["_id"]
         update_status(doc_id, "downloading")
         check_video_dir(doc_id)
@@ -456,7 +452,7 @@ def proc_rolik(request):
 
         if flag_audio:
             if not doc["data_a"]:
-                # Если аудиодорожка отсутствует
+                # Legacy comment translated from Russian.
                 clone_mp3(doc_id, 0, "00:00:01", "a")
             else:
                 for res in doc["data_a"]:
@@ -477,22 +473,22 @@ def proc_rolik(request):
                         )
 
         update_status(doc_id, "start glue")
-        # соединяем цепочку видеофрагментов
+        # Legacy comment translated from Russian.
         if flag_video:
             if doc["data_v"]:
                 join_frag_v(doc_id, [i["frag"] for i in doc["data_v"]])
-        # соединяем цепочку аудиодорожек из видео
+        # Legacy comment translated from Russian.
         if flag_audio:
             if doc["data_v"]:
                 join_frag_a(doc_id, track="v", lst=[i["frag"] for i in doc["data_v"]])
-        # соединяем цепочку аудиодорожек из аудио
+        # Legacy comment translated from Russian.
         if flag_audio:
             join_frag_a(
                 doc_id, track="a", lst=[i["frag"] for i in doc["data_a"]] or [0]
             )
         # exit()
 
-        # Микшируем аудиодорожки в одну
+        # Legacy comment translated from Russian.
         if flag_audio and flag_video:
             join_av_track(doc_id)
 

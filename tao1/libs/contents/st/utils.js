@@ -8,7 +8,7 @@ $(function() {
                 status: $(this).is(':checked')
             },
             function() {
-                alert('Изменения подписки сохранены.')
+                alert('Subscription changes saved.')
             }
         )
     });
@@ -92,18 +92,18 @@ function spam(doc_id) {
             '<div class="modal-content">' +
             '<div class="modal-header">' +
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-            '<h1 class="modal-title">Сообщить о нарушении</h1>' +
+            '<h1 class="modal-title">Report abuse</h1>' +
             '</div>' +
             '<div class="modal-body"></div>' +
             '<div class="modal-footer">' +
-            '<span  class="btn send_spam btn-primary" data-dismiss="modal">Отправить жалобу</span>' +
-            '<span  class="btn btn-default cancel" data-dismiss="modal">Отмена</span>' +
+            '<span  class="btn send_spam btn-primary" data-dismiss="modal">Send complaint</span>' +
+            '<span  class="btn btn-default cancel" data-dismiss="modal">Cancel</span>' +
             '</div>' +
             '</div>' +
             '</div>' +
             '</div>'
         ).appendTo('body');
-        var tube = $('<label>Описание проблемы<br><textarea class="form-control" name="spam" style="height:150px; width:520px;"></textarea>' +
+        var tube = $('<label>Description issue<br><textarea class="form-control" name="spam" style="height:150px; width:520px;"></textarea>' +
             '</label>').appendTo(dialog.find('.modal-body'));
         dialog.modal();
     }
@@ -132,7 +132,7 @@ function spam(doc_id) {
                 })
             },
             success: function(data) {
-                if (data.result == 'ok') alert('Сообщение успешно отправлено!')
+                if (data.result == 'ok') alert('Message sent successfully!')
             }
         });
     }
@@ -180,14 +180,14 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
         if (mode == "strict") {
             if (current_user.can_comment || current_user.is_admin) {
                 $('.comment_button').html('<div id_comm="_"><div class="add_comm_b btn btn-primary" style="margin:5px;">' +
-                    ' Добавить комментарий </div></div>');
+                    ' Add comment </div></div>');
             } else {
                 var mess = !current_user.is_logged_in ?
                     text_help :
-                    '<span style="color:red;">У вас нет прав слишком часто добавлять коментарии, в связи с низкой кармой</span>';
+                    '<span style="color:red;">You cannot add comments too frequently due to low karma</span>';
                 $('.comment_button').html(
                     '<div id_comm="_" class="row well" style="width:730px; margin-left:1px;">' +
-                    '<div class="col-xs-4 btn btn-primary add_comm_b"><i class="fa fa-facebook-sign"></i> Добавить комментарий</div>' +
+                    '<div class="col-xs-4 btn btn-primary add_comm_b"><i class="fa fa-facebook-sign"></i> Add comment</div>' +
                     '<div class="col-xs-7"> </div>' +
                     '</div>' +
                     '<div style="text-align: center; color:#68a; padding:3px; border:1px solid #ddd;" class="ui-corner-all"> ' + mess + '</div>');
@@ -208,7 +208,7 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
             if (current_user.is_logged_in) {
                 var user_comm = "<b data='name' style='display:inline-block; padding:15px 0 0 5px;'>" + current_user.name + "</b>"
             } else {
-                var user_comm = '<input class="form-control input-sm" type="text" style="display: inline-block; width: 300px; margin: 10px 0 0 10px;" placeholder="Введите свое имя"/>'
+                var user_comm = '<input class="form-control input-sm" type="text" style="display: inline-block; width: 300px; margin: 10px 0 0 10px;" placeholder="Enter your name"/>'
             }
             $('.comm_editor .comm_title').append(user_comm);
         }
@@ -221,7 +221,7 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
     function del_comm() {
         console.warn('del_comm');
         var comm_id = $(this).attr('id_comm');
-        if (confirm(dao.ct('Вы действительно хотите удалить комментарий?'))) {
+        if (confirm(dao.ct('Do you really want to delete the comment?'))) {
             var new_body = $('.t_rich_edit1[name="body1"]').val();
             $.ajax({
                 type: "POST",
@@ -235,7 +235,7 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
                         if (data.action == "del_dom") {
                             $("li[id_comm=" + comm_id + "]").remove();
                         } else {
-                            $(".comm_comment[id_comm=" + comm_id + "]").text('Коментарий удален.');
+                            $(".comm_comment[id_comm=" + comm_id + "]").text('Comment deleted.');
                             $(".un[id_comm=" + comm_id + "]").text('');
                         }
                     } else {
@@ -255,8 +255,8 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
         var text_comm = parent.html();
         parent.html('<div><textarea class="form-control" style="width:98%; height:100px; border: 1px solid #ccc;"> </textarea></div>' +
             '<div class="" style="text-align: right; padding: 5px 50px;">' +
-            '<div class="edit_comm btn btn-info" style="cursor: pointer; margin-right:5px;  font-size:14px;">' + dao.ct('Отправить') + '</div>' +
-            '<div class="cancel_comm btn btn-default" style="cursor: pointer; font-size:14px;">' + dao.ct('Отмена') + '</div>' +
+            '<div class="edit_comm btn btn-info" style="cursor: pointer; margin-right:5px;  font-size:14px;">' + dao.ct('Send') + '</div>' +
+            '<div class="cancel_comm btn btn-default" style="cursor: pointer; font-size:14px;">' + dao.ct('Cancel') + '</div>' +
             '</div>');
         parent.find('.edit_comm, .cancel_comm').button();
         parent.find('textarea').val(text_comm);
@@ -302,7 +302,7 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
             beforeSend: function() {},
             success: function(data) {
                 if (data.result == 'ok') {
-                    alert('Пользователь ' + data.user + ' забанен.')
+                    alert('User ' + data.user + ' banned.')
                 } else dao.user_mess(data.error, 'error');
             }
         });
@@ -396,7 +396,7 @@ function comments_proc(doc_id, comm_id, text_help, mode, id) {
                 '</div>' : '') +
             '</div>' +
             '<div class="comm_comment ui-corner-all" id_comm="' + content.id + '">' + content.body + '</div>' +
-            '<div  class="comm_answer ui-corner-all" style="cursor: pointer; padding-bottom:10px;"> <a href="#">' + dao.ct('Ответить') + '</a></div>' +
+            '<div  class="comm_answer ui-corner-all" style="cursor: pointer; padding-bottom:10px;"> <a href="#">' + dao.ct('Reply') + '</a></div>' +
             '<div comm_cont="' + content.id + '"></div>' +
             '</li>')[(comm_reversed ? 'prepend' : 'append') + 'To'](place);
         if (!current_user.is_admin) place.closest('[id_comm]').find('.in-toolbar:first').remove();
@@ -687,7 +687,7 @@ function auto_loader() {
             var aaa = $this.offset().top + $this.height() - $(window).scrollTop() - $('html')[0].offsetHeight;
             if (aaa < 0 && !$this.data('is_loading')) {
                 $this.data('is_loading', true);
-                var waiter = $('<div>Загрузка</div>').appendTo($this);
+                var waiter = $('<div>Loading</div>').appendTo($this);
                 load($this.attr('slot'), $this.find('.cell').length + base_skip, function(data) {
                     waiter.remove();
                     $this.append(data.content);

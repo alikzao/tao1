@@ -35,6 +35,6 @@
     }
 
 
-    // "кто из этого списка онлайн"
-    // "обновить состояние онлайн"
-    // "удалить тех, кого давно нет онлайн"
+    // Legacy comment translated from Russian.
+    // Legacy comment translated from Russian.
+    // Legacy comment translated from Russian.

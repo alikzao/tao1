@@ -88,17 +88,17 @@ def add_email_post(request):
     dom = get_settings("domain")
     link_confirm = "http://" + dom + "/signup/in/" + email + "/" + code_sub_in
     text = """<html><head></head><body>
-	       <p>Для подтверждения регистрации на сайте {0} перейдите по следующей <a href="{1}">ссылке</a>.</p>
+	       <p>To confirm registration on {0}, follow this <a href="{1}">link</a>.</p>
 	       </body></html>""".format(dom, link_confirm)
 
-    route_mail(email, "Подтверждение регистрации " + dom, text)
+    route_mail(email, "Registration confirmation " + dom, text)
 
-    mess = "Для подтверждения регистрации вам на почту выслано письмо."
+    mess = "A confirmation email has been sent to your inbox."
     return {"result": "ok", "mess": mess}
 
 
 def add_mess(request):
-    # TODO тут проверка что нужный пользователь залогинен
+    # TODO: legacy note translated from Russian.
     db = request.db
     mess = get_post("mess")
     user = get_post("user")
@@ -122,9 +122,9 @@ def add_mess(request):
     user_name = user["doc"]["name"][cur_lang()]
 
     text = """<html><head></head><body>
-	       <p>Пользователь {0} написал новое <a href="{1}"><b>соощение</b></a>.</p>
-	       <p>Прокоментировать и оценить его вы можете <a href="{1}"><b>тут</b></a>.</p>
-	       <p>Отписатся от рассылки вы можете перейдя по адресу ...</p></body></html>""".format(
+	       <p>User {0} posted a new <a href="{1}"><b>message</b></a>.</p>
+	       <p>You can comment on and rate it <a href="{1}"><b>here</b></a>.</p>
+	       <p>You can unsubscribe by visiting ...</p></body></html>""".format(
         user_name, "http://site.dev/news/" + doc_id
     )
 
@@ -133,9 +133,9 @@ def add_mess(request):
             mail = db.doc.find_one({"_id": res}, {"doc.mail": 1})
             route_mail(
                 mail["doc"]["mail"],
-                "Пользователь "
+                "User "
                 + user_name
-                + " написал новое сообщение, вы на него подписаны.",
+                + " posted a new message; you are subscribed to it.",
                 text,
             )
     if "followers" in user:
@@ -143,9 +143,9 @@ def add_mess(request):
             mail = db.doc.find_one({"_id": res}, {"doc.mail": 1})
             route_mail(
                 mail["doc"]["mail"],
-                "Пользователь "
+                "User "
                 + user_name
-                + " написал новое сообщение, он у вас в друзьях.",
+                + " posted a new message; this user is in your friends list.",
                 text,
             )
     return {"result": "ok", "mess": mess, "doc_id": doc_id}
@@ -179,11 +179,11 @@ def main_page_signup(request):
     code_sub_out = uuid4().hex
 
     if db.doc.find_one({"doc_type": "des:users", "doc.name": name}):
-        mess = "Такой логин уже есть выберите другой"
+        mess = "This login already exists. Choose another one."
         return {"result": "warn", "mess": mess.decode("UTF-8")}
 
     if db.doc.find_one({"doc_type": "des:users", "doc.mail": email}):
-        mess = "Email {} уже есть выберите другой".format(email)
+        mess = "Email {} already exists. Choose another one.".format(email)
         return {"result": "warn", "mess": mess.decode("UTF-8")}
 
     doc = {
@@ -208,15 +208,15 @@ def main_page_signup(request):
     db.doc.update(
         {"_id": "role:simple_users"}, {"$set": {"users.user:" + name: "true"}}
     )
-    mess = "Для подтверждения регистрации вам на почту выслано письмо."
+    mess = "A confirmation email has been sent to your inbox."
 
     dom = get_settings("domain")
     link_confirm = "http://" + dom + "/signup/in/" + email + "/" + code_sub_in
     text = """<html><head></head><body>
-	       <p>Для подтверждения регистрации на сайте {0} перейдите по следующей <a href="{1}">ссылке</a>.</p>
+	       <p>To confirm registration on {0}, follow this <a href="{1}">link</a>.</p>
 	       </body></html>""".format(dom, link_confirm)
 
-    route_mail(email, "Подтверждение регистрации " + dom, text)
+    route_mail(email, "Registration confirmation " + dom, text)
 
     return {"result": "warn", "mess": mess.decode("UTF-8")}
 
@@ -247,19 +247,19 @@ def main_page_login(request):
     passw = getmd5(passwd)
     for res in db.doc.find({"doc_type": "des:users", "mail": mail}):
         if not "confirmed" in res["doc"]:
-            mess = "Вы зарегистрированы только через социальные сети, либо не подтвердили свой электронный адрес"
+            mess = "You are registered only via social networks or your email is not confirmed."
             return {"result": "warn", "mess": mess}
         if passw == res["password"]:
             s["user_id"] = mail
             s.save()
-            return {"result": "ok", "mess": "Вы успешно вошли на сайт."}
+            return {"result": "ok", "mess": "You have successfully signed in."}
 
 
 def subscribe_new(request):
     db = request.db
     mail = get_post("mail")
     if db.doc.find_one({"doc_type": "des:subscr", "doc.mail": mail}):
-        return '{"result":"ok", "mess":"Уже подписан"}'
+        return '{"result":"ok", "mess":"Already subscribed"}'
     ip = request.environ.get("REMOTE_ADDR")
     user_agent = request.environ.get("HTTP_USER_AGENT")
     code_sub_in = uuid4().hex
@@ -280,7 +280,7 @@ def subscribe_new(request):
     )
     dom = get_settings("domain")
     link_confirm = "http://" + dom + "/subscribe/in/" + mail + "/" + code_sub_in
-    route_mail(mail, "Подтверждение подписки " + dom, link_confirm)
+    route_mail(mail, "Subscription confirmation " + dom, link_confirm)
     return {"result": "ok"}
 
 
@@ -288,32 +288,32 @@ def subscribe_in(request, mail, code):
     db = request.db
     doc = db.doc.find_one({"doc_type": "des:subscr", "doc.mail": mail})
     if not doc:
-        return templ("sub_anonim_yes", request, dict(mess="Неизвестный E-mail"))
+        return templ("sub_anonim_yes", request, dict(mess="Unknown email"))
     if doc["doc"]["confirmed"] == "true":
-        return templ("sub_anonim_yes", request, dict(mess="Подписка уже подтверждена"))
+        return templ("sub_anonim_yes", request, dict(mess="Subscription is already confirmed"))
     if doc["doc"]["code_sub_in"] != code:
         return templ(
-            "sub_anonim_yes", request, dict(mess="Код подтверждения не верный")
+            "sub_anonim_yes", request, dict(mess="Invalid confirmation code")
         )
     doc["doc"]["confirmed"] = "true"
     db.doc.save(doc)
-    return templ("sub_anonim_yes", request, dict(mess="Подписка успешно подтверждена"))
+    return templ("sub_anonim_yes", request, dict(mess="Subscription confirmed successfully"))
 
 
 def subscribe_out(request, mail, code):
     db = request.db
     doc = db.doc.find_one({"doc_type": "des:subscr", "doc.mail": mail})
     if not doc:
-        return templ("sub_anonim_yes", request, dict(mess="Такого E-mail нет в базе"))
+        return templ("sub_anonim_yes", request, dict(mess="This email is not in the database"))
     if doc["doc"]["confirmed"] == "false":
-        return templ("sub_anonim_yes", request, dict(mess="Подписка уже отменена"))
+        return templ("sub_anonim_yes", request, dict(mess="Subscription is already canceled"))
     if doc["doc"]["code_sub_out"] != code:
         return templ(
-            "sub_anonim_yes", request, dict(mess="Код подтверждения не верный")
+            "sub_anonim_yes", request, dict(mess="Invalid confirmation code")
         )
     doc["doc"]["confirmed"] = "false"
     db.doc.save(doc)
-    return templ("sub_anonim_yes", request, dict(mess="Подписка успешно отменена"))
+    return templ("sub_anonim_yes", request, dict(mess="Subscription canceled successfully"))
 
 
 def subscribe(request):

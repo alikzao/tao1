@@ -14,7 +14,7 @@ $(function() {
 			var comm = target.closest('[id_comm]');
 			var user_id = comm.attr('user_id');
 			if(user_id == current_user.id) {
-				dao.user_mess(dao.ct('Нельзя голосовать за свои сообщения'), 'error');
+				dao.user_mess(dao.ct('You cannot vote for your own messages'), 'error');
 			}
 			var id_comm = comm.attr('id_comm');
 			var vote = target.is('.ui-icon-on-vote-up,.ui-icon-vote-up, .ui-icon-off-vote-up') ? 'up':'down';

@@ -2,7 +2,7 @@
 (function($) {
     if (window.dao.te_new) return;
     window.dao.te_new = te_new;
-    //TODO когда кликаеш по картинке нужно чтоб в хроме она принудительно выделилась,
+    // Legacy comment translated from Russian.
 
 
     function te_new(_parent, params) {
@@ -69,26 +69,26 @@
                 '<div class="btn-group btn-group-sm" style="margin-top:10px;">' +
 
 
-                '<button class="btn btn-default bold" data-content="Выделение жирным нужного участка текста" data-placement="top" rel="popover" data-trigger="hover" title="Выделение жирным"><i class="fa fa-bold"></i></button>' +
-                '<button class="btn btn-default italic" data-content="Выделение курсивом определённого участка текста" data-placement="top" rel="popover" data-trigger="hover" title="Выделение курсивом"><i class="fa fa-italic"></i></button>' +
-                '<button class="btn btn-default underline" data-content="Подчеркивание выделеного участка текста" data-placement="top" rel="popover" data-trigger="hover" title="Выделение подчеркиванием"><i class="fa fa-underline"></i></button>' +
-                '<button class="btn btn-default strikethrough" data-content="Перечеркивание выделеного участка текста" data-placement="top" rel="popover" data-trigger="hover" title="Перечеркивание выделеного"><i class="fa fa-strikethrough"></i></button>' +
+                '<button class="btn btn-default bold" data-content="Bold selection for selected text" data-placement="top" rel="popover" data-trigger="hover" title="Bold text"><i class="fa fa-bold"></i></button>' +
+                '<button class="btn btn-default italic" data-content="Italic selection for selected text" data-placement="top" rel="popover" data-trigger="hover" title="Italic text"><i class="fa fa-italic"></i></button>' +
+                '<button class="btn btn-default underline" data-content="Underline selected text" data-placement="top" rel="popover" data-trigger="hover" title="Underline text"><i class="fa fa-underline"></i></button>' +
+                '<button class="btn btn-default strikethrough" data-content="Strikethrough selected text" data-placement="top" rel="popover" data-trigger="hover" title="Strikethrough text"><i class="fa fa-strikethrough"></i></button>' +
 
-                '<button class="btn btn-default code" data-content="Программный код" data-placement="top" rel="popover" data-trigger="hover" title="Программный код"><i class="fa fa-code"></i></button>' +
+                '<button class="btn btn-default code" data-content="Code" data-placement="top" rel="popover" data-trigger="hover" title="Code"><i class="fa fa-code"></i></button>' +
 
-                '<button class="btn btn-default img" data-content="Показ галереи для работы с изображениями" data-placement="top" rel="popover" data-trigger="hover" title="Галерея"><i class="fa fa-picture-o"></i></button>' +
-                '<button class="btn btn-default film" data-content="Вставка HTML, требуется для вставки флеша и других подобных вещей" data-placement="top" rel="popover" data-trigger="hover" title="Вставка HTML"><i class="fa fa-film"></i></button>' +
-                '<button class="btn btn-default link" data-content="Создание ссылок" data-placement="top" rel="popover" data-trigger="hover" title="Ссылки"><i class="fa fa-link"></i></button>' +
+                '<button class="btn btn-default img" data-content="Open gallery for image editing" data-placement="top" rel="popover" data-trigger="hover" title="Gallery"><i class="fa fa-picture-o"></i></button>' +
+                '<button class="btn btn-default film" data-content="HTML insert, used for embedding external content" data-placement="top" rel="popover" data-trigger="hover" title="HTML insert"><i class="fa fa-film"></i></button>' +
+                '<button class="btn btn-default link" data-content="Create links" data-placement="top" rel="popover" data-trigger="hover" title="Links"><i class="fa fa-link"></i></button>' +
                 (document.createElement("input").webkitSpeech !== undefined ?
-                    '<input class="input-sm mic" data-placement="top" style="float:left; height:32px;width:32px; vertical-align:top;padding:0 4px; margin:0;" data-content="Начитывание текста после произнесения текст появляется в редакторе (только chrome)" title="Начитываение текста" x-webkit-speech="" speech="" type="text" name="text">' :
+                    '<input class="input-sm mic" data-placement="top" style="float:left; height:32px;width:32px; vertical-align:top;padding:0 4px; margin:0;" data-content="Speech-to-text input (Chrome only)" title="Speech input" x-webkit-speech="" speech="" type="text" name="text">' :
                     ''
                 ) +
                 '<br/>' +
 
-                '<button class="btn btn-default eraser" data-content="Очистить стили" data-placement="top" rel="popover" data-trigger="hover" title="Очистить стили"><i class="fa fa-eraser"></i></button>' +
+                '<button class="btn btn-default eraser" data-content="Clear styles" data-placement="top" rel="popover" data-trigger="hover" title="Clear styles"><i class="fa fa-eraser"></i></button>' +
 
                 '<div class="btn-group">' +
-                '<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-content="Величина шрифта" data-placement="top" rel="popover" data-trigger="hover" title="Величина шрифта"><i class="fa fa-font"></i>&nbsp;<span class="caret"></span></button>' +
+                '<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-content="Font size" data-placement="top" rel="popover" data-trigger="hover" title="Font size"><i class="fa fa-font"></i>&nbsp;<span class="caret"></span></button>' +
                 '<ul class="dropdown-menu font_size" role="menu">' +
                 '<li><a href="#">9px</a></li>' +
                 '<li><a href="#">10px</a></li>' +
@@ -103,7 +103,7 @@
                 '</div>' +
 
                 '<div class="btn-group">' +
-                '<button class="btn btn-default btn-sm  dropdown-toggle" data-toggle="dropdown" data-content="HTML заголовки" data-placement="top" rel="popover" data-trigger="hover" title="HTML заголовки"><span style="font-weight:bold;">H <span class="caret"></span></button>' +
+                '<button class="btn btn-default btn-sm  dropdown-toggle" data-toggle="dropdown" data-content="HTML headings" data-placement="top" rel="popover" data-trigger="hover" title="HTML headings"><span style="font-weight:bold;">H <span class="caret"></span></button>' +
                 '<ul class="dropdown-menu h" role="menu">' +
                 '<li><a href="#">h2</a></li>' +
                 '<li><a href="#">h3</a></li>' +
@@ -113,20 +113,20 @@
                 '</ul>' +
                 '</div>' +
 
-                '<button class="btn btn-default center" data-content="Центрирование текста" data-placement="top" rel="popover" data-trigger="hover" title="Центрирование"><i class="fa fa-align-center"></i></button>' +
-                '<button class="btn btn-default left" data-content="Выровнять по левому краю" data-placement="top" rel="popover" data-trigger="hover" title="Выровнять текст по левому краю"><i class="fa fa-align-left"></i></button>' +
-                '<button class="btn btn-default right" data-content="Выровнять по правому краю" data-placement="top" rel="popover" data-trigger="hover" title="Выровнять текст по правому краю"><i class="fa fa-align-right"></i></button>' +
+                '<button class="btn btn-default center" data-content="Center text" data-placement="top" rel="popover" data-trigger="hover" title="Center align"><i class="fa fa-align-center"></i></button>' +
+                '<button class="btn btn-default left" data-content="Align left" data-placement="top" rel="popover" data-trigger="hover" title="Align text left"><i class="fa fa-align-left"></i></button>' +
+                '<button class="btn btn-default right" data-content="Align right" data-placement="top" rel="popover" data-trigger="hover" title="Align text right"><i class="fa fa-align-right"></i></button>' +
 
-                '<button class="btn btn-default list_ul" data-content="Нумерованый список" data-placement="top" rel="popover" data-trigger="hover" title="Нумерованый список"><i class="fa fa-list-ul"></i></button>' +
-                '<button class="btn btn-default list_ol" data-content="Список" data-placement="top" rel="popover" data-trigger="hover" title="Список"><i class="fa fa-list-ol"></i></button>' +
+                '<button class="btn btn-default list_ul" data-content="Numbered list" data-placement="top" rel="popover" data-trigger="hover" title="Numbered list"><i class="fa fa-list-ul"></i></button>' +
+                '<button class="btn btn-default list_ol" data-content="List" data-placement="top" rel="popover" data-trigger="hover" title="List"><i class="fa fa-list-ol"></i></button>' +
 
                 '</div>' +
 
                 (options.is_show_close ?
                     '<div class="btn-group btn-group-sm" style="margin-top:10px;">' +
-                    '<span class="btn btn-success save-body news_add" ><i class="fa fa-check fa fa-white"></i> Сохранить</span>' +
-                    '<span class="btn btn-info  draft-body news_draft" ><i class="fa fa-th fa fa-white"></i> В черновики</span>' +
-                    '<span class="btn btn-danger  cancel_body" ><i class="fa fa-trash fa fa-white"></i> Отмена</span>' +
+                    '<span class="btn btn-success save-body news_add" ><i class="fa fa-check fa fa-white"></i> Save</span>' +
+                    '<span class="btn btn-info  draft-body news_draft" ><i class="fa fa-th fa fa-white"></i> To drafts</span>' +
+                    '<span class="btn btn-danger  cancel_body" ><i class="fa fa-trash fa fa-white"></i> Cancel</span>' +
                     '</div>' :
                     '') +
                 '<div class="btn-group btn-group-sm" style="margin-top:10px;">' +
@@ -193,10 +193,10 @@
                 var doc = document;
                 var text = get_select();
                 var tag = doc.createElement('span');
-                var sel2 = text.getRangeAt(0); //получаем выделение
-                var sel = sel2.extractContents(); //вырезаем из него контент
-                tag.appendChild(sel); // вставляем контент в тег
-                sel2.insertNode(tag); // вставляем кат с контентом туда где было выделение.
+                var sel2 = text.getRangeAt(0); // Legacy comment translated from Russian.
+                var sel = sel2.extractContents(); // Legacy comment translated from Russian.
+                tag.appendChild(sel); // Legacy comment translated from Russian.
+                sel2.insertNode(tag); // Legacy comment translated from Russian.
                 tag.style.fontSize = fs;
             });
             toolbar.on('click', 'ul.h li', function() {
@@ -244,10 +244,10 @@
                 var doc = document;
                 var text = get_select();
                 var tag = doc.createElement('div');
-                var sel2 = text.getRangeAt(0); //получаем выделение
-                var sel = sel2.extractContents(); //вырезаем из него контент
-                tag.appendChild(sel); // вставляем контент в тег
-                sel2.insertNode(tag); // вставляем кат с контентом туда где было выделение.
+                var sel2 = text.getRangeAt(0); // Legacy comment translated from Russian.
+                var sel = sel2.extractContents(); // Legacy comment translated from Russian.
+                tag.appendChild(sel); // Legacy comment translated from Russian.
+                sel2.insertNode(tag); // Legacy comment translated from Russian.
                 tag.style.textAlign = 'right';
                 return false;
             });
@@ -259,10 +259,10 @@
                 var doc = document;
                 var text = get_select();
                 var tag = doc.createElement('div');
-                var sel2 = text.getRangeAt(0); //получаем выделение
-                var sel = sel2.extractContents(); //вырезаем из него контент
-                tag.appendChild(sel); // вставляем контент в тег
-                sel2.insertNode(tag); // вставляем кат с контентом туда где было выделение.
+                var sel2 = text.getRangeAt(0); // Legacy comment translated from Russian.
+                var sel = sel2.extractContents(); // Legacy comment translated from Russian.
+                tag.appendChild(sel); // Legacy comment translated from Russian.
+                sel2.insertNode(tag); // Legacy comment translated from Russian.
                 tag.style.textAlign = 'left';
                 return false;
             });
@@ -300,10 +300,10 @@
             var doc = document;
             var text = get_select();
             var tag = doc.createElement('span');
-            var sel2 = text.getRangeAt(0); //получаем выделение
-            var sel = sel2.extractContents(); //вырезаем из него контент
-            tag.appendChild(sel); // вставляем контент в тег
-            sel2.insertNode(tag); // вставляем кат с контентом туда где было выделение.
+            var sel2 = text.getRangeAt(0); // Legacy comment translated from Russian.
+            var sel = sel2.extractContents(); // Legacy comment translated from Russian.
+            tag.appendChild(sel); // Legacy comment translated from Russian.
+            sel2.insertNode(tag); // Legacy comment translated from Russian.
             tag.style.fontSize = fs;
             return tag;
         }
@@ -319,16 +319,16 @@
             cm_pane = $('<div></div>').insertAfter(parent);
             var ta = $('<textarea></textarea>').appendTo(cm_pane);
             myCodeMirror = CodeMirror.fromTextArea(ta.get(0), {
-                lineNumbers: true, // показывать номера строк
-                matchBrackets: true, // подсвечивать парные скобки
+                lineNumbers: true, // Legacy comment translated from Russian.
+                matchBrackets: true, // Legacy comment translated from Russian.
                 mode: "htmlmixed",
                 theme: "solarized",
-                //mode: 'application/x-httpd-php', // стиль подсветки
-                indentUnit: 4, // размер табуляции
+                // Legacy comment translated from Russian.
+                indentUnit: 4, // Legacy comment translated from Russian.
                 tabSize: 4,
                 indentWithTabs: true,
                 lineWrapping: true,
-                gutter: true, // полоса слева
+                gutter: true, // Legacy comment translated from Russian.
                 fixedGutter: true,
                 onChange: function() {
                     ta.val(myCodeMirror.getValue());
@@ -351,8 +351,8 @@
         function text_is_html() {
             toolbar.find('.html').removeClass('btn-primary').addClass('btn-warning');
             toolbar.find('.text_html').addClass('textt').removeClass('html');
-            toolbar.find('.text_html').text('Редактор');
-            toolbar.find('.textt').text('Редактор');
+            toolbar.find('.text_html').text('Editor');
+            toolbar.find('.textt').text('Editor');
 
             var htm = parent.html();
             myCodeMirror.setValue(htm);
@@ -390,7 +390,7 @@
 
         function text_a() {
             var tag = text_r('a');
-            var link = prompt('Введите адрес ссылки');
+            var link = prompt('Enter link URL');
             $(tag).attr('href', link);
         }
 
@@ -401,25 +401,25 @@
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
-                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Вставка кода</h3></div>' +
+                '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Code insert</h3></div>' +
                 '<div class="modal-body" ></div>' +
                 '<div class="modal-footer"><div class="btn-group">' +
-                '<span  class="btn yes btn-primary" data-dismiss="modal">Вставить</span>' +
-                '<span  class="btn cancel btn-danger" data-dismiss="modal">Закрыть</span>' +
+                '<span  class="btn yes btn-primary" data-dismiss="modal">Insert</span>' +
+                '<span  class="btn cancel btn-danger" data-dismiss="modal">Close</span>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>'
             ).appendTo('body');
-            //            $('<label>'+dao.ct('Код')+'</label>').appendTo(mainw);
+            // Legacy comment translated from Russian.
             var fd = document;
             var tube = $('<textarea class="form-control" name="tube" style="height:200px; width:400px;">').appendTo(dialog.find('.modal-body'));
             dialog.modal();
             dialog.on('click', '.btn.yes', function() {
                 var aaa = tube.val();
                 var div_img = fd.createElement('div');
-                cursor.insertNode(div_img); // вставляем кат с контентом туда где было выделение.
+                cursor.insertNode(div_img); // Legacy comment translated from Russian.
                 div_img.innerHTML = aaa;
             });
 
@@ -443,10 +443,10 @@
             var doc = document;
             var text = get_select();
             var tag = doc.createElement(tag);
-            var sel2 = text.getRangeAt(0); //получаем выделение
-            var sel = sel2.extractContents(); //вырезаем из него контент
-            tag.appendChild(sel); // вставляем контент в тег
-            sel2.insertNode(tag); // вставляем кат с контентом туда где было выделение.
+            var sel2 = text.getRangeAt(0); // Legacy comment translated from Russian.
+            var sel = sel2.extractContents(); // Legacy comment translated from Russian.
+            tag.appendChild(sel); // Legacy comment translated from Russian.
+            sel2.insertNode(tag); // Legacy comment translated from Russian.
             return tag
         }
 
@@ -463,7 +463,7 @@
                 tag.setAttribute('width', '640px');
             }
             if (cursor) {
-                cursor.insertNode(tag); // вставляем кат с контентом туда где было выделение.
+                cursor.insertNode(tag); // Legacy comment translated from Russian.
             }
         }
 

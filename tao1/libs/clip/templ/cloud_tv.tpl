@@ -14,34 +14,34 @@
 <div class="colls" >
 
 	<div style="width:1200px;">
-		<div class="col_h blue2"><h2 style="font-weight: normal;">Видео редактор</h2></div>
+		<div class="col_h blue2"><h2 style="font-weight: normal;">Video editor</h2></div>
 		<div class="single_object ui-helper-clearfix " style=" background: rgba(255,255,255,.4); border: 1px solid #ddd; border-top:3px solid #008be0; box-shadow: 2px 2px 2px 2px #d8d8d8; margin: 5px 0;" >
             <div style="color:#666; margin:4px; padding:4px; ">
                 <div class="" style="margin: 20px 5px; border: 0px solid #ddd;">
 
-                    <div class="btn btn-default"><a href="/list/clips">Сисок всех клипов</a></div>
+                    <div class="btn btn-default"><a href="/list/clips">List of all clips</a></div>
 
                     <div class="an_title" >
-                        <div style="font-weight: bold;" class="">Заголовок:</div>
-                        <input class="form-control" style="width: 96%; border: 1px solid #dddddd;" placeholder="Заголовок должен быть без пробелов и желатильно латинскими буквами" type="text" name="an_title" value="{{ h(ct(doc.head_field.title))}}" />
+                        <div style="font-weight: bold;" class="">Title:</div>
+                        <input class="form-control" style="width: 96%; border: 1px solid #dddddd;" placeholder="Title should not contain spaces and preferably use Latin letters" type="text" name="an_title" value="{{ h(ct(doc.head_field.title))}}" />
                     </div>
 
                     <div class="an_descr" style="margin-top: 10px;" >
-                        <div style="font-weight: bold;" class="">Анонс:</div>
-                        <textarea class="form-control" style="width: 96%; height: 90px; border: 1px solid #dddddd;" placeholder="Анонс необходим больше для социальной сети" name="an_descr">{{ h(ct(doc.head_field.descr))}}</textarea>
+                        <div style="font-weight: bold;" class="">Summary:</div>
+                        <textarea class="form-control" style="width: 96%; height: 90px; border: 1px solid #dddddd;" placeholder="Summary is mainly needed for social networks" name="an_descr">{{ h(ct(doc.head_field.descr))}}</textarea>
                     </div>
                     <div class="" style="margin-top: 10px; color:grey;" >
-                        Канал euronewsru: <a target="_blank" href="http://www.youtube.com/euronewsru">на youtube.com</a><br>
-                        Канал BBCRussian: <a target="_blank" href="http://www.youtube.com/user/BBCRussian">на youtube.com</a>
+                        Channel euronewsru: <a target="_blank" href="http://www.youtube.com/euronewsru">on youtube.com</a><br>
+                        Channel BBCRussian: <a target="_blank" href="http://www.youtube.com/user/BBCRussian">on youtube.com</a>
                     </div>
 
-                    {% set mass =  {'wait':'Ожидает 0%', 'prepare':'Подготовка 1%', 'download':'Скачивание файлов 2%', 'fragments':'Вырезание нужных фрагментов 30%',
-                        'start glue':'Склеивание аудио и видео дорожек поотдельности 50%', 'final glue':'Склеивание аудио и видео дорожек между собой 70%',
-                         'uplouding':'Выгрузка готового файла на видеохостинги 90%', 'ready':'Операция завершена успешно 100%'} %}
+                    {% set mass =  {'wait':'Waiting 0%', 'prepare':'Preparation 1%', 'download':'Downloading files 2%', 'fragments':'Cutting required fragments 30%',
+                        'start glue':'Merging audio and video tracks separately 50%', 'final glue':'Merging audio and video tracks together 70%',
+                         'uplouding':'Uploading final file to video platforms 90%', 'ready':'Operation completed successfully 100%'} %}
 
                     <div class="status label label-success" style="margin:20px; ">{{ mass[doc['status']['s']] }}</div><br>
                     {% if doc['status']['s'] == 'ready' %}
-                        <div class="status label label-success" style="margin:20px; ">Вы можете посмотреть видео по следующей ссылке: <a target="_blank" href="{{ doc['link_vk'] }}"><u style="color:#ffff00;">{{ doc['link_vk'] }}</u></a></div>
+                        <div class="status label label-success" style="margin:20px; ">You can watch the video at the following link: <a target="_blank" href="{{ doc['link_vk'] }}"><u style="color:#ffff00;">{{ doc['link_vk'] }}</u></a></div>
                         <br>
 
 
@@ -50,40 +50,40 @@
 {#                      <iframe src="http://vk.com/video_ext.php?oid=-51306341&id=165187700&hash=ddd379f8fb12d0b5&hd=1" width="607" height="360" frameborder="0"></iframe>#}
 {#                        <video style="border-radius: 10px;" id="movie" width="400" height="320" preload controls><source src="/static/static/clip/'+doc_id+'/final.webm" /></video>#}
 
-                        <p>Загрузить видео себе на компьютер <a href="/static/static/clip/'+doc_id+'/final.avi">AVI</a>
-                        <div class="btn btn-info add_vk"><i class="icon-cloud-upload"></i> Отправить Vkontakte</div>
-                        <div class="btn btn-danger disabled"><i class="icon-youtube"></i> Отправить на Youtube</div>
+                        <p>Download video to your computer <a href="/static/static/clip/'+doc_id+'/final.avi">AVI</a>
+                        <div class="btn btn-info add_vk"><i class="icon-cloud-upload"></i> Send Vkontakte</div>
+                        <div class="btn btn-danger disabled"><i class="icon-youtube"></i> Send to YouTube</div>
 {#                        <div class="btn btn-success pley_pley"><i class="icon-cloud-upload"></i> Просмотреть в плеере</div>#}
                         </p>
                     {% endif %}
 
                     <div class="kadr">
-                        <div class="no_frag"><span>Выделите фрагмент</span></div>
+                        <div class="no_frag"><span>Select a fragment</span></div>
                         <div class="edit_frag">
-                            <div style="font-weight: bold; margin: 10px;" class="">Редактирование фрагмента</div>
+                            <div style="font-weight: bold; margin: 10px;" class="">Fragment editing</div>
 
                             <div class="clip" style="min-height: 100px; vertical-align:top;">
-                                <label> Пометка: <input class="form-control input-sm" type="text" name="label" placeholder="Пометка о чем ролик (необязательно)"/></label>
-                                <label> Ссылка: <input class="form-control input-sm" type="text" name="link" placeholder="Ссылка на нужный ролик"/></label>
+                                <label> Note: <input class="form-control input-sm" type="text" name="label" placeholder="Note about the clip (optional)"/></label>
+                                <label> Link: <input class="form-control input-sm" type="text" name="link" placeholder="Link to the target clip"/></label>
 
-                                Вырезать с:
+                                Cut from:
                                 <div class="from_time" style="display:inline-block;">
                                     <input class="form-control input-sm" style="width:82px; margin-bottom:0;" name="start" type="text" placeholder="00:00:00"/><br>
-                                    <div class="btn btn-default btn-sm set_cur" data-content="Текущее время проигрывания взятое с плеера" data-placement="left" rel="popover" data-trigger="hover" title="Время начала"><i class="icon-circle-arrow-up"></i></div><div class="btn btn-default btn-sm set_play" data-content="Установить время из поля в проигрывателе" data-placement="bottom" rel="popover" data-trigger="hover" title="Установить время"><i class="icon-circle-arrow-right"></i></div><div class="btn btn-default btn-sm clear_time" data-content="Выставить нулевое время" data-placement="bottom" rel="popover" data-trigger="hover" title="Обнулить"><i class="icon-circle-blank"></i></div>
+                                    <div class="btn btn-default btn-sm set_cur" data-content="Current playback time taken from the player" data-placement="left" rel="popover" data-trigger="hover" title="Start time"><i class="icon-circle-arrow-up"></i></div><div class="btn btn-default btn-sm set_play" data-content="Set time from field in player" data-placement="bottom" rel="popover" data-trigger="hover" title="Set time"><i class="icon-circle-arrow-right"></i></div><div class="btn btn-default btn-sm clear_time" data-content="Set zero time" data-placement="bottom" rel="popover" data-trigger="hover" title="Reset"><i class="icon-circle-blank"></i></div>
                                 </div>
-                                по:
+                                to:
                                 <div class="to_time" style="display:inline-block;">
                                     <input class="form-control input-sm" style="width:82px;  margin-bottom:0;" type="text" name="end" placeholder="00:00:00"/> <br>
-                                    <div class="btn btn-default btn-sm set_cur" data-content="Текущее время проигрывания взятое с плеера" data-placement="left" rel="popover" data-trigger="hover" title="Время начала"><i class="icon-circle-arrow-up"></i></div><div class="btn btn-default btn-sm set_play" data-content="Установить время из поля в проигрывателе" data-placement="bottom" rel="popover" data-trigger="hover" title="Установить время"><i class="icon-circle-arrow-right"></i></div><div class="btn btn-default btn-sm clear_time" data-content="Выставить нулевое время" data-placement="bottom" rel="popover" data-trigger="hover" title="Обнулить"><i class="icon-circle-blank"></i></div>
+                                    <div class="btn btn-default btn-sm set_cur" data-content="Current playback time taken from the player" data-placement="left" rel="popover" data-trigger="hover" title="Start time"><i class="icon-circle-arrow-up"></i></div><div class="btn btn-default btn-sm set_play" data-content="Set time from field in player" data-placement="bottom" rel="popover" data-trigger="hover" title="Set time"><i class="icon-circle-arrow-right"></i></div><div class="btn btn-default btn-sm clear_time" data-content="Set zero time" data-placement="bottom" rel="popover" data-trigger="hover" title="Reset"><i class="icon-circle-blank"></i></div>
                                 </div>
-                                или длина:
+                                or duration:
                                 <div class="len_time" style="display:inline-block;">
                                     <input class="form-control input-sm" style="width:82px; margin-bottom:0;" type="text" name="len" placeholder="00:00:00"/><br>
-                                    <div class="btn btn-default btn-sm" data-content="Прибавитьсекунду к текущему времени" data-placement="bottom" rel="popover" data-trigger="hover" title="Прибавить секунду"><i class="icon-plus plus"></i></div><div class="btn btn-default btn-sm minus" data-content="Убавить секунду от длины текущего времени" data-placement="bottom" rel="popover" data-trigger="hover" title="Убавить секунду"><i class="icon-minus"></i></div><div class="btn btn-default btn-sm clear_time" data-content="Выставить нулевое время" data-placement="bottom" rel="popover" data-trigger="hover" title="Обнулить"><i class="icon-circle-blank"></i></div>
+                                    <div class="btn btn-default btn-sm" data-content="Add one second to current time" data-placement="bottom" rel="popover" data-trigger="hover" title="Add second"><i class="icon-plus plus"></i></div><div class="btn btn-default btn-sm minus" data-content="Subtract one second from current duration" data-placement="bottom" rel="popover" data-trigger="hover" title="Subtract second"><i class="icon-minus"></i></div><div class="btn btn-default btn-sm clear_time" data-content="Set zero time" data-placement="bottom" rel="popover" data-trigger="hover" title="Reset"><i class="icon-circle-blank"></i></div>
                                 </div>
 {#                                <div class="navbar navbar-inverse" style="margin: 5px 0 5px 0">#}
                                 <div class="well well-sm" style="margin: 5px 0 5px 0">
-                                    <div style="font-weight:bold; display:inline-block;">Управление плеером</div>
+                                    <div style="font-weight:bold; display:inline-block;">Player controls</div>
                                     <div class="btn-group manage_play" style="">
                                         <div class="btn btn-default play"><i class="icon-play"></i></div>
                                         <div class="btn btn-default pause"><i class="icon-pause"></i></div>
@@ -95,25 +95,25 @@
                                     </div>
                                 </div>
 
-                                <label> Убрать звук: <input type="checkbox" name="del_audio" checked="checked" /></label><br>
+                                <label> Mute audio: <input type="checkbox" name="del_audio" checked="checked" /></label><br>
                                 <div class="btn-group">
-                                    <div class="btn btn-default my_clip"><i class="icon-film"></i> Загрузить своё</div>
+                                    <div class="btn btn-default my_clip"><i class="icon-film"></i> Upload your own</div>
                                         <form style="display:none;"><input class="fi form-control input-sm" type="file" style="display:none;"/></form>
                                     <div class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                     </div>
                                     <ul class="dropdown-menu">
-                                        <li class="draw_img">Нарисовать картинку</li>
+                                        <li class="draw_img">Draw image</li>
                                     </ul>
                                 </div>
 
                             </div>
 
                             <div class="block_frag" style="margin-top:20px;">
-                                <div class="clip_pub btn btn-info"><i class="icon-film"></i> <span>Опубликовать</span> </div>
-                                <div class="clip_up btn btn-info"><i class="icon-cloud-upload"></i> <span>Отправить</span> </div>
-                                <div class="clip_del btn btn-danger"><i class="icon-remove"></i> <span>Удалить</span> </div>
-                                <div class="clip_add btn btn-primary"><i class="icon-ok"></i> <span>Сохраниить</span> </div>
+                                <div class="clip_pub btn btn-info"><i class="icon-film"></i> <span>Publish</span> </div>
+                                <div class="clip_up btn btn-info"><i class="icon-cloud-upload"></i> <span>Send</span> </div>
+                                <div class="clip_del btn btn-danger"><i class="icon-remove"></i> <span>Delete</span> </div>
+                                <div class="clip_add btn btn-primary"><i class="icon-ok"></i> <span>Save</span> </div>
                             </div>
                         </div>
 
@@ -130,7 +130,7 @@
                             <div class="btn btn-default prev_frag"><i class="icon-arrow-left"></i></div>
                             <div class="btn btn-default next_frag"><i class="icon-arrow-right"></i></div>
                         </div>
-                        <div style="font-weight: bold; margin: 10px;" class="">Видео дорожка <span class="track_v"></span></div>
+                        <div style="font-weight: bold; margin: 10px;" class="">Video track <span class="track_v"></span></div>
                         <div class="lenta" track="v">
                             <div class="time_line v"></div>
                             <div class="track">
@@ -147,7 +147,7 @@
                         </div>
                         <div style="margin:7px 0 0 3px;" class="btn btn-success add_frag"><i style="font-size:26px; padding-top:2px;" class="icon-plus icon-white"></i></div>
 
-                        <div style="font-weight: bold; margin: 10px;" class="">Аудио дорожка <span class="track_a"></span></div>
+                        <div style="font-weight: bold; margin: 10px;" class="">Audio track <span class="track_a"></span></div>
                         <div class="lenta" track="a">
                             <div class="time_line a"></div>
                             <div class="track">
@@ -167,10 +167,10 @@
 
 
                     <div class="save_all">
-                        <div class="rolik_cancel btn btn-danger"><i class="icon-remove"></i> Очистить целиком</div>
-                        <div class="rolik_pub btn btn-info"><i class="icon-ok"></i>&nbsp;Опубликовать на сайте</div>
-                        <div class="rolik_add btn btn-success"><i class="icon-film"></i> Запустить в обработку</div>
-                        <div class="rolik_down btn btn-primary"><i class="icon-cloud-download"></i> Загрузить ролики</div>
+                        <div class="rolik_cancel btn btn-danger"><i class="icon-remove"></i> Clear entirely</div>
+                        <div class="rolik_pub btn btn-info"><i class="icon-ok"></i>&nbsp;Publish on site</div>
+                        <div class="rolik_add btn btn-success"><i class="icon-film"></i> Start processing</div>
+                        <div class="rolik_down btn btn-primary"><i class="icon-cloud-download"></i> Upload clips</div>
                     </div>
 
 
@@ -357,7 +357,7 @@ $(function() {
             },
             success: function (data) {
                 if (data.result == 'ok') {
-                    alert('Опубликовано');
+                    alert('Published');
                 }
             }
         });
@@ -464,11 +464,11 @@ $(function() {
     $('.draw_img').click(function(){
         var dialog = $('<div class="modal hide fade " style="">'+
             '<div class="modal-header">'+
-            '<button class="close" data-dismiss="modal">×</button><h3>Добавление картинки</h3></div>' +
+            '<button class="close" data-dismiss="modal">×</button><h3>Add images</h3></div>' +
             '<div class="modal-body" style=""></div>' +
             '<div class="modal-footer"><div class="btn-group">'+
-            '<span  class="btn ok_img" data-dismiss="modal">Добавить</span>'+
-            '<span  class="btn cancel" data-dismiss="modal">Закрыть</span>'+
+            '<span  class="btn ok_img" data-dismiss="modal">Add</span>'+
+            '<span  class="btn cancel" data-dismiss="modal">Close</span>'+
             '</div></div></div>'
         ).appendTo('body');
         var tube = $('<textarea name="tube" style="height:200px; width:250px;">').appendTo(dialog.find('.modal-body'));
@@ -626,7 +626,7 @@ $(function() {
 
     var status_kind = 's';
     function start_proc(kind){
-        alert('Обработка запущена. Следите за статусом. По окончании обработки страница будет перегружена.');
+        alert('Processing started. Track status. The page will reload when processing is finished.');
                     var img_large = $('<div style="background:rgba(0,0,0,0.8); position:fixed;top:0;left:0;bottom:0;right:0; z-index:10000; text-align:center; ">' +
                         '<img src="/static/core/img/wait.gif" style="position:relative; margin-top:10%;" alt="image01" />' +
                         '<br><div class="progress1 label label-info" style="margin:20px; "></div><br>' +
@@ -635,13 +635,13 @@ $(function() {
         setTimeout(check_status, 3000);
     }
 
-    var mass =  {'wait':'Ожидает 0%', 'prepare':'Подготовка 1%', 'downloading':'Скачивание файлов 2%', 'fragments':'Вырезание нужных фрагментов 30%',
-                            'start glue':'Склеивание аудио и видео дорожек поотдельности 50%', 'final glue':'Склеивание аудио и видео дорожек между собой 70%',
-                             'uplouding':'Выгрузка готового файла на видеохостинги 90%', 'ready':'Операция завершена успешно 100%'};
+    var mass =  {'wait':'Waiting 0%', 'prepare':'Preparation 1%', 'downloading':'Downloading files 2%', 'fragments':'Cutting required fragments 30%',
+                            'start glue':'Merging audio and video tracks separately 50%', 'final glue':'Merging audio and video tracks together 70%',
+                             'uplouding':'Uploading final file to video platforms 90%', 'ready':'Operation completed successfully 100%'};
 
 
 {#                        if( doc['status'] == 'ready')#}
-{#                            <div class="status label" style="margin:20px; ">Вы можете посмотреть видео по следующей ссылке: <a target="_blank" href="{{ doc['link_vk'] }}">{{ doc['link_vk'] }}</a></div>#}
+{#                            <div class="status label" style="margin:20px; ">You can watch the video at the following link: <a target="_blank" href="{{ doc['link_vk'] }}">{{ doc['link_vk'] }}</a></div>#}
 
 
     function check_status(){

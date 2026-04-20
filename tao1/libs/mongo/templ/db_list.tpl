@@ -57,14 +57,14 @@
 
 
 
-<div class="host"><a href="/mongodb">Хост</a></div>
+<div class="host"><a href="/mongodb">Host</a></div>
 <div class="dbs">
 {% for res in db_list %}
 		<div class="db {% if res == db_id %} current {% endif %}"  db_id='{{ res }}'>{{ res }}</div>
 {% endfor %}
 </div>
 
-<div class="colls">Колекции</div>
+<div class="colls">Collections</div>
 <div class="collections">
 {% for res in coll %}
 		<div class="collection"  coll_id='{{ res }}'>{{ res }}</div>
@@ -72,14 +72,14 @@
 </div>
 
 
-<div class="toolbar"> </div> <!-- collapseble-сворачиваемое-->
+<div class="toolbar"> </div> <!-- collapsible -->
 <div class="toolbar_b"></div>
 <div class="docs" coll_id="" db_id="">
 	<div class="t_but">
-		<div class="del_db">Удалить базу</div>
-		<div class="clean_db">Очистить базу</div>
-		<div class="import_db">Импорт базы</div>
-		<div class="export_db">Экспорт базы</div>
+		<div class="del_db">Delete database</div>
+		<div class="clean_db">Clear database</div>
+		<div class="import_db">Import database</div>
+		<div class="export_db">Export database</div>
 	</div>
 	{% for res in info %}
 		<div>

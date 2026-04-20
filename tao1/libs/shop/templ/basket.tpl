@@ -3,15 +3,15 @@
 
 <div class="btn-group basket">
     <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span> &nbsp; <i class="icon-shopping-cart"></i> &nbsp; КУПИТЬ
+        <span class="caret"></span> &nbsp; <i class="icon-shopping-cart"></i> &nbsp; BUY
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li class="callback"><a href="#"><i class="icon-share-alt"></i> &nbsp;Обратный вызов</a></li>
+        <li class="callback"><a href="#"><i class="icon-share-alt"></i> &nbsp;Callback</a></li>
         <li class="add_ware" ware_id="{{ doc.id }}" title="{{ ct( doc.doc.title) }}"><a href="#"><i class="icon-shopping-cart"></i>
-            &nbsp;Положить в корзину</a></li>
+            &nbsp;Add to cart</a></li>
         <li class="check_shop" ware_id="{{ doc.id }}" title="{{ ct( doc.doc.title) }}"><a href="#"><i class="icon-check"></i>
-            &nbsp;Оформить заказ</a></li>
-        <li class="#"><a href="/list/basket"><i class="icon-list-ul"></i> &nbsp;Посмотреть корзину</a></li>
+            &nbsp;Checkout</a></li>
+        <li class="#"><a href="/list/basket"><i class="icon-list-ul"></i> &nbsp;View cart</a></li>
     </ul>
 </div>
 
@@ -41,7 +41,7 @@ $(function(){
             beforeSend: function(){	 },
             success: function(answer){
                 if (answer.result == 'ok') {
-                    alert('Товар '+title+' добавлен в корзину');
+                    alert('Product '+title+' was added to cart');
                 }else{
                     console.error(dao.translate('ware_not_basket'));
                     alert(''+dao.translate('ware_not_basket')+'');
@@ -59,11 +59,11 @@ $(function(){
                     '<div class="modal-dialog">'+
                         '<div class="modal-content">'+
                             '<div class="modal-header">'+
-                            '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Обратный звонок</h3></div>' +
-                            '<div class="modal-body" ><input class="form-control" type="text" placeholder="Номер телефона для связи"/></div>' +
+                            '<button class="close" data-dismiss="modal">×</button><h3 class="modal-title">Callback</h3></div>' +
+                            '<div class="modal-body" ><input class="form-control" type="text" placeholder="Phone number for contact"/></div>' +
                             '<div class="modal-footer"><div class="btn-group">'+
-                            '<span  class="btn btn-default cancel" data-dismiss="modal">Закрыть</span>'+
-                            '<span  class="btn link1 btn-primary" data-dismiss="modal">Отправить</span>'+
+                            '<span  class="btn btn-default cancel" data-dismiss="modal">Close</span>'+
+                            '<span  class="btn link1 btn-primary" data-dismiss="modal">Send</span>'+
                             '</div>' +
                             '</div>' +
                         '</div>' +
@@ -78,7 +78,7 @@ $(function(){
                     url: '/basket/add_order', type:'POST', dataType:'json', data:{ phone:phone, basket:'true', owner:owner },
                      success: function(data){
                         if(data.result == 'ok'){
-                            alert('Ваш заказ добавлен');
+                            alert('Your order has been added');
                         }
                      },error:function(e){
                         console.error(e.responseText);

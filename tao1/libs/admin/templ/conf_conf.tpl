@@ -10,7 +10,7 @@
                     </label>
                 </div>
             {% endfor %}
-            <div class="btn btn-default" style="margin-bottom:20px;"><i class="icon-ok"> Сохранить</i></div>
+            <div class="btn btn-default" style="margin-bottom:20px;"><i class="icon-ok"> Save</i></div>
         </div>
     </form>
 </div>
@@ -30,7 +30,7 @@
                 type: "POST", dataType: "json", url: '/conf_rb_doc',
                 data: { data: JSON.stringify(data) },
                 success: function(data){
-                    if (data.result == 'ok') { alert('Конфигурация сохранена'); }
+                    if (data.result == 'ok') { alert('Configuration saved'); }
                 }
             });
         });

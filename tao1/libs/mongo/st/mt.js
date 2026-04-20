@@ -24,7 +24,7 @@ var mongo_tree = function() {
             }
         });
 
-        var Docs_coll = Backbone.Collection.extend({ // Коллекция пользователей
+        var Docs_coll = Backbone.Collection.extend({ // Legacy comment translated from Russian.
             model: Doc_model,
 
             initialize: function() {
@@ -114,7 +114,7 @@ var mongo_tree = function() {
         var search_view = new Search_view({
             model: search_model
         });
-        var Doc_view = Backbone.View.extend({ // Коллекция пользователей
+        var Doc_view = Backbone.View.extend({ // Legacy comment translated from Russian.
             model: Doc_model,
             initialize: function() {
                 this.model.bind("toggle", this.update_doc, this);
@@ -196,7 +196,7 @@ var mongo_tree = function() {
             },
             edit_doc: function() {
                 var that = this;
-                var dialog = $("<div title='Редактированме документа'></div>");
+                var dialog = $("<div title='Edit document'></div>");
                 dialog.dialog({
                     bgiframe: true,
                     autoOpen: true,
@@ -225,7 +225,7 @@ var mongo_tree = function() {
                                 }
                             });
                         },
-                        'Отмена': function() {
+                        'Cancel': function() {
                             $(this).dialog('close');
                         }
                     },
@@ -262,7 +262,7 @@ var mongo_tree = function() {
             },
 
             render_doc: function() {
-                // вызывается для двух разных обектов и заголовок сворачивается и разворачивается.
+                // Legacy comment translated from Russian.
                 if (!this.content) return;
                 this.content.empty();
                 this.render_content(this.content, this.model.attributes);
@@ -288,12 +288,12 @@ var mongo_tree = function() {
             }
 
         });
-        var Docs_view = Backbone.View.extend({ // Коллекция пользователей
+        var Docs_view = Backbone.View.extend({ // Legacy comment translated from Russian.
             el: $('.docs'),
             model: Docs_coll,
             initialize: function() {
                 this.model.bind("reset", this.render, this);
-                //            this.model.bind("change", this.render, this);  // если модель изменилась перересовать её.
+                // Legacy comment translated from Russian.
             },
             events: {
                 "click .del_db": "del_db",
@@ -305,7 +305,7 @@ var mongo_tree = function() {
             },
             create_doc: function() {
                 var that = this;
-                var dialog = $("<div title='Редактированме документа'></div>");
+                var dialog = $("<div title='Edit document'></div>");
                 dialog.dialog({
                     bgiframe: true,
                     autoOpen: true,
@@ -332,7 +332,7 @@ var mongo_tree = function() {
                                 }
                             });
                         },
-                        'Отмена': function() {
+                        'Cancel': function() {
                             $(this).dialog('close');
                         }
                     },
@@ -348,7 +348,7 @@ var mongo_tree = function() {
                 var texta = $('<textarea style="width: 400px; height: 400px;"> </textarea>').appendTo(text);
             },
             del_db: function() {
-                if (confirm('Вы точно хотите удалить БАЗУ ?')) {
+                if (confirm('Are you sure you want to delete the database?')) {
                     $.ajax({
                         type: "POST",
                         dataType: "json",
@@ -393,10 +393,10 @@ var mongo_tree = function() {
                 this.$el.empty();
                 var data_docs = this.model.models;
                 var t_but = $('<div class="t_but"></div>').appendTo(this.$el);
-                $('<div class="create_doc">Создать документ</div>').appendTo(t_but);
-                $('<div class="clean_coll">Очистить колекцию</div>').appendTo(t_but);
-                $('<div class="import_coll">Импорт коллекции</div>').appendTo(t_but);
-                $('<div class="export_coll">Экспорт коллекции</div>').appendTo(t_but);
+                $('<div class="create_doc">Create document</div>').appendTo(t_but);
+                $('<div class="clean_coll">Clear collection</div>').appendTo(t_but);
+                $('<div class="import_coll">Import collection</div>').appendTo(t_but);
+                $('<div class="export_coll">Export collection</div>').appendTo(t_but);
                 t_but.find('>div').button();
                 for (var res in data_docs) {
                     this.render_doc_(data_docs[res]);

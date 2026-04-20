@@ -1,20 +1,20 @@
 {% extends "layout.tpl" %}
 {% block content %}
-{#   это шаблон  для работы с общим чатом который видит администратор  #}
+{#   это шаблон  для работы с общим чатом который видит адminiстратор  #}
 
 <input class="form-control input-sm" style="width:750px; margin:15px 20px 10px 15px;" type=text x-webkit-speech />
 <div class="chat"> </div>
 
 <div class="buttons_chat">
-    <div class="refresh_chat btn btn-default"><i class="icon-refresh"></i>Обновить Чат</div>
+    <div class="refresh_chat btn btn-default"><i class="icon-refresh"></i>Refresh Chat</div>
     {% if env.user.is_admin %}
-        <div class="clear_ban btn btn-default"><i class="icon-repeat"></i>Очистить бан</div>
-        <div class="get_link btn btn-default"><i class="icon-share"></i>Дать ссылку</div> <div class="ready_link"></div>
+        <div class="clear_ban btn btn-default"><i class="icon-repeat"></i>Clear Ban</div>
+        <div class="get_link btn btn-default"><i class="icon-share"></i>Get Link</div> <div class="ready_link"></div>
         {% for res in ip %}
             <div class="ip_ban bans ">{{ res}}</div>
         {% endfor %}
 	    {% for res in links %}
-            <div class="links "><span link="{{ res['_id']}}" style="float:right;" class="del_links btn"><i class="icon-remove"></i>Удалить</span>{{ res['mess'] }}  {{ res['_id']}} (до: {{ res['end_time'] }})</div>
+            <div class="links "><span link="{{ res['_id']}}" style="float:right;" class="del_links btn"><i class="icon-remove"></i>Delete</span>{{ res['mess'] }}  {{ res['_id']}} (until: {{ res['end_time'] }})</div>
         {% endfor %}
     {% endif %}
 </div>
@@ -93,7 +93,7 @@ onready(function() {
 		$('.del_links').click(del_link);
 
 		$('.get_link').click(function(){
-			var mess = prompt('Напишите пометку к ссылке');
+			var mess = prompt('Enter a note for the link');
 
 			$.ajax({
 				type:"POST", dataType:"json", url:'/chat',
@@ -101,7 +101,7 @@ onready(function() {
 				success:function (data) {
 					if (data['result'] == 'ok') {
 						$('.ready_link').html('<input type="text" value="'+data.link+'"/>');
-						var row = $('<div class="links "><span link="'+data.id+'" style="float:right;" class="del_links btn"><i class="icon-remove"></i>Удалить</span>'+data.mess +' '+data.id+' (до: '+data.end_time+')</div>')
+						var row = $('<div class="links "><span link="'+data.id+'" style="float:right;" class="del_links btn"><i class="icon-remove"></i>Delete</span>'+data.mess +' '+data.id+' (until: '+data.end_time+')</div>')
 						row.find('.del_links').click(del_link).button();
 					    $('.buttons_chat').append(row);
 					//	alert(data.link);
@@ -116,7 +116,7 @@ onready(function() {
 				success:function (data) {
 					if (data['result'] == 'ok') {
 					    $('.ip_ban').html('');
-						alert('ip разбанены');
+						alert('IP addresses were unbanned');
 					}
 				}
 			});
@@ -159,7 +159,7 @@ onready(function() {
 			success:function (data) {
 				if (data['result'] == 'ok') {
 					$('.ip_ban').append('<div class="bans">'+data.ip+'</div>');
-					alert('ip забанен');
+					alert('IP address was banned');
 {#					$('.chat [mess_id="'+mess_id+'"]').addClass('banned');#}
 				}
 			}
@@ -185,7 +185,7 @@ onready(function() {
 				if (data['result'] == 'ok') {
 					$('.chat').html(data.chat);
 				}else if(data.result == 'clear'){
-					$('.chat').html('Чат завершен.');
+					$('.chat').html('Chat ended.');
 				}
 			}
 		});

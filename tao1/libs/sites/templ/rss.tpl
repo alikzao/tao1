@@ -3,7 +3,7 @@
 	<channel>
 		<title>{{ title }}</title>
 		<language>ru</language>
-		<description>Агентство Русской Информации</description>
+		<description>Russian Information Agency</description>
 		<lastBuildDate>{{dtime}}</lastBuildDate>
 		<webMaster>{{mail}}</webMaster>
 		{% for res in data %}

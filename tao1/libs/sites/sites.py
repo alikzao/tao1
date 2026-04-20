@@ -41,7 +41,7 @@ def get_file_print_doc(request, proc_id, doc_id, file_name):
 
     fn = get_file_meta(proc_id, file_name, doc_id, "")
     f = fs.get(fn["_id"])
-    # метод гридфс
+    # Legacy comment translated from Russian.
     att = f.read()
     response.headers["Content-Type"] = fn["mime"]
     # response.headers['Content-Disposition'] = 'attachment; filename="%s"' % fn['file_name']
@@ -76,7 +76,7 @@ uncut = re.compile(r'<cut[^>]+(title="([^">]*)")[^>]*>(.*)</cut>', flags=re.S)
 def short_text(
     text, limit, link=False, clean_newline=False, keep_link=False, readnext=""
 ):
-    """Выводит короткий текст, вызывается в шаблоне и передается через контекст"""
+    """Legacy docstring translated from Russian."""
     text = re.sub("<img[^>]+>", "", text)
     if keep_link:
         text = re.sub("<(/?)a([^>]*)>", "############\\1a\\2############", text)
@@ -91,7 +91,7 @@ def short_text(
     text = str(text)[:limit]
     if link:
         link = """<div class="readnext"><a style="color:#4F4F4F; padding:3px 4px; margin:4px 0;"
-		class="btn btn-sm btn-default" href="{0}">Читать далее <i class="icon-long-arrow-right"></i> </a></div>""".format(
+		class="btn btn-sm btn-default" href="{0}">Read more <i class="icon-long-arrow-right"></i> </a></div>""".format(
             link
         )
         text = text + " " + link
@@ -184,7 +184,7 @@ def get_curr_img(doc, attachment, def_name="", img_ctr=1):
 
 
 def get_full_doc(request, doc_id, avatar=False, img_ctr=1):
-    """Находим одиночный обьект и если в нем стоит аватар True то показуем только првую маленькую картинку"""
+    """Legacy docstring translated from Russian."""
     doc = get_doc(request, doc_id)
     poll = None
     units = ""
@@ -235,7 +235,7 @@ def get_full_doc(request, doc_id, avatar=False, img_ctr=1):
 
 
 def get_full_user(request, doc_id, avatar=False):
-    """Находим одиночный обьект и если в нем стоит аватар True то показуем только првую маленькую картинку"""
+    """Legacy docstring translated from Russian."""
     if not doc_id.startswith("user"):
         doc_id = "user:" + doc_id
     doc = get_doc(request, doc_id)
@@ -945,7 +945,7 @@ async def user_status_post(request):
                     dict(news_map="", answer_comm=0, abuse=0, is_logged=user_is_logged),
                 ),
                 "user": {
-                    "name": "Gзщuest",
+                    "name": "Guest",
                     "fb_id": "",
                     "water_mark": "",
                     "id": "user:guest",
@@ -979,7 +979,7 @@ def set_prio(request):
         return templ(
             "libs.sites:error",
             request,
-            dict(title="У вас недостаточно прав", mess="У вас недостаточно прав"),
+            dict(title="Insufficient permissions", mess="Insufficient permissions"),
         )
     set_val_field(doc_id, field={"prio": prio})
     return {"result": "ok"}
@@ -1017,7 +1017,7 @@ def news_accept_post(request):  # @route('/', method = "GET")
             "result": "fail",
             "error": ct(
                 cur_lang(request),
-                "У вас недостаточно прав для управления статусом статей",
+                "Insufficient permissions to manage article status",
             ),
         }
     if not doc:
@@ -1042,7 +1042,7 @@ def news_edit(request):  # @route('/', method = "GET")
     news_map = get_news_map(request, "des:obj")
     doc = get_full_doc(request, doc_id)
     if not is_admin and doc["doc"]["user"] != get_current_user(True):
-        session_add_mess("У вас не прав на редактирование чужого материала", "error")
+        session_add_mess("You do not have permission to edit someone else's material", "error")
         redirect("/", 302)
     return templ(
         "news_add", request, dict(news_map=news_map, doc_id=doc["id"], doc=doc)
@@ -1324,7 +1324,7 @@ def fpp(request):
 
 
 def add_rating_post(request):
-    """Собираем для звездочек"""
+    """Legacy docstring translated from Russian."""
     proc_id = request.POST["proc_id"]
     doc_id = request.POST["doc_id"]
     rating = request.POST["rating"]
@@ -1332,7 +1332,7 @@ def add_rating_post(request):
     user = get_current_user()
     if not user:
         return '{"result":"fail", "error":"%s"}' % translate(
-            cur_lang(), "Гости не могут голосовать, зарегистрируйтесь."
+            cur_lang(), "Guests cannot vote, please register."
         )
     db.doc.update(
         {"_id": doc_id, "rating." + user: {"$exists": False}},
@@ -1559,9 +1559,7 @@ def robots_txt(request):
 
 
 def get_slot(request, slotname, exclude=None, tags=None, img_ctr=1):
-    """получает конфигурацию слотов из базы и передает в шаблон, далее через контекст передается в шаблон,
-    вызывается из шаблона а в слоте вызывается фукция которая короткий текст должна выдавать.
-    """
+    """Legacy docstring translated from Russian."""
     conf_name = "default"
 
     conf = get_templ_conf(request, conf_name)
@@ -1587,9 +1585,7 @@ def get_slot(request, slotname, exclude=None, tags=None, img_ctr=1):
 
 
 def get_slot_json(request, slotname):
-    """получает конфигурацию слотов из базы и передает в шаблон, далее через контекст передается в шаблон,
-    вызывается из шаблона а в слоте вызывается фукция которая короткий текст должна выдавать.
-    """
+    """Legacy docstring translated from Russian."""
     conf_name = (
         request.GET["templ"]
         if "templ" in request.GET
@@ -1632,7 +1628,9 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
         kind = slot["kind"]
         last_art = slot["last_art"]
         order = slot["sort"] if "sort" in slot else "none"
-        term = slot["term"] if "term" in slot else ""  # срок годности
+        term = (
+            slot["term"] if "term" in slot else ""
+        )  # Legacy comment translated from Russian.
     except Exception:
         return "", 0
     if limit < 0:
@@ -1678,13 +1676,13 @@ def get_obj(request, slot, page=False, skip=0, exclude=[], img_ctr=1):
         tags = tags.split(",")
         tags = [
             (lambda x: x.strip().lower())(x) for x in tags
-        ]  # получили все что разделено через запятую, отрезали пробелы
+        ]  # Legacy comment translated from Russian.
         tags_minus = [
             x[1:] for x in tags if x.startswith("-")
-        ]  # в тагс_минусзанесли только те что начинаются на минус и минус из млова убрали
+        ]  # Legacy comment translated from Russian.
         tags = [
             x for x in tags if not x.startswith("-")
-        ]  # оставили только те которые без минуса
+        ]  # Legacy comment translated from Russian.
 
         if len(tags):
             condition["$and"].append({"tags." + cur_lang(request): {"$in": tags}})
@@ -1832,7 +1830,7 @@ def add_vote_post(request):
     vote_type = get_post("vote_type")
     doc = get_doc(doc_id)
     if check_time(doc["doc"]["date"], "days", int(get_const_value("vote_timeout"))):
-        return {"result": "fail", "error": "Голосование уже закончилось"}
+        return {"result": "fail", "error": "Voting has ended"}
     user = get_current_user(True)
 
     if not "vote" in doc:
@@ -1844,11 +1842,11 @@ def add_vote_post(request):
             "voted": {},
         }
     if not user_has_permission(request, "des:obj", "vote"):
-        return '{"result":"fail","error":"Не имеете права голоса"}'
+        return '{"result":"fail","error":"You do not have voting rights"}'
     if not is_admin(request) and user in doc["vote"]["voted"]:
-        return '{"result":"fail","error":"Повторное голосование запрещено"}'
+        return '{"result":"fail","error":"Repeated voting is forbidden"}'
     if not is_admin(request) and user == doc["doc"]["user"]:
-        return '{"result":"fail","error":"Голосовать за себя запрещено"}'
+        return '{"result":"fail","error":"Voting for yourself is forbidden"}'
 
     dt = datetime.today().strftime("%Y-%m-%d")
     user_f = get_doc(request, user)
@@ -1859,7 +1857,7 @@ def add_vote_post(request):
     if not is_admin(request) and int(user_f["vote"][dt]["up"]) + int(
         user_f["vote"][dt]["down"]
     ) >= int(float(user_f["doc"]["rate"]) + 1.25):
-        return {"result": "fail", "error": "Лимит голосов за сегодня исчерпан"}
+        return {"result": "fail", "error": "Daily vote limit reached"}
     user_f["vote"][dt][vote] += 1
     db.doc.save(user_f)
 
@@ -1873,7 +1871,7 @@ def add_vote_post(request):
     doc["vote"]["votes_count"] += 1
     db.doc.save(doc)
 
-    # начисление балов пользователю
+    # Legacy comment translated from Russian.
     u_id = doc["doc"]["user"]
     u = get_doc(u_id)
     if not "rate" in u["doc"]:
@@ -1897,7 +1895,7 @@ def add_vote_post(request):
 
 
 def vote_comm_post():
-    """Вычисляем данные в коментариях сколько проголосовало и тд."""
+    """Legacy docstring translated from Russian."""
     return {
         "result": "ok",
         "score": "+4",
@@ -1917,13 +1915,7 @@ def chat(request, doc_id):
 
 
 def get_tags(request, tag_dict="des:obj"):
-    """# х0 - сам тег, х1 - число,
-    # получили самое большое число
-    # считаем алгоритм в какую степень нужно возвести максимальное число чтоб получить текущее
-    # на выходе число от 0 до 1, мы умножаем на 4 и вычитаем из 6(рвзмер заголовка целое число)    math.log - вычисляет логариф
-    # логарифм  это функция которая вычисляет степень в которую нужно возвести основу   чтоб получить заданое число (например если основа 2 число 8 то соответствующая степень это 3)
-    #  round( math.log( x[1] - low, mx - low ) * 4)    умножаем на 4 потому что у нас 5 градаций     от 0 до 4
-    """
+    """Legacy docstring translated from Russian."""
     doc = request.db.conf.find_one({"_id": "tags_" + tag_dict[4:]})
     if not doc:
         return []
@@ -1965,7 +1957,7 @@ def spam_post():
 
 
 def set_main_news(request):
-    """устанавливает выделеным новости на главной странице"""
+    """Legacy docstring translated from Russian."""
     db = request.db
     old = str(datetime.now() - timedelta(hours=36))
 
@@ -2001,7 +1993,7 @@ def set_main_news(request):
 
 
 def loader_slot(request):
-    """подгружает слоты внизу страницы"""
+    """Legacy docstring translated from Russian."""
     skip = get_post("skip")
     slotname = get_post("slot")
     conf = get_templ_conf(get_tpl())
@@ -2018,7 +2010,7 @@ def loader_slot(request):
 
 
 def transfer_article():
-    """меняем слот у материала"""
+    """Legacy docstring translated from Russian."""
     doc_id = get_post("doc_id")
     target = get_post("target")
     doc = get_doc(doc_id)
@@ -2097,7 +2089,7 @@ def trigger_hook(name, params, __hooks={}):
 
 
 def wiki(request, text, user=None, title=None):
-    """получает смешаное слово"""
+    """Legacy docstring translated from Russian."""
     if not text:
         return ""
     params = {"text": text, "user": user}

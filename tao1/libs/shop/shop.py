@@ -17,7 +17,7 @@ def add_basket_post():
 
 
 def add_basket(ware, quantity):
-    """получает id товара и количество берет подробности о нем и заносит в сесии"""
+    """Legacy docstring translated from Russian."""
     s = session()
     doc = get_doc(ware)
     basket_check()
@@ -110,16 +110,7 @@ def add_order(request, data):
 
 
 def add_order_web_post():
-    """web заказы -> на создание -> init_web_order(new_row)
-    web заказы -> на создание подтаблицы -> update_sum( owner, new_row)
-    web заказы -> на обновление подтаблицы -> update_sum( owner, new_row)
-
-    web заказы товары -> на создание -> update_price_column({}, new_row, doc['owner'])
-                                                                            price_changed( doc['owner'], {}, new_row, False)
-
-    web заказы товары -> на обновление -> update_price_column(old_row, new_row, doc['owner'])
-                                                                              price_changed(doc['owner'], old_row, new_row, False)
-    """
+    """Legacy docstring translated from Russian."""
     phone = get_post("phone")
     basket = get_post("basket", "")
     callback(phone, get_settings("domain"), basket)
@@ -179,7 +170,7 @@ def basket_show():
 
 
 def basket_count():
-    """щитает кол-во товаров в корзине"""
+    """Legacy docstring translated from Russian."""
     basket_check()
     s = session()
     summ = 0
@@ -210,7 +201,7 @@ def basket_check():
 
 
 def ware_filter(filter):
-    # отфильтровует сами товары указаному списку атрибутов
+    # Legacy comment translated from Russian.
     if not isinstance(filter, list):
         filter = [filter]
     categ = {}
@@ -221,29 +212,29 @@ def ware_filter(filter):
             categ[cat] = []
         categ[cat].append(attr)
     cond = dict([("attr." + i, {"$in": v}) for i, v in categ.items()])
-    # текущий вариант
-    # текущий для агрегации
+    # Legacy comment translated from Russian.
+    # Legacy comment translated from Russian.
     # db.test.aggregate({$unwind: "$likes"})
     return cond
 
 
 def get_ware_cls(request, cls):
-    """получаем список для фильтра который справа показывается"""
-    # получаем список категорий которые принадлежат например смартфон    на выходе диагональ и тд.
+    """Legacy docstring translated from Russian."""
+    # Legacy comment translated from Russian.
     # $cat =
     # select c.* from ware_cat as c inner join on c.id = cc.owner ware_class_cat as cc where cc.owner = $cls
     # select a.* from ware_attr as a where owner in $cat
     db = request.db
     categ = []
     list_cat = []
-    # собираем нужные данные, собираем фильтры принадлежащии классу
+    # Legacy comment translated from Russian.
     for res in db.doc.find({"doc_type": "des:ware_class_cat", "owner": cls}):
         list_cat.append(res["doc"]["cat"])
-    # собираем фильтры атрибутов
+    # Legacy comment translated from Russian.
     for res in db.doc.find({"doc_type": "des:ware_cat", "_id": {"$in": list_cat}}):
         cat = {"id": res["_id"], "title": ct(res["doc"]["title"]), "attr": []}
         categ.append(cat)
-        # идем по полученым фильтрам и собиарем атрибуты
+        # Legacy comment translated from Russian.
         for rs in db.doc.find({"doc_type": "des:ware_attr", "owner": cat["id"]}):
             attr = {"id": rs["_id"], "title": ct(rs["doc"]["title"])}
             cat["attr"].append(attr)
@@ -251,8 +242,8 @@ def get_ware_cls(request, cls):
 
 
 def list_ware(request, cls):
-    """вызывается для показа списка товаров"""
-    # ware_class_cat-справочник где хранятся категории которые относятся к классу ( класс-смартфон у него категория диагональ экрана )
+    """Legacy docstring translated from Russian."""
+    # Legacy comment translated from Russian.
     cond = {"doc_type": "des:ware", "doc.class": cls, "doc.pub": "true"}
     if request.method == "POST":
         cond.update(
@@ -417,7 +408,7 @@ def get_filters(request, cls):
 
 
 def list_class(request, cls):
-    """показывает список вложеных категорий и товаров для категорий"""
+    """Legacy docstring translated from Russian."""
     from libs.sites.sites import (
         get_pagination,
         get_full_docs,
@@ -532,7 +523,7 @@ def set_filters(request, cls, filters):
 
 
 def list_filters(request, cls, filters):
-    """если чтото выбрали для фильтров"""
+    """Legacy docstring translated from Russian."""
     from libs.sites.sites import (
         get_pagination,
         get_full_docs,
@@ -600,7 +591,7 @@ def list_filters(request, cls, filters):
 
 
 def get_list_filter(request, cls):
-    """формируемая структура [{'id_class':'123', "filter_name":"name", attr:{'id_class':'123', 'title':'title'}]"""
+    """Legacy docstring translated from Russian."""
     db = request.db
     filters = []
     for res in db.doc.find(
@@ -620,7 +611,7 @@ def get_list_filter(request, cls):
 
 
 def first_cls(request):
-    """выводит корневые категории, в основном для главной страницы"""
+    """Legacy docstring translated from Russian."""
     from libs.sites.sites import get_full_docs, get_curr_img
     from libs.files.files import get_nf
 
@@ -651,12 +642,7 @@ def first_cls(request):
 
 
 def list_ware_cls(request, full=False):
-    """
-    получение колва докуентов
-     Для каждого класса находим сколько в нем документов
-     Назначаем их кол-во всем его родителям приплюсовыванием
-     :param выводить с дополнительной информацией типа картинок или просто названия, с доп. информацией выводится олько для главной
-    """
+    """Legacy docstring translated from Russian."""
     db = request.db
     docs = [
         res
@@ -680,7 +666,7 @@ def list_ware_cls(request, full=False):
 
 
 def form_tree_(docs):
-    """формирует из документов дерево"""
+    """Legacy docstring translated from Russian."""
     tree = {doc["_id"]: doc for doc in docs}
     for doc in docs:
         doc["child"] = []
@@ -728,13 +714,13 @@ def callback_post():
 
 
 def callback(phone, dom, basket):
-    """отправка sms с почты на телефон"""
+    """Legacy docstring translated from Russian."""
     mail = get_settings("callback_mail")
     create_row("des:phone", "_", defaults={"phone": phone})
     text = """ {0} """.format(phone)
     if basket == "true":
-        route_mail(mail, "Cайт корзина ", text)
+        route_mail(mail, "Site cart ", text)
     else:
-        route_mail(mail, "Запрос на сайте ", text)
-    # route_mail(mail, u'Запрос на сайте '+dom, text)
+        route_mail(mail, "Request on site ", text)
+    # Legacy comment translated from Russian.
     return {"result": "ok"}

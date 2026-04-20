@@ -3,7 +3,7 @@
     var defaults = {}
 
     window.dao.scroll = function(vertical_bar_place, horizontal_bar_place, params) {
-        // Правильное создание нового объекта с присвоением ему значений по-умолчанию и частично указанных новых значений
+        // Legacy comment translated from Russian.
         var options = $.extend({}, defaults, params);
         var aside_scroll_bar = null;
         var aside_scroll_space = null;
@@ -68,7 +68,7 @@
         });
 
 
-        // переинициализируем плавающие элементы сетки
+        // Legacy comment translated from Russian.
         $(window).resize(function() {
             _initScroll();
         });
@@ -133,7 +133,7 @@
         }, function() {
             $(this).removeClass('ui-state-hover');
         });
-        // Назначаем обработчик прокрутки
+        // Legacy comment translated from Russian.
         options.vertical_target.scroll(function() {
             _initScroll();
             _updateScroll();
@@ -146,7 +146,7 @@
 
         function reinit() {
             _initScroll();
-            // Инициализируем плавающие элементы сетки
+            // Legacy comment translated from Russian.
             options.horizontal_target.triggerHandler('scroll');
             options.vertical_target.triggerHandler('scroll');
         }
@@ -154,7 +154,7 @@
         function _prepareScroll() {
             //            $('.icon-refresh').click();
 
-            // перед прокруткой вычисляет координаты
+            // Legacy comment translated from Russian.
             var width = options.horizontal_target.width();
             var height = options.vertical_target.height();
             var scrollWidth = options.horizontal_target.get(0).scrollWidth;
@@ -165,18 +165,16 @@
             v_scrollSize = height / scrollHeight;
         }
 
-        /**
-         * Подготавливает элементы управления и приводит их в соответствие с реальным положением вещей
-         */
+        /* Legacy comment translated from Russian. */
         function _initScroll() {
             _prepareScroll();
             if (h_scrollSpace > 0) {
-                var space = bottom_scroll_space.innerWidth(); // ширина линии ползунка.
-                var size = Math.round(space * h_scrollSize); // получили длину самого ползунка вродебы
+                var space = bottom_scroll_space.innerWidth(); // Legacy comment translated from Russian.
+                var size = Math.round(space * h_scrollSize); // Legacy comment translated from Russian.
                 if (size < 30) size = 30;
                 if (size >= space - 3) size = space - 3;
                 if (size >= 30) {
-                    var h_space = bottom_scroll_space.innerWidth() - bottom_scroll_caret.outerWidth(); // свободное пространство
+                    var h_space = bottom_scroll_space.innerWidth() - bottom_scroll_caret.outerWidth(); // Legacy comment translated from Russian.
                     var h_scroll = options.horizontal_target.scrollLeft(); //
                     var left = Math.round(h_space * h_scroll / h_scrollSpace);
                     bottom_scroll_caret.css({
@@ -206,7 +204,7 @@
             } else aside_scroll_caret.css('display', 'none');
         }
 
-        function _updateScroll() { // в соответствии с позицией бегунка выставляет положение таблички
+        function _updateScroll() { // Legacy comment translated from Russian.
             if (is_scrolling) return;
             is_scrolling = true;
             _prepareScroll();

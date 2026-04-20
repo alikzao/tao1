@@ -14,7 +14,7 @@
            <input class="form-control input-sm" type="password" name="pasw" style="display: inline-block; width: 200px;" /></label>
 
         <div style="display: inline-block; width: 60px;" ></div>
-       <input class="btn btn-default" type="submit" value="Войти" style="margin-top: 10px; " />
+       <input class="btn btn-default" type="submit" value="Sign In" style="margin-top: 10px; " />
     </form>
 </div>
 

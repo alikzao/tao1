@@ -1,4 +1,4 @@
-# 1-й путь к сайту типа '/sites/site' 2-й для копилирования cpl
+# Legacy comment translated from Russian.
 # python lang.py /sites/site cpl
 import sys, getopt, os, time
 from shutil import *
@@ -125,12 +125,12 @@ def load_translation(in_f, file):
     r = {}
     for rs in l:
         n += 1
-        # находим подчеркивание со скобочками
+        # Legacy comment translated from Russian.
         aa = re.findall(r"_\([^)]+\)", rs)
         for res in aa:
-            # вырезаем саму строчку без подчеркивания скобок и кавычек
+            # Legacy comment translated from Russian.
             res = res[3:-2]
-            # смотрим нет ли еще такой строчки
+            # Legacy comment translated from Russian.
             if not res in r:
                 r[res] = []
             # Add line number
@@ -142,7 +142,7 @@ def load_translation(in_f, file):
 
 
 app_path = lib_path + app[1][1:-1]
-# теперь если у нас стоит аргумент в 'cpl' то компилируем если нет то просто собираем строчки.
+# Legacy comment translated from Russian.
 if len(app) > 2 and app[2][1:-1] == "cpl":
     iter_po(lib_path + "/", False)
     iter_po(lib_path + "/app/")

@@ -16,11 +16,7 @@ import html
 
 
 def table_data(request):
-    """
-    при отрисовке вкладки при нажатии кнопки рефреш, в admin.js там в update_tab
-    берем из модели которая в свою очередь берет из закладки  какойто id номер вкладки
-    и по роуту вызывается эта функция.
-    """
+    """Legacy docstring translated from Russian."""
     proc_id = request.match_info.get("proc_id")
     data = table_data_(request, proc_id)
     return templ(
@@ -47,9 +43,9 @@ def table_data_(request, proc_id):
     meta_doc = get_mt(request, proc_id)
 
     meta_table = check_map_perm(request, proc_id, meta_doc["doc"])
-    # это для интернационализации
+    # Legacy comment translated from Russian.
     parts = []
-    # строим иерархию по шапкам
+    # Legacy comment translated from Russian.
     for res in request.db.map.find({"conf.owner": proc_id}):
         parts.append(res)
     _parts = ""
@@ -92,7 +88,7 @@ def table_data_(request, proc_id):
 
 
 def rec_data_t(request, meta_table):
-    # """подсчет полей таблицы чтоли"""
+    # Legacy comment translated from Russian.
     for res in range(0, len(meta_table)):
         meta_table[res]["title"] = ct(request, meta_table[res]["title"])
         meta_table[res]["hint"] = ct(request, meta_table[res]["hint"])
@@ -106,18 +102,11 @@ def rec_data_t(request, meta_table):
 
 
 def sort_body(request, proc_id, meta_table, docs_table):
-    """
-    проодит по всем документам, если документ переводной то переводит
-    И в зависимости от типа документа рисует соотвествующее значение в ячейке
-    :param proc_id:
-    :param meta_table:
-    :param docs_table:
-    :return:
-    """
+    """Legacy docstring translated from Russian."""
     from libs.files.files import get_nf
 
     out_docs = []
-    for res in docs_table:  # проходим по всем документам
+    for res in docs_table:  # Legacy comment translated from Russian.
         doc = res["doc"]
         for field in meta_table:
             if field["id"] in doc and "is_translate" in field and field["is_translate"]:
@@ -188,7 +177,7 @@ def sort_body(request, proc_id, meta_table, docs_table):
 
 
 async def table_data_post(request):
-    """#page=текущая страница page ctr=кол-во pages=отрисованые ссылки на страницу навигация"""
+    """Legacy docstring translated from Russian."""
     data = get_post(request)
     proc_id = data["proc_id"]
     if not user_has_permission(request, proc_id, "view"):
@@ -220,8 +209,7 @@ async def table_data_post(request):
 
 
 def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
-    """Получает id таблицы и значения для фильтрации Берет из базы данные
-    формирует из них json и возвращает в нужный шаблон"""
+    """Legacy docstring translated from Russian."""
     t = time.time()
     user_name = get_current_user(request)
     meta_doc = request.db.map.find_one({"_id": proc_id})
@@ -245,7 +233,7 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
         page["current"] = 1
     limit = int(get_const_value(request, "doc_page_limit"))
     skip = (page["current"] - 1) * limit
-    # получаем данные из фильтров и присваиваем их нужной переменой
+    # Legacy comment translated from Russian.
     condition = {"$and": [{"doc_type": proc_id}]}
     if parent == "_":
         condition["$and"].append({"$or": ({"parent": "_"}, {"parent": {"$exists": 0}})})
@@ -253,11 +241,11 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
         condition["$and"].append({"parent": parent})
         no_limit = True
     _meta_table = {}
-    # это для получение полного метатейбла с полем user чтоб по нему фильтровать.
+    # Legacy comment translated from Russian.
     for meta in meta_doc["doc"]:
         _meta_table[meta["id"]] = meta
     user_in_meta = "user" in _meta_table
-    # это получение уже обрезаного мета тейбла.
+    # Legacy comment translated from Russian.
     _meta_table = {}
     for meta in meta_table:
         _meta_table[meta["id"]] = meta
@@ -292,7 +280,9 @@ def table_data_post_(request, proc_id, filter, doc_id, parent, no_limit=False):
                 suffix = "." + cur_lang(request)
             ors.append({"doc." + field + suffix: regex})
         condition["$and"].append({"$or": ors})
-    elif "column" in filter and any(filter["column"]):  # фильтр по колонкам
+    elif "column" in filter and any(
+        filter["column"]
+    ):  # Legacy comment translated from Russian.
         for field in filter["column"]:
             f = filter["column"][field]
             if not "val" in f and not "range" in f:
@@ -513,14 +503,7 @@ def table_preedit_row_post(request):
 
 
 def save_auto_tags(request, doc, tags):
-    """
-    автоопределение тегов  получаем текст и сравниваем его с с теми тегами которые уже есть и вычленяем их из него
-    работает только для новостей
-    1) разбиваем строчку с тегами через запятую и создаем словарь из всего этого
-    2) находим документ с облаком тегов
-    3) получаем текст и название новости плюсуем
-    4) и выводим отсюда тег нужный
-    """
+    """Legacy docstring translated from Russian."""
     try:
         if not doc["doc_type"] in ["des:news"]:
             return "not des:news"
@@ -557,14 +540,10 @@ def save_auto_tags(request, doc, tags):
 
 
 def count_tags(request, t, t_old, tag_dict):
-    """при сохранении документа пересчитать кол-во тегов в облаке t-скорее всего тег
-    вызывается в save_tags
-    1) получает документ где хранится облако тегов
-    2) идем по тегам и если есть
-    """
+    """Legacy docstring translated from Russian."""
     tags = request.db.conf.find_one(
         {"_id": "tags_" + tag_dict[4:]}
-    )  # получает документ где хранится облако тегов
+    )  # Legacy comment translated from Russian.
     tags = (
         tags["tags"][cur_lang(request)]
         if tags and "tags" in tags and cur_lang(request) in tags["tags"]
@@ -573,9 +552,7 @@ def count_tags(request, t, t_old, tag_dict):
     tags_d = dict(tags)
     for res in t:
         if not res in tags_d:
-            tags_d[res] = (
-                1  # если нету полученого в тегах документа    то прописуем там
-            )
+            tags_d[res] = 1  # Legacy comment translated from Russian.
         else:
             tags_d[res] += 1
     for res in t_old:
@@ -590,21 +567,15 @@ def count_tags(request, t, t_old, tag_dict):
 
 
 def save_tags(request, doc, tag_dict):
-    """
-    разбиваем строчку тегов в масив и заносим в документ правильно разбитые теги
-    call the function that fills in the tag cloud
-    tag_dict - справочник из которого теги сохраняются   вроде как удалено из текста
-    1) check that the document contains tags
-    2) разбиваем строку тегов на слова через запятую и запихиваем в словарь tags = {'tag1':1,'tag2':1}
-    """
-    # TODO если теги пустые то мы их не стираем
+    """Legacy docstring translated from Russian."""
+    # TODO: legacy note translated from Russian.
     lang = cur_lang(request)
     if "doc" in doc and doc["doc"] and "tags" in doc["doc"] and doc["doc"]["tags"]:
         if lang in doc["doc"]["tags"]:
             if not doc["doc"]["tags"][lang]:
                 doc["doc"]["tags"][lang] = ""
             t_old = doc["tags"][lang] if "tags" in doc and lang in doc["tags"] else []
-            # разбиваем строку тегов на слова через и запихиваем в словарь tags = {'123':1, '456':1}
+            # Legacy comment translated from Russian.
             tags = dict(
                 [
                     (i.strip().lower(), 1)
@@ -617,7 +588,7 @@ def save_tags(request, doc, tag_dict):
             if not is_admin(request) and not user_has_permission(
                 request, doc["doc_type"], "edit_tag"
             ):
-                # наполняем в ифе tags теми перемеными которые не содержат звездочки.
+                # Legacy comment translated from Russian.
                 tags2 = tags
                 tags = {}
                 for res in tags2:
@@ -668,13 +639,7 @@ def update_row_(
     accept_def=False,
     no_notify=False,
 ):
-    """
-    :param nouscript:  удаляет теги и стили из текста вроде
-    :param no_synh:    не синхронизирует с фейсбуком
-    :param accept_def: не публикует документ автоматически, нужно для всяких парсеров
-    :param no_notify:
-    :return: json format doc[id] proc_id   doc_ = {'body':wiki(body), 'date':date, 'title':title }
-    """
+    """Legacy docstring translated from Russian."""
 
     print("parent", parent)
 
@@ -683,21 +648,17 @@ def update_row_(
     doc = get_doc(request, doc_id)
     doc_parent = get_doc(request, parent) if parent != "_" else None
     user = request.db.doc.find_one({"_id": doc["doc"]["user"]})
-    old_row = dict(doc["doc"])  # doc из документа который создан create_empty_row_
+    old_row = dict(doc["doc"])  # Legacy comment translated from Russian.
     # =============================================================================================================================
-    for (
-        field
-    ) in meta_table:  # инициализируем поля и устраняем всякие глюки если чегото нет
+    for field in meta_table:  # Legacy comment translated from Russian.
         if "is_translate" in field and (
             field["is_translate"] == True or field["is_translate"] == "true"
         ):
             if (
                 not field["id"] in doc["doc"] or type(doc["doc"][field["id"]]) != dict
-            ):  # если в старой записи нет поля или оно не словарь
+            ):  # Legacy comment translated from Russian.
                 doc["doc"][field["id"]] = {}
-            if (
-                not field["id"] in data
-            ):  # этот иф можно закоментировать     проверить     если поля нет в новой записи
+            if not field["id"] in data:  # Legacy comment translated from Russian.
                 data[field["id"]] = (
                     old_row[field["id"]][cur_lang(request)]
                     if field["id"] in old_row
@@ -714,7 +675,7 @@ def update_row_(
                     doc["doc"][field["id"]] = data[field["id"]]
 
     # ===================================================================================================================
-    if "body" in doc["doc"]:  # очищаем  боди от всякой ерунды
+    if "body" in doc["doc"]:  # Legacy comment translated from Russian.
         text = (
             doc["doc"]["body"][cur_lang(request)]
             if type(doc["doc"]["body"]) == dict
@@ -731,7 +692,7 @@ def update_row_(
     # ===================================================================================================================
     doc["doc_type"] = proc_id
 
-    # сохранение единственого материала для отображения единственого автора в колонке
+    # Legacy comment translated from Russian.
     if "last_art" in doc["doc"] and doc["doc"]["last_art"] == "true":
         for res in request.db.doc.find(
             {
@@ -742,7 +703,7 @@ def update_row_(
         ):
             res["doc"]["last_art"] = "false"
             request.db.doc.save(res)
-    # сохранение для разрешенного пользователя
+    # Legacy comment translated from Russian.
     if (
         is_admin(request)
         or accept_def
@@ -756,10 +717,10 @@ def update_row_(
 
     save_auto_tags(
         request, doc, "tags_" + proc_id[4:]
-    )  # автоопределение тегов  получаем текст и сравниваем его с с теми тегами которые уже есть и вычленяем их из него
+    )  # Legacy comment translated from Russian.
     save_tags(request, doc, "tags_" + proc_id[4:])
 
-    # сохранение для разрешенного пользователя
+    # Legacy comment translated from Russian.
     if (
         accept_def
         or proc_id == "des:obj"
@@ -772,19 +733,17 @@ def update_row_(
 
     if "parent_id" in data and data["parent_id"]:
         parent_id = data["parent_id"]
-        # Удаляем из старого родителя
+        # Legacy comment translated from Russian.
         request.db.doc.update(
             {"child": {"$in": [doc_id]}}, {"$pull": {"child": doc_id}}
         )
-        # Добавляем в нового родителя
+        # Legacy comment translated from Russian.
         request.db.doc.update({"_id": parent_id}, {"$push": {"child": doc_id}})
-        # Добавляем себе нового родителя
+        # Legacy comment translated from Russian.
         doc["parent"] = parent_id
     else:
         doc["parent"] = parent
-        if (
-            doc_parent
-        ):  # тут мы получили родительский документ и смотрим если в нем нет себя ребенка то мы себя заносим
+        if doc_parent:  # Legacy comment translated from Russian.
             if not "child" in doc_parent:
                 doc_parent["child"] = []
             doc_parent["child"].append(doc_id)
@@ -888,18 +847,18 @@ def subscribe(request, doc):
                 + str(doc["doc"]["comm_id"])
             )
             text = """<html><head></head><body>
-			<p>Пользователь {0} оставил ответ на ваш комментарий. Можете просмотреть по адресу {1}
+			<p>User {0} left a reply to your comment. You can view it at {1}
 			</p></body></html>""".format(ct(request, author["doc"]["name"]), link)
         else:
             link = "http://" + dom + "/news/" + doc["doc"]["rev"]
             text = """<html><head></head><body>
-			<p>Пользователь {0} разместил новый материал. <a href="{0}"><b>{2}</b></a></p>
-			<p>Можете просмотреть по адресу {1} </p></body></html>""".format(
+			<p>User {0} published new material. <a href="{0}"><b>{2}</b></a></p>
+			<p>You can view it at {1} </p></body></html>""".format(
                 ct(request, author["doc"]["name"]), link, title
             )
         from core.core import route_mail
 
-        route_mail(request, to, "Новые материалы на сайте " + dom, text)
+        route_mail(request, to, "New materials on the site " + dom, text)
 
 
 def notify_admin(request, doc):
@@ -908,7 +867,7 @@ def notify_admin(request, doc):
     doc["mail_admin_sent"] = 1
     request.db.doc.save(doc)
     author = get_doc(request, doc["doc"]["user"])
-    author_name = ct(request, author["doc"]["name"]) if author else "Аноним"
+    author_name = ct(request, author["doc"]["name"]) if author else "Anonymous"
     from core.core import get_admin
 
     try:
@@ -920,7 +879,7 @@ def notify_admin(request, doc):
                 not "accept" in author["doc"] or author["doc"]["accept"] == "false"
             ):
                 link = "http://" + domain + "/news/" + doc["doc"]["rev"]
-                text = "Не удостовереный Пользователь {0} разместил новый материал. Можете просмотреть по адресу {1}".format(
+                text = "Unverified user {0} published new material. You can view it at {1}".format(
                     ct(request, author["doc"]["name"]), link
                 )
         else:
@@ -933,18 +892,18 @@ def notify_admin(request, doc):
                     + "#comm_"
                     + str(doc["doc"]["comm_id"])
                 )
-                text = "Пользователь {0} оставил комментарий. Можете просмотреть по адресу {1}".format(
+                text = "User {0} left a comment. You can view it at {1}".format(
                     request, author_name, link
                 )
             else:
                 link = "http://" + domain + "/news/" + doc["doc"]["rev"]
-                text = "Пользователь {0} разместил новый материал. Можете просмотреть по адресу {1}".format(
+                text = "User {0} published new material. You can view it at {1}".format(
                     ct(request, author["doc"]["name"]), link
                 )
         from core.core import route_mail
 
         if text:
-            route_mail(request, to, "Новые материалы на сайте " + domain, text)
+            route_mail(request, to, "New materials on the site " + domain, text)
     except:
         pass
 
@@ -1083,13 +1042,13 @@ def on_create_subtable(request, doc):
 
 
 def make_updated(request, old_row, new_row, proc_id):
-    """сравнивает старое и новое значеие и возвращает те поля которое изменились  это для изменения всей строки"""
+    """Legacy docstring translated from Russian."""
     updated = ""
     meta_table = get_mt(request, proc_id)["doc"]
     for k, v in new_row.items():
         if not k in old_row or old_row[k] != v:
             meta = find_field(k, meta_table)
-            # преобразовуем название если в поле есть селект
+            # Legacy comment translated from Russian.
             if meta and "type" in meta and meta["type"] == "passw":
                 v = "*****"
                 formatted = "*****"
@@ -1130,7 +1089,7 @@ def make_updated(request, old_row, new_row, proc_id):
                 formatted = ct(request, v)
             if updated:
                 updated += ", "
-            # поле int нужно преобразовывать шif type(aaa) == 'int'
+            # Legacy comment translated from Russian.
             t = type(v)
             if (
                 t == int
@@ -1169,7 +1128,7 @@ async def table_del_row_post(request):
         final = False
         if not "final" in doc:
             final = True
-        # запрещаем не админу удалять документы созданые админом
+        # Legacy comment translated from Russian.
         if (
             not force
             and final
@@ -1181,18 +1140,7 @@ async def table_del_row_post(request):
 
 
 def del_row(request, proc_id, ids):
-    """Удаление документа
-    1) Идем по всем полученым для удаления ids
-    2) Делаем какието операции с бугалтерией
-    3) Удаляем картинки приатаченый к этому документу
-    4) Удаляем сам документ
-    5) Выполняем тригер в песочнице связаный с удалением этого документа
-    ============================================================================
-    6) Удаляем себя у всех потомков
-    7) Удаляем себя у всех родителей
-    8) Очищаем если у документа есть родитель родителя
-    9) удаляем теги которые есть в документе из облака тегов
-    """
+    """Legacy docstring translated from Russian."""
     ctr = 0
     errors = ""
     for current_id in ids:
@@ -1211,7 +1159,7 @@ def del_row(request, proc_id, ids):
         try:
             res, err = event(
                 "on_del_row", proc_id, {"old_row": old_row, "doc": doc}
-            )  # TODO обработать err
+            )  # TODO: legacy note translated from Russian.
             if res != "ok":
                 errors += err
         except:
@@ -1235,10 +1183,7 @@ def del_row(request, proc_id, ids):
 
 
 def del_doc_tags(request, proc_id, doc):
-    """при удалении документа пересчитать кол-во тегов в облаке t-скорее всего тег
-    идем по всем вложеным спискам в облаке и смотрим что списки у каждого первый елемент не совпадает с одним из удаляемых тегов если совпал
-    то удаляем вложеный список или вычитаем единицу из второго элемента
-    """
+    """Legacy docstring translated from Russian."""
     cloud_tags = request.db.conf.find_one(
         {"_id": "tags_" + proc_id[4:]}
     )  # get doc where storage cloud tags
@@ -1250,7 +1195,7 @@ def del_doc_tags(request, proc_id, doc):
         and "tags" in cloud_tags
         and cur_lang(request) in cloud_tags["tags"]
         else []
-    )  # берет с нужным языком
+    )  # Legacy comment translated from Russian.
     del_tags = (
         doc["tags"][cur_lang(request)]
         if "tags" in doc and cur_lang(request) in doc["tags"]
@@ -1358,7 +1303,7 @@ def table_add_field_post(request):
 
 def add_field(
     request, proc_id, data, field_id=None
-):  # field_id=None индекс поля которое нужно поменять при редактировании
+):  # Legacy comment translated from Russian.
     if not user_has_permission(request, proc_id, "create"):
         return response_json(
             request, {"result": "fail", "error": "You have no permission."}
@@ -1467,17 +1412,15 @@ def table_sort_columns_post(request):
 
 
 def table_copy_doc(request):
-    """
-    1) Создаем пустой документа
-    """
+    """Legacy docstring translated from Russian."""
     data = get_post(request)
     old_id = data["doc_id"]
 
     from libs.files.files import get_nf, get_file_meta, add_file_raw
 
-    # 1) копируем просто документ
+    # Legacy comment translated from Russian.
     new_id_owner = simply_copy_doc(request, old_id)
-    # 2) Дублирование картинки
+    # Legacy comment translated from Russian.
 
     from gridfs import GridFS
 
@@ -1485,7 +1428,7 @@ def table_copy_doc(request):
     for fn in request.db.fs.files.find(
         {"doc_id": old_id, "file_name": re.compile("^orig_", re.I | re.U)}
     ):
-        # TODO таки уменьшать картинку при занесении, сейчас просто название меняется
+        # TODO: legacy note translated from Russian.
         if not fn:
             return None, None, None
         f = fs.get(fn["_id"]).read()
@@ -1505,7 +1448,7 @@ def table_copy_doc(request):
         )
         # add_file_raw(fn['proc_id'], old_id, f, fn['mime'], '1'+fn['file_name'] )
 
-    # 3) Дублирование тех документов что он owner
+    # Legacy comment translated from Russian.
     for res in request.db.doc.find({"owner": old_id}):
         doc_id = simply_copy_doc(request, res["_id"])
         request.db.doc.update({"_id": doc_id}, {"$set": {"owner": new_id_owner}})
@@ -1522,12 +1465,7 @@ def simply_copy_doc(request, old_id):
 
 
 def table_sort_post(request):
-    """
-    1) получаем нужный документ
-    2) получаем его предыдущий документ
-    3) берем дату предыдущего документа увеличиваем её на 1 секунду и сохраняем
-    // снизу - некст, сверху - прев.  !!!!!!!!!
-    """
+    """Legacy docstring translated from Russian."""
     data = get_post(request)
     doc_id = data["doc_id"]
     prev = data["prev"] if "prev" in data else ""

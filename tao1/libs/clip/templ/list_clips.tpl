@@ -10,7 +10,7 @@
 <div class="colls" >
     <table style="margin:20px; width:95%;" class="table table-hover table-condensed table-bordered">
         <thead>
-            <tr> <th>ID</th><th>Title</th> <th>Описание</th> <th>Date</th> <th>Author</th> </tr>
+            <tr> <th>ID</th><th>Title</th> <th>Description</th> <th>Date</th> <th>Author</th> </tr>
         </thead>
         <tbody>
             {% for res in docs %}

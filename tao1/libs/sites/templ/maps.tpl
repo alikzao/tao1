@@ -1,8 +1,8 @@
 
 
 <div class="tags">
-	<div class="add_map btn btn-primary"><i class=" icon-map-marker"></i> Оставить заявку</div>
-	<div class=""><a href="/news/">О заявках и картах</a></div>
+	<div class="add_map btn btn-primary"><i class=" icon-map-marker"></i> Submit request</div>
+	<div class=""><a href="/news/">About requests and maps</a></div>
 </div>
 
 
@@ -13,21 +13,21 @@
 	$('.add_map').click(function(){
         var dialog = $('<div class="modal hide fade " style="">'+
                     '<div class="modal-header">'+
-                    '<button class="close" data-dismiss="modal">×</button><h3>Место расположения</h3></div>' +
+                    '<button class="close" data-dismiss="modal">×</button><h3>Location</h3></div>' +
                     '<div class="modal-body" style="">' +
                         '<div class="map" style="">' +
-                            '<div class="btn btn-info my_city" style="vertical-align:top; margin-top:2px;">Мой город</div> ' +
+                            '<div class="btn btn-info my_city" style="vertical-align:top; margin-top:2px;">My city</div> ' +
                             '<input class="typeahead" type="text" data-provide="typeahead" style="width:400px; vertical-align:top;">' +
                             '<div id="myMap" style="width: 530px; height: 300px"></div>' +
                         '</div>' +
 		                '<div class="form" style="">' +
-                            '<label>Адрес *<br><input></label>' +
+                            '<label>Address *<br><input></label>' +
                         '</div>' +
 		            '</div>' +
                     '<div class="modal-footer"><div class="btn-group">'+
-                    '<span  class="btn ok" data-dismiss="modal">Вставить</span>'+
-                    '<span  class="btn cancel" data-dismiss="modal">Закрыть</span>'+
-                    '<span  class="btn next" data-dismiss="modal">Далее</span>'+
+                    '<span  class="btn ok" data-dismiss="modal">Insert</span>'+
+                    '<span  class="btn cancel" data-dismiss="modal">Close</span>'+
+                    '<span  class="btn next" data-dismiss="modal">Next</span>'+
                     '</div></div></div>'
                 ).appendTo('body');
 {#                var tube = $('').appendTo(dialog.find('.modal-body'));#}
@@ -118,7 +118,7 @@
 
 		});
 		getLocation();
-		// Добавление кнопки изменения масштаба   // Добавление списка типов карты
+		// Add кнопки изменения масpcsаба   // Add списка типов maps
 		myMap.controls.add("mapTools").add("zoomControl").add("typeSelector");
         dialog.modal();
         dialog.on('click', '.btn.ok', function(){ });
@@ -128,7 +128,7 @@
 			source: function(query, proccess){
 				dao.log(query);
 				$.getJSON('http://geocode-maps.yandex.ru/1.x/?format=json&geocode='+query, function(data) {
-					//геокодер возвращает объект, который содержит в себе результаты поиска
+					//геокодер возвращает объект, который содержит в себе результаты searchа
 					//для каждого результата возвращаются географические координаты и некоторая дополнительная информация
 					var result = [];
 					for(var i = 0; i < data.response.GeoObjectCollection.featureMember.length; i++) {

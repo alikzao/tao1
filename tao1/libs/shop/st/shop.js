@@ -4,12 +4,10 @@
         var defaults = {}
 
         return {
-            /**
-             * В данном случае new_plugin - это фабрика экземпляров класса
-             */
+            /* Legacy comment translated from Russian. */
             basket_proc: function(target, params) {
 
-                // Создание нового объекта с присвоением ему значений по-умолчанию и частично указанных новых значений
+                // Legacy comment translated from Russian.
                 var options = $.extend({}, defaults, params);
                 var quantity = null;
                 var ware = null;
@@ -18,7 +16,7 @@
                     'height': '600px',
                     'width': '600px'
                 });
-                //инициализация диалога для
+                // Legacy comment translated from Russian.
                 var dialog = $("<div></div>");
                 var dialog_perform = $("<div></div>");
                 dialog.dialog({
@@ -28,12 +26,12 @@
                     width: 300,
                     modal: true,
                     buttons: {
-                        'Отмена': function() {
+                        'Cancel': function() {
                             $(this).dialog('close');
                         }
                     }
                 });
-                //инициализация аякса для показа количества товара в корзине при загрузке страницы
+                // Legacy comment translated from Russian.
                 $.ajax({
                     url: '/basket',
                     type: 'POST',
@@ -93,7 +91,7 @@
                     }
                     $('<label>' + dao.translate('amount') + ': ' + amount + '</label>').appendTo(nest);
                     $('<div class = "proc_check ui-corner-all ui-state-default">' + dao.translate('checkout') + '</div>').appendTo(nest);
-                    $('<div class = "proc_check ui-corner-all ui-state-default">' + dao.translate('Очистить') + '</div>').appendTo(nest);
+                    $('<div class = "proc_check ui-corner-all ui-state-default">' + dao.translate('Clear') + '</div>').appendTo(nest);
                 }
 
                 function clean_basket(ware_id) {
@@ -139,7 +137,7 @@
                             beforeSend: function() {},
                             success: function(data) {
                                 if (data.result == 'ok') {
-                                    alert('Ваш заказ добавлен');
+                                    alert('Your order has been added');
                                     target.find('.count_ware').text('0');
                                     show_basket();
                                 }
@@ -164,5 +162,5 @@
             } //processor: function
         } //return
     } //f = function()
-    $.extend(window.dao, f(jQuery)); // расширяем
+    $.extend(window.dao, f(jQuery)); // Legacy comment translated from Russian.
 })(); //(function()

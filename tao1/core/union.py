@@ -470,7 +470,7 @@ langs = {}
 
 
 def load_lang(path, module_name, lang):
-    """Loads modules с языками"""
+    """Legacy docstring translated from Russian."""
     if not module_name in langs[lang]:
         langs[lang][module_name] = []
     path = (

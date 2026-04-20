@@ -7,13 +7,13 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ lang }} <b class="caret"></b>{{lang }}</a>
                     <ul class="dropdown-menu">
-                        <li lang_id="ru"><a href="#">рус</a></li>
+                        <li lang_id="ru"><a href="#">RU</a></li>
         			    <li lang_id="en"><a href="#">en</a></li>
                    </ul>
                </li>
                 <li><a href="/news/" ><i class="fa fa-question-sign"></i></a></li>
                 <li><a href="/mongodb" target=_blank>{{ ct( 'Base') }}</a></li>
-                <li><a class="close_all_tabs" title="Очистить все закладки" onclick="page_view.close_all_tabs();return false;"href="#">{{ ct( 'Clean') }}</a></li>
+                <li><a class="close_all_tabs" title="Clear all tabs" onclick="page_view.close_all_tabs();return false;"href="#">{{ ct( 'Clean') }}</a></li>
                 <li><a href="/logout">{{ ct( 'logaut') }}</a></li>
                 {% if is_logged   %}
                 <li class="profile menu" >

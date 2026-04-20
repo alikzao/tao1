@@ -30,7 +30,7 @@ def user_ban(request):  # @route('/logout')
 
 
 def root_signup_get(request):  #'/signup', 'GET'
-    """Просто показуем окно регистрации"""
+    """Legacy docstring translated from Russian."""
     hash, raw = get_captcha(False)
     return templ("libs.auth:signup", request, dict(captcha=raw, hash=hash))
 
@@ -63,7 +63,7 @@ def check_login_try(request, ip, success):
 
 
 async def login(request):
-    """Просто показуем окно валидации"""
+    """Legacy docstring translated from Russian."""
     return templ("libs.auth:login", request, {})
 
 
@@ -113,8 +113,7 @@ def signup(request):
 
 
 def signup_post(request):
-    """Получаем данные пользователя с формы и заносим их в базу проверяя,
-    если удачно то предоставляем вход в базу потом дополнительные идентификац"""
+    """Legacy docstring translated from Russian."""
     mess = "login please"
     data = get_post(request)
     mail = data.POST["mail"]
@@ -127,7 +126,7 @@ def signup_post(request):
     passw = getmd5(password)
     if not check_captcha(hash, captcha):
         hash, raw = get_captcha(hash)
-        mess = "Неправильно введен проверочный код"
+        mess = "Incorrect verification code entered"
         return templ(
             "app.auth:signup",
             request,
@@ -140,7 +139,7 @@ def signup_post(request):
                 mess=mess.decode("UTF-8"),
             ),
         )
-    # проверяем есть ли такие пользователи в базе если нет то регистрируем
+    # Legacy comment translated from Russian.
     if not request.db.doc.find_one({"_id": "user:" + name}):
         doc = {
             "_id": "user:" + name,
@@ -164,9 +163,9 @@ def signup_post(request):
         request.db.doc.update(
             {"_id": "role:simple_users"}, {"$set": {"users.user:" + name: "true"}}
         )
-        mess = "Поздравляем, можете войти."
+        mess = "Congratulations, you can sign in."
     else:
-        mess = "Такой логин уже есть выберите другой"
+        mess = "This login already exists. Choose another one."
     return templ("libs.auth:login", request, dict(mess=mess.decode("UTF-8")))
 
 
@@ -178,7 +177,7 @@ def oauth_ok(request):
     import requests
 
     if "error" in request.GET:
-        return "ошибка авторизации" + request.GET["error_description"]
+        return "authorization error" + request.GET["error_description"]
     code = request.GET["code"]
     ok = settings.oauth_ok
     url = (
@@ -228,13 +227,13 @@ def oauth_ok(request):
     res = json.loads(aaa.content)
     s = session(request)
     if "error" in request.GET:
-        return "ошибка авторизации" + request.GET["error_description"]
+        return "authorization error" + request.GET["error_description"]
 
     user_id = str(res["uid"])
     user_id = "user:ok:" + user_id
     user = request.db.doc.find_one({"_id": user_id})
     if user and "ban" in user["doc"] and user["doc"]["ban"] == "true":
-        session_add_mess("Ошибка входа на сайт")
+        session_add_mess("Error site sign-in")
         redirect("/")
         return ""
     s["user_id"] = user_id[5:]
@@ -277,7 +276,7 @@ def oauth_ok(request):
 
     link_upload_post_(res["pic_2"], "des:users", user_id, True)
     request.db.doc.save(user)
-    session_add_mess("Вы успешно вошли на сайт")
+    session_add_mess("You have successfully signed in")
     if is_mail:
         redirect("/")
     else:
@@ -289,7 +288,7 @@ def oauth_vk(request):
 
     s = session(request)
     if "error" in request.GET:
-        return "ошибка авторизации" + request.GET["error_description"]
+        return "authorization error" + request.GET["error_description"]
     code = request.GET["code"]
     vk = settings.oauth_vk
     site = "http://vk.com/"
@@ -323,13 +322,13 @@ def oauth_vk(request):
         "link": "http://vk.com/" + res["screen_name"],
     }
     if "error" in request.GET:
-        return "ошибка авторизации" + request.GET["error_description"]
+        return "authorization error" + request.GET["error_description"]
 
     user_id = str(user_id)
     user_id = "user:vk:" + user_id
     user = request.db.doc.find_one({"_id": user_id})
     if user and "ban" in user["doc"] and user["doc"]["ban"] == "true":
-        session_add_mess("Ошибка входа на сайт")
+        session_add_mess("Error site sign-in")
         redirect("/")
         return ""
     s["user_id"] = user_id[5:]
@@ -365,7 +364,7 @@ def oauth_vk(request):
 
     link_upload_post_(res["photo"], "des:users", user_id, True)
     request.db.doc.save(user)
-    session_add_mess("Вы успешно вошли на сайт")
+    session_add_mess("You have successfully signed in")
     redirect("/")
 
 

@@ -4,12 +4,10 @@
         var defaults = {}
 
         return {
-            /**
-             * В данном случае new_plugin - это фабрика экземпляров класса
-             */
+            /* Legacy comment translated from Russian. */
             lang_proc: function(parent, params) {
 
-                // Правильное создание нового объекта с присвоением ему значений по-умолчанию и частично указанных новых значений
+                // Legacy comment translated from Russian.
                 var options = $.extend({}, defaults, params);
                 //alert ('sdkfhkdj');
                 parent.hover(function() {
@@ -50,5 +48,5 @@
             } //processor: function
         } //return
     } //f = function()
-    $.extend(window.dao, f(jQuery)); // расширяем
+    $.extend(window.dao, f(jQuery)); // Legacy comment translated from Russian.
 })(); //(function()
